@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#4CAF50</color>
+    <color name="colorAccent">#FF5252</color>
+    <color name="lightGreen">#cde4c6</color>
+    <color name="yellow">#FFB700</color>
+    <color name="orange">#F1B72A</color>
+    <!--<color name="yellow">#FF9900</color>-->
+    <color name="dark">#808080</color>
+    <color name="error">#f44336</color>
+
+    <color name="colorPrimaryLavander">#634be7</color>
+    <color name="colorAccentLavander">#634be7</color>
+
+    <color name="colorPrimaryPeach">#FF5252</color>
+    <color name="colorAccentPeach">#FF5252</color>
+
+    <color name="colorAccentBlack">#1976D2</color>
+    <color name="colorPrimaryBlack">#1976D2</color>
+
+    <color name="itemBackgroundColor">#FFFFFF</color>
+    <color name="itemBackgroundColorDark">#272727</color>
+    <color name="itemBackgroundColorBlack">#161616</color>
+
+    <color name="textColorPrimaryInverse">#FFFFFF</color>
+    <color name="textColorSecondaryInverse">#AEAEAE</color>
+
+    <color name="colorPrimaryDarker">#FFFFFF</color>
+    <color name="colorAccentDarker">#4CAF50</color>
+
+    <color name="bottomNavigationBarColorLight">#FFFFFF</color>
+    <color name="bottomNavigationBarColorDark">#1F1F1F</color>
+    <color name="bottomNavigationBarColorBlack">#121212</color>
+
+    <color name="navigation">#FFFFFF</color>
+    <color name="navigationDarker">#1F1F1F</color>
+    <color name="navigationBlack">#121212</color>
+
+    <color name="inputLayoutBackgroundColor">#F5F5F5</color>
+    <color name="inputLayoutBackgroundColorDark">#333333</color>
+    <color name="inputLayoutBackgroundColorBlack">#303030</color>
+
+    <color name="inactiveIconColor">#777777</color>
+    <color name="inactiveIconColorDark">#989898</color>
+    <color name="inactiveIconColorBlack">#AAAAAA</color>
+
+    <color name="dividerBlack">#1E1E1E</color>
+    <color name="dividerDark">#2D2D2D</color>
+    <color name="dividerLight">#e6e6e6</color>
+
+    <color name="inactiveMainButtonColorLight">#E5E5E5</color>
+    <color name="inactiveMainButtonColorDark">#383838</color>
+    <color name="inactiveMainButtonColorBlack">#333333</color>
+
+    <color name="backgroundLight">#EEEEEE</color>
+    <color name="backgroundDark">#191919</color>
+    <color name="backgroundBlack">#000000</color>
+
+    <color name="buttonIconColorLight">#555555</color>
+    <color name="buttonIconColorDark">#a3a3a3</color>
+    <color name="buttonIconColorBlack">#a0a0a0</color>
+
+    <color name="infoIconColorLight">#555555</color>
+    <color name="infoIconColorDark">#777777</color>
+    <color name="infoIconColorBlack">#777777</color>
+
+    <color name="toolbarColorLight">#FFFFFF</color>
+    <color name="toolbarColorDark">#232323</color>
+    <color name="toolbarColorBlack">#161616</color>
+
+    <color name="defaultRippleColorLight">#1A000000</color>
+    <color name="defaultRippleColorDark">#1AFFFFFF</color>
+</resources>

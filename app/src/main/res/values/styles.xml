@@ -1,0 +1,178 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="infoIconColor">@color/infoIconColorLight</item>
+        <item name="buttonIconColor">@color/buttonIconColorLight</item>
+        <item name="pressedMainButtonColor">@color/orange</item>
+        <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorLight</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorLight</item>
+        <item name="toolbarTextColor">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:navigationBarColor">@color/navigation</item>
+        <item name="android:windowBackground">@color/backgroundLight</item>
+        <item name="itemBackgroundColor">@color/itemBackgroundColor</item>
+        <item name="inactiveNavigationIconColor">@color/inactiveIconColor</item>
+        <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColor</item>
+        <item name="toolbarColor">@color/toolbarColorLight</item>
+        <item name="android:statusBarColor">@color/toolbarColorLight</item>
+        <item name="toolbarDividerColor">@color/dividerLight</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.White.Red" parent="AppTheme">
+        <item name="colorControlHighlight">@color/defaultRippleColorLight</item>
+        <item name="defaultRippleColor">@color/defaultRippleColorLight</item>
+        <item name="colorPrimary">@color/colorPrimaryPeach</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccentPeach</item>
+    </style>
+
+    <style name="AppTheme.White.Blue" parent="AppTheme">
+        <item name="colorControlHighlight">@color/defaultRippleColorLight</item>
+        <item name="defaultRippleColor">@color/defaultRippleColorLight</item>
+        <item name="colorPrimary">@color/colorPrimaryLavander</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccentLavander</item>
+    </style>
+
+    <style name="AppTheme.Dark.Green" parent="AppTheme">
+        <item name="colorControlHighlight">@color/defaultRippleColorDark</item>
+        <item name="defaultRippleColor">@color/defaultRippleColorDark</item>
+        <item name="infoIconColor">@color/infoIconColorDark</item>
+        <item name="buttonIconColor">@color/buttonIconColorDark</item>
+        <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorDark</item>
+        <item name="android:statusBarColor">@color/toolbarColorDark</item>
+        <item name="toolbarColor">@color/toolbarColorDark</item>
+        <item name="toolbarDividerColor">@color/dividerDark</item>
+        <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorDark</item>
+        <item name="inactiveNavigationIconColor">@color/inactiveIconColorDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="toolbarTextColor">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccentDarker</item>
+        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorDark</item>
+        <item name="android:navigationBarColor">@color/navigationDarker</item>
+        <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
+        <item name="itemBackgroundColor">@color/itemBackgroundColorDark</item>
+        <item name="android:windowBackground">@color/backgroundDark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.Black.Blue" parent="AppTheme">
+        <item name="colorControlHighlight">@color/defaultRippleColorDark</item>
+        <item name="defaultRippleColor">@color/defaultRippleColorDark</item>
+        <item name="infoIconColor">@color/infoIconColorBlack</item>
+        <item name="buttonIconColor">@color/buttonIconColorBlack</item>
+        <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorBlack</item>
+        <item name="android:statusBarColor">@color/toolbarColorBlack</item>
+        <item name="toolbarColor">@color/toolbarColorBlack</item>
+        <item name="toolbarDividerColor">@color/dividerBlack</item>
+        <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorBlack</item>
+        <item name="inactiveNavigationIconColor">@color/inactiveIconColorBlack</item>
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="toolbarTextColor">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
+        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorBlack</item>
+        <item name="android:navigationBarColor">@color/navigationBlack</item>
+        <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
+        <item name="itemBackgroundColor">@color/itemBackgroundColorBlack</item>
+        <item name="android:windowBackground">@color/backgroundBlack</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="primaryText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:disabledAlpha">0.5</item>
+        <item name="android:textColor">@drawable/textview_selector</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="secondaryText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="headerText" parent="primaryText">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="mainCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?attr/itemBackgroundColor</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <!-- Toolbar styles -->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+
+    <style name="toolbar">
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="android:textColorPrimary">?toolbarTextColor</item>
+    </style>
+
+    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="toolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:text">@string/title_my_room</item>
+        <item name="android:textColorPrimary">?attr/toolbarTextColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="mainButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconSize">34dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="cornerRadius">36dp</item>
+        <item name="android:strokeColor">?attr/colorPrimary</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/toolbarDividerColor</item>
+    </style>
+
+    <style name="itemDivider" parent="divider">
+        <item name="android:layout_height">6dp</item>
+        <item name="android:background">?android:attr/windowBackground</item>
+    </style>
+
+
+    <style name="materialButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>

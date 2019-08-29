@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_to_favourite_button">add to favourites</string>
+    <string name="channel_color_button_backlight_extended">Color</string>
+    <string name="channel_start_overflow_button_backlight_extended">Overflow</string>
+    <string name="channel_stop_overflow_button_backlight_extended">Overflow</string>
+    <string name="error_favourite_room_not_found">Favourite room is not found! Got to All rooms and add it.</string>
+    <string name="error_general">Error! Make sure you have connected to WiFi and check entered data.</string>
+    <string name="error_group_list_not_found">To load group list go to settings and configure the application.</string>
+    <string name="error_no_wifi">Error! Check your WiFi connection.</string>
+    <string name="message_authentication_is_not_available">Authentication is not supported yet. It will be available in
+        the next update!
+    </string>
+    <string name="message_data_updated">Data successfully updated!</string>
+    <string name="message_room_added_as_favourite">The group is successfully added in your favorites!</string>
+    <string name="message_update_your_settings">Please, update your settings!</string>
+    <string name="settings_anim_open_summary">Use animation when open the group</string>
+    <string name="settings_anim_open_title">Open animation</string>
+    <string name="settings_anim_transition_title">Transition animation</string>
+    <string name="settings_anim_transition_summary">Use animation when switching between tabs</string>
+    <string name="settings_appearance_section">Appearance</string>
+    <string name="settings_auth_title">Authentication</string>
+    <string name="settings_auth_summary">Use login and password to load data</string>
+    <string name="settings_ip_address">Address</string>
+    <string name="settings_login">Login</string>
+    <string name="settings_password">Password</string>
+    <string name="settings_server_section">Server</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_text">T</string>
+    <string name="settings_toggle_button_title">Toggle Button</string>
+    <string name="settings_toggle_button_summary">Use toggle button to switch the light state instead of turn off and
+        turn on buttons
+    </string>
+    <string name="title_my_room">Favourite</string>
+    <string name="title_rooms">All groups</string>
+    <string name="title_settings">Settings</string>
+    <string name="update_button">Update</string>
+    <string name="channel_summary_turn_on_off">Light control</string>
+    <string name="channel_title_turn_on_off">Turn on / off</string>
+    <string name="channel_brightness">Brightness</string>
+    <string name="channel_backlight">Backlight</string>
+    <string name="channel_backlight_color">Overflow / Color</string>
+    <string name="and">and</string>
+</resources>
