@@ -14,8 +14,6 @@ class FileManager(private var context: Context) {
        const val DEFAULT_IP_ADDRESS_VALUE = "192.168.1.10"
        const val FAVOURITE_GROUP_KEY = "favourite_group_element"
        const val GROUP_ELEMENT_LIST_KEY = "group_element_list"
-       const val FRAGMENT_TRANSITION_ANIMATION_KEY = "fragment_transition_animation"
-       const val FRAGMENT_OPEN_ANIMATION_KEY = "fragment_open_animation"
        const val THEME_KEY = "theme"
        const val THEME_CHANGED = "themed"
        const val SCROLL_X_KEY = "scroll_x"

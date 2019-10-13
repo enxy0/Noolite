@@ -46,8 +46,6 @@ class SettingsFragment : BaseFragment() {
                 settingsManager.currentTheme.fromUnderscoreToNormal().capitalizeWords()
             loginInputLayout.isEnabled = false
             passwordInputLayout.isEnabled = false
-            fragmentTransitionAnimSwitch.isChecked = settingsManager.hasFragmentTransitionAnimation
-            fragmentOpenAnimSwitch.isChecked = settingsManager.hasFragmentOpenAnimation
             toggleButtonSwitch.isChecked = settingsManager.hasToggleButton
         }
     }
@@ -120,22 +118,6 @@ class SettingsFragment : BaseFragment() {
                 settingsManager.ipAddress = ipAddressEditText.text.toString()
                 loadGroupElementList(force = true, ipAddress = settingsManager.ipAddress)
             }
-        }
-
-        fragmentTransitionAnimSwitch.setOnCheckedChangeListener { _, checked ->
-            viewModel.settingsManager.hasFragmentTransitionAnimation = checked
-        }
-
-        fragmentOpenAnimSwitch.setOnCheckedChangeListener { _, checked ->
-            viewModel.settingsManager.hasFragmentOpenAnimation = checked
-        }
-
-        fragmentOpenAnimLinearLayout.setOnClickListener {
-            fragmentOpenAnimSwitch.let { it.isChecked = !it.isChecked }
-        }
-
-        fragmentTransitionAnimLinearLayout.setOnClickListener {
-            fragmentTransitionAnimSwitch.let { it.isChecked = !it.isChecked }
         }
 
         authenticationLinearLayout.setOnClickListener {
