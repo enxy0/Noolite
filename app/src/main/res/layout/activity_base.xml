@@ -50,6 +50,11 @@
                 android:layout_width="match_parent"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         >
+
+            <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <View

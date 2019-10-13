@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : BaseFragment() {
     private lateinit var viewModel: MainViewModel
-    private var isFirstTimeCreated = true
     override val layoutId = R.layout.fragment_settings
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,11 +21,15 @@ class SettingsFragment : BaseFragment() {
         viewModel = getActivityViewModel(this)
         setUpViews()
         setUpUiHandlers()
+    }
+
+    override fun onResume() {
+        super.onResume()
         setToolbarTitle(R.string.title_settings)
-        with(viewModel) {
-            observe(groupElementList, ::handleUpdate)
-            failure(groupFailure, ::handleError)
-        }
+    }
+
+    companion object {
+        fun newInstance() = SettingsFragment()
     }
 
     private fun setUpViews() {
@@ -39,7 +42,8 @@ class SettingsFragment : BaseFragment() {
                 else -> darkGreenThemeSwitch.isChecked = true
             }
             ipAddressEditText.setText(settingsManager.ipAddress)
-            currentThemeTextView.text = settingsManager.currentTheme.fromUnderscoreToNormal().capitalizeWords()
+            currentThemeTextView.text =
+                settingsManager.currentTheme.fromUnderscoreToNormal().capitalizeWords()
             loginInputLayout.isEnabled = false
             passwordInputLayout.isEnabled = false
             fragmentTransitionAnimSwitch.isChecked = settingsManager.hasFragmentTransitionAnimation
@@ -48,23 +52,27 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
-    private fun handleUpdate(groupListModel: ArrayList<GroupModel>?) {
-        groupListModel?.let {
-            if (it.isNotEmpty()) {
-                if (!isFirstTimeCreated)
-                    notify(R.string.message_data_updated)
-                else
-                    isFirstTimeCreated = false
+    private fun handleUpdate(groupListModelNullable: ArrayList<GroupModel>?) {
+        groupListModelNullable?.let { groupListModel ->
+            if (groupListModel.isNotEmpty()) {
+                notify(R.string.message_data_updated)
+            }
+            viewModel.let {
+                it.groupElementList.removeObservers(this)
+                it.groupFailure.removeObservers(this)
+                it.groupFailure.value = null
             }
         }
     }
 
-    private fun handleError(failure: Failure?) {
-        failure?.let {
-            if (!isFirstTimeCreated)
-                notifyError(R.string.error_general)
-            else
-                isFirstTimeCreated = false
+    private fun handleError(failureNullable: Failure?) {
+        failureNullable?.let {
+            notifyError(R.string.error_general)
+            viewModel.let {
+                it.groupElementList.removeObservers(this)
+                it.groupFailure.removeObservers(this)
+                it.groupElementList.value = null
+            }
         }
     }
 
@@ -105,9 +113,12 @@ class SettingsFragment : BaseFragment() {
 
         updateDataButton.setOnClickListener {
             with(viewModel) {
-                val ipAddress = ipAddressEditText.text.toString()
-                settingsManager.ipAddress = ipAddress
-                loadGroupElementList(force = true, ipAddress = ipAddress)
+                groupElementList.value = null
+                groupFailure.value = null
+                observe(groupElementList, ::handleUpdate)
+                failure(groupFailure, ::handleError)
+                settingsManager.ipAddress = ipAddressEditText.text.toString()
+                loadGroupElementList(force = true, ipAddress = settingsManager.ipAddress)
             }
         }
 
@@ -153,15 +164,17 @@ class SettingsFragment : BaseFragment() {
                 }
             }
 
-            override fun onGlobalFocusChanged(p0: View?, p1: View?) {
+            override fun onGlobalFocusChanged(oldFocus: View?, newFocus: View?) {
             }
         })
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.groupElementList.removeObservers(this)
-        viewModel.groupFailure.removeObservers(this)
+        viewModel.let {
+            it.groupElementList.removeObservers(this)
+            it.groupFailure.removeObservers(this)
+        }
     }
 
     private fun restartAppWithAnimation() {
@@ -176,7 +189,7 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun removeScrollPosition() {
-        with (viewModel) {
+        with(viewModel) {
             settingsManager.themeChanged = false
             settingsManager.scrollX = 0
             settingsManager.scrollX = 0

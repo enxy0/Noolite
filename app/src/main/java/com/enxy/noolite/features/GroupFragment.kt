@@ -1,10 +1,10 @@
 package com.enxy.noolite.features
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
@@ -33,13 +33,20 @@ class GroupFragment : BaseFragment() {
         }
     }
 
-    @SuppressLint("WrongConstant")
+    companion object {
+        fun newInstance() = GroupFragment()
+    }
+
     private fun setUpViews() {
-        setToolbarTitle(R.string.title_rooms)
         groupAdapter = GroupAdapter(this, viewModel)
         groupRecyclerView.adapter = groupAdapter
         val spanCount = if (isInLandscapeOrientation()) 3 else 2
         groupRecyclerView.layoutManager = GridLayoutManager(context, spanCount)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setToolbarTitle(R.string.title_groups)
     }
 
     override fun onStop() {
@@ -50,36 +57,37 @@ class GroupFragment : BaseFragment() {
         }
     }
 
-    private fun renderData(data: ArrayList<GroupModel>?) {
-        data?.let {
-            if (data.isNotEmpty()) {
-                groupAdapter.clear()
-                groupAdapter.addAll(data)
-                groupAdapter.notifyDataSetChanged()
-                Log.d("GroupFragment", "renderData: called")
+    private fun renderData(groupListModelNullable: ArrayList<GroupModel>?) {
+        groupListModelNullable?.let {
+            if (it.isNotEmpty()) {
+                if (errorLayout.isVisible) {
+                    errorLayout.isGone = true
+                    groupRecyclerView.isVisible = true
+                }
+                with(groupAdapter) {
+                    clear()
+                    addAll(it)
+                    notifyDataSetChanged()
+                }
             }
         }
     }
 
-    private fun handleError(failure: Failure?) {
-        failure?.let {
-            with(errorLayout) {
-                visibility = View.VISIBLE
-                errorImageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_list
-                    )
-                )
-                errorTextView.setText(R.string.error_group_list_not_found)
-                Log.d("GroupFragment", "handleError: failure=${failure.javaClass}")
-                // handle different types of errors
-//                when (failure) {
+    private fun handleError(failureNullable: Failure?) {
+        failureNullable?.let {
+            groupRecyclerView.isGone = true
+            errorLayout.isVisible = true
+            errorLayout.errorImageView.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_list)
+            )
+            errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
+//            Log.d("GroupFragment", "handleError: failureNullable=${it.javaClass}")
+            // handle different types of errors
+//                when (it) {
 //                    is Failure.DataNotFound -> {}
 //                    is Failure.ServerError -> {}
 //                    is Failure.BinParseError -> {}
 //                }
-            }
         }
     }
 }

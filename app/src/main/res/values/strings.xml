@@ -2,8 +2,8 @@
     <string name="app_name" translatable="false">Noolite</string>
     <string name="settings_default_ip_address" translatable="false">192.168.1.10</string>
     <string name="settings_current_theme" translatable="false">Dark Green</string>
-    <string name="title_my_room">Избранное</string>
-    <string name="title_rooms">Все группы</string>
+    <string name="title_favourite">Избранное</string>
+    <string name="title_groups">Все группы</string>
     <string name="title_settings">Настройки</string>
     <string name="message_update_your_settings">Обновите данные в настройках!</string>
     <string name="message_authentication_is_not_available">Аутентификация еще не поддерживается. Ждите ее в следующем

@@ -19,7 +19,13 @@ class ChannelAdapter(
     private var data: ArrayList<ChannelModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolderDefault {
-        return ChannelHolderDefault(LayoutInflater.from(parent.context).inflate(R.layout.item_default, parent, false))
+        return ChannelHolderDefault(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_default,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int = data.size
@@ -46,41 +52,54 @@ class ChannelAdapter(
 
                 1 -> {
                     itemView.overflowLinearLayout.visibility = View.GONE
-                    itemView.indicatorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                        override fun onStartTrackingTouch(p0: SeekBar?) {
-                            if (p0!!.progress == 0)
+                    itemView.indicatorSeekBar.setOnSeekBarChangeListener(object :
+                        SeekBar.OnSeekBarChangeListener {
+                        override fun onProgressChanged(
+                            seekBar: SeekBar?,
+                            progress: Int,
+                            fromUser: Boolean
+                        ) {
+                        }
+
+                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                            if (seekBar!!.progress == 0)
                                 viewModel.turnOnLight(channelModel.id)
                         }
 
-                        override fun onStopTrackingTouch(p0: SeekBar?) {
-                            when (val brightness = p0!!.progress) {
+                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                            when (val brightness = seekBar!!.progress) {
                                 0 -> viewModel.turnOffLight(channelModel.id)
                                 100 -> viewModel.turnOnLight(channelModel.id)
-                                else -> viewModel.changeBacklightBrightness(channelModel.id, brightness)
+                                else -> viewModel.changeBacklightBrightness(
+                                    channelModel.id,
+                                    brightness
+                                )
                             }
                             itemView.overflowLinearLayout.visibility = View.GONE
-                        }
-
-                        override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                         }
                     })
                 }
 
-                3 -> itemView.indicatorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                    override fun onStartTrackingTouch(p0: SeekBar?) {
-                        if (p0!!.progress == 0)
+                3 -> itemView.indicatorSeekBar.setOnSeekBarChangeListener(object :
+                    SeekBar.OnSeekBarChangeListener {
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                        if (seekBar!!.progress == 0)
                             viewModel.turnOnLight(channelModel.id)
                     }
 
-                    override fun onStopTrackingTouch(p0: SeekBar?) {
-                        when (val brightness = p0!!.progress) {
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                        when (val brightness = seekBar!!.progress) {
                             0 -> viewModel.turnOffLight(channelModel.id)
                             100 -> viewModel.turnOnLight(channelModel.id)
                             else -> viewModel.changeBacklightBrightness(channelModel.id, brightness)
                         }
                     }
 
-                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    override fun onProgressChanged(
+                        seekBar: SeekBar?,
+                        progress: Int,
+                        fromUser: Boolean
+                    ) {
                     }
                 })
             }

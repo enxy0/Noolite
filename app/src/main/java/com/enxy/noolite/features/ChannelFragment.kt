@@ -1,6 +1,5 @@
 package com.enxy.noolite.features
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
@@ -27,14 +26,14 @@ class ChannelFragment : BaseFragment() {
         viewModel = getActivityViewModel(this)
         setUpViews()
         if (isOpenedAsFavouriteFragment()) {
-            viewModel.let {
-                observe(it.favouriteGroupElement, ::renderGroupElement)
-                failure(it.favouriteFailure, ::handleFailure)
+            with(viewModel) {
+                observe(favouriteGroupElement, ::renderGroupElement)
+                failure(favouriteFailure, ::handleFailure)
             }
         } else {
-            viewModel.let {
-                observe(it.chosenGroupElement, ::renderGroupElement)
-                failure(it.chosenFailure, ::handleFailure)
+            with(viewModel) {
+                observe(chosenGroupElement, ::renderGroupElement)
+                failure(chosenFailure, ::handleFailure)
             }
             setUpBackButton()
             if (isNotFavouriteFragment())
@@ -42,38 +41,54 @@ class ChannelFragment : BaseFragment() {
         }
     }
 
-    private fun handleFailure(failure: Failure?) {
-        failure?.let {
+    override fun onResume() {
+        super.onResume()
+        if (isOpenedAsFavouriteFragment())
+            if (viewModel.favouriteGroupElement.value == null)
+                setToolbarTitle(R.string.title_favourite)
+            else
+                setToolbarTitle(viewModel.favouriteGroupElement.value!!.name)
+    }
+
+    companion object {
+        fun newInstance() = ChannelFragment()
+    }
+
+    private fun handleFailure(failureNullable: Failure?) {
+        failureNullable?.let {
             if (!errorLayout.isVisible) {
-                channelRecyclerView.isVisible = false
+                channelRecyclerView.isGone = true
                 errorLayout.isVisible = true
             }
-            setToolbarTitle(R.string.title_my_room)
+            setToolbarTitle(R.string.title_favourite)
         }
     }
 
     private fun renderGroupElement(groupModel: GroupModel?) {
         groupModel?.let {
-            setToolbarTitle(groupModel.name)
+            setToolbarTitle(it.name)
             if (isOpenedAsFavouriteFragment())
                 viewModel.favouriteFailure.value = null
             else
                 viewModel.chosenFailure.value = null
-            if (errorLayout.isVisible)
+            if (errorLayout.isVisible) {
+                channelRecyclerView.isVisible = true
                 errorLayout.isGone = true
+            }
             with(channelAdapter) {
                 clear()
-                addAll(groupModel)
+                addAll(it)
                 notifyDataSetChanged()
             }
         }
     }
 
+
     override fun onStop() {
         super.onStop()
         hideBackButton()
-        if (isOpenedAsFavouriteFragment())
-            setToolbarTitle(R.string.title_rooms)
+        if (!isOpenedAsFavouriteFragment())
+            setToolbarTitle(R.string.title_groups)
         viewModel.let {
             if (it.chosenGroupElement.value != null)
                 it.chosenGroupElement.value = null
@@ -84,7 +99,6 @@ class ChannelFragment : BaseFragment() {
         }
     }
 
-    @SuppressLint("WrongConstant")
     private fun setUpViews() {
         channelAdapter = ChannelAdapter(viewModel)
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -103,7 +117,8 @@ class ChannelFragment : BaseFragment() {
         }
     }
 
-    private fun isNotFavouriteFragment() = with(viewModel) { favouriteGroupElement.value != chosenGroupElement.value }
+    private fun isNotFavouriteFragment() =
+        with(viewModel) { favouriteGroupElement.value != chosenGroupElement.value }
 
     private fun isOpenedAsFavouriteFragment() = viewModel.chosenGroupElement.value == null
 }

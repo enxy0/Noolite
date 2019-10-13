@@ -6,8 +6,10 @@
     />
     <scale
             android:duration="@android:integer/config_shortAnimTime"
-            android:fromXScale="1" android:toXScale="0.5"
-            android:fromYScale="1" android:toYScale="0.5"
+            android:fromXScale="1"
+            android:fromYScale="1"
+            android:toXScale="0.8"
+            android:toYScale="0.8"
             android:pivotX="50%" android:pivotY="50%"
     >
     </scale>

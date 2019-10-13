@@ -42,7 +42,7 @@ class GroupAdapter(private val fragment: GroupFragment, private val viewModel: M
                     addToBackStack(null)
                     if (viewModel.settingsManager.hasFragmentOpenAnimation)
                         setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.parent_zoom_in, R.anim.parent_zoom_out)
-                    replace(R.id.fragmentHolder, ChannelFragment())
+                    replace(R.id.fragmentHolder, ChannelFragment.newInstance())
                 }
             }
             itemView.turnOnLightButton.setOnClickListener {

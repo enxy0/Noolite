@@ -141,7 +141,7 @@
 
     <style name="toolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:text">@string/title_my_room</item>
+        <item name="android:text">@string/title_favourite</item>
         <item name="android:textColorPrimary">?attr/toolbarTextColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
