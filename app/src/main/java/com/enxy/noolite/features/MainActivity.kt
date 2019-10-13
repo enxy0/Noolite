@@ -4,16 +4,23 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.viewpager.widget.ViewPager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.platform.BaseActivity
 import com.enxy.noolite.core.platform.FileManager
+import com.enxy.noolite.features.adapter.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_base.*
+
 
 class MainActivity : BaseActivity() {
     private val viewModel by viewModels<MainViewModel>()
     private var currentFragmentPosition = -1
+
+    companion object {
+        const val CHANNEL_FRAGMENT_POSITION = 0
+        const val GROUP_FRAGMENT_POSITION = 1
+        const val SETTINGS_FRAGMENT_POSITION = 2
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +28,7 @@ class MainActivity : BaseActivity() {
         setUpTheme()
         setContentView(R.layout.activity_base)
         setUpToolbar()
+        setUpViewPager()
         showDefaultFragment()
         setUpNavView()
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
@@ -56,37 +64,59 @@ class MainActivity : BaseActivity() {
     private fun showDefaultFragment() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
             if (viewModel.settingsManager.themeChanged) {
-                loadFragment(SettingsFragment(), 2, themeChanged = true)
                 navView.selectedItemId = R.id.navigation_settings
-            }
-            else {
-                loadFragment(ChannelFragment(), 0, firstTimeCreated = true)
-                navView.selectedItemId = R.id.navigation_my_room
+                viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
+            } else {
+                navView.selectedItemId = R.id.navigation_favourite
+                viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
             }
     }
 
+    private fun setUpViewPager() {
+        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        viewPager.adapter = sectionsPagerAdapter
+
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    CHANNEL_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_favourite
+                    GROUP_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_groups
+                    SETTINGS_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_settings
+
+                }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+        })
+    }
 
     private fun setUpNavView() {
         navView.setOnNavigationItemSelectedListener {
             clearFragmentBackStack()
-            val newPosition: Int
             when (it.itemId) {
-                R.id.navigation_my_room -> {
-                    newPosition = 0
-                    if (currentFragmentPosition != newPosition)
-                        loadFragment(ChannelFragment(), 0)
+                R.id.navigation_favourite -> {
+                    viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
+                    currentFragmentPosition = CHANNEL_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.navigation_rooms -> {
-                    newPosition = 1
-                    if (currentFragmentPosition != newPosition)
-                        loadFragment(GroupFragment(), 1)
+                R.id.navigation_groups -> {
+                    viewPager.currentItem = GROUP_FRAGMENT_POSITION
+                    currentFragmentPosition = GROUP_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_settings -> {
-                    newPosition = 2
-                    if (currentFragmentPosition != newPosition)
-                        loadFragment(SettingsFragment(), 2)
+                    currentFragmentPosition = SETTINGS_FRAGMENT_POSITION
+                    viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
             }
@@ -98,23 +128,6 @@ class MainActivity : BaseActivity() {
         val size = supportFragmentManager.backStackEntryCount
         for (i in 0..size)
             supportFragmentManager.popBackStack()
-    }
-
-    private fun loadFragment(fragment: Fragment, newPosition: Int = 0, firstTimeCreated: Boolean = false, themeChanged: Boolean = false) {
-        supportFragmentManager.commit {
-            when {
-                firstTimeCreated -> setCustomAnimations(R.anim.grow_fade_in_from_bottom, R.anim.grow_fade_in_from_bottom)
-                themeChanged -> setCustomAnimations(0, 0)
-                viewModel.settingsManager.hasFragmentTransitionAnimation -> {
-                    if (newPosition > currentFragmentPosition)
-                        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-                    else if (newPosition < currentFragmentPosition)
-                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
-                }
-            }
-            replace(R.id.fragmentHolder, fragment)
-        }
-        currentFragmentPosition = newPosition
     }
 
     private fun setUpToolbar() {

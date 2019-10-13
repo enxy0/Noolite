@@ -118,6 +118,7 @@
         <item name="android:layout_marginBottom">6dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">0dp</item>
         <item name="cardElevation">0dp</item>
     </style>
 
@@ -141,7 +142,7 @@
 
     <style name="toolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:text">@string/title_my_room</item>
+        <item name="android:text">@string/title_favourite</item>
         <item name="android:textColorPrimary">?attr/toolbarTextColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>

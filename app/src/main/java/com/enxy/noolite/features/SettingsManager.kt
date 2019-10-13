@@ -3,18 +3,6 @@ package com.enxy.noolite.features
 import com.enxy.noolite.core.platform.FileManager
 
 class SettingsManager(private val fileManager: FileManager) {
-    var hasFragmentOpenAnimation: Boolean = true
-    set(value) {
-        field = value
-        fileManager.saveBooleanToPrefs(FileManager.SETTINGS_FILE, FileManager.FRAGMENT_OPEN_ANIMATION_KEY, value)
-    }
-
-    var hasFragmentTransitionAnimation: Boolean = true
-    set(value) {
-        field = value
-        fileManager.saveBooleanToPrefs(FileManager.SETTINGS_FILE, FileManager.FRAGMENT_TRANSITION_ANIMATION_KEY, value)
-    }
-
     var hasToggleButton: Boolean = true
     set(value) {
         field = value
@@ -41,8 +29,6 @@ class SettingsManager(private val fileManager: FileManager) {
     var scrollY: Int = 0
 
     init {
-        this.hasFragmentOpenAnimation = fileManager.getBooleanFromPrefs(FileManager.SETTINGS_FILE, FileManager.FRAGMENT_OPEN_ANIMATION_KEY)
-        this.hasFragmentTransitionAnimation = fileManager.getBooleanFromPrefs(FileManager.SETTINGS_FILE, FileManager.FRAGMENT_TRANSITION_ANIMATION_KEY)
         this.hasToggleButton = fileManager.getBooleanFromPrefs(FileManager.SETTINGS_FILE, FileManager.TOGGLE_BUTTON_KEY)
         this.ipAddress = fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.IP_ADDRESS_KEY) ?: FileManager.DEFAULT_IP_ADDRESS_VALUE
         this.currentTheme = fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY) ?: FileManager.DARK_GREEN_THEME_VALUE

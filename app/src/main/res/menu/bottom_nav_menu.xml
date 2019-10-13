@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_my_room"
+            android:id="@+id/navigation_favourite"
             android:icon="@drawable/ic_heart"
-            android:title="@string/title_my_room"/>
+            android:title="@string/title_favourite" />
 
     <item
-            android:id="@+id/navigation_rooms"
+            android:id="@+id/navigation_groups"
             android:icon="@drawable/ic_group_list"
-            android:title="@string/title_rooms"/>
+            android:title="@string/title_groups" />
 
     <item
             android:id="@+id/navigation_settings"
