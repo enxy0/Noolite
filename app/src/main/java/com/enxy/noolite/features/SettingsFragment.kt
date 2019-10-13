@@ -153,14 +153,16 @@ class SettingsFragment : BaseFragment() {
             ViewTreeObserver.OnGlobalFocusChangeListener,
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                if (settingsScrollView.height != 0) {
-                    with(viewModel.settingsManager) {
-                        if (themeChanged) {
-                            settingsScrollView.scrollTo(scrollX, scrollY)
-                            removeScrollPosition()
+                settingsScrollView?.let {
+                    if (settingsScrollView.height != 0) {
+                        with(viewModel.settingsManager) {
+                            if (themeChanged) {
+                                settingsScrollView.scrollTo(scrollX, scrollY)
+                                removeScrollPosition()
+                            }
                         }
+                        settingsScrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
-                    settingsScrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             }
 

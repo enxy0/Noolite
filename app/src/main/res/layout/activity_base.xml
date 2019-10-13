@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:background="?attr/toolbarColor"
                 app:elevation="0dp"
                 android:theme="@style/AppTheme.AppBarOverlay"
@@ -32,8 +32,6 @@
                     app:contentInsetStartWithNavigation="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="4dp"
                     app:title="My room"
                     app:layout_scrollFlags="enterAlways"
                     android:theme="@style/toolbar"
