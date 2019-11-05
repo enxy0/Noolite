@@ -9,7 +9,7 @@ class NetworkHandler(private val context: Context) {
     fun isWifiConnected(): Boolean {
         val wifiMgr = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return if (wifiMgr.isWifiEnabled) {
-            wifiMgr.connectionInfo.networkId != -1
+            wifiMgr.connectionInfo.ipAddress != 0
         } else {
             false
         }
