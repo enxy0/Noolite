@@ -5,9 +5,13 @@ import com.enxy.noolite.core.exception.Success
 import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.interactor.UseCase
 import com.enxy.noolite.core.network.NetworkRepository
+import kotlinx.coroutines.Job
 
-class ChangeBacklightBrightness(private val networkRepository: NetworkRepository.NetworkManager) :
-    UseCase<Success.GoodRequest, Array<Int>>() {
+class ChangeBacklightBrightness(
+    job: Job,
+    private val networkRepository: NetworkRepository.NetworkManager
+) :
+    UseCase<Success.GoodRequest, Array<Int>>(job) {
     override suspend fun run(params: Array<Int>): Either<Failure, Success.GoodRequest> =
         networkRepository.changeBacklightBrightness(params[0], params[1])
 }

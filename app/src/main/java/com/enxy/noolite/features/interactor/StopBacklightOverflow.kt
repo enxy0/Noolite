@@ -5,8 +5,12 @@ import com.enxy.noolite.core.exception.Success
 import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.interactor.UseCase
 import com.enxy.noolite.core.network.NetworkRepository
+import kotlinx.coroutines.Job
 
-class StopBacklightOverflow(private val networkRepository: NetworkRepository.NetworkManager):
-    UseCase<Success.GoodRequest, Int>() {
+class StopBacklightOverflow(
+    job: Job,
+    private val networkRepository: NetworkRepository.NetworkManager
+) :
+    UseCase<Success.GoodRequest, Int>(job) {
     override suspend fun run(params: Int): Either<Failure, Success.GoodRequest> = networkRepository.stopBacklightOverflow(params)
 }

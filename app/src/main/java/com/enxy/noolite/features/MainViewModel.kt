@@ -29,15 +29,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application), C
     private val networkManager = NetworkManager(networkHandler)
 
     // Actions with Light
-    private val getGroupHolder = GetGroupHolder(serializer, networkManager, fileManager)
-    private val getFavouriteGroupElement = GetFavouriteGroupElement(serializer, fileManager)
-    private val turnOnLight = TurnOnLight(networkManager)
-    private val turnOffLight = TurnOffLight(networkManager)
-    private val changeLightState = ChangeLightState(networkManager)
-    private val changeBacklightColor = ChangeBacklightColor(networkManager)
-    private val changeBacklightBrightness = ChangeBacklightBrightness(networkManager)
-    private val startBacklightOverflow = StartBacklightOverflow(networkManager)
-    private val stopBacklightOverflow = StopBacklightOverflow(networkManager)
+    private val getGroupHolder = GetGroupHolder(job, serializer, networkManager, fileManager)
+    private val getFavouriteGroupElement = GetFavouriteGroupElement(job, serializer, fileManager)
+    private val turnOnLight = TurnOnLight(job, networkManager)
+    private val turnOffLight = TurnOffLight(job, networkManager)
+    private val changeLightState = ChangeLightState(job, networkManager)
+    private val changeBacklightColor = ChangeBacklightColor(job, networkManager)
+    private val changeBacklightBrightness = ChangeBacklightBrightness(job, networkManager)
+    private val startBacklightOverflow = StartBacklightOverflow(job, networkManager)
+    private val stopBacklightOverflow = StopBacklightOverflow(job, networkManager)
     var groupFailure = MutableLiveData<Failure>()
     var favouriteFailure = MutableLiveData<Failure>()
     var chosenFailure = MutableLiveData<Failure>()
@@ -136,15 +136,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application), C
 
     override fun onCleared() {
         super.onCleared()
-        getGroupHolder.onDestroy()
-        getFavouriteGroupElement.onDestroy()
-        turnOnLight.onDestroy()
-        turnOffLight.onDestroy()
-        changeLightState.onDestroy()
-        changeBacklightBrightness.onDestroy()
-        changeBacklightColor.onDestroy()
-        startBacklightOverflow.onDestroy()
-        stopBacklightOverflow.onDestroy()
         job.cancelChildren()
     }
 }

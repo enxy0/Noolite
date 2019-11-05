@@ -9,11 +9,13 @@ import com.enxy.noolite.core.interactor.UseCase.None
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.model.GroupModel
+import kotlinx.coroutines.Job
 
 class GetFavouriteGroupElement(
+    job: Job,
     private val serializer: Serializer,
     private val fileManager: FileManager
-) : UseCase<GroupModel, None>() {
+) : UseCase<GroupModel, None>(job) {
 
     override suspend fun run(params: None): Either<Failure, GroupModel> {
         val groupModelString = fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY)
