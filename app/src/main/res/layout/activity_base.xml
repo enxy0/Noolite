@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
                 android:background="?attr/toolbarColor"
                 app:elevation="0dp"
                 android:theme="@style/AppTheme.AppBarOverlay"
@@ -31,7 +31,7 @@
                     android:id="@+id/toolbar"
                     app:contentInsetStartWithNavigation="0dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                     app:title="My room"
                     app:layout_scrollFlags="enterAlways"
                     android:theme="@style/toolbar"
@@ -39,8 +39,8 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"
             >
             </androidx.appcompat.widget.Toolbar>
-            <View style="@style/divider"
-            />
+
+            <View style="@style/divider" />
         </com.google.android.material.appbar.AppBarLayout>
         <FrameLayout
                 android:id="@+id/fragmentHolder"
