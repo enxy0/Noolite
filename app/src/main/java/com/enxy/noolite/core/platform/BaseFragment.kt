@@ -23,6 +23,12 @@ abstract class BaseFragment : Fragment() {
             .show()
     }
 
+    internal fun notify(message: String) {
+        Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT)
+            .withColorPrimary()
+            .show()
+    }
+
     abstract val layoutId: Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

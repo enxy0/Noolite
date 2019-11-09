@@ -45,4 +45,5 @@
     <string name="channel_backlight">Подсветка</string>
     <string name="channel_backlight_color">Перелив / Цвет</string>
     <string name="and">и</string>
+    <string name="error_happend">Произошла ошибка:</string>
 </resources>

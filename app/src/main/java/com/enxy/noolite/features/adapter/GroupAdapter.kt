@@ -20,7 +20,7 @@ class GroupAdapter(private val fragment: GroupFragment, private val viewModel: M
         return GroupHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false))
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = this.data.size
 
     override fun onBindViewHolder(holder: GroupHolder, position: Int) {
         holder.bind(data[position])

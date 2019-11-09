@@ -41,4 +41,5 @@
     <string name="channel_backlight">Backlight</string>
     <string name="channel_backlight_color">Overflow / Color</string>
     <string name="and">and</string>
+    <string name="error_happend">Error happend:</string>
 </resources>

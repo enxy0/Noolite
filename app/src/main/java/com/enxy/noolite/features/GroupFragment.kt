@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
@@ -75,19 +76,14 @@ class GroupFragment : BaseFragment() {
 
     private fun handleError(failureNullable: Failure?) {
         failureNullable?.let {
-            groupRecyclerView.isGone = true
-            errorLayout.isVisible = true
-            errorLayout.errorImageView.setImageDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_list)
-            )
-            errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
-//            Log.d("GroupFragment", "handleError: failureNullable=${it.javaClass}")
-            // handle different types of errors
-//                when (it) {
-//                    is Failure.DataNotFound -> {}
-//                    is Failure.ServerError -> {}
-//                    is Failure.BinParseError -> {}
-//                }
+            if (groupRecyclerView.size == 0) {
+                groupRecyclerView.isGone = true
+                errorLayout.isVisible = true
+                errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
+                errorLayout.errorImageView.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_list)
+                )
+            }
         }
     }
 }
