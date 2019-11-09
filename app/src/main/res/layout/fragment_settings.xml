@@ -18,7 +18,7 @@
                 android:id="@+id/appearanceSectionLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?itemBackgroundColor"
+            android:background="?attr/itemBackgroundColor"
                 android:orientation="vertical">
 
             <View
@@ -179,7 +179,7 @@
                 android:id="@+id/serverSectionLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?itemBackgroundColor"
+            android:background="?attr/itemBackgroundColor"
                 android:orientation="vertical"
                 android:paddingBottom="10dp">
 

@@ -12,15 +12,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+
         <include
-                layout="@layout/content_error"
-                android:id="@+id/errorLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                tools:visibility="gone"
-                />
+            android:id="@+id/errorLayout"
+            layout="@layout/content_error"
+            tools:visibility="visible" />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/channelRecyclerView"
                 android:paddingTop="6dp"

@@ -18,7 +18,7 @@
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColor</item>
         <item name="toolbarColor">@color/toolbarColorLight</item>
         <item name="android:statusBarColor">@color/toolbarColorLight</item>
-        <item name="toolbarDividerColor">@color/dividerLight</item>
+        <item name="dividerColor">@color/dividerLight</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
@@ -46,7 +46,7 @@
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorDark</item>
         <item name="android:statusBarColor">@color/toolbarColorDark</item>
         <item name="toolbarColor">@color/toolbarColorDark</item>
-        <item name="toolbarDividerColor">@color/dividerDark</item>
+        <item name="dividerColor">@color/dividerDark</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorDark</item>
         <item name="inactiveNavigationIconColor">@color/inactiveIconColorDark</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -70,7 +70,7 @@
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorBlack</item>
         <item name="android:statusBarColor">@color/toolbarColorBlack</item>
         <item name="toolbarColor">@color/toolbarColorBlack</item>
-        <item name="toolbarDividerColor">@color/dividerBlack</item>
+        <item name="dividerColor">@color/dividerBlack</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorBlack</item>
         <item name="inactiveNavigationIconColor">@color/inactiveIconColorBlack</item>
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
@@ -160,7 +160,7 @@
     <style name="divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?attr/toolbarDividerColor</item>
+        <item name="android:background">?attr/dividerColor</item>
     </style>
 
     <style name="itemDivider" parent="divider">
