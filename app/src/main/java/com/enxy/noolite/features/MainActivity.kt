@@ -2,18 +2,24 @@ package com.enxy.noolite.features
 
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.enxy.noolite.R
+import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.BaseActivity
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.adapter.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_base.*
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+    @Inject
+    lateinit var connectionManager: ConnectionManager
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: MainViewModel
     private var currentFragmentPosition = -1
 
     companion object {
@@ -24,6 +30,8 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appComponent.inject(this)
+        viewModel = getViewModel(viewModelFactory, MainViewModel::class.java)
         getIntentExtras()
         setUpTheme()
         setContentView(R.layout.activity_base)
@@ -48,7 +56,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.networkHandler.isWifiConnected())
+        if (!connectionManager.isWifiConnected())
             notifyError(R.string.error_no_wifi)
     }
 

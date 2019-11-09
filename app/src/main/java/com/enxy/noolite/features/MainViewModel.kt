@@ -1,43 +1,36 @@
 package com.enxy.noolite.features
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.interactor.UseCase.None
-import com.enxy.noolite.core.network.NetworkHandler
-import com.enxy.noolite.core.network.NetworkRepository.NetworkManager
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.interactor.*
 import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
-    private val job = SupervisorJob()
+class MainViewModel @Inject constructor(
+    val settingsManager: SettingsManager,
+    private val fileManager: FileManager,
+    private val serializer: Serializer,
+    private val getGroupHolder: GetGroupHolder,
+    private val getFavouriteGroupElement: GetFavouriteGroupElement,
+    private val turnOnLight: TurnOnLight,
+    private val turnOffLight: TurnOffLight,
+    private val changeLightState: ChangeLightState,
+    private val changeBacklightColor: ChangeBacklightColor,
+    private val changeBacklightBrightness: ChangeBacklightBrightness,
+    private val startBacklightOverflow: StartBacklightOverflow,
+    private val stopBacklightOverflow: StopBacklightOverflow,
+    private val job: Job
+) : ViewModel(), CoroutineScope {
     override val coroutineContext = Dispatchers.IO + job
 
-    // Work with objects and files
-    private val serializer = Serializer()
-    private val fileManager = FileManager(application.applicationContext)
-    val settingsManager = SettingsManager(fileManager)
-
-    // Network Info
-    val networkHandler = NetworkHandler(application.applicationContext)
-    private val networkManager = NetworkManager(networkHandler)
-
     // Actions with Light
-    private val getGroupHolder = GetGroupHolder(job, serializer, networkManager, fileManager)
-    private val getFavouriteGroupElement = GetFavouriteGroupElement(job, serializer, fileManager)
-    private val turnOnLight = TurnOnLight(job, networkManager)
-    private val turnOffLight = TurnOffLight(job, networkManager)
-    private val changeLightState = ChangeLightState(job, networkManager)
-    private val changeBacklightColor = ChangeBacklightColor(job, networkManager)
-    private val changeBacklightBrightness = ChangeBacklightBrightness(job, networkManager)
-    private val startBacklightOverflow = StartBacklightOverflow(job, networkManager)
-    private val stopBacklightOverflow = StopBacklightOverflow(job, networkManager)
     var groupFailure = MutableLiveData<Failure>()
     var favouriteFailure = MutableLiveData<Failure>()
     var chosenFailure = MutableLiveData<Failure>()
@@ -49,15 +42,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application), C
     init {
         loadGroupElementList(ipAddress = settingsManager.ipAddress)
         loadFavouriteGroupElement()
+        Log.d("MainViewModel", "init: ViewModel initialized")
     }
 
     private fun loadFavouriteGroupElement() = getFavouriteGroupElement(None()) {
         it.either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
     }
 
-    fun loadGroupElementList(force: Boolean = false, ipAddress: String) = getGroupHolder(GetGroupHolder.ParamsHolder(force, ipAddress)) {
-        it.either(::updateGroupFailure, ::updateGroupHolder)
-    }
+    fun loadGroupElementList(force: Boolean = false, ipAddress: String) =
+        getGroupHolder(GetGroupHolder.ParamsHolder(force, ipAddress)) {
+            it.either(::updateGroupFailure, ::updateGroupHolder)
+        }
 
     fun turnOffLight(channelId: Int) = turnOffLight(channelId) {
         it.either(::updateLightFailure, { })
@@ -83,23 +78,31 @@ class MainViewModel(application: Application) : AndroidViewModel(application), C
         it.either(::updateLightFailure, { })
     }
 
-    fun changeBacklightBrightness(channelId: Int, brightness: Int): Unit = changeBacklightBrightness(arrayOf(channelId, brightness)) {
-        it.either(::updateLightFailure, { })
-    }
+    fun changeBacklightBrightness(channelId: Int, brightness: Int): Unit =
+        changeBacklightBrightness(arrayOf(channelId, brightness)) {
+            it.either(::updateLightFailure, { })
+        }
 
     private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) {
         this.groupElementList.value = groupListHolderModel.groupListModel
 
         launch {
             val string = serializer.serialize(groupListHolderModel)
-            fileManager.saveStringToPrefs(FileManager.MAIN_DATA_FILE, FileManager.GROUP_ELEMENT_LIST_KEY, string)
+            fileManager.saveStringToPrefs(
+                FileManager.MAIN_DATA_FILE,
+                FileManager.GROUP_ELEMENT_LIST_KEY,
+                string
+            )
         }
 
         with(this.groupFailure) {
             if (value != null)
                 value = null
         }
-        Log.d("MainViewModel", "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupListModel}")
+        Log.d(
+            "MainViewModel",
+            "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupListModel}"
+        )
     }
 
     fun updateFavouriteGroupElement(groupModel: GroupModel) {
@@ -107,14 +110,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application), C
 
         launch {
             val string = serializer.serialize(groupModel)
-            fileManager.saveStringToPrefs(FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, string)
+            fileManager.saveStringToPrefs(
+                FileManager.MAIN_DATA_FILE,
+                FileManager.FAVOURITE_GROUP_KEY,
+                string
+            )
         }
 
         with(this.favouriteFailure) {
             if (value != null)
                 value = null
         }
-        Log.d("MainViewModel", "updateFavouriteGroupElement: favouriteGroupElement=$favouriteGroupElement")
+        Log.d(
+            "MainViewModel",
+            "updateFavouriteGroupElement: favouriteGroupElement=${favouriteGroupElement.value}"
+        )
     }
 
     private fun updateGroupFailure(failure: Failure) {

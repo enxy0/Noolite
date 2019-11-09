@@ -1,25 +1,34 @@
 package com.enxy.noolite.features
 
 import com.enxy.noolite.core.platform.FileManager
+import javax.inject.Inject
 
-class SettingsManager(private val fileManager: FileManager) {
+class SettingsManager @Inject constructor(val fileManager: FileManager) {
     var hasToggleButton: Boolean = true
-    set(value) {
-        field = value
-        fileManager.saveBooleanToPrefs(FileManager.SETTINGS_FILE, FileManager.TOGGLE_BUTTON_KEY, value)
-    }
+        set(value) {
+            field = value
+            fileManager.saveBooleanToPrefs(
+                FileManager.SETTINGS_FILE,
+                FileManager.TOGGLE_BUTTON_KEY,
+                value
+            )
+        }
 
     var ipAddress: String = FileManager.DEFAULT_IP_ADDRESS_VALUE
-    set(value) {
-        field = value
-        fileManager.saveStringToPrefs(FileManager.SETTINGS_FILE, FileManager.IP_ADDRESS_KEY, value)
-    }
+        set(value) {
+            field = value
+            fileManager.saveStringToPrefs(
+                FileManager.SETTINGS_FILE,
+                FileManager.IP_ADDRESS_KEY,
+                value
+            )
+        }
 
     var currentTheme: String = FileManager.DARK_GREEN_THEME_VALUE
-    set(value) {
-        field = value
-        fileManager.saveStringToPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY, value)
-    }
+        set(value) {
+            field = value
+            fileManager.saveStringToPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY, value)
+        }
 
     // Settings for seamless theme change
     var themeChanged: Boolean = false

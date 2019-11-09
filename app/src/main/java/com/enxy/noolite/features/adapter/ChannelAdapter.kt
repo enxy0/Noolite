@@ -12,9 +12,7 @@ import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_default.view.*
 
 
-class ChannelAdapter(
-    private var viewModel: MainViewModel
-) :
+class ChannelAdapter(private var viewModel: MainViewModel) :
     RecyclerView.Adapter<ChannelAdapter.ChannelHolderDefault>() {
     private var data: ArrayList<ChannelModel> = ArrayList()
 

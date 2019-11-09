@@ -10,8 +10,9 @@ import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.coroutines.Job
+import javax.inject.Inject
 
-class GetFavouriteGroupElement(
+class GetFavouriteGroupElement @Inject constructor(
     job: Job,
     private val serializer: Serializer,
     private val fileManager: FileManager

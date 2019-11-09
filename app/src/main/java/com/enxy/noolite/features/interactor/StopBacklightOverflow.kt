@@ -6,8 +6,9 @@ import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.interactor.UseCase
 import com.enxy.noolite.core.network.NetworkRepository
 import kotlinx.coroutines.Job
+import javax.inject.Inject
 
-class StopBacklightOverflow(
+class StopBacklightOverflow @Inject constructor(
     job: Job,
     private val networkRepository: NetworkRepository.NetworkManager
 ) :

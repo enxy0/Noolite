@@ -38,7 +38,7 @@ class GroupAdapter(private val fragment: GroupFragment, private val viewModel: M
         fun bind(groupModel: GroupModel) {
             itemView.groupLinearLayout.setOnClickListener {
                 viewModel.chosenGroupElement.value = groupModel
-                fragment.fragmentManager!!.commit {
+                fragment.parentFragmentManager.commit {
                     addToBackStack(null)
                     setCustomAnimations(
                         R.anim.zoom_in,

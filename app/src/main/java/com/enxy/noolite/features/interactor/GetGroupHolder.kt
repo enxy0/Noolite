@@ -9,8 +9,9 @@ import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.interactor.GetGroupHolder.ParamsHolder
 import com.enxy.noolite.features.model.GroupListHolderModel
 import kotlinx.coroutines.Job
+import javax.inject.Inject
 
-class GetGroupHolder(
+class GetGroupHolder @Inject constructor(
     job: Job,
     private val serializer: Serializer,
     private val networkManager: NetworkRepository.NetworkManager,
@@ -31,4 +32,5 @@ class GetGroupHolder(
         val isForceUpdating: Boolean,
         val ipAddress: String
     )
+
 }
