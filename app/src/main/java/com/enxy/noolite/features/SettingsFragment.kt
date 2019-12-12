@@ -36,7 +36,6 @@ class SettingsFragment : BaseFragment() {
         with(viewModel) {
             when (settingsManager.currentTheme) {
                 FileManager.WHITE_BLUE_THEME_VALUE -> whiteBlueThemeSwitch.isChecked = true
-                FileManager.WHITE_RED_THEME_VALUE -> whiteRedThemeSwitch.isChecked = true
                 FileManager.DARK_GREEN_THEME_VALUE -> darkGreenThemeSwitch.isChecked = true
                 FileManager.BLACK_BLUE_THEME_VALUE -> blackBlueThemeSwitch.isChecked = true
                 else -> darkGreenThemeSwitch.isChecked = true
@@ -87,12 +86,6 @@ class SettingsFragment : BaseFragment() {
 
         whiteBlueThemeSwitch.setOnClickListener {
             viewModel.settingsManager.currentTheme = FileManager.WHITE_BLUE_THEME_VALUE
-            removeThemeOnClickListeners()
-            restartAppWithAnimation()
-        }
-
-        whiteRedThemeSwitch.setOnClickListener {
-            viewModel.settingsManager.currentTheme = FileManager.WHITE_RED_THEME_VALUE
             removeThemeOnClickListeners()
             restartAppWithAnimation()
         }
@@ -190,7 +183,6 @@ class SettingsFragment : BaseFragment() {
 
     private fun removeThemeOnClickListeners() {
         // To prevent app from restarting to many times, if user did more than one click
-        whiteRedThemeSwitch.setOnClickListener(null)
         whiteBlueThemeSwitch.setOnClickListener(null)
         darkGreenThemeSwitch.setOnClickListener(null)
         blackBlueThemeSwitch.setOnClickListener(null)

@@ -20,7 +20,6 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MainViewModel
-    private var currentFragmentPosition = -1
 
     companion object {
         const val CHANNEL_FRAGMENT_POSITION = 0
@@ -37,8 +36,8 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_base)
         setUpToolbar()
         setUpViewPager()
-        showDefaultFragment()
         setUpNavView()
+        showDefaultFragment()
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             window.navigationBarColor = ContextCompat.getColor(this, android.R.color.black)
         }
@@ -62,7 +61,6 @@ class MainActivity : BaseActivity() {
 
     private fun setUpTheme() {
         when (viewModel.settingsManager.currentTheme) {
-            FileManager.WHITE_RED_THEME_VALUE -> setTheme(R.style.AppTheme_White_Red)
             FileManager.WHITE_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_White_Blue)
             FileManager.DARK_GREEN_THEME_VALUE -> setTheme(R.style.AppTheme_Dark_Green)
             FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Blue)
@@ -73,10 +71,8 @@ class MainActivity : BaseActivity() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
             if (viewModel.settingsManager.themeChanged) {
                 navView.selectedItemId = R.id.navigation_settings
-                viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
             } else {
                 navView.selectedItemId = R.id.navigation_favourite
-                viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
             }
     }
 
@@ -94,12 +90,7 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                when (position) {
-                    CHANNEL_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_favourite
-                    GROUP_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_groups
-                    SETTINGS_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_settings
-
-                }
+                navView.menu.getItem(position).isChecked = true
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -114,16 +105,13 @@ class MainActivity : BaseActivity() {
             when (it.itemId) {
                 R.id.navigation_favourite -> {
                     viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
-                    currentFragmentPosition = CHANNEL_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_groups -> {
                     viewPager.currentItem = GROUP_FRAGMENT_POSITION
-                    currentFragmentPosition = GROUP_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_settings -> {
-                    currentFragmentPosition = SETTINGS_FRAGMENT_POSITION
                     viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }

@@ -8,16 +8,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorLight</item>
+        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorLight</item>-->
+        <item name="bottomNavigationBarColor">@color/backgroundLight</item>
         <item name="toolbarTextColor">@android:color/black</item>
         <item name="android:textColorPrimary">@android:color/black</item>
-        <item name="android:navigationBarColor">@color/navigation</item>
+        <!--        <item name="android:navigationBarColor">@color/navigation</item>-->
+        <item name="android:navigationBarColor">@color/backgroundLight</item>
         <item name="android:windowBackground">@color/backgroundLight</item>
         <item name="itemBackgroundColor">@color/itemBackgroundColor</item>
         <item name="inactiveNavigationIconColor">@color/inactiveIconColor</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColor</item>
-        <item name="toolbarColor">@color/toolbarColorLight</item>
-        <item name="android:statusBarColor">@color/toolbarColorLight</item>
+        <!--        <item name="toolbarColor">@color/toolbarColorLight</item>-->
+        <item name="toolbarColor">@color/backgroundLight</item>
+        <!--        <item name="android:statusBarColor">@color/toolbarColorLight</item>-->
+        <item name="android:statusBarColor">@color/backgroundLight</item>
         <item name="dividerColor">@color/dividerLight</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
@@ -44,8 +48,10 @@
         <item name="infoIconColor">@color/infoIconColorDark</item>
         <item name="buttonIconColor">@color/buttonIconColorDark</item>
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorDark</item>
-        <item name="android:statusBarColor">@color/toolbarColorDark</item>
-        <item name="toolbarColor">@color/toolbarColorDark</item>
+        <!--        <item name="android:statusBarColor">@color/toolbarColorDark</item>-->
+        <item name="android:statusBarColor">@color/backgroundDark</item>
+        <!--        <item name="toolbarColor">@color/toolbarColorDark</item>-->
+        <item name="toolbarColor">@color/backgroundDark</item>
         <item name="dividerColor">@color/dividerDark</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorDark</item>
         <item name="inactiveNavigationIconColor">@color/inactiveIconColorDark</item>
@@ -53,8 +59,10 @@
         <item name="toolbarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccentDarker</item>
-        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorDark</item>
-        <item name="android:navigationBarColor">@color/navigationDarker</item>
+        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorDark</item>-->
+        <item name="bottomNavigationBarColor">@color/backgroundDark</item>
+        <!--        <item name="android:navigationBarColor">@color/navigationDarker</item>-->
+        <item name="android:navigationBarColor">@color/backgroundDark</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
         <item name="itemBackgroundColor">@color/itemBackgroundColorDark</item>
@@ -68,8 +76,10 @@
         <item name="infoIconColor">@color/infoIconColorBlack</item>
         <item name="buttonIconColor">@color/buttonIconColorBlack</item>
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorBlack</item>
-        <item name="android:statusBarColor">@color/toolbarColorBlack</item>
-        <item name="toolbarColor">@color/toolbarColorBlack</item>
+        <!--        <item name="android:statusBarColor">@color/toolbarColorBlack</item>-->
+        <item name="android:statusBarColor">@color/backgroundBlack</item>
+        <!--        <item name="toolbarColor">@color/toolbarColorBlack</item>-->
+        <item name="toolbarColor">@color/backgroundBlack</item>
         <item name="dividerColor">@color/dividerBlack</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorBlack</item>
         <item name="inactiveNavigationIconColor">@color/inactiveIconColorBlack</item>
@@ -77,8 +87,10 @@
         <item name="toolbarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccentBlack</item>
-        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorBlack</item>
-        <item name="android:navigationBarColor">@color/navigationBlack</item>
+        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorBlack</item>-->
+        <item name="bottomNavigationBarColor">@color/backgroundBlack</item>
+        <!--        <item name="android:navigationBarColor">@color/navigationBlack</item>-->
+        <item name="android:navigationBarColor">@color/backgroundBlack</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
         <item name="itemBackgroundColor">@color/itemBackgroundColorBlack</item>
@@ -128,8 +140,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="toolbar">
         <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
@@ -172,7 +185,7 @@
     <style name="materialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="cornerRadius">2dp</item>
+        <item name="cornerRadius">0dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

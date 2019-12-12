@@ -1,212 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="?attr/itemBackgroundColor"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
->
-    <View style="@style/itemDivider"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-            android:id="@+id/headerTextView"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="62dp"
-            tools:text="КУХНЯ"
-            style="@style/headerText"
-    />
+        android:id="@+id/headerTextView"
+        style="@style/headerText"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="16dp"
+        tools:text="КУХНЯ" />
 
     <LinearLayout
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:id="@+id/lightLinearLayout"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-    >
+        android:id="@+id/lightLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
 
         <ImageView
-                android:padding="3dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:srcCompat="@drawable/ic_turn_on"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-        />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:padding="3dp"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_turn_on" />
 
         <LinearLayout
-                android:layout_width="0dp"
-                android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-        >
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/onOffTextView"
-                    android:text="@string/channel_title_turn_on_off"
-                    style="@style/primaryText"
-            />
+                android:id="@+id/onOffTextView"
+                style="@style/primaryText"
+                android:text="@string/channel_title_turn_on_off" />
+
             <TextView
-                    android:id="@+id/summaryOnOffTextView"
-                    android:text="@string/channel_summary_turn_on_off"
-                    style="@style/secondaryText"
-            />
+                android:id="@+id/summaryOnOffTextView"
+                style="@style/secondaryText"
+                android:text="@string/channel_summary_turn_on_off" />
         </LinearLayout>
 
         <View
-                android:id="@+id/turnOnLightButton"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:foreground="@drawable/light_button_pressed"
-                android:layout_height="46dp"
-                android:layout_width="46dp"
-                android:layout_marginEnd="8dp"
-        />
-        <View
-                android:id="@+id/turnOffLightButton"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:foreground="@drawable/light_button_normal"
-                android:layout_height="46dp"
-                android:layout_width="46dp"
-        />
+            android:id="@+id/turnOnLightButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/light_button_pressed" />
 
         <View
-                android:id="@+id/toggleLightButton"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="@drawable/light_button_toggle"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:layout_height="46dp"
-                android:layout_width="46dp"
-                android:layout_marginStart="8dp"
-        />
+            android:id="@+id/turnOffLightButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/light_button_normal" />
+
+        <View
+            android:id="@+id/toggleLightButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/light_button_toggle"
+            android:padding="8dp" />
 
     </LinearLayout>
 
     <LinearLayout
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:orientation="horizontal"
-            android:id="@+id/brightnessLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-    >
+        android:id="@+id/brightnessLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
         <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:srcCompat="@drawable/ic_brightness"
-                android:layout_gravity="center"
-        />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_brightness" />
 
         <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-        >
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
-                    android:layout_marginStart="16dp"
-                    android:gravity="start|center_vertical"
-                    android:id="@+id/brightnessTextView"
-                    android:text="@string/channel_brightness"
-                    android:layout_gravity="center_vertical"
-                    style="@style/primaryText"
-            />
+                android:id="@+id/brightnessTextView"
+                style="@style/primaryText"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:gravity="start|center_vertical"
+                android:text="@string/channel_brightness" />
 
             <androidx.appcompat.widget.AppCompatSeekBar
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/indicatorSeekBar"
-            />
+                android:id="@+id/indicatorSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="4dp" />
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:id="@+id/overflowLinearLayout"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-    >
+        android:id="@+id/overflowLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
 
         <ImageView
-                android:padding="3dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:srcCompat="@drawable/ic_colors"
-                android:layout_gravity="center"
-        />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_colors" />
 
         <LinearLayout
-                android:layout_width="0dp"
-                android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-        >
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/overflowTextView"
-                    android:text="@string/channel_backlight"
-                    style="@style/primaryText"
-            />
+                android:id="@+id/overflowTextView"
+                style="@style/primaryText"
+                android:text="@string/channel_backlight" />
+
             <TextView
-                    android:id="@+id/summaryOverflowTextView"
-                    android:text="@string/channel_backlight_color"
-                    style="@style/secondaryText"
-            />
+                android:id="@+id/summaryOverflowTextView"
+                style="@style/secondaryText"
+                android:text="@string/channel_backlight_color" />
         </LinearLayout>
-        <View
-                android:id="@+id/startOverflowButton"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginEnd="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:foreground="@drawable/overflow_button_normal"
-        />
-        <View
-                android:id="@+id/stopOverflowButton"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginEnd="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:foreground="@drawable/overflow_button_checked"
-        />
 
         <View
-                android:id="@+id/changeColorButton"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:foreground="@drawable/refresh_button_normal"
-                android:layout_height="46dp"
-                android:layout_width="46dp"
-        />
+            android:id="@+id/startOverflowButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/overflow_button_normal" />
+
+        <View
+            android:id="@+id/stopOverflowButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/overflow_button_checked" />
+
+        <View
+            android:id="@+id/changeColorButton"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/refresh_button_normal" />
     </LinearLayout>
-    <View style="@style/itemDivider"/>
+
+    <View style="@style/divider" />
 </LinearLayout>

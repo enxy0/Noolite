@@ -38,8 +38,15 @@ class SettingsManager @Inject constructor(val fileManager: FileManager) {
     var scrollY: Int = 0
 
     init {
-        this.hasToggleButton = fileManager.getBooleanFromPrefs(FileManager.SETTINGS_FILE, FileManager.TOGGLE_BUTTON_KEY)
-        this.ipAddress = fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.IP_ADDRESS_KEY) ?: FileManager.DEFAULT_IP_ADDRESS_VALUE
-        this.currentTheme = fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY) ?: FileManager.DARK_GREEN_THEME_VALUE
+        this.hasToggleButton = fileManager.getBooleanFromPrefs(
+            FileManager.SETTINGS_FILE,
+            FileManager.TOGGLE_BUTTON_KEY
+        )
+        this.ipAddress =
+            fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.IP_ADDRESS_KEY)
+                ?: FileManager.DEFAULT_IP_ADDRESS_VALUE
+        this.currentTheme =
+            fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY)
+                ?: FileManager.DARK_GREEN_THEME_VALUE
     }
 }

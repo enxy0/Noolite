@@ -8,7 +8,6 @@
     android:layout_marginStart="6dp"
     android:layout_marginTop="12dp"
     android:layout_marginEnd="6dp"
-    android:background="?attr/itemBackgroundColor"
     android:orientation="vertical"
     android:visibility="gone"
     tools:visibility="visible">
