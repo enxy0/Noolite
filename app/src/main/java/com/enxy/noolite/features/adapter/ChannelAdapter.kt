@@ -67,7 +67,6 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
                         override fun onStopTrackingTouch(seekBar: SeekBar?) {
                             when (val brightness = seekBar!!.progress) {
                                 0 -> viewModel.turnOffLight(channelModel.id)
-                                100 -> viewModel.turnOnLight(channelModel.id)
                                 else -> viewModel.changeBacklightBrightness(
                                     channelModel.id,
                                     brightness
@@ -88,7 +87,6 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
                         when (val brightness = seekBar!!.progress) {
                             0 -> viewModel.turnOffLight(channelModel.id)
-                            100 -> viewModel.turnOnLight(channelModel.id)
                             else -> viewModel.changeBacklightBrightness(channelModel.id, brightness)
                         }
                     }
