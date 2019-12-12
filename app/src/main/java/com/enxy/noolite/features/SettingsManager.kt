@@ -1,9 +1,13 @@
 package com.enxy.noolite.features
 
+import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.FileManager
 import javax.inject.Inject
 
-class SettingsManager @Inject constructor(val fileManager: FileManager) {
+class SettingsManager @Inject constructor(
+    val connectionManager: ConnectionManager,
+    val fileManager: FileManager
+) {
     var hasToggleButton: Boolean = true
         set(value) {
             field = value
@@ -30,6 +34,17 @@ class SettingsManager @Inject constructor(val fileManager: FileManager) {
             fileManager.saveStringToPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY, value)
         }
 
+    var wifiNotification: Boolean = FileManager.DEFAULT_WIFI_NOTIFICATION_VALUE
+        set(value) {
+            connectionManager.isEnabled = value
+            field = value
+            fileManager.saveBooleanToPrefs(
+                FileManager.SETTINGS_FILE,
+                FileManager.WIFI_NOTIFICATION_KEY,
+                value
+            )
+        }
+
     // Settings for seamless theme change
     var themeChanged: Boolean = false
 
@@ -48,5 +63,11 @@ class SettingsManager @Inject constructor(val fileManager: FileManager) {
         this.currentTheme =
             fileManager.getStringFromPrefs(FileManager.SETTINGS_FILE, FileManager.THEME_KEY)
                 ?: FileManager.DARK_GREEN_THEME_VALUE
+        this.wifiNotification =
+            fileManager.getBooleanFromPrefs(
+                FileManager.SETTINGS_FILE,
+                FileManager.WIFI_NOTIFICATION_KEY
+            )
+        this.connectionManager.isEnabled = this.wifiNotification
     }
 }

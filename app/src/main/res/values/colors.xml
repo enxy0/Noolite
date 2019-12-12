@@ -47,7 +47,7 @@
 
     <color name="dividerBlack">#2F2F2F</color>
     <color name="dividerDark">#3D3D3D</color>
-    <color name="dividerLight">#e6e6e6</color>
+    <color name="dividerLight">#C3C3C3</color>
 
     <color name="inactiveMainButtonColorLight">#E5E5E5</color>
     <color name="inactiveMainButtonColorDark">#383838</color>

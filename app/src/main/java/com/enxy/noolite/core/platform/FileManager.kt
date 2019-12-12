@@ -16,6 +16,8 @@ class FileManager @Inject constructor(private val appContext: Context) {
         // Settings
         const val IP_ADDRESS_KEY = "ip_address"
         const val DEFAULT_IP_ADDRESS_VALUE = "192.168.1.10"
+        const val WIFI_NOTIFICATION_KEY = "wifi_notification"
+        const val DEFAULT_WIFI_NOTIFICATION_VALUE = true
         const val FAVOURITE_GROUP_KEY = "favourite_group_element"
         const val GROUP_ELEMENT_LIST_KEY = "group_element_list"
         const val THEME_KEY = "theme"

@@ -42,4 +42,10 @@
     <string name="channel_backlight_color">Overflow / Color</string>
     <string name="and">and</string>
     <string name="error_happend">Error happend:</string>
+    <string name="settings_load_test_data_summary">Use test data to view the application in demo mode</string>
+    <string name="settings_load_test_data_title">Test data</string>
+    <string name="settings_other_section">Other</string>
+    <string name="settings_notification_section">Notifications</string>
+    <string name="settings_wifi_notification_title">Notify when WiFi is off</string>
+    <string name="settings_wifi_notification_summary">"Show in-app notification if phone is not connected via WiFi "</string>
 </resources>

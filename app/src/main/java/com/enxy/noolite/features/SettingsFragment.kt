@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.extension.*
@@ -40,13 +41,18 @@ class SettingsFragment : BaseFragment() {
                 FileManager.BLACK_BLUE_THEME_VALUE -> blackBlueThemeSwitch.isChecked = true
                 else -> darkGreenThemeSwitch.isChecked = true
             }
+            wifiNotificationButtonSwitch.isChecked = settingsManager.wifiNotification
             ipAddressEditText.setText(settingsManager.ipAddress)
             currentThemeTextView.text =
                 settingsManager.currentTheme.fromUnderscoreToNormal().capitalizeWords()
-            loginInputLayout.isEnabled = false
-            passwordInputLayout.isEnabled = false
             toggleButtonSwitch.isChecked = settingsManager.hasToggleButton
         }
+        val appName = context!!.applicationInfo.loadLabel(context!!.packageManager)
+        val author = context!!.getString(R.string.author)
+        val appInfo = "$appName for Android " +
+                "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) \n " +
+                "by $author"
+        appInfoTextView.text = appInfo
     }
 
     private fun handleUpdate(groupListModelNullable: ArrayList<GroupModel>?) {
@@ -74,16 +80,6 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun setUpUiHandlers() {
-        authenticationSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                loginInputLayout.isEnabled = true
-                passwordInputLayout.isEnabled = true
-            } else {
-                loginInputLayout.isEnabled = false
-                passwordInputLayout.isEnabled = false
-            }
-        }
-
         whiteBlueThemeSwitch.setOnClickListener {
             viewModel.settingsManager.currentTheme = FileManager.WHITE_BLUE_THEME_VALUE
             removeThemeOnClickListeners()
@@ -113,15 +109,29 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
-        authenticationLinearLayout.setOnClickListener {
-            notify(R.string.message_authentication_is_not_available)
-        }
-
         toggleButtonSwitch.setOnCheckedChangeListener { _, checked ->
             viewModel.settingsManager.hasToggleButton = checked
         }
         toggleButtonLinearLayout.setOnClickListener {
             toggleButtonSwitch.let { it.isChecked = !it.isChecked }
+        }
+
+        wifiNotificationButtonSwitch.setOnCheckedChangeListener { _, checked ->
+            viewModel.settingsManager.wifiNotification = checked
+        }
+
+        wifiNotificationLinearLayout.setOnClickListener {
+            wifiNotificationButtonSwitch.let { it.isChecked = !it.isChecked }
+        }
+
+        loadTestDataLinearLayout.setOnClickListener {
+            with(viewModel) {
+                groupElementList.value = null
+                groupFailure.value = null
+                observe(groupElementList, ::handleUpdate)
+                failure(groupFailure, ::handleError)
+                loadTestData()
+            }
         }
 
         settingsScrollView.viewTreeObserver.addOnGlobalLayoutListener(object :

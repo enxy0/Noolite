@@ -10,6 +10,7 @@ import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.interactor.*
 import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.TestData
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -142,6 +143,13 @@ class MainViewModel @Inject constructor(
 
     private fun updateLightFailure(failure: Failure) {
         this.lightFailure.value = failure
+    }
+
+    fun loadTestData() {
+        groupFailure.value = null
+        favouriteFailure.value = null
+        groupElementList.value = TestData.groupElementList
+        favouriteGroupElement.value = TestData.favouriteGroupElement
     }
 
     override fun onCleared() {
