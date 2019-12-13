@@ -93,12 +93,6 @@ class ChannelFragment : BaseFragment() {
         hideBackButton()
         if (!isOpenedAsFavouriteFragment())
             setToolbarTitle(R.string.title_groups)
-        viewModel.let {
-            it.chosenGroupElement.removeObservers(this)
-            it.chosenFailure.removeObservers(this)
-            it.favouriteGroupElement.removeObservers(this)
-            it.favouriteFailure.removeObservers(this)
-        }
     }
 
     override fun onDestroyView() {
@@ -106,6 +100,12 @@ class ChannelFragment : BaseFragment() {
         with(viewModel.chosenGroupElement) {
             if (value != null)
                 value = null
+        }
+        viewModel.let {
+            it.chosenGroupElement.removeObservers(this)
+            it.chosenFailure.removeObservers(this)
+            it.favouriteGroupElement.removeObservers(this)
+            it.favouriteFailure.removeObservers(this)
         }
     }
 
