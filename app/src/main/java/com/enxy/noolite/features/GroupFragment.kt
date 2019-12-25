@@ -50,8 +50,8 @@ class GroupFragment : BaseFragment() {
         setToolbarTitle(R.string.title_groups)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.let {
             it.groupElementList.removeObservers(this)
             it.groupFailure.removeObservers(this)
