@@ -100,7 +100,7 @@
                     android:background="@drawable/black_theme_selector"
                     android:text="@string/settings_theme_text"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccentLavander"
+                    android:textColor="@color/colorAccentBlack"
                     android:textStyle="bold"
                     android:thumb="@null" />
 

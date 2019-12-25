@@ -70,7 +70,7 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="AppTheme.Black.Blue" parent="AppTheme">
+    <style name="AppTheme.Black.Amber" parent="AppTheme">
         <item name="colorControlHighlight">@color/defaultRippleColorDark</item>
         <item name="defaultRippleColor">@color/defaultRippleColorDark</item>
         <item name="infoIconColor">@color/infoIconColorBlack</item>

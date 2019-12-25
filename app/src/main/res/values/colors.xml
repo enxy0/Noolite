@@ -16,12 +16,12 @@
     <color name="colorPrimaryPeach">#FF5252</color>
     <color name="colorAccentPeach">#FF5252</color>
 
-    <color name="colorAccentBlack">#1976D2</color>
-    <color name="colorPrimaryBlack">#1976D2</color>
+    <color name="colorAccentBlack">#FFC107</color>
+    <color name="colorPrimaryBlack">#FFC107</color>
 
     <color name="itemBackgroundColor">#F2F2F2</color>
     <color name="itemBackgroundColorDark">#272727</color>
-    <color name="itemBackgroundColorBlack">#161616</color>
+    <color name="itemBackgroundColorBlack">#151515</color>
 
     <color name="textColorPrimaryInverse">#FFFFFF</color>
     <color name="textColorSecondaryInverse">#AEAEAE</color>

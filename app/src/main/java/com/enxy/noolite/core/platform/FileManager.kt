@@ -29,7 +29,7 @@ class FileManager @Inject constructor(private val appContext: Context) {
         // Themes keys
         const val WHITE_BLUE_THEME_VALUE = "white_blue"
         const val DARK_GREEN_THEME_VALUE = "dark_green"
-        const val BLACK_BLUE_THEME_VALUE = "black_blue"
+        const val BLACK_BLUE_THEME_VALUE = "black_amber"
     }
 
     fun getStringFromPrefs(preferencesName: String, key: String): String? {

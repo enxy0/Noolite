@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
         when (viewModel.settingsManager.currentTheme) {
             FileManager.WHITE_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_White_Blue)
             FileManager.DARK_GREEN_THEME_VALUE -> setTheme(R.style.AppTheme_Dark_Green)
-            FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Blue)
+            FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Amber)
         }
     }
 
