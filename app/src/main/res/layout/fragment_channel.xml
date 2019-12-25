@@ -29,10 +29,9 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favouriteButton"
             style="@style/materialButton"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
             android:text="@string/add_to_favourite_button"
             android:visibility="gone"
             tools:visibility="visible" />

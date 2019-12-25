@@ -200,7 +200,7 @@
     <style name="materialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="cornerRadius">0dp</item>
+        <item name="cornerRadius">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
