@@ -22,7 +22,7 @@
 
             <TextView
                 android:id="@+id/appearanceSectionTextView"
-                style="@style/headerText"
+                style="@style/sectionText"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -163,7 +163,7 @@
 
             <TextView
                 android:id="@+id/serverSectionTextView"
-                style="@style/headerText"
+                style="@style/sectionText"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -223,7 +223,7 @@
 
             <TextView
                 android:id="@+id/notificationTextView"
-                style="@style/headerText"
+                style="@style/sectionText"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -291,7 +291,7 @@
 
             <TextView
                 android:id="@+id/otherTextView"
-                style="@style/headerText"
+                style="@style/sectionText"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -349,8 +349,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
+            android:textAlignment="center"
+            tools:text="Noolite for Android vX.X.X (XXXX)" />
+
+        <TextView
+            android:id="@+id/authorTextView"
+            style="@style/secondaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginBottom="12dp"
             android:textAlignment="center"
-            tools:text="Noolite for Android vX.X.X (XXXX) \n by vk.com/enxyo" />
+            android:autoLink="web"
+            android:text="@string/author" />
     </LinearLayout>
 </ScrollView>

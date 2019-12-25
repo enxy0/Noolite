@@ -48,10 +48,8 @@ class SettingsFragment : BaseFragment() {
             toggleButtonSwitch.isChecked = settingsManager.hasToggleButton
         }
         val appName = context!!.applicationInfo.loadLabel(context!!.packageManager)
-        val author = context!!.getString(R.string.author)
         val appInfo = "$appName for Android " +
-                "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) \n " +
-                "by $author"
+                "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
         appInfoTextView.text = appInfo
     }
 

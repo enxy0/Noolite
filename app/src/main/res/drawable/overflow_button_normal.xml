@@ -2,20 +2,18 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape
-                android:shape="oval">
-            <solid
-                    android:color="?attr/inactiveMainButtonColor"/>
+        <shape android:shape="oval">
+            <solid android:color="?attr/inactiveMainButtonColor" />
 
             <size
-                    android:width="70dp"
-                    android:height="70dp"/>
+                android:width="70dp"
+                android:height="70dp" />
 
         </shape>
     </item>
     <item
-            android:width="28dp"
-            android:height="28dp"
-            android:drawable="@drawable/ic_turn_on"
-            android:gravity="center"/>
+        android:width="25dp"
+        android:height="25dp"
+        android:drawable="@drawable/ic_start"
+        android:gravity="center" />
 </layer-list>

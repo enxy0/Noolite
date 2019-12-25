@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/peach_theme_pressed" android:state_pressed="true" android:state_checked="true"/>
-    <item android:drawable="@drawable/peach_theme_pressed" android:state_checked="true"/>
-    <item android:drawable="@drawable/peach_theme_pressed" android:state_pressed="true"/>
-    <item android:drawable="@drawable/peach_theme_normal"/>
+    <item android:drawable="@drawable/peach_theme_pressed" android:state_checked="true" android:state_pressed="true" />
+    <item android:drawable="@drawable/peach_theme_pressed" android:state_checked="true" />
+    <item android:drawable="@drawable/peach_theme_pressed" android:state_pressed="true" />
+    <item android:drawable="@drawable/peach_theme_normal" />
 </selector>

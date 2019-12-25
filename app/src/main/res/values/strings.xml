@@ -56,5 +56,5 @@
     <string name="settings_notification_section">Уведомления</string>
     <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
     <string name="settings_wifi_notification_title">WiFi подключение</string>
-    <string name="author" translatable="false">vk.com/enxyo</string>
+    <string name="author" translatable="false">by vk.com/enxyo</string>
 </resources>
