@@ -87,7 +87,6 @@ class ChannelFragment : BaseFragment() {
         }
     }
 
-
     override fun onPause() {
         super.onPause()
         hideBackButton()

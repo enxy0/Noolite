@@ -6,14 +6,14 @@
     "apkData": {
       "type": "MAIN",
       "splits": [],
-      "versionCode": 2,
-      "versionName": "1.0.1",
+      "versionCode": 3,
+      "versionName": "1.0.2 beta 1",
       "enabled": true,
-      "outputFile": "com.enxy.noolite_release_1.0.1.apk",
+      "outputFile": "com.enxy.noolite_release_1.0.2 beta 1.apk",
       "fullName": "release",
       "baseName": "release"
     },
-    "path": "com.enxy.noolite_release_1.0.1.apk",
+    "path": "com.enxy.noolite_release_1.0.2 beta 1.apk",
     "properties": {}
   }
 ]
