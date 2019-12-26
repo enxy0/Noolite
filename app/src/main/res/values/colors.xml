@@ -29,14 +29,6 @@
     <color name="colorPrimaryDarker">#FFFFFF</color>
     <color name="colorAccentDarker">#4CAF50</color>
 
-    <!--    <color name="bottomNavigationBarColorLight">#FFFFFF</color>-->
-    <!--    <color name="bottomNavigationBarColorDark">#1F1F1F</color>-->
-    <!--    <color name="bottomNavigationBarColorBlack">#121212</color>-->
-
-    <!--    <color name="navigation">#FFFFFF</color>-->
-    <!--    <color name="navigationDarker">#1F1F1F</color>-->
-    <!--    <color name="navigationBlack">#121212</color>-->
-
     <color name="inputLayoutBackgroundColor">#F5F5F5</color>
     <color name="inputLayoutBackgroundColorDark">#333333</color>
     <color name="inputLayoutBackgroundColorBlack">#303030</color>
@@ -64,10 +56,6 @@
     <color name="infoIconColorLight">#555555</color>
     <color name="infoIconColorDark">#777777</color>
     <color name="infoIconColorBlack">#777777</color>
-
-    <!--    <color name="toolbarColorLight">#FFFFFF</color>-->
-    <!--    <color name="toolbarColorDark">#232323</color>-->
-    <!--    <color name="toolbarColorBlack">#161616</color>-->
 
     <color name="defaultRippleColorLight">#1A000000</color>
     <color name="defaultRippleColorDark">#1AFFFFFF</color>
