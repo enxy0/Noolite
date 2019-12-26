@@ -32,17 +32,23 @@ abstract class BaseActivity : AppCompatActivity() {
             .show()
     }
 
+    internal fun notify(message: String) {
+        Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_SHORT)
+            .withColorPrimary()
+            .show()
+    }
+
+    internal fun notifyError(@StringRes message: Int) {
+        Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_SHORT)
+            .withColor(ContextCompat.getColor(this, R.color.error))
+            .show()
+    }
+
     internal fun setToolbarTitle(@StringRes message: Int) {
         toolbar.title = title
     }
 
     internal fun setToolbarTitle(message: String) {
         toolbar.title = title
-    }
-
-    internal fun notifyError(@StringRes message: Int) {
-        Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_LONG)
-            .withColor(ContextCompat.getColor(this, R.color.error))
-            .show()
     }
 }
