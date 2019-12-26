@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat
 import com.enxy.noolite.R
 import com.google.android.material.snackbar.Snackbar
 
-private const val snackBarCornerRadiusInDp = 2f
+private const val snackBarCornerRadiusInDp = 8f
 private const val snackBarDefaultMarginInDp = 8f
 private const val snackBarElevationInPx = 6f
 
