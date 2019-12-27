@@ -2,19 +2,24 @@ package com.enxy.noolite.features
 
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.enxy.noolite.R
+import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.BaseActivity
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.adapter.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_base.*
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity() {
-    private val viewModel by viewModels<MainViewModel>()
-    private var currentFragmentPosition = -1
+    @Inject
+    lateinit var connectionManager: ConnectionManager
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: MainViewModel
 
     companion object {
         const val CHANNEL_FRAGMENT_POSITION = 0
@@ -24,13 +29,15 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appComponent.inject(this)
+        viewModel = getViewModel(viewModelFactory, MainViewModel::class.java)
         getIntentExtras()
         setUpTheme()
         setContentView(R.layout.activity_base)
         setUpToolbar()
         setUpViewPager()
-        showDefaultFragment()
         setUpNavView()
+        showDefaultFragment()
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             window.navigationBarColor = ContextCompat.getColor(this, android.R.color.black)
         }
@@ -48,16 +55,15 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!viewModel.networkHandler.isWifiConnected())
+        if (!connectionManager.isWifiConnected())
             notifyError(R.string.error_no_wifi)
     }
 
     private fun setUpTheme() {
         when (viewModel.settingsManager.currentTheme) {
-            FileManager.WHITE_RED_THEME_VALUE -> setTheme(R.style.AppTheme_White_Red)
             FileManager.WHITE_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_White_Blue)
             FileManager.DARK_GREEN_THEME_VALUE -> setTheme(R.style.AppTheme_Dark_Green)
-            FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Blue)
+            FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Amber)
         }
     }
 
@@ -65,10 +71,8 @@ class MainActivity : BaseActivity() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
             if (viewModel.settingsManager.themeChanged) {
                 navView.selectedItemId = R.id.navigation_settings
-                viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
             } else {
                 navView.selectedItemId = R.id.navigation_favourite
-                viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
             }
     }
 
@@ -86,12 +90,7 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                when (position) {
-                    CHANNEL_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_favourite
-                    GROUP_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_groups
-                    SETTINGS_FRAGMENT_POSITION -> navView.selectedItemId = R.id.navigation_settings
-
-                }
+                navView.menu.getItem(position).isChecked = true
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -106,16 +105,13 @@ class MainActivity : BaseActivity() {
             when (it.itemId) {
                 R.id.navigation_favourite -> {
                     viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
-                    currentFragmentPosition = CHANNEL_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_groups -> {
                     viewPager.currentItem = GROUP_FRAGMENT_POSITION
-                    currentFragmentPosition = GROUP_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_settings -> {
-                    currentFragmentPosition = SETTINGS_FRAGMENT_POSITION
                     viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }

@@ -12,18 +12,13 @@ import kotlinx.coroutines.*
  * By convention each [UseCase] implementation will execute its job in a background thread
  * (Dispatchers.IO) and will post the result in the UI thread.
  */
-abstract class UseCase<out Type, in Params> where Type : Any {
-    private val job: Job = SupervisorJob()
+abstract class UseCase<out Type, in Params>(private val job: Job) where Type : Any {
 
     abstract suspend fun run(params: Params): Either<Failure, Type>
 
     operator fun invoke(params: Params, onResult: (Either<Failure, Type>) -> Unit = {}) {
         val work = CoroutineScope(Dispatchers.IO + this.job).async { run(params) }
         CoroutineScope(Dispatchers.Main + this.job).launch { onResult(work.await()) }
-    }
-
-    fun onDestroy() {
-        this.job.cancel()
     }
 
     class None

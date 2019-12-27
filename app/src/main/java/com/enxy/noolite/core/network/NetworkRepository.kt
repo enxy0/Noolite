@@ -11,6 +11,8 @@ import com.enxy.noolite.features.model.GroupListHolderModel
 import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface NetworkRepository {
     suspend fun getGroupHolder(ipAddress: String): Either<Failure, GroupListHolderModel>
@@ -22,7 +24,11 @@ interface NetworkRepository {
     suspend fun changeLightState(channelId: Int): Either<Failure, Success.GoodRequest>
     suspend fun changeBacklightColor(channelId: Int): Either<Failure, Success.GoodRequest>
 
-    class NetworkManager(private val networkHandler: NetworkHandler) : NetworkRepository {
+    @Singleton
+    class NetworkManager @Inject constructor(
+        private val connectionManager: ConnectionManager,
+        private val service: NetworkService
+    ) : NetworkRepository {
         companion object {
             // URLs
             var API_URL = "http://${FileManager.DEFAULT_IP_ADDRESS_VALUE}"
@@ -44,9 +50,12 @@ interface NetworkRepository {
         }
 
         override suspend fun getGroupHolder(ipAddress: String): Either<Failure, GroupListHolderModel> {
-            return if (networkHandler.isWifiConnected()) {
+            return if (connectionManager.isWifiConnected()) {
                 API_URL = ipAddress
-                request(NetworkService.instance.getNooliteApi().getGroupsAsync(API_URL + SERVER_SETTINGS_FILE), ::transformBinToGroupHolder)
+                request(
+                    service.getNooliteApi().getGroupsAsync(API_URL + SERVER_SETTINGS_FILE),
+                    ::transformBinToGroupHolder
+                )
             }
             else
                 Left(Failure.WifiConnectionError)
@@ -63,51 +72,94 @@ interface NetworkRepository {
         }
 
         override suspend fun changeLightState(channelId: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
-                request(NetworkService.instance.getNooliteApi().changeLightsStateAsync(API_URL + API_PAGE, channelId, TOGGLE_COMMAND), ::transformToSuccessRequest)
+            return if (connectionManager.isWifiConnected())
+                request(
+                    service.getNooliteApi().changeLightsStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        TOGGLE_COMMAND
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }
 
         override suspend fun changeBacklightColor(channelId: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
-                request(NetworkService.instance.getNooliteApi().changeLightsStateAsync(API_URL + API_PAGE, channelId, CHANGE_COLOR_COMMAND), ::transformToSuccessRequest)
+            return if (connectionManager.isWifiConnected())
+                request(
+                    service.getNooliteApi().changeLightsStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        CHANGE_COLOR_COMMAND
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }
 
         override suspend fun turnOnLight(channelId: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
-                request(NetworkService.instance.getNooliteApi().changeLightsStateAsync(API_URL + API_PAGE, channelId, TURN_ON_COMMAND), ::transformToSuccessRequest)
+            return if (connectionManager.isWifiConnected())
+                request(
+                    service.getNooliteApi().changeLightsStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        TURN_ON_COMMAND
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }
 
         override suspend fun turnOffLight(channelId: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
-                request(NetworkService.instance.getNooliteApi().changeLightsStateAsync(API_URL + API_PAGE, channelId, TURN_OFF_COMMAND), ::transformToSuccessRequest)
+            return if (connectionManager.isWifiConnected())
+                request(
+                    service.getNooliteApi().changeLightsStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        TURN_OFF_COMMAND
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }
 
         override suspend fun changeBacklightBrightness(channelId: Int, brightness: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
+            return if (connectionManager.isWifiConnected())
                 request(
-                    NetworkService.instance.getNooliteApi().changeBacklightStateAsync(API_URL + API_PAGE, channelId, CHANGE_BACKLIGHT_COMMAND, FM, brightness), ::transformToSuccessRequest)
+                    service.getNooliteApi().changeBacklightStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        CHANGE_BACKLIGHT_COMMAND,
+                        FM,
+                        brightness
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }
 
         override suspend fun startBacklightOverflow(channelId: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
-                request(NetworkService.instance.getNooliteApi().changeLightsStateAsync(API_URL + API_PAGE, channelId, START_OVERFLOW_COMMAND), ::transformToSuccessRequest)
+            return if (connectionManager.isWifiConnected())
+                request(
+                    service.getNooliteApi().changeLightsStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        START_OVERFLOW_COMMAND
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }
 
         override suspend fun stopBacklightOverflow(channelId: Int): Either<Failure, Success.GoodRequest> {
-            return if (networkHandler.isWifiConnected())
-                request(NetworkService.instance.getNooliteApi().changeLightsStateAsync(API_URL + API_PAGE, channelId, STOP_OVERFLOW_COMMAND), ::transformToSuccessRequest)
+            return if (connectionManager.isWifiConnected())
+                request(
+                    service.getNooliteApi().changeLightsStateAsync(
+                        API_URL + API_PAGE,
+                        channelId,
+                        STOP_OVERFLOW_COMMAND
+                    ), ::transformToSuccessRequest
+                )
             else
                 Left(Failure.WifiConnectionError)
         }

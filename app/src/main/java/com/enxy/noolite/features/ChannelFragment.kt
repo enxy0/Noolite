@@ -43,11 +43,15 @@ class ChannelFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (isOpenedAsFavouriteFragment())
+        if (isOpenedAsFavouriteFragment()) {
             if (viewModel.favouriteGroupElement.value == null)
                 setToolbarTitle(R.string.title_favourite)
             else
                 setToolbarTitle(viewModel.favouriteGroupElement.value!!.name)
+        } else {
+            setUpBackButton()
+            setToolbarTitle(viewModel.chosenGroupElement.value!!.name)
+        }
     }
 
     companion object {
@@ -83,15 +87,20 @@ class ChannelFragment : BaseFragment() {
         }
     }
 
-
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         hideBackButton()
         if (!isOpenedAsFavouriteFragment())
             setToolbarTitle(R.string.title_groups)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        with(viewModel.chosenGroupElement) {
+            if (value != null)
+                value = null
+        }
         viewModel.let {
-            if (it.chosenGroupElement.value != null)
-                it.chosenGroupElement.value = null
             it.chosenGroupElement.removeObservers(this)
             it.chosenFailure.removeObservers(this)
             it.favouriteGroupElement.removeObservers(this)

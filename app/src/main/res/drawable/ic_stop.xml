@@ -1,18 +1,18 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="24dp"
-        android:height="24dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24"
-        android:tint="?attr/buttonIconColor">
+    android:width="24dp"
+    android:height="24dp"
+    android:tint="?attr/buttonIconColor"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
     <path
-            android:pathData="M12,12m-10.5,0a10.5,10.5 0,1 1,21 0a10.5,10.5 0,1 1,-21 0"
-            android:strokeWidth="1.4"
-            android:fillColor="#00000000"
-            android:strokeColor="#000000"/>
+        android:fillColor="#00000000"
+        android:pathData="M12,12m-10.5,0a10.5,10.5 0,1 1,21 0a10.5,10.5 0,1 1,-21 0"
+        android:strokeWidth="1.4"
+        android:strokeColor="#000000" />
     <path
-            android:fillColor="#FF000000"
-            android:pathData="M16.7,17.5L6.5,7.3c-0.3,-0.3 -0.3,-0.7 0,-1l0,0c0.3,-0.3 0.7,-0.3 1,0l10.1,10.1c0.3,0.3 0.3,0.7 0,1l0,0C17.4,17.7 16.9,17.7 16.7,17.5z"/>
+        android:fillColor="#FF000000"
+        android:pathData="M16.7,17.5L6.5,7.3c-0.3,-0.3 -0.3,-0.7 0,-1l0,0c0.3,-0.3 0.7,-0.3 1,0l10.1,10.1c0.3,0.3 0.3,0.7 0,1l0,0C17.4,17.7 16.9,17.7 16.7,17.5z" />
     <path
-            android:fillColor="#FF000000"
-            android:pathData="M17.6,7.3L7.5,17.5c-0.3,0.3 -0.7,0.3 -1,0l0,0c-0.3,-0.3 -0.3,-0.7 0,-1L16.7,6.4c0.3,-0.3 0.7,-0.3 1,0l0,0C17.9,6.6 17.9,7.1 17.6,7.3z"/>
+        android:fillColor="#FF000000"
+        android:pathData="M17.6,7.3L7.5,17.5c-0.3,0.3 -0.7,0.3 -1,0l0,0c-0.3,-0.3 -0.3,-0.7 0,-1L16.7,6.4c0.3,-0.3 0.7,-0.3 1,0l0,0C17.9,6.6 17.9,7.1 17.6,7.3z" />
 </vector>

@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/channelScrollView"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="?android:attr/windowBackground">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/channelScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground">
 
     <LinearLayout
-            android:id="@+id/channelLinearLayout"
+        android:id="@+id/channelLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/errorLayout"
+            layout="@layout/content_error"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/channelRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-        <include
-                layout="@layout/content_error"
-                android:id="@+id/errorLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                tools:visibility="gone"
-                />
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/channelRecyclerView"
-                android:paddingTop="6dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:layoutAnimation="@null"
-                tools:listitem="@layout/item_default"
-                tools:itemCount="1"
-                >
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginTop="6dp"
+            tools:itemCount="1"
+            tools:layoutAnimation="@null"
+            tools:listitem="@layout/item_default" />
+
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/favouriteButton"
-                android:text="@string/add_to_favourite_button"
-                style="@style/materialButton"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="2dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                />
+            android:id="@+id/favouriteButton"
+            style="@style/materialButton"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/add_to_favourite_button"
+            android:visibility="gone"
+            tools:visibility="visible" />
     </LinearLayout>
 </ScrollView>

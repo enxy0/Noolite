@@ -6,9 +6,10 @@ import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.ChannelFragment
 import com.enxy.noolite.features.GroupFragment
 import com.enxy.noolite.features.SettingsFragment
+import javax.inject.Inject
 
 
-class SectionsPagerAdapter(fm: FragmentManager) :
+class SectionsPagerAdapter @Inject constructor(fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val listOfFragments = arrayListOf(
         ChannelFragment.newInstance(),

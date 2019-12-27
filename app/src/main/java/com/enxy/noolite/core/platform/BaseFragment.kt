@@ -6,33 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.enxy.noolite.R
-import com.enxy.noolite.core.extension.viewContainer
-import com.enxy.noolite.core.extension.withColor
-import com.enxy.noolite.core.extension.withColorPrimary
 import com.enxy.noolite.features.MainActivity
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_base.*
 
 abstract class BaseFragment : Fragment() {
     internal fun notify(@StringRes message: Int) {
-        Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT)
-            .withColorPrimary()
-            .show()
+        getMainActivity().notify(message)
+    }
+
+    internal fun notify(message: String) {
+        getMainActivity().notify(message)
+    }
+
+    internal fun notifyError(@StringRes message: Int) {
+        getMainActivity().notifyError(message)
     }
 
     abstract val layoutId: Int
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(layoutId, container, false)
-    }
-
-    internal fun notifyError(@StringRes message: Int) {
-        Snackbar.make(viewContainer, message, Snackbar.LENGTH_LONG)
-            .withColor(ContextCompat.getColor(context!!, R.color.error))
-            .show()
     }
 
     internal fun isInLandscapeOrientation(): Boolean {

@@ -8,12 +8,15 @@ import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.interactor.GetGroupHolder.ParamsHolder
 import com.enxy.noolite.features.model.GroupListHolderModel
+import kotlinx.coroutines.Job
+import javax.inject.Inject
 
-class GetGroupHolder(
+class GetGroupHolder @Inject constructor(
+    job: Job,
     private val serializer: Serializer,
     private val networkManager: NetworkRepository.NetworkManager,
     private val fileManager: FileManager
-) : UseCase<GroupListHolderModel, ParamsHolder>() {
+) : UseCase<GroupListHolderModel, ParamsHolder>(job) {
 
     override suspend fun run(params: ParamsHolder): Either<Failure, GroupListHolderModel> {
         val groupElementList = fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.GROUP_ELEMENT_LIST_KEY)
@@ -29,4 +32,5 @@ class GetGroupHolder(
         val isForceUpdating: Boolean,
         val ipAddress: String
     )
+
 }

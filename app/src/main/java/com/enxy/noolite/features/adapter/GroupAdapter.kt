@@ -20,7 +20,7 @@ class GroupAdapter(private val fragment: GroupFragment, private val viewModel: M
         return GroupHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false))
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = this.data.size
 
     override fun onBindViewHolder(holder: GroupHolder, position: Int) {
         holder.bind(data[position])
@@ -38,7 +38,7 @@ class GroupAdapter(private val fragment: GroupFragment, private val viewModel: M
         fun bind(groupModel: GroupModel) {
             itemView.groupLinearLayout.setOnClickListener {
                 viewModel.chosenGroupElement.value = groupModel
-                fragment.fragmentManager!!.commit {
+                fragment.parentFragmentManager.commit {
                     addToBackStack(null)
                     setCustomAnimations(
                         R.anim.zoom_in,

@@ -28,6 +28,9 @@
     <string name="settings_toggle_button_summary">Использовать одну кнопку для переключения состояния света, вместо
         кнопок включения и выключения
     </string>
+    <string name="settings_load_test_data_title">Тестовые данные</string>
+    <string name="settings_load_test_data_summary">Использовать тестовые данные просмотра приложения в демо режиме
+    </string>
     <string name="settings_appearance_section">Внешний вид</string>
     <string name="settings_server_section">Сервер</string>
     <string name="update_button">Обновить</string>
@@ -48,4 +51,10 @@
     <string name="channel_backlight">Подсветка</string>
     <string name="channel_backlight_color">Перелив / Цвет</string>
     <string name="and">и</string>
+    <string name="error_happend">Произошла ошибка:</string>
+    <string name="settings_other_section">Другое</string>
+    <string name="settings_notification_section">Уведомления</string>
+    <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
+    <string name="settings_wifi_notification_title">WiFi подключение</string>
+    <string name="author" translatable="false">by vk.com/enxyo</string>
 </resources>
