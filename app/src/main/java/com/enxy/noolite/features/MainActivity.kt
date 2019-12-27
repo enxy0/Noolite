@@ -14,12 +14,19 @@ import kotlinx.android.synthetic.main.activity_base.*
 import javax.inject.Inject
 
 
+
 class MainActivity : BaseActivity() {
     @Inject
     lateinit var connectionManager: ConnectionManager
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MainViewModel
+
+    companion object {
+        const val CHANNEL_FRAGMENT_POSITION = 0
+        const val GROUP_FRAGMENT_POSITION = 1
+        const val SETTINGS_FRAGMENT_POSITION = 2
+    }
 
     companion object {
         const val CHANNEL_FRAGMENT_POSITION = 0
