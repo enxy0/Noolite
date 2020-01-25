@@ -9,7 +9,7 @@ import com.enxy.noolite.R
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
-import kotlinx.android.synthetic.main.item_default.view.*
+import kotlinx.android.synthetic.main.item_channel.view.*
 
 
 class ChannelAdapter(private var viewModel: MainViewModel) :
@@ -19,7 +19,7 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolderDefault {
         return ChannelHolderDefault(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.item_default,
+                R.layout.item_channel,
                 parent,
                 false
             )

@@ -149,6 +149,14 @@
         <item name="android:layout_marginBottom">6dp</item>
     </style>
 
+    <style name="CircularButton">
+        <item name="android:layout_width">@dimen/channel_button_size</item>
+        <item name="android:layout_height">@dimen/channel_button_size</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
     <!-- Toolbar styles -->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

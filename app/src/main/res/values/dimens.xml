@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="snackbar_icon_padding">8dp</dimen>
+    <dimen name="channel_horizontal_padding">16dp</dimen>
+    <dimen name="channel_vertical_padding">8dp</dimen>
+    <dimen name="channel_elements_horizontal_margin">8dp</dimen>
+    <dimen name="channel_button_size">46dp</dimen>
 </resources>

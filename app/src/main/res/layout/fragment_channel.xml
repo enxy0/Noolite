@@ -24,7 +24,7 @@
             android:layout_marginTop="6dp"
             tools:itemCount="1"
             tools:layoutAnimation="@null"
-            tools:listitem="@layout/item_default" />
+            tools:listitem="@layout/item_channel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favouriteButton"
