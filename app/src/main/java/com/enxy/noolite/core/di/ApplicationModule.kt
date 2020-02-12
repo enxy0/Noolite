@@ -4,7 +4,6 @@ import android.content.Context
 import com.enxy.noolite.AndroidApplication
 import com.enxy.noolite.core.network.NetworkService
 import com.google.gson.Gson
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Job
@@ -23,7 +22,6 @@ class ApplicationModule(private val application: AndroidApplication) {
     @Singleton
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(NetworkService.BASE_URL)
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
     @Provides
