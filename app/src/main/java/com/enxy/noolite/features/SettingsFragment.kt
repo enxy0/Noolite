@@ -103,7 +103,7 @@ class SettingsFragment : BaseFragment() {
                 observe(groupElementList, ::handleUpdate)
                 failure(groupFailure, ::handleError)
                 settingsManager.ipAddress = ipAddressEditText.text.toString()
-                loadGroupElementList(force = true, ipAddress = settingsManager.ipAddress)
+                loadGroupElementList(ipAddress = settingsManager.ipAddress, isForceUpdating = true)
             }
         }
 

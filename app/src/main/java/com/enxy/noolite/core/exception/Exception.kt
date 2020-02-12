@@ -7,6 +7,7 @@ package com.enxy.noolite.core.exception
 sealed class Failure {
     object WifiConnectionError : Failure()
     object ServerError : Failure()
+    object ResponseBodyIsNull : Failure()
     object DataNotFound : Failure()
     object DeserializeError: Failure()
 

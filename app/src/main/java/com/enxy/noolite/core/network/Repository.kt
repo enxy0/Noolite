@@ -7,7 +7,9 @@ import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
 import com.enxy.noolite.core.platform.FileManager
+import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.model.GroupListHolderModel
+import com.enxy.noolite.features.model.GroupModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -16,9 +18,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NetworkRepository @Inject constructor(
+class Repository @Inject constructor(
     private val connectionManager: ConnectionManager,
-    private val service: NetworkService
+    private val service: NetworkService,
+    private val fileManager: FileManager,
+    private val serializer: Serializer
 ) {
     companion object {
         // URLs
@@ -40,26 +44,55 @@ class NetworkRepository @Inject constructor(
         const val STOP_OVERFLOW_COMMAND = 10
     }
 
-    suspend fun getGroupHolder(ipAddress: String): Either<Failure, GroupListHolderModel> {
-        return if (connectionManager.isWifiConnected()) {
+    suspend fun getFavouriteGroupElement(): Either<Failure, GroupModel> {
+        val groupModelString = withContext(Dispatchers.Default) {
+            fileManager.getStringFromPrefs(
+                FileManager.MAIN_DATA_FILE,
+                FileManager.FAVOURITE_GROUP_KEY
+            )
+        }
+        return if (groupModelString != null) {
+            val groupElement = withContext(Dispatchers.Default) {
+                serializer.deserialize(groupModelString, GroupModel::class.java)
+            }
+            Right(groupElement)
+        } else {
+            Left(Failure.DataNotFound)
+        }
+    }
+
+    suspend fun getGroupHolder(
+        ipAddress: String,
+        isForceUpdating: Boolean
+    ): Either<Failure, GroupListHolderModel> {
+        val groupElementList = fileManager.getStringFromPrefs(
+            FileManager.MAIN_DATA_FILE,
+            FileManager.GROUP_ELEMENT_LIST_KEY
+        )
+        if (groupElementList != null && !isForceUpdating) {
+            val groupHolder =
+                serializer.deserialize(groupElementList, GroupListHolderModel::class.java)
+            return Right(groupHolder)
+        } else if (connectionManager.isWifiConnected()) {
             API_URL = ipAddress
-            request(
+            return request(
                 call = {
                     service.getNooliteApi().getGroupsAsync(url = API_URL + SERVER_SETTINGS_FILE)
                 },
                 transform = ::transformBinToGroupHolder
             )
         } else
-            Left(Failure.WifiConnectionError)
+            return Left(Failure.WifiConnectionError)
     }
 
-    private fun transformBinToGroupHolder(responseBody: ResponseBody): GroupListHolderModel {
-        val inputStream = responseBody.byteStream()
-        val groupElementList = BinParser.parseData(inputStream.readBytes())
-        return GroupListHolderModel(groupElementList)
-    }
+    private suspend fun transformBinToGroupHolder(responseBody: ResponseBody): GroupListHolderModel =
+        withContext(Dispatchers.Default) {
+            val inputStream = responseBody.byteStream()
+            val groupElementList = BinParser.parseData(inputStream.readBytes())
+            GroupListHolderModel(groupElementList)
+        }
 
-    private fun transformToSuccessRequest(responseBody: ResponseBody): Success.GoodRequest {
+    private suspend fun transformToSuccessRequest(responseBody: ResponseBody): Success.GoodRequest {
         return Success.GoodRequest
     }
 
@@ -182,7 +215,7 @@ class NetworkRepository @Inject constructor(
 
     private suspend fun <T> request(
         call: suspend () -> Response<ResponseBody>,
-        transform: (ResponseBody) -> T
+        transform: suspend (ResponseBody) -> T
     ): Either<Failure, T> {
         return try {
             val response: Response<ResponseBody> = withContext(Dispatchers.IO) { call.invoke() }
@@ -192,7 +225,7 @@ class NetworkRepository @Inject constructor(
                     if (body != null)
                         Right(transform(body))
                     else
-                        Left(Failure.ServerError)
+                        Left(Failure.ResponseBodyIsNull)
                 }
                 false -> Left(Failure.ServerError)
             }

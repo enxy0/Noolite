@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enxy.noolite.core.exception.Failure
-import com.enxy.noolite.core.interactor.UseCase.None
+import com.enxy.noolite.core.network.Repository
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
-import com.enxy.noolite.features.interactor.*
 import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.GroupModel
 import com.enxy.noolite.features.model.TestData
@@ -21,15 +20,7 @@ class MainViewModel @Inject constructor(
     val settingsManager: SettingsManager,
     private val fileManager: FileManager,
     private val serializer: Serializer,
-    private val getGroupHolder: GetGroupHolder,
-    private val getFavouriteGroupElement: GetFavouriteGroupElement,
-    private val turnOnLight: TurnOnLight,
-    private val turnOffLight: TurnOffLight,
-    private val changeLightState: ChangeLightState,
-    private val changeBacklightColor: ChangeBacklightColor,
-    private val changeBacklightBrightness: ChangeBacklightBrightness,
-    private val startBacklightOverflow: StartBacklightOverflow,
-    private val stopBacklightOverflow: StopBacklightOverflow
+    private val repository: Repository
 ) : ViewModel() {
 
     // Actions with Light
@@ -47,43 +38,63 @@ class MainViewModel @Inject constructor(
         Log.d("MainViewModel", "init: ViewModel initialized")
     }
 
-    private fun loadFavouriteGroupElement() = getFavouriteGroupElement(None()) {
-        it.either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
-    }
-
-    fun loadGroupElementList(force: Boolean = false, ipAddress: String) =
-        getGroupHolder(GetGroupHolder.ParamsHolder(force, ipAddress)) {
-            it.either(::updateGroupFailure, ::updateGroupHolder)
+    private fun loadFavouriteGroupElement() {
+        viewModelScope.launch {
+            repository.getFavouriteGroupElement()
+                .either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
         }
-
-    fun turnOffLight(channelId: Int) = turnOffLight(channelId) {
-        it.either(::updateLightFailure, { })
     }
 
-    fun turnOnLight(channelId: Int) = turnOnLight(channelId) {
-        it.either(::updateLightFailure, { })
-    }
-
-    fun changeLightState(channelId: Int) = changeLightState(channelId) {
-        it.either(::updateLightFailure, { })
-    }
-
-    fun changeBacklightColor(channelId: Int) = changeBacklightColor(channelId) {
-        it.either(::updateLightFailure, { })
-    }
-
-    fun startBacklightOverflow(channelId: Int) = startBacklightOverflow(channelId) {
-        it.either(::updateLightFailure, { })
-    }
-
-    fun stopBacklightOverflow(channelId: Int) = stopBacklightOverflow(channelId) {
-        it.either(::updateLightFailure, { })
-    }
-
-    fun changeBacklightBrightness(channelId: Int, brightness: Int): Unit =
-        changeBacklightBrightness(arrayOf(channelId, brightness)) {
-            it.either(::updateLightFailure, { })
+    fun loadGroupElementList(ipAddress: String, isForceUpdating: Boolean = false) {
+        viewModelScope.launch {
+            repository.getGroupHolder(ipAddress, isForceUpdating)
+                .either(::updateGroupFailure, ::updateGroupHolder)
         }
+    }
+
+    fun turnOffLight(channelId: Int) {
+        viewModelScope.launch {
+            repository.turnOffLight(channelId).either(::updateLightFailure, { })
+        }
+    }
+
+    fun turnOnLight(channelId: Int) {
+        viewModelScope.launch {
+            repository.turnOnLight(channelId).either(::updateLightFailure, { })
+        }
+    }
+
+    fun changeLightState(channelId: Int) {
+        viewModelScope.launch {
+            repository.changeLightState(channelId).either(::updateLightFailure, { })
+        }
+    }
+
+    fun changeBacklightColor(channelId: Int) {
+        viewModelScope.launch {
+            repository.changeBacklightColor(channelId).either(::updateLightFailure, { })
+        }
+    }
+
+    fun startBacklightOverflow(channelId: Int) {
+        viewModelScope.launch {
+            repository.startBacklightOverflow(channelId).either(::updateLightFailure, { })
+        }
+    }
+
+    fun stopBacklightOverflow(channelId: Int) {
+        viewModelScope.launch {
+            repository.stopBacklightOverflow(channelId).either(::updateLightFailure, { })
+        }
+    }
+
+
+    fun changeBacklightBrightness(channelId: Int, brightness: Int) {
+        viewModelScope.launch {
+            repository.changeBacklightBrightness(channelId, brightness)
+                .either(::updateLightFailure, { })
+        }
+    }
 
     private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) {
         viewModelScope.launch {
