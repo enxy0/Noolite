@@ -3,6 +3,7 @@ package com.enxy.noolite.features
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.interactor.UseCase.None
 import com.enxy.noolite.core.platform.FileManager
@@ -11,7 +12,9 @@ import com.enxy.noolite.features.interactor.*
 import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.GroupModel
 import com.enxy.noolite.features.model.TestData
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -26,10 +29,8 @@ class MainViewModel @Inject constructor(
     private val changeBacklightColor: ChangeBacklightColor,
     private val changeBacklightBrightness: ChangeBacklightBrightness,
     private val startBacklightOverflow: StartBacklightOverflow,
-    private val stopBacklightOverflow: StopBacklightOverflow,
-    private val job: Job
-) : ViewModel(), CoroutineScope {
-    override val coroutineContext = Dispatchers.IO + job
+    private val stopBacklightOverflow: StopBacklightOverflow
+) : ViewModel() {
 
     // Actions with Light
     var groupFailure = MutableLiveData<Failure>()
@@ -85,21 +86,19 @@ class MainViewModel @Inject constructor(
         }
 
     private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) {
-        this.groupElementList.value = groupListHolderModel.groupListModel
-
-        launch {
-            val string = serializer.serialize(groupListHolderModel)
-            fileManager.saveStringToPrefs(
-                FileManager.MAIN_DATA_FILE,
-                FileManager.GROUP_ELEMENT_LIST_KEY,
-                string
-            )
+        viewModelScope.launch {
+            groupElementList.value = groupListHolderModel.groupListModel
+            withContext(Dispatchers.Default) {
+                val serializedGroupListHolderModel = serializer.serialize(groupListHolderModel)
+                fileManager.saveStringToPrefs(
+                    FileManager.MAIN_DATA_FILE,
+                    FileManager.GROUP_ELEMENT_LIST_KEY,
+                    serializedGroupListHolderModel
+                )
+            }
         }
 
-        with(this.groupFailure) {
-            if (value != null)
-                value = null
-        }
+        this.groupFailure.value = null
         Log.d(
             "MainViewModel",
             "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupListModel}"
@@ -107,21 +106,19 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateFavouriteGroupElement(groupModel: GroupModel) {
-        this.favouriteGroupElement.value = groupModel
-
-        launch {
-            val string = serializer.serialize(groupModel)
-            fileManager.saveStringToPrefs(
-                FileManager.MAIN_DATA_FILE,
-                FileManager.FAVOURITE_GROUP_KEY,
-                string
-            )
+        viewModelScope.launch {
+            favouriteGroupElement.value = groupModel
+            withContext(Dispatchers.Default) {
+                val serializedGroupModel = serializer.serialize(groupModel)
+                fileManager.saveStringToPrefs(
+                    FileManager.MAIN_DATA_FILE,
+                    FileManager.FAVOURITE_GROUP_KEY,
+                    serializedGroupModel
+                )
+            }
         }
 
-        with(this.favouriteFailure) {
-            if (value != null)
-                value = null
-        }
+        this.favouriteFailure.value = null
         Log.d(
             "MainViewModel",
             "updateFavouriteGroupElement: favouriteGroupElement=${favouriteGroupElement.value}"
@@ -129,10 +126,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun updateGroupFailure(failure: Failure) {
-        with(this.groupElementList) {
-            if (value != null)
-                value = null
-        }
+        this.groupElementList.value = null
         this.groupFailure.value = failure
         Log.d("MainViewModel", "updateGroupFailure: failure=${failure.javaClass.name}")
     }
@@ -150,10 +144,5 @@ class MainViewModel @Inject constructor(
         favouriteFailure.value = null
         groupElementList.value = TestData.groupElementList
         favouriteGroupElement.value = TestData.favouriteGroupElement
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancelChildren()
     }
 }
