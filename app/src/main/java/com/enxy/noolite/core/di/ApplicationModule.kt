@@ -6,8 +6,6 @@ import com.enxy.noolite.core.network.NetworkService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -23,10 +21,6 @@ class ApplicationModule(private val application: AndroidApplication) {
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(NetworkService.BASE_URL)
         .build()
-
-    @Provides
-    @Singleton
-    fun provideJob(): Job = SupervisorJob()
 
     @Provides
     @Singleton
