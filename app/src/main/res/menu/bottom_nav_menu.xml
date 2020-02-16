@@ -5,11 +5,15 @@
         android:icon="@drawable/bottom_nav_favourite_selector"
         android:title="@string/title_favourite" />
     <item
+        android:id="@+id/navigation_scripts"
+        android:icon="@drawable/ic_script"
+        android:title="@string/title_scripts" />
+    <item
         android:id="@+id/navigation_groups"
         android:icon="@drawable/bottom_nav_list_selector"
         android:title="@string/title_groups" />
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/bottom_nav_settins_selector"
+        android:icon="@drawable/bottom_nav_settings_selector"
         android:title="@string/title_settings" />
 </menu>
