@@ -2,7 +2,7 @@ package com.enxy.noolite.core.extension
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 inline fun <reified T : ViewModel> getActivityViewModel(fragment: Fragment) =
-    ViewModelProviders.of(fragment.activity!!)[T::class.java]
+    ViewModelProvider(fragment.activity!!)[T::class.java]
