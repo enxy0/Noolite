@@ -22,7 +22,7 @@
 
             <TextView
                 android:id="@+id/appearanceSectionTextView"
-                style="@style/sectionText"
+                style="@style/Text.Section"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -54,14 +54,14 @@
 
                     <TextView
                         android:id="@+id/themesTextView"
-                        style="@style/primaryText"
+                        style="@style/Text"
                         android:layout_width="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:text="@string/settings_theme" />
 
                     <TextView
                         android:id="@+id/currentThemeTextView"
-                        style="@style/secondaryText"
+                        style="@style/Text.Secondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
@@ -129,14 +129,14 @@
 
                     <TextView
                         android:id="@+id/toggleButtonTitleTextView"
-                        style="@style/primaryText"
+                        style="@style/Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_toggle_button_title" />
 
                     <TextView
                         android:id="@+id/toggleButtonSummaryTextView"
-                        style="@style/secondaryText"
+                        style="@style/Text.Secondary"
                         android:layout_width="wrap_content"
                         android:maxWidth="300dp"
                         android:text="@string/settings_toggle_button_summary"
@@ -152,7 +152,7 @@
 
         </LinearLayout>
 
-        <View style="@style/divider" />
+        <View style="@style/Divider" />
 
         <LinearLayout
             android:id="@+id/serverSectionLinearLayout"
@@ -163,7 +163,7 @@
 
             <TextView
                 android:id="@+id/serverSectionTextView"
-                style="@style/sectionText"
+                style="@style/Text.Section"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -205,14 +205,14 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/updateDataButton"
-                style="@style/materialButton"
+                style="@style/Button"
                 android:layout_marginStart="62dp"
                 android:layout_marginEnd="16dp"
                 android:paddingBottom="8dp"
                 android:text="@string/update_button" />
         </LinearLayout>
 
-        <View style="@style/divider" />
+        <View style="@style/Divider" />
 
         <LinearLayout
             android:id="@+id/notificationLinearLayout"
@@ -223,7 +223,7 @@
 
             <TextView
                 android:id="@+id/notificationTextView"
-                style="@style/sectionText"
+                style="@style/Text.Section"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -256,14 +256,14 @@
 
                     <TextView
                         android:id="@+id/wifiNotificationTitleTextView"
-                        style="@style/primaryText"
+                        style="@style/Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_wifi_notification_title" />
 
                     <TextView
                         android:id="@+id/wifiNotificationSummaryTextView"
-                        style="@style/secondaryText"
+                        style="@style/Text.Secondary"
                         android:layout_width="wrap_content"
                         android:maxWidth="300dp"
                         android:text="@string/settings_wifi_notification_summary"
@@ -280,7 +280,7 @@
         </LinearLayout>
 
 
-        <View style="@style/divider" />
+        <View style="@style/Divider" />
 
         <LinearLayout
             android:id="@+id/otherLinearLayout"
@@ -291,7 +291,7 @@
 
             <TextView
                 android:id="@+id/otherTextView"
-                style="@style/sectionText"
+                style="@style/Text.Section"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="62dp"
                 android:layout_marginTop="16dp"
@@ -324,14 +324,14 @@
 
                     <TextView
                         android:id="@+id/loadTestDataTitleTextView"
-                        style="@style/primaryText"
+                        style="@style/Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_load_test_data_title" />
 
                     <TextView
                         android:id="@+id/loadTestDataSummaryTextView"
-                        style="@style/secondaryText"
+                        style="@style/Text.Secondary"
                         android:layout_width="wrap_content"
                         android:maxWidth="300dp"
                         android:text="@string/settings_load_test_data_summary"
@@ -340,11 +340,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <View style="@style/divider" />
+        <View style="@style/Divider" />
 
         <TextView
             android:id="@+id/appInfoTextView"
-            style="@style/secondaryText"
+            style="@style/Text.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -354,7 +354,7 @@
 
         <TextView
             android:id="@+id/authorTextView"
-            style="@style/secondaryText"
+            style="@style/Text.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

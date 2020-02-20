@@ -30,14 +30,14 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/toolbar"
+                android:theme="@style/Toolbar"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_scrollFlags="enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:title="My room"
-                app:titleTextAppearance="@style/toolbarTextAppearance" />
+                app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
-            <View style="@style/divider" />
+            <View style="@style/Divider" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -54,7 +54,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <View
-        style="@style/divider"
+        style="@style/Divider"
         app:layout_constraintBottom_toTopOf="@id/navView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

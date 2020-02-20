@@ -98,7 +98,7 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="primaryText">
+    <style name="Text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:disabledAlpha">0.5</item>
@@ -107,7 +107,7 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="secondaryText">
+    <style name="Text.Secondary">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorSecondary</item>
@@ -115,11 +115,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="itemText" parent="primaryText">
+    <style name="Text.Bold" parent="Text">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="sectionText" parent="primaryText">
+    <style name="Text.Section" parent="Text">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">14sp</item>
@@ -127,34 +127,43 @@
 
     </style>
 
-    <style name="cardView" parent="Widget.MaterialComponents.CardView">
+    <style name="BaseCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">?attr/itemBackgroundColor</item>
         <item name="cardElevation">0dp</item>
         <item name="cardCornerRadius">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/card_default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_default_margin</item>
+        <item name="android:layout_marginTop">@dimen/card_default_margin</item>
+        <item name="android:layout_marginBottom">@dimen/card_default_margin</item>
     </style>
 
-    <style name="tileCardView" parent="cardView">
-        <item name="android:layout_marginStart">6dp</item>
-        <item name="android:layout_marginEnd">6dp</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
+    <style name="BaseCard.Wide" parent="BaseCard">
+        <item name="android:layout_marginStart">@dimen/card_expanded_horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_expanded_horizontal_margin</item>
     </style>
 
-    <style name="itemCardView" parent="cardView">
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
-    </style>
-
-    <style name="CircularButton">
+    <style name="Button.Circular" parent="Clickable.Borderless">
         <item name="android:layout_width">@dimen/channel_button_size</item>
         <item name="android:layout_height">@dimen/channel_button_size</item>
+    </style>
+
+    <style name="Clickable">
         <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/custom_ripple</item>
         <item name="android:focusable">true</item>
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="Clickable.Borderless" parent="Clickable">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="Button.Icon" parent="Clickable.Borderless">
+        <item name="android:tint">?attr/infoIconColor</item>
+        <item name="android:padding">@dimen/icon_button_padding</item>
+        <item name="android:layout_width">@dimen/icon_button_size</item>
+        <item name="android:layout_height">@dimen/icon_button_size</item>
     </style>
 
     <!-- Toolbar styles -->
@@ -167,16 +176,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
-    <style name="toolbar">
-        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+    <style name="Toolbar">
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
         <item name="android:textColorPrimary">?toolbarTextColor</item>
     </style>
 
-    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+    <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="toolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
+    <style name="ToolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:text">@string/title_favourite</item>
         <item name="android:textColorPrimary">?attr/toolbarTextColor</item>
@@ -184,27 +193,18 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="mainButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="iconSize">34dp</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:layout_width">50dp</item>
-        <item name="cornerRadius">36dp</item>
-        <item name="android:strokeColor">?attr/colorPrimary</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="divider">
+    <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
         <item name="android:background">?attr/dividerColor</item>
     </style>
 
-    <style name="itemDivider" parent="divider">
+    <style name="Divider.Large" parent="Divider">
         <item name="android:layout_height">6dp</item>
         <item name="android:background">?android:attr/windowBackground</item>
     </style>
 
-    <style name="materialButton" parent="Widget.MaterialComponents.Button">
+    <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>

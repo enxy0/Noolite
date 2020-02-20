@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/itemCardView">
+    style="@style/BaseCard.Wide">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,29 +30,29 @@
 
                 <TextView
                     android:id="@+id/headerTextView"
-                    style="@style/itemText"
+                    style="@style/Text.Bold"
                     tools:text="Кухня" />
 
                 <TextView
                     android:id="@+id/onOffTextView"
-                    style="@style/secondaryText"
+                    style="@style/Text.Secondary"
                     android:text="@string/channel_title_turn_on_off" />
             </LinearLayout>
 
             <View
                 android:id="@+id/turnOnLightButton"
-                style="@style/CircularButton"
+                style="@style/Button.Circular"
                 android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
                 android:foreground="@drawable/light_button_pressed" />
 
             <View
                 android:id="@+id/turnOffLightButton"
-                style="@style/CircularButton"
+                style="@style/Button.Circular"
                 android:foreground="@drawable/light_button_normal" />
 
             <View
                 android:id="@+id/toggleLightButton"
-                style="@style/CircularButton"
+                style="@style/Button.Circular"
                 android:layout_marginStart="@dimen/channel_elements_horizontal_margin"
                 android:foreground="@drawable/light_button_toggle"
                 android:padding="8dp" />
@@ -95,30 +95,30 @@
 
                 <TextView
                     android:id="@+id/overflowTextView"
-                    style="@style/primaryText"
+                    style="@style/Text"
                     android:text="@string/channel_backlight" />
 
                 <TextView
                     android:id="@+id/summaryOverflowTextView"
-                    style="@style/secondaryText"
+                    style="@style/Text.Secondary"
                     android:text="@string/channel_backlight_color" />
             </LinearLayout>
 
             <View
                 android:id="@+id/startOverflowButton"
-                style="@style/CircularButton"
+                style="@style/Button.Circular"
                 android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
                 android:foreground="@drawable/overflow_button_normal" />
 
             <View
                 android:id="@+id/stopOverflowButton"
-                style="@style/CircularButton"
+                style="@style/Button.Circular"
                 android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
                 android:foreground="@drawable/overflow_button_checked" />
 
             <View
                 android:id="@+id/changeColorButton"
-                style="@style/CircularButton"
+                style="@style/Button.Circular"
                 android:foreground="@drawable/refresh_button_normal" />
         </LinearLayout>
     </LinearLayout>
