@@ -1,4 +1,4 @@
-package com.enxy.noolite.features
+package com.enxy.noolite.features.channel
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,7 @@ import com.enxy.noolite.core.extension.failure
 import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
-import com.enxy.noolite.features.adapter.ChannelAdapter
+import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.fragment_channel.*
 
@@ -109,7 +109,8 @@ class ChannelFragment : BaseFragment() {
     }
 
     private fun setUpViews() {
-        channelAdapter = ChannelAdapter(viewModel)
+        channelAdapter =
+            ChannelAdapter(viewModel)
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         with(channelRecyclerView) {
             adapter = channelAdapter

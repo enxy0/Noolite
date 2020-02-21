@@ -11,6 +11,7 @@ import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.GroupModel
 import com.enxy.noolite.features.model.TestData
+import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

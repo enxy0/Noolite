@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.adapter
+package com.enxy.noolite.features.channel
 
 import android.view.LayoutInflater
 import android.view.View

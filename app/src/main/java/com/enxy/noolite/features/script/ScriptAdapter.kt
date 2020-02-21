@@ -1,12 +1,12 @@
-package com.enxy.noolite.features.adapter
+package com.enxy.noolite.features.script
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.features.adapter.ScriptAdapter.ScriptHolder
 import com.enxy.noolite.features.model.Script
+import com.enxy.noolite.features.script.ScriptAdapter.ScriptHolder
 import kotlinx.android.synthetic.main.item_script.view.*
 
 class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptHolder>() {

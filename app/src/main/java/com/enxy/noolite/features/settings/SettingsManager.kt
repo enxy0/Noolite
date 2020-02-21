@@ -1,4 +1,4 @@
-package com.enxy.noolite.features
+package com.enxy.noolite.features.settings
 
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.FileManager

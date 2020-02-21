@@ -1,12 +1,12 @@
-package com.enxy.noolite.features.adapter
+package com.enxy.noolite.features
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.enxy.noolite.core.platform.BaseFragment
-import com.enxy.noolite.features.ChannelFragment
-import com.enxy.noolite.features.GroupFragment
-import com.enxy.noolite.features.ScriptFragment
-import com.enxy.noolite.features.SettingsFragment
+import com.enxy.noolite.features.channel.ChannelFragment
+import com.enxy.noolite.features.group.GroupFragment
+import com.enxy.noolite.features.script.ScriptFragment
+import com.enxy.noolite.features.settings.SettingsFragment
 import javax.inject.Inject
 
 

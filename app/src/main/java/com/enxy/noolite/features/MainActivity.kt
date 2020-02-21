@@ -9,7 +9,6 @@ import com.enxy.noolite.R
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.BaseActivity
 import com.enxy.noolite.core.platform.FileManager
-import com.enxy.noolite.features.adapter.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_base.*
 import javax.inject.Inject
 
@@ -78,7 +77,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setUpViewPager() {
-        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        val sectionsPagerAdapter =
+            SectionsPagerAdapter(supportFragmentManager)
         viewPager.adapter = sectionsPagerAdapter
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

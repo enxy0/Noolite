@@ -1,4 +1,4 @@
-package com.enxy.noolite.features
+package com.enxy.noolite.features.group
 
 import android.os.Bundle
 import android.view.View
@@ -13,7 +13,7 @@ import com.enxy.noolite.core.extension.failure
 import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
-import com.enxy.noolite.features.adapter.GroupAdapter
+import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.content_error.view.*
 import kotlinx.android.synthetic.main.fragment_group.*
@@ -39,7 +39,8 @@ class GroupFragment : BaseFragment() {
     }
 
     private fun setUpViews() {
-        groupAdapter = GroupAdapter(this, viewModel)
+        groupAdapter =
+            GroupAdapter(this, viewModel)
         groupRecyclerView.adapter = groupAdapter
         val spanCount = if (isInLandscapeOrientation()) 3 else 2
         groupRecyclerView.layoutManager = GridLayoutManager(context, spanCount)

@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.adapter
+package com.enxy.noolite.features.group
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.features.ChannelFragment
-import com.enxy.noolite.features.GroupFragment
 import com.enxy.noolite.features.MainViewModel
+import com.enxy.noolite.features.channel.ChannelFragment
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_group.view.*
 

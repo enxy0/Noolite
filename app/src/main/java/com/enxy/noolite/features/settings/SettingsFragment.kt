@@ -1,4 +1,4 @@
-package com.enxy.noolite.features
+package com.enxy.noolite.features.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,8 @@ import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.extension.*
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.core.platform.FileManager
+import com.enxy.noolite.features.MainActivity
+import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
