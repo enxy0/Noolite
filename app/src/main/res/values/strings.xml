@@ -59,4 +59,6 @@
     <string name="settings_wifi_notification_title">WiFi подключение</string>
     <string name="author" translatable="false">by vk.com/enxyo</string>
     <string name="add_script_button">Добавить сценарий</string>
+    <string name="action_turn_on_light">Включить свет</string>
+    <string name="action_turn_off_light">Выключить свет</string>
 </resources>

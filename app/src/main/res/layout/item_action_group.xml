@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootCardView"
+    style="@style/BaseCard.Wide">
+
+    <LinearLayout
+        android:id="@+id/groupLayout"
+        style="@style/Clickable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/script_view_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/groupHeader"
+                    style="@style/Text"
+                    android:layout_gravity="start"
+                    android:textAlignment="center"
+                    tools:text="Коридор" />
+
+                <TextView
+                    android:id="@+id/groupChannels"
+                    style="@style/Text.Secondary"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    tools:text="Коридор и Прихожая" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/additionalContent"
+                style="@style/Button.Icon"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/script_view_margin"
+                android:src="@drawable/ic_arrow_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                style="@style/Divider"
+                android:paddingBottom="@dimen/script_group_vertical_spacing" />
+
+            <LinearLayout
+                android:id="@+id/turnOnAction"
+                style="@style/Clickable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/script_view_margin"
+                android:paddingTop="@dimen/script_group_vertical_spacing"
+                android:paddingEnd="@dimen/script_group_checkbox_margin"
+                android:paddingBottom="@dimen/script_group_vertical_spacing">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/action_turn_on_light" />
+
+                <CheckBox
+                    android:id="@+id/turnOnCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/turnOffAction"
+                style="@style/Clickable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/script_group_vertical_spacing"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/script_view_margin"
+                android:paddingTop="@dimen/script_group_vertical_spacing"
+                android:paddingEnd="@dimen/script_group_checkbox_margin"
+                android:paddingBottom="@dimen/script_group_vertical_spacing">
+
+                <TextView
+                    style="@style/Text"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/action_turn_off_light" />
+
+                <CheckBox
+                    android:id="@+id/turnOffCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -3,12 +3,14 @@ package com.enxy.noolite.features.script
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Script
+import com.enxy.noolite.features.script.create.CreateScriptFragment
 import kotlinx.android.synthetic.main.fragment_script.*
 
 class ScriptFragment : BaseFragment(), ScriptAdapter.ScriptListener {
@@ -30,6 +32,12 @@ class ScriptFragment : BaseFragment(), ScriptAdapter.ScriptListener {
             )
             adapter = scriptAdapter
             setHasFixedSize(true)
+        }
+        addScript.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.fragmentHolder, CreateScriptFragment.newInstance())
+                addToBackStack(CreateScriptFragment.TAG)
+            }
         }
     }
 

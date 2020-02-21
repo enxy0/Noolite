@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/createGroupList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/card_default_margin"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_action_group" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/finishScript"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/floating_button_margin"
+        android:src="@drawable/ic_check"
+        android:tint="?android:attr/windowBackground" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

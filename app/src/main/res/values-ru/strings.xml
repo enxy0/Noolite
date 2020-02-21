@@ -53,4 +53,6 @@
     <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
     <string name="title_scripts">Сценарии</string>
     <string name="add_script_button">Добавить сценарий</string>
+    <string name="action_turn_on_light">Включить свет</string>
+    <string name="action_turn_off_light">Выключить свет</string>
 </resources>

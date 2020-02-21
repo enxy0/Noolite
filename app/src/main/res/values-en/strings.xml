@@ -49,4 +49,6 @@
     <string name="settings_wifi_notification_summary">"Show in-app notification if phone is not connected via WiFi "</string>
     <string name="title_scripts">Scripts</string>
     <string name="add_script_button">Add script</string>
+    <string name="action_turn_off_light">Turn off light</string>
+    <string name="action_turn_on_light">Turn on light</string>
 </resources>

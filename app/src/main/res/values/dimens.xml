@@ -11,6 +11,8 @@
     <dimen name="icon_button_padding">10dp</dimen>
     <dimen name="script_horizontal_padding">5dp</dimen>
     <dimen name="script_view_margin">16dp</dimen>
+    <dimen name="script_group_vertical_spacing">8dp</dimen>
+    <dimen name="script_group_checkbox_margin">22dp</dimen>
     <dimen name="card_default_margin">6dp</dimen>
     <dimen name="card_expanded_horizontal_margin">12dp</dimen>
     <dimen name="floating_button_margin">16dp</dimen>
