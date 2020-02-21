@@ -7,8 +7,8 @@
     <dimen name="channel_vertical_padding">8dp</dimen>
     <dimen name="channel_elements_horizontal_margin">8dp</dimen>
     <dimen name="channel_button_size">46dp</dimen>
-    <dimen name="icon_button_size">34dp</dimen>
-    <dimen name="icon_button_padding">5dp</dimen>
+    <dimen name="icon_button_size">44dp</dimen>
+    <dimen name="icon_button_padding">10dp</dimen>
     <dimen name="script_horizontal_padding">5dp</dimen>
     <dimen name="script_view_margin">16dp</dimen>
     <dimen name="card_default_margin">6dp</dimen>
