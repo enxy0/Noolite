@@ -60,7 +60,7 @@ class CreateScriptFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
         Log.d("CreateScriptFragment", "onOpenGroup: groupModel=$groupModel")
     }
 
-    private fun setUpRecyclerView() = with(createGroupList) {
+    private fun setUpRecyclerView() = with(actionGroupList) {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter = actionGroupAdapter
         layoutAnimation = AnimationUtils.loadLayoutAnimation(
