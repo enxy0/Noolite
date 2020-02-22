@@ -26,7 +26,7 @@
 
                 <TextView
                     android:id="@+id/groupHeader"
-                    style="@style/Text"
+                    style="@style/Text.Bold"
                     android:layout_gravity="start"
                     android:textAlignment="center"
                     tools:text="Коридор" />
@@ -72,8 +72,7 @@
                 android:paddingBottom="@dimen/script_group_vertical_spacing">
 
                 <TextView
-                    style="@style/Text"
-                    android:layout_width="0dp"
+                    style="@style/Text.Section"
                     android:layout_weight="1"
                     android:text="@string/action_turn_on_light" />
 
@@ -96,7 +95,7 @@
                 android:paddingBottom="@dimen/script_group_vertical_spacing">
 
                 <TextView
-                    style="@style/Text"
+                    style="@style/Text.Section"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:text="@string/action_turn_off_light" />
