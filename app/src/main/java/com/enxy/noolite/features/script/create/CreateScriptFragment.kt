@@ -3,6 +3,7 @@ package com.enxy.noolite.features.script.create
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
@@ -33,29 +34,12 @@ class CreateScriptFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
 //            TODO: Close fragment on failure and notify user?
 //            failure(groupFailure, ::handleFailure)
         }
-        with(createGroupList) {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = actionGroupAdapter
-        }
-
+        setUpRecyclerView()
     }
 
     private fun renderData(groupList: ArrayList<GroupModel>?) {
         groupList?.let { actionGroupAdapter.updateData(it) }
     }
-
-    private fun showFinishScript() = with(finishScript) {
-        alpha = 0f
-        scaleX = 0f
-        scaleY = 0f
-        animate()
-            .setDuration(500L)
-            .scaleX(1f).scaleY(1f).alpha(1f)
-            .setInterpolator(OvershootInterpolator())
-            .start()
-    }
-
 
     override fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel) {
         Log.d(
@@ -73,5 +57,24 @@ class CreateScriptFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
 
     override fun onOpenGroup(groupModel: GroupModel) {
         Log.d("CreateScriptFragment", "onOpenGroup: groupModel=$groupModel")
+    }
+
+    private fun setUpRecyclerView() = with(createGroupList) {
+        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter = actionGroupAdapter
+        layoutAnimation = AnimationUtils.loadLayoutAnimation(
+            requireContext(), R.anim.layout_animation_fall_down
+        )
+    }
+
+    private fun showFinishScript() = with(finishScript) {
+        alpha = 0f
+        scaleX = 0f
+        scaleY = 0f
+        animate()
+            .setDuration(500L)
+            .scaleX(1f).scaleY(1f).alpha(1f)
+            .setInterpolator(OvershootInterpolator())
+            .start()
     }
 }

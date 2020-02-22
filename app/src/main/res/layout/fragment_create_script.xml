@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         android:paddingTop="@dimen/card_default_margin"
         tools:itemCount="3"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
+        tools:layoutAnimation="@null"
         tools:listitem="@layout/item_action_group" />
 
 
