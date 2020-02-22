@@ -58,7 +58,7 @@
 
             <View
                 style="@style/Divider"
-                android:paddingBottom="@dimen/script_group_vertical_spacing" />
+                android:layout_marginBottom="@dimen/script_group_vertical_spacing" />
 
             <LinearLayout
                 android:id="@+id/turnOnAction"
