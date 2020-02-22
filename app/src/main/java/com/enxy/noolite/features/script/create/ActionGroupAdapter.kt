@@ -40,18 +40,27 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
             }
             turnOffAction.setOnClickListener {
                 turnOffCheckbox.isChecked = !turnOffCheckbox.isChecked
+                if (turnOffCheckbox.isChecked)
+                    turnOnCheckbox.isChecked = false
                 actionListener.onTurnOffActionChange(turnOffCheckbox.isChecked, groupModel)
             }
             turnOffCheckbox.setOnCheckedChangeListener { _, isChecked ->
                 actionListener.onTurnOffActionChange(isChecked, groupModel)
+                if (isChecked)
+                    turnOnCheckbox.isChecked = false
             }
 
             turnOnAction.setOnClickListener {
                 turnOnCheckbox.isChecked = !turnOnCheckbox.isChecked
+                if (turnOnCheckbox.isChecked)
+                    turnOffCheckbox.isChecked = false
                 actionListener.onTurnOnActionChange(turnOffCheckbox.isChecked, groupModel)
             }
             turnOnCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                turnOnCheckbox.isChecked = isChecked
                 actionListener.onTurnOnActionChange(isChecked, groupModel)
+                if (isChecked)
+                    turnOffCheckbox.isChecked = false
             }
 
             additionalContent.setOnClickListener {
