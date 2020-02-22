@@ -27,6 +27,7 @@ class CreateScriptFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showFinishScript()
+        finishScript.setOnClickListener { parentFragmentManager.popBackStack() }
         viewModel = getActivityViewModel(this)
         actionGroupAdapter = ActionGroupAdapter(this)
         with(viewModel) {
