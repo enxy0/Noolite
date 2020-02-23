@@ -61,6 +61,14 @@ class Repository @Inject constructor(
         }
     }
 
+    suspend fun saveFavouriteGroupElement(groupModel: GroupModel) =
+        withContext(Dispatchers.Default) {
+            val serializedGroupModel = serializer.serialize(groupModel)
+            fileManager.saveStringToPrefs(
+                FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, serializedGroupModel
+            )
+        }
+
     suspend fun getGroupHolder(
         ipAddress: String,
         isForceUpdating: Boolean

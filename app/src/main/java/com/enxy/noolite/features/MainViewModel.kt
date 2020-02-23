@@ -120,14 +120,7 @@ class MainViewModel @Inject constructor(
     fun updateFavouriteGroupElement(groupModel: GroupModel) {
         viewModelScope.launch {
             favouriteGroupElement.value = groupModel
-            withContext(Dispatchers.Default) {
-                val serializedGroupModel = serializer.serialize(groupModel)
-                fileManager.saveStringToPrefs(
-                    FileManager.MAIN_DATA_FILE,
-                    FileManager.FAVOURITE_GROUP_KEY,
-                    serializedGroupModel
-                )
-            }
+            repository.saveFavouriteGroupElement(groupModel)
         }
 
         this.favouriteFailure.value = null
