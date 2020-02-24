@@ -15,6 +15,7 @@
     <dimen name="script_action_switch_end_padding">12dp</dimen>
     <dimen name="script_action_vertical_padding">4dp</dimen>
     <dimen name="script_action_horizontal_padding">22dp</dimen>
+    <dimen name="script_action_seekbar_end_margin">8dp</dimen>
     <dimen name="card_default_margin">6dp</dimen>
     <dimen name="card_expanded_horizontal_margin">12dp</dimen>
     <dimen name="floating_button_margin">16dp</dimen>

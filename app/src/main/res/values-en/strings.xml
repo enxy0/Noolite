@@ -52,4 +52,10 @@
     <string name="action_turn_off_light">Turn off light</string>
     <string name="action_turn_on_light">Turn on light</string>
     <string name="script_actions">Actions</string>
+    <string name="script_channel_pick_action">Pick action</string>
+    <string name="action_change_brightness">Change brightness</string>
+    <string name="script_section_light">Light</string>
+    <string name="action_change_brightness">Change brightness</string>
+    <string name="action_start_overflow">Start overflow</string>
+    <string name="action_stop_overflow">Stop overflow</string>
 </resources>

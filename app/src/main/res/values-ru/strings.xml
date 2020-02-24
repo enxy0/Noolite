@@ -56,4 +56,9 @@
     <string name="action_turn_on_light">Включить свет</string>
     <string name="action_turn_off_light">Выключить свет</string>
     <string name="script_actions">Действия</string>
+    <string name="script_channel_pick_action">Выберите действие</string>
+    <string name="action_change_brightness">Изменить яркость</string>
+    <string name="script_section_light">Свет</string>
+    <string name="action_start_overflow">Начать перелив</string>
+    <string name="action_stop_overflow">Остановить перелив</string>
 </resources>
