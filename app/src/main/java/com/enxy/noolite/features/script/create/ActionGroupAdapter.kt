@@ -3,6 +3,7 @@ package com.enxy.noolite.features.script.create
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
@@ -35,13 +36,11 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
         fun bind(groupModel: GroupModel) = with(itemView) {
             groupHeader.text = groupModel.name
             groupChannels.text = groupModel.channelElementsToString()
-            groupLayout.setOnClickListener {
-                actionListener.onOpenGroup(groupModel)
-            }
+            groupLayout.setOnClickListener { actionListener.onOpenGroup(groupModel) }
+
+            // Turn off action listeners
             turnOffAction.setOnClickListener {
-                turnOffSwitch.isChecked = !turnOffSwitch.isChecked
-                if (turnOffSwitch.isChecked)
-                    turnOnSwitch.isChecked = false
+                boundSwitches(turnOffSwitch, turnOnSwitch)
                 actionListener.onTurnOffActionChange(turnOffSwitch.isChecked, groupModel)
             }
             turnOffSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -50,19 +49,18 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
                     turnOnSwitch.isChecked = false
             }
 
+            // Turn on action listeners
             turnOnAction.setOnClickListener {
-                turnOnSwitch.isChecked = !turnOnSwitch.isChecked
-                if (turnOnSwitch.isChecked)
-                    turnOffSwitch.isChecked = false
+                boundSwitches(turnOnSwitch, turnOffSwitch)
                 actionListener.onTurnOnActionChange(turnOffSwitch.isChecked, groupModel)
             }
             turnOnSwitch.setOnCheckedChangeListener { _, isChecked ->
-                turnOnSwitch.isChecked = isChecked
                 actionListener.onTurnOnActionChange(isChecked, groupModel)
                 if (isChecked)
                     turnOffSwitch.isChecked = false
             }
 
+            // Animate button rotation and show additional content
             additionalContent.setOnClickListener {
                 if (actionsContainer.isVisible) {
                     actionsContainer.visibility = View.GONE
@@ -72,6 +70,12 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
                     actionsContainer.visibility = View.VISIBLE
                 }
             }
+        }
+
+        private fun boundSwitches(firstSwitch: Switch, secondSwitch: Switch) {
+            firstSwitch.isChecked = !firstSwitch.isChecked
+            if (firstSwitch.isChecked)
+                secondSwitch.isChecked = false
         }
     }
 
