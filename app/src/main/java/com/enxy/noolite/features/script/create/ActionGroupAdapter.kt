@@ -39,28 +39,28 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
                 actionListener.onOpenGroup(groupModel)
             }
             turnOffAction.setOnClickListener {
-                turnOffCheckbox.isChecked = !turnOffCheckbox.isChecked
-                if (turnOffCheckbox.isChecked)
-                    turnOnCheckbox.isChecked = false
-                actionListener.onTurnOffActionChange(turnOffCheckbox.isChecked, groupModel)
+                turnOffSwitch.isChecked = !turnOffSwitch.isChecked
+                if (turnOffSwitch.isChecked)
+                    turnOnSwitch.isChecked = false
+                actionListener.onTurnOffActionChange(turnOffSwitch.isChecked, groupModel)
             }
-            turnOffCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            turnOffSwitch.setOnCheckedChangeListener { _, isChecked ->
                 actionListener.onTurnOffActionChange(isChecked, groupModel)
                 if (isChecked)
-                    turnOnCheckbox.isChecked = false
+                    turnOnSwitch.isChecked = false
             }
 
             turnOnAction.setOnClickListener {
-                turnOnCheckbox.isChecked = !turnOnCheckbox.isChecked
-                if (turnOnCheckbox.isChecked)
-                    turnOffCheckbox.isChecked = false
-                actionListener.onTurnOnActionChange(turnOffCheckbox.isChecked, groupModel)
+                turnOnSwitch.isChecked = !turnOnSwitch.isChecked
+                if (turnOnSwitch.isChecked)
+                    turnOffSwitch.isChecked = false
+                actionListener.onTurnOnActionChange(turnOffSwitch.isChecked, groupModel)
             }
-            turnOnCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                turnOnCheckbox.isChecked = isChecked
+            turnOnSwitch.setOnCheckedChangeListener { _, isChecked ->
+                turnOnSwitch.isChecked = isChecked
                 actionListener.onTurnOnActionChange(isChecked, groupModel)
                 if (isChecked)
-                    turnOffCheckbox.isChecked = false
+                    turnOffSwitch.isChecked = false
             }
 
             additionalContent.setOnClickListener {

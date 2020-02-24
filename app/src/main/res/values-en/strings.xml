@@ -51,4 +51,5 @@
     <string name="add_script_button">Add script</string>
     <string name="action_turn_off_light">Turn off light</string>
     <string name="action_turn_on_light">Turn on light</string>
+    <string name="script_actions">Actions</string>
 </resources>
