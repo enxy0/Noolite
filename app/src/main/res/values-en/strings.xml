@@ -55,7 +55,6 @@
     <string name="script_channel_pick_action">Pick action</string>
     <string name="action_change_brightness">Change brightness</string>
     <string name="script_section_light">Light</string>
-    <string name="action_change_brightness">Change brightness</string>
     <string name="action_start_overflow">Start overflow</string>
     <string name="action_stop_overflow">Stop overflow</string>
 </resources>
