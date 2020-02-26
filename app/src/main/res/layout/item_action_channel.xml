@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootCardView"
-    style="@style/BaseCard.Wide">
+    style="@style/BaseCard.Wide"
+    app:strokeColor="?attr/dividerColor"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +43,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/additionalContent"
+                android:id="@+id/additionalContentButton"
                 style="@style/Button.Icon"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/script_view_margin"
@@ -48,14 +51,16 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/actionsContainer"
+            android:id="@+id/additionalContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
 
-            <View style="@style/Divider" />
+            <View
+                style="@style/Divider"
+                android:layout_height="1dp" />
 
             <TextView
                 style="@style/Text.Section"
@@ -123,6 +128,8 @@
                 android:text="@string/channel_backlight" />
 
             <LinearLayout
+                android:id="@+id/changeBrightnessAction"
+                style="@style/Clickable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -132,8 +139,6 @@
                 android:paddingBottom="@dimen/script_action_vertical_padding">
 
                 <LinearLayout
-                    android:id="@+id/changeBrightnessAction"
-                    style="@style/Clickable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

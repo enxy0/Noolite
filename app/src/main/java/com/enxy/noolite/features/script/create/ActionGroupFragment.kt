@@ -5,17 +5,17 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
+import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.fragment_script_group.*
 
-class ActionGroupFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
+class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener {
     override val layoutId: Int = R.layout.fragment_script_group
     private lateinit var viewModel: MainViewModel
     private lateinit var actionGroupAdapter: ActionGroupAdapter
@@ -43,28 +43,6 @@ class ActionGroupFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
         groupList?.let { actionGroupAdapter.updateData(it) }
     }
 
-    override fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel) {
-        Log.d(
-            "CreateScriptFragment",
-            "onTurnOnActionChange: isChecked=$isChecked, groupModel=$groupModel"
-        )
-    }
-
-    override fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel) {
-        Log.d(
-            "CreateScriptFragment",
-            "onTurnOffActionChange: isChecked=$isChecked, groupModel=$groupModel"
-        )
-    }
-
-    override fun onOpenGroup(groupModel: GroupModel) {
-        Log.d("CreateScriptFragment", "onOpenGroup: groupModel=$groupModel")
-        parentFragmentManager.commit {
-            replace(R.id.fragmentHolder, ActionChannelFragment.newInstance(groupModel))
-            addToBackStack(ActionChannelFragment.TAG)
-        }
-    }
-
     private fun setUpRecyclerView() = with(actionGroupList) {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter = actionGroupAdapter
@@ -82,5 +60,54 @@ class ActionGroupFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
             .scaleX(1f).scaleY(1f).alpha(1f)
             .setInterpolator(OvershootInterpolator())
             .start()
+    }
+
+    override fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onTurnOnActionChange: isChecked=$isChecked, groupModel=$groupModel"
+        )
+    }
+
+    override fun onTurnOnActionChange(isChecked: Boolean, channelModel: ChannelModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onTurnOnActionChange: isChecked=$isChecked, channelModel=$channelModel"
+        )
+    }
+
+    override fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onTurnOffActionChange: isChecked=$isChecked, groupModel=$groupModel"
+        )
+    }
+
+    override fun onTurnOffActionChange(isChecked: Boolean, channelModel: ChannelModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onTurnOffActionChange: isChecked=$isChecked, channelModel=$channelModel"
+        )
+    }
+
+    override fun onBrightnessChange(isChecked: Boolean, channelModel: ChannelModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onBrightnessChange: isChecked=$isChecked, channelModel=$channelModel"
+        )
+    }
+
+    override fun onStartOverflowChange(isChecked: Boolean, channelModel: ChannelModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onStartOverflowChange: isChecked=$isChecked, channelModel=$channelModel"
+        )
+    }
+
+    override fun onStopOverflowChange(isChecked: Boolean, channelModel: ChannelModel) {
+        Log.d(
+            "ActionGroupFragment",
+            "onStopOverflowChange: isChecked=$isChecked, channelModel=$channelModel"
+        )
     }
 }

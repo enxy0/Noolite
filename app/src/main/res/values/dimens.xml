@@ -1,5 +1,4 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="snackbar_icon_padding">8dp</dimen>
@@ -9,12 +8,14 @@
     <dimen name="channel_button_size">46dp</dimen>
     <dimen name="icon_button_size">44dp</dimen>
     <dimen name="icon_button_padding">10dp</dimen>
+    <dimen name="icon_button_wide_size">34dp</dimen>
+    <dimen name="icon_button_wide_padding">5dp</dimen>
     <dimen name="script_horizontal_padding">5dp</dimen>
     <dimen name="script_view_margin">16dp</dimen>
     <dimen name="script_action_view_margin">3dp</dimen>
     <dimen name="script_action_switch_end_padding">12dp</dimen>
-    <dimen name="script_action_vertical_padding">4dp</dimen>
-    <dimen name="script_action_horizontal_padding">22dp</dimen>
+    <dimen name="script_action_vertical_padding">8dp</dimen>
+    <dimen name="script_action_horizontal_padding">18dp</dimen>
     <dimen name="script_action_seekbar_end_margin">8dp</dimen>
     <dimen name="card_default_margin">6dp</dimen>
     <dimen name="card_expanded_horizontal_margin">12dp</dimen>

@@ -1,23 +1,34 @@
 package com.enxy.noolite.features.script.create
 
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
+import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_action_group.view.*
 
-class ActionGroupAdapter(private val actionListener: ActionListener) :
+class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.ActionListener) :
     RecyclerView.Adapter<ActionGroupAdapter.ActionGroupHolder>() {
+    lateinit var recyclerView: RecyclerView
+
     private val groupList = ArrayList<GroupModel>()
 
     fun updateData(groupList: ArrayList<GroupModel>) {
         this.groupList.clear()
         this.groupList.addAll(groupList)
         notifyDataSetChanged()
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionGroupHolder {
@@ -34,9 +45,9 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
 
     inner class ActionGroupHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(groupModel: GroupModel) = with(itemView) {
+            setUpRecyclerView(groupModel.channelModelList)
             groupHeader.text = groupModel.name
             groupChannels.text = groupModel.channelElementsToString()
-            groupLayout.setOnClickListener { actionListener.onOpenGroup(groupModel) }
 
             // Turn off action listeners
             turnOffAction.setOnClickListener {
@@ -60,28 +71,57 @@ class ActionGroupAdapter(private val actionListener: ActionListener) :
                     turnOffSwitch.isChecked = false
             }
 
-            // Animate button rotation and show additional content
-            additionalContent.setOnClickListener {
-                if (actionsContainer.isVisible) {
-                    actionsContainer.visibility = View.GONE
-                    additionalContent.animate().setDuration(200L).rotation(0f).start()
-                } else {
-                    additionalContent.animate().setDuration(200L).rotation(180f).start()
-                    actionsContainer.visibility = View.VISIBLE
-                }
+            // Animate button rotation and show available actions
+            groupLayout.setOnClickListener { toggleAdditionalContent() }
+            additionalContentButton.setOnClickListener { toggleAdditionalContent() }
+        }
+
+        /**
+         * Shows additional content with smooth animation
+         */
+        private fun toggleAdditionalContent() = with(itemView) {
+            val animationSpeed = context.applicationContext
+                .resources
+                .getInteger(R.integer.expand_animation_speed)
+                .toLong()
+            val autoTransition = AutoTransition().apply { duration = animationSpeed }
+            TransitionManager.beginDelayedTransition(recyclerView, autoTransition)
+            if (additionalContent.isVisible) {
+                additionalContentButton.animate()
+                    .setDuration(animationSpeed)
+                    .rotation(0f)
+                    .start()
+                additionalContent.visibility = View.GONE
+            } else {
+                additionalContentButton.animate()
+                    .setDuration(animationSpeed)
+                    .rotation(180f)
+                    .start()
+                additionalContent.visibility = View.VISIBLE
             }
         }
 
+        /**
+         * Set ups recycler view to display channel model list from group model
+         */
+        private fun setUpRecyclerView(channelList: ArrayList<ChannelModel>) =
+            with(itemView.actionChannelList) {
+                val channelAdapter = ActionChannelAdapter(actionListener)
+                adapter = channelAdapter
+                layoutManager =
+                    LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
+                setHasFixedSize(false)
+                channelAdapter.updateData(channelList)
+            }
+
+        /**
+         * Bounds one switch to another. If the first switch is clicked and the second switch
+         * is checked then we uncheck the second switch.
+         */
         private fun boundSwitches(firstSwitch: Switch, secondSwitch: Switch) {
             firstSwitch.isChecked = !firstSwitch.isChecked
             if (firstSwitch.isChecked)
                 secondSwitch.isChecked = false
         }
-    }
-
-    interface ActionListener {
-        fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel)
-        fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel)
-        fun onOpenGroup(groupModel: GroupModel)
     }
 }

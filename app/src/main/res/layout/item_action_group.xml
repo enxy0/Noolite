@@ -41,7 +41,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/additionalContent"
+                android:id="@+id/additionalContentButton"
                 style="@style/Button.Icon"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/script_view_margin"
@@ -49,7 +49,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/actionsContainer"
+            android:id="@+id/additionalContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -63,7 +63,7 @@
                 android:layout_marginStart="@dimen/script_view_margin"
                 android:layout_marginTop="@dimen/script_view_margin"
                 android:layout_marginEnd="@dimen/script_view_margin"
-                android:text="@string/script_actions" />
+                android:text="@string/script_section_light" />
 
             <LinearLayout
                 android:id="@+id/turnOnAction"
@@ -73,13 +73,12 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/script_action_horizontal_padding"
                 android:paddingTop="@dimen/script_action_vertical_padding"
-                android:paddingEnd="@dimen/script_action_switch_end_padding"
+                android:paddingEnd="@dimen/script_action_horizontal_padding"
                 android:paddingBottom="@dimen/script_action_vertical_padding">
 
                 <TextView
                     style="@style/Text"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/script_action_view_margin"
                     android:layout_weight="1"
                     android:text="@string/action_turn_on_light" />
 
@@ -95,18 +94,16 @@
                 style="@style/Clickable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/script_action_vertical_padding"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/script_action_horizontal_padding"
                 android:paddingTop="@dimen/script_action_vertical_padding"
-                android:paddingEnd="@dimen/script_action_switch_end_padding"
+                android:paddingEnd="@dimen/script_action_horizontal_padding"
                 android:paddingBottom="@dimen/script_action_vertical_padding">
 
                 <TextView
                     style="@style/Text"
                     android:layout_width="0dp"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/script_action_view_margin"
                     android:layout_weight="1"
                     android:text="@string/action_turn_off_light" />
 
@@ -116,6 +113,15 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/script_action_view_margin" />
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/actionChannelList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/script_action_vertical_padding"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_action_channel" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

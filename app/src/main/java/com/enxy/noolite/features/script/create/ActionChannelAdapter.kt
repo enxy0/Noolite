@@ -3,12 +3,14 @@ package com.enxy.noolite.features.script.create
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
 import com.enxy.noolite.features.model.ChannelModel
+import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_action_channel.view.*
 
-class ActionChannelAdapter(private val listener: ActionChannelListener) :
+class ActionChannelAdapter(private val listener: ActionListener) :
     RecyclerView.Adapter<ActionChannelAdapter.ActionChannelHolder>() {
     private val channelList = ArrayList<ChannelModel>()
 
@@ -34,10 +36,26 @@ class ActionChannelAdapter(private val listener: ActionChannelListener) :
     inner class ActionChannelHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(channelModel: ChannelModel) = with(itemView) {
             channelHeader.text = channelModel.name
+
+            // Animate button rotation and show additional content
+            channelLayout.setOnClickListener { animateAdditionalContentButton() }
+            additionalContentButton.setOnClickListener { animateAdditionalContentButton() }
+        }
+
+        private fun animateAdditionalContentButton() = with(itemView) {
+            if (additionalContent.isVisible) {
+                additionalContent.visibility = View.GONE
+                additionalContentButton.animate().setDuration(200L).rotation(0f).start()
+            } else {
+                additionalContentButton.animate().setDuration(200L).rotation(180f).start()
+                additionalContent.visibility = View.VISIBLE
+            }
         }
     }
 
-    interface ActionChannelListener {
+    interface ActionListener {
+        fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel)
+        fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel)
         fun onTurnOnActionChange(isChecked: Boolean, channelModel: ChannelModel)
         fun onTurnOffActionChange(isChecked: Boolean, channelModel: ChannelModel)
         fun onBrightnessChange(isChecked: Boolean, channelModel: ChannelModel)
