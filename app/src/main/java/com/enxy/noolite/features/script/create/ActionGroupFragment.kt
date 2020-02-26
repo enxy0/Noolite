@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.getActivityViewModel
@@ -12,16 +13,16 @@ import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.GroupModel
-import kotlinx.android.synthetic.main.fragment_create_script.*
+import kotlinx.android.synthetic.main.fragment_script_group.*
 
-class CreateScriptFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
-    override val layoutId: Int = R.layout.fragment_create_script
+class ActionGroupFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
+    override val layoutId: Int = R.layout.fragment_script_group
     private lateinit var viewModel: MainViewModel
     private lateinit var actionGroupAdapter: ActionGroupAdapter
 
     companion object {
         const val TAG = "CreateScriptFragment"
-        fun newInstance() = CreateScriptFragment()
+        fun newInstance() = ActionGroupFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +59,10 @@ class CreateScriptFragment : BaseFragment(), ActionGroupAdapter.ActionListener {
 
     override fun onOpenGroup(groupModel: GroupModel) {
         Log.d("CreateScriptFragment", "onOpenGroup: groupModel=$groupModel")
+        parentFragmentManager.commit {
+            replace(R.id.fragmentHolder, ActionChannelFragment.newInstance(groupModel))
+            addToBackStack(ActionChannelFragment.TAG)
+        }
     }
 
     private fun setUpRecyclerView() = with(actionGroupList) {

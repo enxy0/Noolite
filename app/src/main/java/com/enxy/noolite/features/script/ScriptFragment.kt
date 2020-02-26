@@ -10,7 +10,7 @@ import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Script
-import com.enxy.noolite.features.script.create.CreateScriptFragment
+import com.enxy.noolite.features.script.create.ActionGroupFragment
 import kotlinx.android.synthetic.main.fragment_script.*
 
 class ScriptFragment : BaseFragment(), ScriptAdapter.ScriptListener {
@@ -35,8 +35,8 @@ class ScriptFragment : BaseFragment(), ScriptAdapter.ScriptListener {
         }
         addScript.setOnClickListener {
             parentFragmentManager.commit {
-                replace(R.id.fragmentHolder, CreateScriptFragment.newInstance())
-                addToBackStack(CreateScriptFragment.TAG)
+                replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
+                addToBackStack(ActionGroupFragment.TAG)
             }
         }
     }
