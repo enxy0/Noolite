@@ -1,5 +1,7 @@
 package com.enxy.noolite.features.script.create
 
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,12 @@ import kotlinx.android.synthetic.main.item_action_channel.view.*
 class ActionChannelAdapter(private val listener: ActionListener) :
     RecyclerView.Adapter<ActionChannelAdapter.ActionChannelHolder>() {
     private val channelList = ArrayList<ChannelModel>()
+    private lateinit var recyclerView: RecyclerView
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
 
     fun updateData(groupList: ArrayList<ChannelModel>) {
         this.channelList.clear()
@@ -38,17 +46,30 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             channelHeader.text = channelModel.name
 
             // Animate button rotation and show additional content
-            channelLayout.setOnClickListener { animateAdditionalContentButton() }
-            additionalContentButton.setOnClickListener { animateAdditionalContentButton() }
+            channelLayout.setOnClickListener { toggleAdditionalContent() }
+            additionalContentButton.setOnClickListener { toggleAdditionalContent() }
         }
 
-        private fun animateAdditionalContentButton() = with(itemView) {
+        private fun toggleAdditionalContent() = with(itemView) {
+            val animationSpeed = context.applicationContext.resources
+                .getInteger(R.integer.expand_animation_speed)
+                .toLong()
+            val autoTransition = AutoTransition().apply {
+                duration = animationSpeed
+            }
+            TransitionManager.beginDelayedTransition(recyclerView, autoTransition)
             if (additionalContent.isVisible) {
+                additionalContentButton.animate()
+                    .setDuration(animationSpeed)
+                    .rotation(0f)
+                    .start()
                 additionalContent.visibility = View.GONE
-                additionalContentButton.animate().setDuration(200L).rotation(0f).start()
             } else {
-                additionalContentButton.animate().setDuration(200L).rotation(180f).start()
                 additionalContent.visibility = View.VISIBLE
+                additionalContentButton.animate()
+                    .setDuration(animationSpeed)
+                    .rotation(180f)
+                    .start()
             }
         }
     }
