@@ -93,11 +93,11 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
                     .start()
                 additionalContent.visibility = View.GONE
             } else {
+                additionalContent.visibility = View.VISIBLE
                 additionalContentButton.animate()
                     .setDuration(animationSpeed)
                     .rotation(180f)
                     .start()
-                additionalContent.visibility = View.VISIBLE
             }
         }
 

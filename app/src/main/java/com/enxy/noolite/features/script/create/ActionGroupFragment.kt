@@ -46,6 +46,7 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
     private fun setUpRecyclerView() = with(actionGroupList) {
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter = actionGroupAdapter
+        setHasFixedSize(false)
         layoutAnimation = AnimationUtils.loadLayoutAnimation(
             requireContext(), R.anim.layout_animation_fall_down
         )
