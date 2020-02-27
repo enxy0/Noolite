@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
@@ -14,12 +15,13 @@ import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
+import com.enxy.noolite.features.channel.ChannelFragment
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.content_error.view.*
 import kotlinx.android.synthetic.main.fragment_group.*
 
 
-class GroupFragment : BaseFragment() {
+class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
     private lateinit var groupAdapter: GroupAdapter
     private lateinit var viewModel: MainViewModel
     override val layoutId = R.layout.fragment_group
@@ -39,8 +41,7 @@ class GroupFragment : BaseFragment() {
     }
 
     private fun setUpViews() {
-        groupAdapter =
-            GroupAdapter(this, viewModel)
+        groupAdapter = GroupAdapter(this)
         groupRecyclerView.adapter = groupAdapter
         val spanCount = if (isInLandscapeOrientation()) 3 else 2
         groupRecyclerView.layoutManager = GridLayoutManager(context, spanCount)
@@ -86,5 +87,29 @@ class GroupFragment : BaseFragment() {
                 )
             }
         }
+    }
+
+    override fun onGroupOpen(groupModel: GroupModel) {
+        viewModel.chosenGroupElement.value = groupModel
+        parentFragmentManager.commit {
+            addToBackStack(null)
+            setCustomAnimations(
+                R.anim.zoom_in,
+                R.anim.zoom_out,
+                R.anim.parent_zoom_in,
+                R.anim.parent_zoom_out
+            )
+            replace(R.id.fragmentHolder, ChannelFragment.newInstance())
+        }
+    }
+
+    override fun onTurnOnLights(groupModel: GroupModel) {
+        for (channel in groupModel.channelModelList)
+            viewModel.turnOnLight(channel.id)
+    }
+
+    override fun onTurnOffLights(groupModel: GroupModel) {
+        for (channel in groupModel.channelModelList)
+            viewModel.turnOffLight(channel.id)
     }
 }
