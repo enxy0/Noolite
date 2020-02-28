@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.enxy.noolite.AndroidApplication
 import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.withColor
@@ -23,7 +22,7 @@ abstract class BaseActivity : AppCompatActivity() {
         factory: ViewModelProvider.Factory,
         viewModelClass: Class<T>
     ): T {
-        return ViewModelProviders.of(this, factory)[viewModelClass]
+        return ViewModelProvider(this, factory)[viewModelClass]
     }
 
     internal fun notify(@StringRes message: Int) {
