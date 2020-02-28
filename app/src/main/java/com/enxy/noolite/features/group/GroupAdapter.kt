@@ -14,7 +14,8 @@ class GroupAdapter(private val listener: GroupListener) :
     private var data: ArrayList<GroupModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupHolder {
-        return GroupHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false))
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false)
+        return GroupHolder(view)
     }
 
     override fun getItemCount(): Int = this.data.size
@@ -24,8 +25,8 @@ class GroupAdapter(private val listener: GroupListener) :
     }
 
     fun updateData(data: ArrayList<GroupModel>) {
-        this.data.addAll(data)
         this.data.clear()
+        this.data.addAll(data)
         notifyDataSetChanged()
     }
 
