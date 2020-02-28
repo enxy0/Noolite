@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
+import com.enxy.noolite.core.extension.toggleVisibility
 import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_action_group.view.*
@@ -51,24 +52,13 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
 
             // Turn off action listeners
             turnOffAction.setOnClickListener {
-                boundSwitches(turnOffSwitch, turnOnSwitch)
-                actionListener.onTurnOffActionChange(turnOffSwitch.isChecked, groupModel)
+                turnOffCheck.toggleVisibility()
+                actionListener.onTurnOffActionChange(turnOffCheck.isVisible, groupModel)
             }
-            turnOffSwitch.setOnCheckedChangeListener { _, isChecked ->
-                actionListener.onTurnOffActionChange(isChecked, groupModel)
-                if (isChecked)
-                    turnOnSwitch.isChecked = false
-            }
-
             // Turn on action listeners
             turnOnAction.setOnClickListener {
-                boundSwitches(turnOnSwitch, turnOffSwitch)
-                actionListener.onTurnOnActionChange(turnOffSwitch.isChecked, groupModel)
-            }
-            turnOnSwitch.setOnCheckedChangeListener { _, isChecked ->
-                actionListener.onTurnOnActionChange(isChecked, groupModel)
-                if (isChecked)
-                    turnOffSwitch.isChecked = false
+                turnOnCheck.toggleVisibility()
+                actionListener.onTurnOnActionChange(turnOffCheck.isVisible, groupModel)
             }
 
             // Animate button rotation and show available actions

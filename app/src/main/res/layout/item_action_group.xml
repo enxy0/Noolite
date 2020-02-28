@@ -79,14 +79,15 @@
                 <TextView
                     style="@style/Text"
                     android:layout_gravity="center"
+                    android:layout_margin="@dimen/script_action_view_margin"
                     android:layout_weight="1"
-                    android:text="@string/action_turn_on_light" />
+                    android:text="@string/action_turn_on_all_light" />
 
-                <Switch
-                    android:id="@+id/turnOnSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/script_action_view_margin" />
+                <ImageView
+                    android:id="@+id/turnOnCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -104,14 +105,15 @@
                     style="@style/Text"
                     android:layout_width="0dp"
                     android:layout_gravity="center"
+                    android:layout_margin="@dimen/script_action_view_margin"
                     android:layout_weight="1"
-                    android:text="@string/action_turn_off_light" />
+                    android:text="@string/action_turn_off_all_light" />
 
-                <Switch
-                    android:id="@+id/turnOffSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/script_action_view_margin" />
+                <ImageView
+                    android:id="@+id/turnOffCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

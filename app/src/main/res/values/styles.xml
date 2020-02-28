@@ -166,6 +166,14 @@
         <item name="android:layout_height">@dimen/icon_button_size</item>
     </style>
 
+    <style name="CheckIcon">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">@dimen/icon_check_size</item>
+        <item name="android:layout_height">@dimen/icon_check_size</item>
+        <item name="android:src">@drawable/ic_check</item>
+        <item name="android:tint">?attr/colorPrimary</item>
+    </style>
+
     <!-- Toolbar styles -->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

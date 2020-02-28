@@ -87,11 +87,11 @@
                     android:layout_weight="1"
                     android:text="@string/action_turn_on_light" />
 
-                <Switch
-                    android:id="@+id/turnOnSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/script_action_view_margin" />
+                <ImageView
+                    android:id="@+id/turnOnCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,11 +113,11 @@
                     android:layout_weight="1"
                     android:text="@string/action_turn_off_light" />
 
-                <Switch
-                    android:id="@+id/turnOffSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/script_action_view_margin" />
+                <ImageView
+                    android:id="@+id/turnOffCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <TextView
@@ -125,64 +125,48 @@
                 android:layout_marginStart="@dimen/script_view_margin"
                 android:layout_marginTop="@dimen/script_view_margin"
                 android:layout_marginEnd="@dimen/script_view_margin"
-                android:text="@string/channel_backlight" />
+                android:text="@string/script_section_brightness" />
 
             <LinearLayout
                 android:id="@+id/changeBrightnessAction"
                 style="@style/Clickable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/script_action_horizontal_padding"
-                android:paddingTop="@dimen/script_action_vertical_padding"
-                android:paddingEnd="@dimen/script_action_switch_end_padding"
-                android:paddingBottom="@dimen/script_action_vertical_padding">
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/script_view_margin"
+                android:paddingEnd="@dimen/script_action_switch_end_padding">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <SeekBar
+                    android:id="@+id/indicatorSeekBar"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/channel_vertical_padding"
+                    android:paddingBottom="@dimen/channel_vertical_padding" />
 
-                    <TextView
-                        style="@style/Text"
-                        android:layout_width="0dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/script_action_view_margin"
-                        android:layout_weight="1"
-                        android:text="@string/action_change_brightness" />
+                <TextView
+                    android:id="@+id/progressValue"
+                    style="@style/Text"
+                    android:layout_width="40dp"
+                    android:layout_gravity="center|center_vertical"
+                    android:layout_margin="@dimen/script_action_view_margin"
+                    android:text="@string/script_default_seekbar_value"
+                    android:textAlignment="center" />
 
-                    <Switch
-                        android:id="@+id/changeBrightnessSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/script_action_view_margin" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/script_action_seekbar_end_margin"
-                    android:orientation="horizontal">
-
-                    <SeekBar
-                        android:id="@+id/indicatorSeekBar"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:paddingTop="@dimen/channel_vertical_padding"
-                        android:paddingBottom="@dimen/channel_vertical_padding" />
-
-                    <TextView
-                        style="@style/Text"
-                        android:layout_width="40dp"
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_margin="@dimen/script_action_view_margin"
-                        android:textAlignment="textStart"
-                        tools:text="0%" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/changeBrightnessCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
+
+            <TextView
+                style="@style/Text.Section"
+                android:layout_marginStart="@dimen/script_view_margin"
+                android:layout_marginTop="@dimen/script_view_margin"
+                android:layout_marginEnd="@dimen/script_view_margin"
+                android:text="@string/script_section_color" />
 
             <LinearLayout
                 android:id="@+id/startOverflowAction"
@@ -203,11 +187,11 @@
                     android:layout_weight="1"
                     android:text="@string/action_start_overflow" />
 
-                <Switch
-                    android:id="@+id/startOverflowSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/script_action_view_margin" />
+                <ImageView
+                    android:id="@+id/startOverflowCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
@@ -230,11 +214,11 @@
                     android:layout_weight="1"
                     android:text="@string/action_stop_overflow" />
 
-                <Switch
-                    android:id="@+id/stopOverflowSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/script_action_view_margin" />
+                <ImageView
+                    android:id="@+id/stopOverflowCheck"
+                    style="@style/CheckIcon"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

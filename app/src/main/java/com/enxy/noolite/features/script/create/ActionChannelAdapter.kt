@@ -5,9 +5,11 @@ import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
+import com.enxy.noolite.core.extension.toggleVisibility
 import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_action_channel.view.*
@@ -22,9 +24,9 @@ class ActionChannelAdapter(private val listener: ActionListener) :
         this.recyclerView = recyclerView
     }
 
-    fun updateData(groupList: ArrayList<ChannelModel>) {
+    fun updateData(channelList: ArrayList<ChannelModel>) {
         this.channelList.clear()
-        this.channelList.addAll(groupList)
+        this.channelList.addAll(channelList)
         notifyDataSetChanged()
     }
 
@@ -48,6 +50,59 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             // Animate button rotation and show additional content
             channelLayout.setOnClickListener { toggleAdditionalContent() }
             additionalContentButton.setOnClickListener { toggleAdditionalContent() }
+
+            // Light section
+            turnOnAction.setOnClickListener {
+                turnOnCheck.toggleVisibility()
+                listener.onTurnOnActionChange(turnOnCheck.isVisible, channelModel)
+            }
+            turnOffAction.setOnClickListener {
+                turnOffCheck.toggleVisibility()
+                listener.onTurnOffActionChange(turnOffCheck.isVisible, channelModel)
+            }
+
+            // Brightness section
+            changeBrightnessAction.setOnClickListener {
+                changeBrightnessCheck.toggleVisibility()
+                listener.onBrightnessChange(changeBrightnessCheck.isVisible, channelModel)
+            }
+
+            indicatorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    val value = "${progress}%"
+                    progressValue.text = value
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    if (!changeBrightnessCheck.isVisible) {
+                        changeBrightnessCheck.toggleVisibility()
+                        listener.onBrightnessChange(changeBrightnessCheck.isVisible, channelModel)
+                    }
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+
+            })
+
+            // Overflow section
+            startOverflowAction.setOnClickListener {
+                startOverflowCheck.toggleVisibility()
+                listener.onStartOverflowChange(startOverflowCheck.isVisible, channelModel)
+            }
+            stopOverflowAction.setOnClickListener {
+                stopOverflowCheck.toggleVisibility()
+                listener.onStopOverflowChange(stopOverflowCheck.isVisible, channelModel)
+            }
+        }
+
+        private fun boundViews(first: View, second: View) {
+            first.toggleVisibility()
+            if (second.isVisible)
+                second.toggleVisibility()
         }
 
         private fun toggleAdditionalContent() = with(itemView) {

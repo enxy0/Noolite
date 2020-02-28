@@ -40,7 +40,7 @@
     <string name="channel_backlight">Backlight</string>
     <string name="channel_backlight_color">Overflow / Color</string>
     <string name="and">and</string>
-    <string name="error_happend">Error happend:</string>
+    <string name="error_happen">Error happend:</string>
     <string name="settings_load_test_data_summary">Use test data to view the application in demo mode</string>
     <string name="settings_load_test_data_title">Test data</string>
     <string name="settings_other_section">Other</string>
@@ -57,4 +57,9 @@
     <string name="script_section_light">Light</string>
     <string name="action_start_overflow">Start overflow</string>
     <string name="action_stop_overflow">Stop overflow</string>
+    <string name="script_section_brightness">Brightness</string>
+    <string name="script_section_color">Color</string>
+    <string name="script_default_seekbar_value">0%</string>
+    <string name="action_turn_on_all_light">Turn on all light</string>
+    <string name="action_turn_off_all_light">Turn off all light</string>
 </resources>

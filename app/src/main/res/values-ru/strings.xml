@@ -44,7 +44,7 @@
     <string name="channel_backlight">Подсветка</string>
     <string name="channel_backlight_color">Перелив / Цвет</string>
     <string name="and">и</string>
-    <string name="error_happend">Произошла ошибка:</string>
+    <string name="error_happen">Произошла ошибка:</string>
     <string name="settings_load_test_data_summary">Использовать тестовые данные просмотра приложения в демо режиме</string>
     <string name="settings_load_test_data_title">Тестовые данные</string>
     <string name="settings_other_section">Другое</string>
@@ -61,4 +61,9 @@
     <string name="script_section_light">Свет</string>
     <string name="action_start_overflow">Начать перелив</string>
     <string name="action_stop_overflow">Остановить перелив</string>
+    <string name="script_section_brightness">Яркость</string>
+    <string name="script_section_color">Цвет</string>
+    <string name="script_default_seekbar_value">0%</string>
+    <string name="action_turn_on_all_light">Включить весь свет</string>
+    <string name="action_turn_off_all_light">Выключить весь свет</string>
 </resources>
