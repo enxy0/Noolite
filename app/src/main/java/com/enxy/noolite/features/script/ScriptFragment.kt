@@ -35,8 +35,14 @@ class ScriptFragment : BaseFragment(), ScriptAdapter.ScriptListener {
         }
         addScript.setOnClickListener {
             parentFragmentManager.commit {
-                replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
                 addToBackStack(ActionGroupFragment.TAG)
+                setCustomAnimations(
+                    0,
+                    R.anim.zoom_out,
+                    R.anim.parent_zoom_in,
+                    R.anim.parent_zoom_out
+                )
+                replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
             }
         }
     }

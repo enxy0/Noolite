@@ -1,5 +1,6 @@
 package com.enxy.noolite.features.script.create
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -27,16 +28,16 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showFinishScript()
         finishScript.setOnClickListener { parentFragmentManager.popBackStack() }
         viewModel = getActivityViewModel(this)
         actionGroupAdapter = ActionGroupAdapter(this)
+        setUpRecyclerView()
         with(viewModel) {
             observe(groupElementList, ::renderData)
 //            TODO: Close fragment on failure and notify user?
 //            failure(groupFailure, ::handleFailure)
         }
-        setUpRecyclerView()
+        startAnimation()
     }
 
     private fun renderData(groupList: ArrayList<GroupModel>?) {
@@ -52,15 +53,28 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
         )
     }
 
-    private fun showFinishScript() = with(finishScript) {
-        alpha = 0f
-        scaleX = 0f
-        scaleY = 0f
-        animate()
-            .setDuration(500L)
-            .scaleX(1f).scaleY(1f).alpha(1f)
-            .setInterpolator(OvershootInterpolator())
-            .start()
+    private fun startAnimation() {
+        // Get duration
+        val resources = requireContext().resources
+        val layoutDuration = resources.getInteger(R.integer.layout_anim_duration).toLong()
+        val fabDuration = resources.getInteger(R.integer.fab_anim_duration).toLong()
+
+        // Animate appear of layout
+        ObjectAnimator.ofFloat(scriptParentLayout, View.ALPHA, 0f, 1f).apply {
+            duration = layoutDuration
+        }.start()
+
+        // Animate appear of FAB button
+        with(finishScript) {
+            alpha = 0f
+            scaleX = 0f
+            scaleY = 0f
+            animate()
+                .setDuration(fabDuration)
+                .scaleX(1f).scaleY(1f).alpha(1f)
+                .setInterpolator(OvershootInterpolator())
+                .start()
+        }
     }
 
     override fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel) {
