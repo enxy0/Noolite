@@ -86,7 +86,6 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
     }
 
     override fun onGroupOpen(groupModel: GroupModel) {
-        viewModel.chosenGroupElement.value = groupModel
         parentFragmentManager.commit {
             addToBackStack(null)
             setCustomAnimations(
@@ -95,17 +94,17 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
                 R.anim.zoom_in,
                 R.anim.zoom_out
             )
-            replace(R.id.fragmentHolder, ChannelFragment.newInstance())
+            replace(R.id.fragmentHolder, ChannelFragment.newInstance(groupModel))
         }
     }
 
     override fun onTurnOnLights(groupModel: GroupModel) {
-        for (channel in groupModel.channelModelList)
+        for (channel in groupModel.channelList)
             viewModel.turnOnLight(channel.id)
     }
 
     override fun onTurnOffLights(groupModel: GroupModel) {
-        for (channel in groupModel.channelModelList)
+        for (channel in groupModel.channelList)
             viewModel.turnOffLight(channel.id)
     }
 }

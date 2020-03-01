@@ -27,11 +27,9 @@ class MainViewModel @Inject constructor(
     // Actions with Light
     var groupFailure = MutableLiveData<Failure>()
     var favouriteFailure = MutableLiveData<Failure>()
-    var chosenFailure = MutableLiveData<Failure>()
     var lightFailure = MutableLiveData<Failure>()
     val groupElementList = MutableLiveData(ArrayList<GroupModel>())
     var favouriteGroupElement = MutableLiveData<GroupModel>()
-    var chosenGroupElement = MutableLiveData<GroupModel>()
 
     init {
         loadGroupElementList(ipAddress = settingsManager.ipAddress)

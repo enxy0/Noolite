@@ -6,16 +6,16 @@ import java.io.Serializable
 data class GroupModel(
     @SerializedName("id") val id: Int = 0,
     @SerializedName("name") val name: String = "empty",
-    @SerializedName("channelElementsList") var channelModelList: ArrayList<ChannelModel> = ArrayList()
+    @SerializedName("channelElementsList") var channelList: ArrayList<ChannelModel> = ArrayList()
 ) : Serializable {
 
     fun channelElementsToString(): String {
-        return if (channelModelList.isNotEmpty()) {
+        return if (channelList.isNotEmpty()) {
             var result = ""
-            for (i in 0 until channelModelList.size - 2) {
-                result += "${channelModelList[i].name}, "
+            for (i in 0 until channelList.size - 2) {
+                result += "${channelList[i].name}, "
             }
-            result += "${channelModelList[(channelModelList.size - 2)].name}, ${channelModelList[(channelModelList.size - 1)].name}"
+            result += "${channelList[(channelList.size - 2)].name}, ${channelList[(channelList.size - 1)].name}"
             result
         } else
             "empty"

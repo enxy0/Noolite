@@ -19,43 +19,51 @@ import kotlinx.android.synthetic.main.fragment_channel.*
 class ChannelFragment : BaseFragment() {
     private lateinit var channelAdapter: ChannelAdapter
     private lateinit var viewModel: MainViewModel
+    private val passedGroupModel: GroupModel
+        get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as GroupModel
+    private val hasPassedData: Boolean
+        get() = arguments != null
+
     override val layoutId = R.layout.fragment_channel
+
+    companion object {
+        fun newInstance(groupModel: GroupModel) = ChannelFragment().apply {
+            arguments = Bundle().apply { putSerializable(GROUP_MODEL_KEY, groupModel) }
+        }
+
+        fun newInstance() = ChannelFragment()
+
+        const val GROUP_MODEL_KEY = "group_model"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = getActivityViewModel(this)
         setUpViews()
-        if (isOpenedAsFavouriteFragment()) {
+        if (hasPassedData) {
+            setUpBackButton()
+            if (isNotFavouriteFragment())
+                setUpFavouriteButton()
+            renderGroupElement(passedGroupModel)
+        } else {
             with(viewModel) {
                 observe(favouriteGroupElement, ::renderGroupElement)
                 failure(favouriteFailure, ::handleFailure)
             }
-        } else {
-            with(viewModel) {
-                observe(chosenGroupElement, ::renderGroupElement)
-                failure(chosenFailure, ::handleFailure)
-            }
-            setUpBackButton()
-            if (isNotFavouriteFragment())
-                setUpFavouriteButton()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (isOpenedAsFavouriteFragment()) {
-            if (viewModel.favouriteGroupElement.value == null)
-                setToolbarTitle(R.string.title_favourite)
-            else
-                setToolbarTitle(viewModel.favouriteGroupElement.value!!.name)
-        } else {
+        if (hasPassedData) {
+            setToolbarTitle(passedGroupModel.name)
             setUpBackButton()
-            setToolbarTitle(viewModel.chosenGroupElement.value!!.name)
+        } else {
+            if (viewModel.favouriteGroupElement.value != null)
+                setToolbarTitle(viewModel.favouriteGroupElement.value!!.name)
+            else
+                setToolbarTitle(R.string.title_favourite)
         }
-    }
-
-    companion object {
-        fun newInstance() = ChannelFragment()
     }
 
     private fun handleFailure(failureNullable: Failure?) {
@@ -71,38 +79,24 @@ class ChannelFragment : BaseFragment() {
     private fun renderGroupElement(groupModel: GroupModel?) {
         groupModel?.let {
             setToolbarTitle(it.name)
-            if (isOpenedAsFavouriteFragment())
-                viewModel.favouriteFailure.value = null
-            else
-                viewModel.chosenFailure.value = null
             if (errorLayout.isVisible) {
                 channelRecyclerView.isVisible = true
                 errorLayout.isGone = true
             }
-            with(channelAdapter) {
-                clear()
-                addAll(it)
-                notifyDataSetChanged()
-            }
+            channelAdapter.updateData(it.channelList)
         }
     }
 
     override fun onPause() {
         super.onPause()
         hideBackButton()
-        if (!isOpenedAsFavouriteFragment())
+        if (hasPassedData)
             setToolbarTitle(R.string.title_groups)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        with(viewModel.chosenGroupElement) {
-            if (value != null)
-                value = null
-        }
         viewModel.let {
-            it.chosenGroupElement.removeObservers(this)
-            it.chosenFailure.removeObservers(this)
             it.favouriteGroupElement.removeObservers(this)
             it.favouriteFailure.removeObservers(this)
         }
@@ -122,13 +116,11 @@ class ChannelFragment : BaseFragment() {
     private fun setUpFavouriteButton() {
         favouriteButton.visibility = View.VISIBLE
         favouriteButton.setOnClickListener {
-            with(viewModel) { updateFavouriteGroupElement(chosenGroupElement.value!!) }
+            with(viewModel) { updateFavouriteGroupElement(passedGroupModel) }
             notify(R.string.message_room_added_as_favourite)
         }
     }
 
     private fun isNotFavouriteFragment() =
-        with(viewModel) { favouriteGroupElement.value != chosenGroupElement.value }
-
-    private fun isOpenedAsFavouriteFragment() = viewModel.chosenGroupElement.value == null
+        with(viewModel) { favouriteGroupElement.value != passedGroupModel }
 }

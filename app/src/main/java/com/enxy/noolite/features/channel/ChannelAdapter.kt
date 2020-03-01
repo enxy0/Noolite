@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.ChannelModel
-import com.enxy.noolite.features.model.GroupModel
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 
@@ -32,12 +31,10 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
         holder.bind(data[position])
     }
 
-    fun addAll(groupModel: GroupModel) {
-        this.data.addAll(groupModel.channelModelList)
-    }
-
-    fun clear() {
+    fun updateData(channelList: ArrayList<ChannelModel>) {
         this.data.clear()
+        this.data.addAll(channelList)
+        notifyDataSetChanged()
     }
 
     inner class ChannelHolderDefault(view: View) : RecyclerView.ViewHolder(view) {

@@ -46,7 +46,7 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
 
     inner class ActionGroupHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(groupModel: GroupModel) = with(itemView) {
-            setUpRecyclerView(groupModel.channelModelList)
+            setUpRecyclerView(groupModel.channelList)
             groupHeader.text = groupModel.name
             groupChannels.text = groupModel.channelElementsToString()
 

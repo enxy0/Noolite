@@ -41,7 +41,7 @@ object BinParser {
                                 ),
                                 data[START_OFFSET + currentChannelPosition + (channelElementId - 1) * CHANNEL_OFFSET + OFFSET].toInt()
                             )
-                            groupElement.channelModelList.add(channelElement)
+                            groupElement.channelList.add(channelElement)
                         }
                     }
                     groupArrayList.add(groupElement)
