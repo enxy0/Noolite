@@ -10,3 +10,6 @@ fun View.toggleVisibility() {
     else
         this.isVisible = true
 }
+
+inline val View.screenWidth: Int
+    get() = context!!.screenWidth

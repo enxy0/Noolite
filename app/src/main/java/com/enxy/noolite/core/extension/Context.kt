@@ -1,8 +1,10 @@
 package com.enxy.noolite.core.extension
 
 import android.content.Context
-import android.util.DisplayMetrics
+import android.graphics.Point
+import android.view.WindowManager
 
-fun Context.convertDpToPixel(dp: Float): Float {
-    return dp * (this.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-}
+val Context.screenWidth: Int
+    get() = Point().also {
+        (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(it)
+    }.x
