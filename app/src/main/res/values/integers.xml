@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="expand_animation_speed">200</integer>
+    <integer name="layout_anim_duration">300</integer>
+    <integer name="fab_anim_duration">400</integer>
 </resources>
