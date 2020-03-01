@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
@@ -37,7 +36,7 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
 //            TODO: Close fragment on failure and notify user?
 //            failure(groupFailure, ::handleFailure)
         }
-        startAnimation()
+//        startAnimation()
     }
 
     private fun renderData(groupList: ArrayList<GroupModel>?) {
@@ -48,9 +47,9 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
         layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter = actionGroupAdapter
         setHasFixedSize(false)
-        layoutAnimation = AnimationUtils.loadLayoutAnimation(
-            requireContext(), R.anim.layout_animation_fall_down
-        )
+//        layoutAnimation = AnimationUtils.loadLayoutAnimation(
+//            requireContext(), R.anim.layout_animation_fall_down
+//        )
     }
 
     private fun startAnimation() {

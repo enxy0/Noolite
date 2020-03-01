@@ -92,8 +92,8 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
             setCustomAnimations(
                 R.anim.zoom_in,
                 R.anim.zoom_out,
-                R.anim.parent_zoom_in,
-                R.anim.parent_zoom_out
+                R.anim.zoom_in,
+                R.anim.zoom_out
             )
             replace(R.id.fragmentHolder, ChannelFragment.newInstance())
         }
