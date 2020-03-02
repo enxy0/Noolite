@@ -11,14 +11,17 @@ import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
+import com.enxy.noolite.features.model.Action
 import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.fragment_script_group.*
 
 class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener {
     override val layoutId: Int = R.layout.fragment_script_group
     private lateinit var viewModel: MainViewModel
     private lateinit var actionGroupAdapter: ActionGroupAdapter
+    private val script: Script = Script("TestScript", ArrayList())
 
     companion object {
         const val TAG = "CreateScriptFragment"
@@ -27,14 +30,22 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        finishScript.setOnClickListener { parentFragmentManager.popBackStack() }
+        finishScript.setOnClickListener {
+            Log.d("ActionGroupFragment", "onViewCreated: script=$script")
+            if (script.actionsList.isNotEmpty()) {
+                viewModel.saveScript(script)
+                notify("Скрипт был успешно создан!")
+            } else
+                notify("Пустой сценарий был удален")
+            parentFragmentManager.popBackStack()
+        }
         viewModel = getActivityViewModel(this)
         actionGroupAdapter = ActionGroupAdapter(this)
         setUpRecyclerView()
         with(viewModel) {
             observe(groupElementList, ::renderData)
 //            TODO: Close fragment on failure and notify user?
-//            failure(groupFailure, ::handleFailure)
+//            failure(groupFailure, ::handleFailure)1
         }
 //        startAnimation()
     }
@@ -77,51 +88,55 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
     }
 
     override fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onTurnOnActionChange: isChecked=$isChecked, groupModel=$groupModel"
-        )
+        if (isChecked)
+            script.write(groupModel, Action.TURN_ON)
+        else
+            script.remove(groupModel, Action.TURN_ON)
     }
 
     override fun onTurnOnActionChange(isChecked: Boolean, channelModel: ChannelModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onTurnOnActionChange: isChecked=$isChecked, channelModel=$channelModel"
-        )
+        if (isChecked)
+            script.write(channelModel, Action.TURN_ON)
+        else
+            script.remove(channelModel, Action.TURN_ON)
     }
 
     override fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onTurnOffActionChange: isChecked=$isChecked, groupModel=$groupModel"
-        )
+        if (isChecked)
+            script.write(groupModel, Action.TURN_OFF)
+        else
+            script.remove(groupModel, Action.TURN_OFF)
     }
 
     override fun onTurnOffActionChange(isChecked: Boolean, channelModel: ChannelModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onTurnOffActionChange: isChecked=$isChecked, channelModel=$channelModel"
-        )
+        if (isChecked)
+            script.write(channelModel, Action.TURN_OFF)
+        else
+            script.remove(channelModel, Action.TURN_OFF)
     }
 
-    override fun onBrightnessChange(isChecked: Boolean, channelModel: ChannelModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onBrightnessChange: isChecked=$isChecked, channelModel=$channelModel"
-        )
+    override fun onBrightnessChange(
+        isChecked: Boolean,
+        channelModel: ChannelModel,
+        brightness: Int
+    ) {
+        if (isChecked)
+            script.write(channelModel, Action.CHANGE_BRIGHTNESS, brightness)
+        else
+            script.remove(channelModel, Action.CHANGE_BRIGHTNESS)
     }
 
     override fun onStartOverflowChange(isChecked: Boolean, channelModel: ChannelModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onStartOverflowChange: isChecked=$isChecked, channelModel=$channelModel"
-        )
+        if (isChecked)
+            script.write(channelModel, Action.START_OVERFLOW)
+        else
+            script.remove(channelModel, Action.START_OVERFLOW)
     }
 
     override fun onStopOverflowChange(isChecked: Boolean, channelModel: ChannelModel) {
-        Log.d(
-            "ActionGroupFragment",
-            "onStopOverflowChange: isChecked=$isChecked, channelModel=$channelModel"
-        )
+        if (isChecked)
+            script.write(channelModel, Action.STOP_OVERFLOW)
+        else
+            script.remove(channelModel, Action.STOP_OVERFLOW)
     }
 }

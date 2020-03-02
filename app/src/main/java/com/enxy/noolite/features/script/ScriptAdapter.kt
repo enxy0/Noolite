@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.item_script.view.*
 class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptHolder>() {
     // Test Data
     private val scriptList = arrayListOf(
-        Script("Выключить весь свет", linkedMapOf()),
-        Script("Ночь (подсветка везде)", linkedMapOf())
+        Script("Выключить весь свет", ArrayList()),
+        Script("Ночь (подсветка везде)", ArrayList())
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScriptHolder {

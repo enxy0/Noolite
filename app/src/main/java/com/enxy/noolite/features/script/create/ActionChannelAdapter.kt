@@ -64,7 +64,11 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             // Brightness section
             changeBrightnessAction.setOnClickListener {
                 changeBrightnessCheck.toggleVisibility()
-                listener.onBrightnessChange(changeBrightnessCheck.isVisible, channelModel)
+                listener.onBrightnessChange(
+                    changeBrightnessCheck.isVisible,
+                    channelModel,
+                    indicatorSeekBar.progress
+                )
             }
 
             indicatorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -80,12 +84,18 @@ class ActionChannelAdapter(private val listener: ActionListener) :
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
                     if (!changeBrightnessCheck.isVisible) {
                         changeBrightnessCheck.toggleVisibility()
-                        listener.onBrightnessChange(changeBrightnessCheck.isVisible, channelModel)
                     }
                 }
 
-                override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    seekBar?.let {
+                        listener.onBrightnessChange(
+                            changeBrightnessCheck.isVisible,
+                            channelModel,
+                            seekBar.progress
+                        )
+                    }
+                }
             })
 
             // Overflow section
@@ -134,7 +144,7 @@ class ActionChannelAdapter(private val listener: ActionListener) :
         fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel)
         fun onTurnOnActionChange(isChecked: Boolean, channelModel: ChannelModel)
         fun onTurnOffActionChange(isChecked: Boolean, channelModel: ChannelModel)
-        fun onBrightnessChange(isChecked: Boolean, channelModel: ChannelModel)
+        fun onBrightnessChange(isChecked: Boolean, channelModel: ChannelModel, brightness: Int)
         fun onStartOverflowChange(isChecked: Boolean, channelModel: ChannelModel)
         fun onStopOverflowChange(isChecked: Boolean, channelModel: ChannelModel)
     }

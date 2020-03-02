@@ -13,12 +13,13 @@ import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.toggleVisibility
 import com.enxy.noolite.features.model.ChannelModel
 import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.item_action_group.view.*
 
 class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.ActionListener) :
     RecyclerView.Adapter<ActionGroupAdapter.ActionGroupHolder>() {
-    lateinit var recyclerView: RecyclerView
-
+    private lateinit var recyclerView: RecyclerView
+    private val script: Script? = null
     private val groupList = ArrayList<GroupModel>()
 
     fun updateData(groupList: ArrayList<GroupModel>) {
@@ -58,7 +59,7 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
             // Turn on action listeners
             turnOnAction.setOnClickListener {
                 turnOnCheck.toggleVisibility()
-                actionListener.onTurnOnActionChange(turnOffCheck.isVisible, groupModel)
+                actionListener.onTurnOnActionChange(turnOnCheck.isVisible, groupModel)
             }
 
             // Animate button rotation and show available actions
