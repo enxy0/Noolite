@@ -23,8 +23,6 @@ class MainViewModel @Inject constructor(
     private val serializer: Serializer,
     private val repository: Repository
 ) : ViewModel() {
-
-    // Actions with Light
     var groupFailure = MutableLiveData<Failure>()
     var favouriteFailure = MutableLiveData<Failure>()
     var lightFailure = MutableLiveData<Failure>()
@@ -37,65 +35,47 @@ class MainViewModel @Inject constructor(
         Log.d("MainViewModel", "init: ViewModel initialized")
     }
 
-    private fun loadFavouriteGroupElement() {
-        viewModelScope.launch {
-            repository.getFavouriteGroupElement()
-                .either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
-        }
+    private fun loadFavouriteGroupElement() = viewModelScope.launch {
+        repository.getFavouriteGroupElement()
+            .either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
     }
 
-    fun loadGroupElementList(ipAddress: String, isForceUpdating: Boolean = false) {
+    fun loadGroupElementList(ipAddress: String, isForceUpdating: Boolean = false) =
         viewModelScope.launch {
             repository.getGroupHolder(ipAddress, isForceUpdating)
                 .either(::updateGroupFailure, ::updateGroupHolder)
         }
+
+    fun turnOffLight(channelId: Int) = viewModelScope.launch {
+        repository.turnOffLight(channelId).either(::updateLightFailure, { })
     }
 
-    fun turnOffLight(channelId: Int) {
-        viewModelScope.launch {
-            repository.turnOffLight(channelId).either(::updateLightFailure, { })
-        }
+    fun turnOnLight(channelId: Int) = viewModelScope.launch {
+        repository.turnOnLight(channelId).either(::updateLightFailure, { })
     }
 
-    fun turnOnLight(channelId: Int) {
-        viewModelScope.launch {
-            repository.turnOnLight(channelId).either(::updateLightFailure, { })
-        }
+    fun changeLightState(channelId: Int) = viewModelScope.launch {
+        repository.changeLightState(channelId).either(::updateLightFailure, { })
     }
 
-    fun changeLightState(channelId: Int) {
-        viewModelScope.launch {
-            repository.changeLightState(channelId).either(::updateLightFailure, { })
-        }
+    fun changeBacklightColor(channelId: Int) = viewModelScope.launch {
+        repository.changeBacklightColor(channelId).either(::updateLightFailure, { })
     }
 
-    fun changeBacklightColor(channelId: Int) {
-        viewModelScope.launch {
-            repository.changeBacklightColor(channelId).either(::updateLightFailure, { })
-        }
+    fun startBacklightOverflow(channelId: Int) = viewModelScope.launch {
+        repository.startBacklightOverflow(channelId).either(::updateLightFailure, { })
     }
 
-    fun startBacklightOverflow(channelId: Int) {
-        viewModelScope.launch {
-            repository.startBacklightOverflow(channelId).either(::updateLightFailure, { })
-        }
+    fun stopBacklightOverflow(channelId: Int) = viewModelScope.launch {
+        repository.stopBacklightOverflow(channelId).either(::updateLightFailure, { })
     }
 
-    fun stopBacklightOverflow(channelId: Int) {
-        viewModelScope.launch {
-            repository.stopBacklightOverflow(channelId).either(::updateLightFailure, { })
-        }
+    fun changeBacklightBrightness(channelId: Int, brightness: Int) = viewModelScope.launch {
+        repository.changeBacklightBrightness(channelId, brightness)
+            .either(::updateLightFailure, { })
     }
 
-
-    fun changeBacklightBrightness(channelId: Int, brightness: Int) {
-        viewModelScope.launch {
-            repository.changeBacklightBrightness(channelId, brightness)
-                .either(::updateLightFailure, { })
-        }
-    }
-
-    private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) {
+    private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) =
         viewModelScope.launch {
             groupElementList.value = groupListHolderModel.groupListModel
             withContext(Dispatchers.Default) {
@@ -106,22 +86,18 @@ class MainViewModel @Inject constructor(
                     serializedGroupListHolderModel
                 )
             }
+
+            groupFailure.value = null
+            Log.d(
+                "MainViewModel",
+                "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupListModel}"
+            )
         }
 
-        this.groupFailure.value = null
-        Log.d(
-            "MainViewModel",
-            "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupListModel}"
-        )
-    }
-
-    fun updateFavouriteGroupElement(groupModel: GroupModel) {
-        viewModelScope.launch {
-            favouriteGroupElement.value = groupModel
-            repository.saveFavouriteGroupElement(groupModel)
-        }
-
-        this.favouriteFailure.value = null
+    fun updateFavouriteGroupElement(groupModel: GroupModel) = viewModelScope.launch {
+        favouriteGroupElement.value = groupModel
+        repository.saveFavouriteGroupElement(groupModel)
+        favouriteFailure.value = null
         Log.d(
             "MainViewModel",
             "updateFavouriteGroupElement: favouriteGroupElement=${favouriteGroupElement.value}"
