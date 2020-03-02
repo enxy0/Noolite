@@ -93,6 +93,16 @@ class Repository @Inject constructor(
             return Left(Failure.WifiConnectionError)
     }
 
+    suspend fun saveGroupGroupHolder(groupListHolderModel: GroupListHolderModel) =
+        withContext(Dispatchers.Default) {
+            val serializedGroupListHolderModel = serializer.serialize(groupListHolderModel)
+            fileManager.saveStringToPrefs(
+                FileManager.MAIN_DATA_FILE,
+                FileManager.GROUP_ELEMENT_LIST_KEY,
+                serializedGroupListHolderModel
+            )
+        }
+
     private suspend fun transformBinToGroupHolder(responseBody: ResponseBody): GroupListHolderModel =
         withContext(Dispatchers.Default) {
             val inputStream = responseBody.byteStream()

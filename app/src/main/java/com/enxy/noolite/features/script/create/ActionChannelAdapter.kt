@@ -73,9 +73,7 @@ class ActionChannelAdapter(private val listener: ActionListener) :
 
             indicatorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
+                    seekBar: SeekBar?, progress: Int, fromUser: Boolean
                 ) {
                     val value = "${progress}%"
                     progressValue.text = value

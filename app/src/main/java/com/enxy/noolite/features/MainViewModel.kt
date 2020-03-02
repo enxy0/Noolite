@@ -10,11 +10,10 @@ import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.model.TestData
 import com.enxy.noolite.features.settings.SettingsManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -23,11 +22,12 @@ class MainViewModel @Inject constructor(
     private val serializer: Serializer,
     private val repository: Repository
 ) : ViewModel() {
-    var groupFailure = MutableLiveData<Failure>()
-    var favouriteFailure = MutableLiveData<Failure>()
-    var lightFailure = MutableLiveData<Failure>()
+    val scriptsList = MutableLiveData(ArrayList<Script>())
+    val groupFailure = MutableLiveData<Failure>()
+    val favouriteFailure = MutableLiveData<Failure>()
+    val lightFailure = MutableLiveData<Failure>()
     val groupElementList = MutableLiveData(ArrayList<GroupModel>())
-    var favouriteGroupElement = MutableLiveData<GroupModel>()
+    val favouriteGroupElement = MutableLiveData<GroupModel>()
 
     init {
         loadGroupElementList(ipAddress = settingsManager.ipAddress)
@@ -38,6 +38,10 @@ class MainViewModel @Inject constructor(
     private fun loadFavouriteGroupElement() = viewModelScope.launch {
         repository.getFavouriteGroupElement()
             .either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
+    }
+
+    fun saveScript(script: Script) {
+        scriptsList.value!!.add(script)
     }
 
     fun loadGroupElementList(ipAddress: String, isForceUpdating: Boolean = false) =
@@ -78,15 +82,7 @@ class MainViewModel @Inject constructor(
     private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) =
         viewModelScope.launch {
             groupElementList.value = groupListHolderModel.groupListModel
-            withContext(Dispatchers.Default) {
-                val serializedGroupListHolderModel = serializer.serialize(groupListHolderModel)
-                fileManager.saveStringToPrefs(
-                    FileManager.MAIN_DATA_FILE,
-                    FileManager.GROUP_ELEMENT_LIST_KEY,
-                    serializedGroupListHolderModel
-                )
-            }
-
+            repository.saveGroupGroupHolder(groupListHolderModel)
             groupFailure.value = null
             Log.d(
                 "MainViewModel",
