@@ -8,10 +8,7 @@ import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
-import com.enxy.noolite.features.model.GroupListHolderModel
-import com.enxy.noolite.features.model.GroupModel
-import com.enxy.noolite.features.model.Script
-import com.enxy.noolite.features.model.TestData
+import com.enxy.noolite.features.model.*
 import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,6 +39,22 @@ class MainViewModel @Inject constructor(
 
     fun saveScript(script: Script) {
         scriptsList.value!!.add(script)
+    }
+
+    fun executeScript(script: Script) {
+        for (channelAction in script.actionsList) {
+            when (channelAction.action) {
+                Action.TURN_OFF -> turnOffLight(channelAction.channelId)
+                Action.TURN_ON -> turnOnLight(channelAction.channelId)
+                Action.TOGGLE_STATE -> changeLightState(channelAction.channelId)
+                Action.CHANGE_BRIGHTNESS -> changeBacklightBrightness(
+                    channelAction.channelId, channelAction.brightness!!
+                )
+                Action.CHANGE_COLOR -> changeBacklightColor(channelAction.channelId)
+                Action.START_OVERFLOW -> startBacklightOverflow(channelAction.channelId)
+                Action.STOP_OVERFLOW -> stopBacklightOverflow(channelAction.channelId)
+            }
+        }
     }
 
     fun loadGroupElementList(ipAddress: String, isForceUpdating: Boolean = false) =
