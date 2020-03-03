@@ -12,8 +12,8 @@ import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Action
-import com.enxy.noolite.features.model.ChannelModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Channel
+import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.fragment_script_group.*
 
@@ -33,7 +33,7 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
         finishScript.setOnClickListener {
             Log.d("ActionGroupFragment", "onViewCreated: script=$script")
             if (script.actionsList.isNotEmpty()) {
-                viewModel.saveScript(script)
+                viewModel.addScript(script)
                 notify("Скрипт был успешно создан!")
             } else
                 notify("Пустой сценарий был удален")
@@ -50,7 +50,7 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
 //        startAnimation()
     }
 
-    private fun renderData(groupList: ArrayList<GroupModel>?) {
+    private fun renderData(groupList: ArrayList<Group>?) {
         groupList?.let { actionGroupAdapter.updateData(it) }
     }
 
@@ -87,56 +87,56 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
         }
     }
 
-    override fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel) {
+    override fun onTurnOnActionChange(isChecked: Boolean, group: Group) {
         if (isChecked)
-            script.write(groupModel, Action.TURN_ON)
+            script.write(group, Action.TURN_ON)
         else
-            script.remove(groupModel, Action.TURN_ON)
+            script.remove(group, Action.TURN_ON)
     }
 
-    override fun onTurnOnActionChange(isChecked: Boolean, channelModel: ChannelModel) {
+    override fun onTurnOnActionChange(isChecked: Boolean, channel: Channel) {
         if (isChecked)
-            script.write(channelModel, Action.TURN_ON)
+            script.write(channel, Action.TURN_ON)
         else
-            script.remove(channelModel, Action.TURN_ON)
+            script.remove(channel, Action.TURN_ON)
     }
 
-    override fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel) {
+    override fun onTurnOffActionChange(isChecked: Boolean, group: Group) {
         if (isChecked)
-            script.write(groupModel, Action.TURN_OFF)
+            script.write(group, Action.TURN_OFF)
         else
-            script.remove(groupModel, Action.TURN_OFF)
+            script.remove(group, Action.TURN_OFF)
     }
 
-    override fun onTurnOffActionChange(isChecked: Boolean, channelModel: ChannelModel) {
+    override fun onTurnOffActionChange(isChecked: Boolean, channel: Channel) {
         if (isChecked)
-            script.write(channelModel, Action.TURN_OFF)
+            script.write(channel, Action.TURN_OFF)
         else
-            script.remove(channelModel, Action.TURN_OFF)
+            script.remove(channel, Action.TURN_OFF)
     }
 
     override fun onBrightnessChange(
         isChecked: Boolean,
-        channelModel: ChannelModel,
+        channel: Channel,
         brightness: Int
     ) {
         if (isChecked)
-            script.write(channelModel, Action.CHANGE_BRIGHTNESS, brightness)
+            script.write(channel, Action.CHANGE_BRIGHTNESS, brightness)
         else
-            script.remove(channelModel, Action.CHANGE_BRIGHTNESS)
+            script.remove(channel, Action.CHANGE_BRIGHTNESS)
     }
 
-    override fun onStartOverflowChange(isChecked: Boolean, channelModel: ChannelModel) {
+    override fun onStartOverflowChange(isChecked: Boolean, channel: Channel) {
         if (isChecked)
-            script.write(channelModel, Action.START_OVERFLOW)
+            script.write(channel, Action.START_OVERFLOW)
         else
-            script.remove(channelModel, Action.START_OVERFLOW)
+            script.remove(channel, Action.START_OVERFLOW)
     }
 
-    override fun onStopOverflowChange(isChecked: Boolean, channelModel: ChannelModel) {
+    override fun onStopOverflowChange(isChecked: Boolean, channel: Channel) {
         if (isChecked)
-            script.write(channelModel, Action.STOP_OVERFLOW)
+            script.write(channel, Action.STOP_OVERFLOW)
         else
-            script.remove(channelModel, Action.STOP_OVERFLOW)
+            script.remove(channel, Action.STOP_OVERFLOW)
     }
 }

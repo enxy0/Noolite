@@ -10,13 +10,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.toggleVisibility
-import com.enxy.noolite.features.model.ChannelModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Channel
+import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.item_action_channel.view.*
 
 class ActionChannelAdapter(private val listener: ActionListener) :
     RecyclerView.Adapter<ActionChannelAdapter.ActionChannelHolder>() {
-    private val channelList = ArrayList<ChannelModel>()
+    private val channelList = ArrayList<Channel>()
     private lateinit var recyclerView: RecyclerView
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -24,7 +24,7 @@ class ActionChannelAdapter(private val listener: ActionListener) :
         this.recyclerView = recyclerView
     }
 
-    fun updateData(channelList: ArrayList<ChannelModel>) {
+    fun updateData(channelList: ArrayList<Channel>) {
         this.channelList.clear()
         this.channelList.addAll(channelList)
         notifyDataSetChanged()
@@ -44,8 +44,8 @@ class ActionChannelAdapter(private val listener: ActionListener) :
     }
 
     inner class ActionChannelHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(channelModel: ChannelModel) = with(itemView) {
-            channelHeader.text = channelModel.name
+        fun bind(channel: Channel) = with(itemView) {
+            channelHeader.text = channel.name
 
             // Animate button rotation and show additional content
             channelLayout.setOnClickListener { toggleAdditionalContent() }
@@ -54,11 +54,11 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             // Light section
             turnOnAction.setOnClickListener {
                 turnOnCheck.toggleVisibility()
-                listener.onTurnOnActionChange(turnOnCheck.isVisible, channelModel)
+                listener.onTurnOnActionChange(turnOnCheck.isVisible, channel)
             }
             turnOffAction.setOnClickListener {
                 turnOffCheck.toggleVisibility()
-                listener.onTurnOffActionChange(turnOffCheck.isVisible, channelModel)
+                listener.onTurnOffActionChange(turnOffCheck.isVisible, channel)
             }
 
             // Brightness section
@@ -66,7 +66,7 @@ class ActionChannelAdapter(private val listener: ActionListener) :
                 changeBrightnessCheck.toggleVisibility()
                 listener.onBrightnessChange(
                     changeBrightnessCheck.isVisible,
-                    channelModel,
+                    channel,
                     indicatorSeekBar.progress
                 )
             }
@@ -89,7 +89,7 @@ class ActionChannelAdapter(private val listener: ActionListener) :
                     seekBar?.let {
                         listener.onBrightnessChange(
                             changeBrightnessCheck.isVisible,
-                            channelModel,
+                            channel,
                             seekBar.progress
                         )
                     }
@@ -99,11 +99,11 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             // Overflow section
             startOverflowAction.setOnClickListener {
                 startOverflowCheck.toggleVisibility()
-                listener.onStartOverflowChange(startOverflowCheck.isVisible, channelModel)
+                listener.onStartOverflowChange(startOverflowCheck.isVisible, channel)
             }
             stopOverflowAction.setOnClickListener {
                 stopOverflowCheck.toggleVisibility()
-                listener.onStopOverflowChange(stopOverflowCheck.isVisible, channelModel)
+                listener.onStopOverflowChange(stopOverflowCheck.isVisible, channel)
             }
         }
 
@@ -138,12 +138,12 @@ class ActionChannelAdapter(private val listener: ActionListener) :
     }
 
     interface ActionListener {
-        fun onTurnOnActionChange(isChecked: Boolean, groupModel: GroupModel)
-        fun onTurnOffActionChange(isChecked: Boolean, groupModel: GroupModel)
-        fun onTurnOnActionChange(isChecked: Boolean, channelModel: ChannelModel)
-        fun onTurnOffActionChange(isChecked: Boolean, channelModel: ChannelModel)
-        fun onBrightnessChange(isChecked: Boolean, channelModel: ChannelModel, brightness: Int)
-        fun onStartOverflowChange(isChecked: Boolean, channelModel: ChannelModel)
-        fun onStopOverflowChange(isChecked: Boolean, channelModel: ChannelModel)
+        fun onTurnOnActionChange(isChecked: Boolean, group: Group)
+        fun onTurnOffActionChange(isChecked: Boolean, group: Group)
+        fun onTurnOnActionChange(isChecked: Boolean, channel: Channel)
+        fun onTurnOffActionChange(isChecked: Boolean, channel: Channel)
+        fun onBrightnessChange(isChecked: Boolean, channel: Channel, brightness: Int)
+        fun onStartOverflowChange(isChecked: Boolean, channel: Channel)
+        fun onStopOverflowChange(isChecked: Boolean, channel: Channel)
     }
 }

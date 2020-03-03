@@ -12,23 +12,23 @@ import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.fragment_channel.*
 
 
 class ChannelFragment : BaseFragment() {
     private lateinit var channelAdapter: ChannelAdapter
     private lateinit var viewModel: MainViewModel
-    private val passedGroupModel: GroupModel
-        get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as GroupModel
+    private val passedGroup: Group
+        get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as Group
     private val hasPassedData: Boolean
         get() = arguments != null
 
     override val layoutId = R.layout.fragment_channel
 
     companion object {
-        fun newInstance(groupModel: GroupModel) = ChannelFragment().apply {
-            arguments = Bundle().apply { putSerializable(GROUP_MODEL_KEY, groupModel) }
+        fun newInstance(group: Group) = ChannelFragment().apply {
+            arguments = Bundle().apply { putSerializable(GROUP_MODEL_KEY, group) }
         }
 
         fun newInstance() = ChannelFragment()
@@ -44,7 +44,7 @@ class ChannelFragment : BaseFragment() {
             setUpBackButton()
             if (isNotFavouriteFragment())
                 setUpFavouriteButton()
-            renderGroupElement(passedGroupModel)
+            renderGroupElement(passedGroup)
         } else {
             with(viewModel) {
                 observe(favouriteGroupElement, ::renderGroupElement)
@@ -56,7 +56,7 @@ class ChannelFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         if (hasPassedData) {
-            setToolbarTitle(passedGroupModel.name)
+            setToolbarTitle(passedGroup.name)
             setUpBackButton()
         } else {
             if (viewModel.favouriteGroupElement.value != null)
@@ -76,8 +76,8 @@ class ChannelFragment : BaseFragment() {
         }
     }
 
-    private fun renderGroupElement(groupModel: GroupModel?) {
-        groupModel?.let {
+    private fun renderGroupElement(group: Group?) {
+        group?.let {
             setToolbarTitle(it.name)
             if (errorLayout.isVisible) {
                 channelRecyclerView.isVisible = true
@@ -116,11 +116,11 @@ class ChannelFragment : BaseFragment() {
     private fun setUpFavouriteButton() {
         favouriteButton.visibility = View.VISIBLE
         favouriteButton.setOnClickListener {
-            with(viewModel) { updateFavouriteGroupElement(passedGroupModel) }
+            with(viewModel) { updateFavouriteGroupElement(passedGroup) }
             notify(R.string.message_room_added_as_favourite)
         }
     }
 
     private fun isNotFavouriteFragment() =
-        with(viewModel) { favouriteGroupElement.value != passedGroupModel }
+        with(viewModel) { favouriteGroupElement.value != passedGroup }
 }

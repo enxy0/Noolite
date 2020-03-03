@@ -3,17 +3,20 @@ package com.enxy.noolite.core.network
 import BinParser
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.exception.Success
+import com.enxy.noolite.core.extension.getArrayListBuildType
 import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.core.platform.Serializer
+import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.GroupListHolderModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Script
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
+import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,7 +47,28 @@ class Repository @Inject constructor(
         const val STOP_OVERFLOW_COMMAND = 10
     }
 
-    suspend fun getFavouriteGroupElement(): Either<Failure, GroupModel> {
+    suspend fun saveScripts(scriptList: ArrayList<Script>) = withContext(Dispatchers.Default) {
+        val scriptListJson = serializer.serialize(scriptList)
+        fileManager.saveStringToPrefs(
+            FileManager.MAIN_DATA_FILE, FileManager.SCRIPT_LIST_KEY, scriptListJson
+        )
+    }
+
+    suspend fun getScripts(): Either<Failure, ArrayList<Script>> {
+        val json: String? = withContext(Dispatchers.IO) {
+            fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.SCRIPT_LIST_KEY)
+        }
+        val type: Type = getArrayListBuildType<ArrayList<Script>>()
+        return if (json != null) {
+            val scriptList: ArrayList<Script> = withContext(Dispatchers.Default) {
+                serializer.deserialize<ArrayList<Script>>(json, type)
+            }
+            Right(scriptList)
+        } else
+            Left(Failure.DataNotFound)
+    }
+
+    suspend fun getFavouriteGroupElement(): Either<Failure, Group> {
         val groupModelString = withContext(Dispatchers.Default) {
             fileManager.getStringFromPrefs(
                 FileManager.MAIN_DATA_FILE,
@@ -53,7 +77,7 @@ class Repository @Inject constructor(
         }
         return if (groupModelString != null) {
             val groupElement = withContext(Dispatchers.Default) {
-                serializer.deserialize(groupModelString, GroupModel::class.java)
+                serializer.deserialize(groupModelString, Group::class.java)
             }
             Right(groupElement)
         } else {
@@ -61,9 +85,9 @@ class Repository @Inject constructor(
         }
     }
 
-    suspend fun saveFavouriteGroupElement(groupModel: GroupModel) =
+    suspend fun saveFavouriteGroupElement(group: Group) =
         withContext(Dispatchers.Default) {
-            val serializedGroupModel = serializer.serialize(groupModel)
+            val serializedGroupModel = serializer.serialize(group)
             fileManager.saveStringToPrefs(
                 FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, serializedGroupModel
             )
@@ -95,11 +119,9 @@ class Repository @Inject constructor(
 
     suspend fun saveGroupGroupHolder(groupListHolderModel: GroupListHolderModel) =
         withContext(Dispatchers.Default) {
-            val serializedGroupListHolderModel = serializer.serialize(groupListHolderModel)
+            val groupListHolderJson = serializer.serialize(groupListHolderModel)
             fileManager.saveStringToPrefs(
-                FileManager.MAIN_DATA_FILE,
-                FileManager.GROUP_ELEMENT_LIST_KEY,
-                serializedGroupListHolderModel
+                FileManager.MAIN_DATA_FILE, FileManager.GROUP_ELEMENT_LIST_KEY, groupListHolderJson
             )
         }
 

@@ -7,13 +7,13 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.model.ChannelModel
+import com.enxy.noolite.features.model.Channel
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 
 class ChannelAdapter(private var viewModel: MainViewModel) :
     RecyclerView.Adapter<ChannelAdapter.ChannelHolderDefault>() {
-    private var data: ArrayList<ChannelModel> = ArrayList()
+    private var data: ArrayList<Channel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolderDefault {
         return ChannelHolderDefault(
@@ -31,15 +31,15 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
         holder.bind(data[position])
     }
 
-    fun updateData(channelList: ArrayList<ChannelModel>) {
+    fun updateData(channelList: ArrayList<Channel>) {
         this.data.clear()
         this.data.addAll(channelList)
         notifyDataSetChanged()
     }
 
     inner class ChannelHolderDefault(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(channelModel: ChannelModel) {
-            when (channelModel.type) {
+        fun bind(channel: Channel) {
+            when (channel.type) {
                 0 -> {
                     itemView.brightnessLinearLayout.visibility = View.GONE
                     itemView.overflowLinearLayout.visibility = View.GONE
@@ -58,14 +58,14 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
 
                         override fun onStartTrackingTouch(seekBar: SeekBar?) {
                             if (seekBar!!.progress == 0)
-                                viewModel.turnOnLight(channelModel.id)
+                                viewModel.turnOnLight(channel.id)
                         }
 
                         override fun onStopTrackingTouch(seekBar: SeekBar?) {
                             when (val brightness = seekBar!!.progress) {
-                                0 -> viewModel.turnOffLight(channelModel.id)
+                                0 -> viewModel.turnOffLight(channel.id)
                                 else -> viewModel.changeBacklightBrightness(
-                                    channelModel.id,
+                                    channel.id,
                                     brightness
                                 )
                             }
@@ -78,13 +78,13 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
                     SeekBar.OnSeekBarChangeListener {
                     override fun onStartTrackingTouch(seekBar: SeekBar?) {
                         if (seekBar!!.progress == 0)
-                            viewModel.turnOnLight(channelModel.id)
+                            viewModel.turnOnLight(channel.id)
                     }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
                         when (val brightness = seekBar!!.progress) {
-                            0 -> viewModel.turnOffLight(channelModel.id)
-                            else -> viewModel.changeBacklightBrightness(channelModel.id, brightness)
+                            0 -> viewModel.turnOffLight(channel.id)
+                            else -> viewModel.changeBacklightBrightness(channel.id, brightness)
                         }
                     }
 
@@ -98,27 +98,27 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
             }
 
             itemView.toggleLightButton.setOnClickListener {
-                viewModel.changeLightState(channelModel.id)
+                viewModel.changeLightState(channel.id)
             }
 
             itemView.turnOnLightButton.setOnClickListener {
-                viewModel.turnOnLight(channelModel.id)
+                viewModel.turnOnLight(channel.id)
             }
 
             itemView.turnOffLightButton.setOnClickListener {
-                viewModel.turnOffLight(channelModel.id)
+                viewModel.turnOffLight(channel.id)
             }
 
             itemView.startOverflowButton.setOnClickListener {
-                viewModel.startBacklightOverflow(channelModel.id)
+                viewModel.startBacklightOverflow(channel.id)
             }
 
             itemView.stopOverflowButton.setOnClickListener {
-                viewModel.stopBacklightOverflow(channelModel.id)
+                viewModel.stopBacklightOverflow(channel.id)
             }
 
             itemView.changeColorButton.setOnClickListener {
-                viewModel.changeBacklightColor(channelModel.id)
+                viewModel.changeBacklightColor(channel.id)
             }
 
             if (!viewModel.settingsManager.hasToggleButton) {
@@ -127,7 +127,7 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
                 itemView.turnOnLightButton.visibility = View.GONE
                 itemView.turnOffLightButton.visibility = View.GONE
             }
-            itemView.headerTextView.text = channelModel.name
+            itemView.headerTextView.text = channel.name
         }
     }
 }

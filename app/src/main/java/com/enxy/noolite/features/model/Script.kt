@@ -5,24 +5,24 @@ data class Script(
     val actionsList: ArrayList<ChannelAction>
 ) {
 
-    fun write(channelModel: ChannelModel, action: Action, brightness: Int? = null) {
-        actionsList.add(ChannelAction(channelModel.id, action, brightness))
+    fun write(channel: Channel, action: Action, brightness: Int? = null) {
+        actionsList.add(ChannelAction(channel.id, action, brightness))
     }
 
-    fun write(groupModel: GroupModel, action: Action, brightness: Int? = null) {
-        for (channel in groupModel.channelList)
+    fun write(group: Group, action: Action, brightness: Int? = null) {
+        for (channel in group.channelList)
             write(channel, action, brightness)
     }
 
-    fun remove(groupModel: GroupModel, action: Action) {
-        for (channel in groupModel.channelList)
+    fun remove(group: Group, action: Action) {
+        for (channel in group.channelList)
             remove(channel, action)
     }
 
-    fun remove(channelModel: ChannelModel, action: Action) {
+    fun remove(channel: Channel, action: Action) {
         for (position in 0..actionsList.size) {
             val channelAction = actionsList[position]
-            if (channelAction.channelId == channelModel.id && channelAction.action == action) {
+            if (channelAction.channelId == channel.id && channelAction.action == action) {
                 actionsList.remove(channelAction)
                 break
             }

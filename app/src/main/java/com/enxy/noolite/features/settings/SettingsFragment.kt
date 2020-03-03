@@ -12,7 +12,7 @@ import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.MainActivity
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : BaseFragment() {
@@ -55,8 +55,8 @@ class SettingsFragment : BaseFragment() {
         appInfoTextView.text = appInfo
     }
 
-    private fun handleUpdate(groupListModelNullable: ArrayList<GroupModel>?) {
-        groupListModelNullable?.let { groupListModel ->
+    private fun handleUpdate(groupList: ArrayList<Group>?) {
+        groupList?.let { groupListModel ->
             if (groupListModel.isNotEmpty()) {
                 notify(R.string.message_data_updated)
             }

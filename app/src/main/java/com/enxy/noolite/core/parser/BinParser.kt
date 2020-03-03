@@ -1,5 +1,5 @@
-import com.enxy.noolite.features.model.ChannelModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Channel
+import com.enxy.noolite.features.model.Group
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.ParseException
@@ -18,9 +18,9 @@ object BinParser {
     private const val OFFSET = 24
     private const val START_OFFSET = 6
 
-    fun parseData(data: ByteArray): ArrayList<GroupModel> {
+    fun parseData(data: ByteArray): ArrayList<Group> {
         try {
-            val groupArrayList = ArrayList<GroupModel>()
+            val groupArrayList = ArrayList<Group>()
             val currentChannelPosition = GROUP_OFFSET * NUMBER_OF_GROUPS
             var currentGroupPosition = 0
             for (groupId in 1..NUMBER_OF_GROUPS) {
@@ -28,12 +28,12 @@ object BinParser {
                 val groupVisibility = getVisibilityOfGroup(data[START_OFFSET + OFFSET + currentGroupPosition])
                 if (groupVisibility) {
 //                    val groupElement = GroupModel(groupId, groupName, true)
-                    val groupElement = GroupModel(groupId, groupName)
+                    val groupElement = Group(groupId, groupName)
                     for (j in 0 until NUMBER_OF_CHANNELS_IN_GROUP) {
                         val channelElementId =
                             getChannelElementId(data[currentGroupPosition + START_OFFSET + OFFSET + j])
                         if (channelElementId != 0) {
-                            val channelElement = ChannelModel(
+                            val channelElement = Channel(
                                 channelElementId - 1,
                                 getName(
                                     data,

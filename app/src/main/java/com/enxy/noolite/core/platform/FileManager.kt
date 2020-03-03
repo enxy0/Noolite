@@ -13,11 +13,9 @@ class FileManager @Inject constructor(private val appContext: Context) {
         const val SETTINGS_FILE = "settings"
         const val MAIN_DATA_FILE = "main"
 
-        // Settings
+        // Keys
         const val IP_ADDRESS_KEY = "ip_address"
-        const val DEFAULT_IP_ADDRESS_VALUE = "192.168.1.10"
         const val WIFI_NOTIFICATION_KEY = "wifi_notification"
-        const val DEFAULT_WIFI_NOTIFICATION_VALUE = true
         const val FAVOURITE_GROUP_KEY = "favourite_group_element"
         const val GROUP_ELEMENT_LIST_KEY = "group_element_list"
         const val THEME_KEY = "theme"
@@ -25,8 +23,11 @@ class FileManager @Inject constructor(private val appContext: Context) {
         const val SCROLL_X_KEY = "scroll_x"
         const val SCROLL_Y_KEY = "scroll_y"
         const val TOGGLE_BUTTON_KEY = "toggle_button"
+        const val SCRIPT_LIST_KEY = "script_list"
 
-        // Themes keys
+        // Values
+        const val DEFAULT_IP_ADDRESS_VALUE = "192.168.1.10"
+        const val DEFAULT_WIFI_NOTIFICATION_VALUE = true
         const val WHITE_BLUE_THEME_VALUE = "white_blue"
         const val DARK_GREEN_THEME_VALUE = "dark_green"
         const val BLACK_BLUE_THEME_VALUE = "black_amber"

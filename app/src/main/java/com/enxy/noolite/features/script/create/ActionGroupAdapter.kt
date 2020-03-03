@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
 import com.enxy.noolite.core.extension.toggleVisibility
-import com.enxy.noolite.features.model.ChannelModel
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Channel
+import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.item_action_group.view.*
 
@@ -20,9 +20,9 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
     RecyclerView.Adapter<ActionGroupAdapter.ActionGroupHolder>() {
     private lateinit var recyclerView: RecyclerView
     private val script: Script? = null
-    private val groupList = ArrayList<GroupModel>()
+    private val groupList = ArrayList<Group>()
 
-    fun updateData(groupList: ArrayList<GroupModel>) {
+    fun updateData(groupList: ArrayList<Group>) {
         this.groupList.clear()
         this.groupList.addAll(groupList)
         notifyDataSetChanged()
@@ -46,20 +46,20 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
     }
 
     inner class ActionGroupHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(groupModel: GroupModel) = with(itemView) {
-            setUpRecyclerView(groupModel.channelList)
-            groupHeader.text = groupModel.name
-            groupChannels.text = groupModel.channelElementsToString()
+        fun bind(group: Group) = with(itemView) {
+            setUpRecyclerView(group.channelList)
+            groupHeader.text = group.name
+            groupChannels.text = group.channelElementsToString()
 
             // Turn off action listeners
             turnOffAction.setOnClickListener {
                 turnOffCheck.toggleVisibility()
-                actionListener.onTurnOffActionChange(turnOffCheck.isVisible, groupModel)
+                actionListener.onTurnOffActionChange(turnOffCheck.isVisible, group)
             }
             // Turn on action listeners
             turnOnAction.setOnClickListener {
                 turnOnCheck.toggleVisibility()
-                actionListener.onTurnOnActionChange(turnOnCheck.isVisible, groupModel)
+                actionListener.onTurnOnActionChange(turnOnCheck.isVisible, group)
             }
 
             // Animate button rotation and show available actions
@@ -95,7 +95,7 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
         /**
          * Set ups recycler view to display channel model list from group model
          */
-        private fun setUpRecyclerView(channelList: ArrayList<ChannelModel>) =
+        private fun setUpRecyclerView(channelList: ArrayList<Channel>) =
             with(itemView.actionChannelList) {
                 val channelAdapter = ActionChannelAdapter(actionListener)
                 adapter = channelAdapter

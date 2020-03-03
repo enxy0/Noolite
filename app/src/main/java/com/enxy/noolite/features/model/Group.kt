@@ -3,10 +3,10 @@ package com.enxy.noolite.features.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class GroupModel(
+data class Group(
     @SerializedName("id") val id: Int = 0,
     @SerializedName("name") val name: String = "empty",
-    @SerializedName("channelElementsList") var channelList: ArrayList<ChannelModel> = ArrayList()
+    @SerializedName("channelElementsList") var channelList: ArrayList<Channel> = ArrayList()
 ) : Serializable {
 
     fun channelElementsToString(): String {

@@ -16,7 +16,7 @@ import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.channel.ChannelFragment
-import com.enxy.noolite.features.model.GroupModel
+import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.content_error.view.*
 import kotlinx.android.synthetic.main.fragment_group.*
 
@@ -60,8 +60,8 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
         }
     }
 
-    private fun renderData(groupListModelNullable: ArrayList<GroupModel>?) {
-        groupListModelNullable?.let {
+    private fun renderData(groupList: ArrayList<Group>?) {
+        groupList?.let {
             if (it.isNotEmpty()) {
                 if (errorLayout.isVisible) {
                     errorLayout.isGone = true
@@ -85,7 +85,7 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
         }
     }
 
-    override fun onGroupOpen(groupModel: GroupModel) {
+    override fun onGroupOpen(group: Group) {
         parentFragmentManager.commit {
             addToBackStack(null)
             setCustomAnimations(
@@ -94,17 +94,17 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
                 R.anim.zoom_in,
                 R.anim.zoom_out
             )
-            replace(R.id.fragmentHolder, ChannelFragment.newInstance(groupModel))
+            replace(R.id.fragmentHolder, ChannelFragment.newInstance(group))
         }
     }
 
-    override fun onTurnOnLights(groupModel: GroupModel) {
-        for (channel in groupModel.channelList)
+    override fun onTurnOnLights(group: Group) {
+        for (channel in group.channelList)
             viewModel.turnOnLight(channel.id)
     }
 
-    override fun onTurnOffLights(groupModel: GroupModel) {
-        for (channel in groupModel.channelList)
+    override fun onTurnOffLights(group: Group) {
+        for (channel in group.channelList)
             viewModel.turnOffLight(channel.id)
     }
 }

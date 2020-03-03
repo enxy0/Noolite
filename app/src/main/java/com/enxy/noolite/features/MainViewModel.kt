@@ -19,12 +19,12 @@ class MainViewModel @Inject constructor(
     private val serializer: Serializer,
     private val repository: Repository
 ) : ViewModel() {
-    val scriptsList = MutableLiveData(ArrayList<Script>())
+    val scriptList = MutableLiveData(ArrayList<Script>())
     val groupFailure = MutableLiveData<Failure>()
     val favouriteFailure = MutableLiveData<Failure>()
     val lightFailure = MutableLiveData<Failure>()
-    val groupElementList = MutableLiveData(ArrayList<GroupModel>())
-    val favouriteGroupElement = MutableLiveData<GroupModel>()
+    val groupElementList = MutableLiveData(ArrayList<Group>())
+    val favouriteGroupElement = MutableLiveData<Group>()
 
     init {
         loadGroupElementList(ipAddress = settingsManager.ipAddress)
@@ -37,8 +37,13 @@ class MainViewModel @Inject constructor(
             .either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
     }
 
-    fun saveScript(script: Script) {
-        scriptsList.value!!.add(script)
+    private fun getScripts() = viewModelScope.launch {
+        repository.getScripts().either({}, ::updateScriptList)
+    }
+
+    fun addScript(script: Script) = viewModelScope.launch {
+        scriptList.value!!.add(script)
+        repository.saveScripts(scriptList.value!!)
     }
 
     fun executeScript(script: Script) {
@@ -94,23 +99,27 @@ class MainViewModel @Inject constructor(
 
     private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) =
         viewModelScope.launch {
-            groupElementList.value = groupListHolderModel.groupListModel
+            groupElementList.value = groupListHolderModel.groupList
             repository.saveGroupGroupHolder(groupListHolderModel)
             groupFailure.value = null
             Log.d(
                 "MainViewModel",
-                "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupListModel}"
+                "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupList}"
             )
         }
 
-    fun updateFavouriteGroupElement(groupModel: GroupModel) = viewModelScope.launch {
-        favouriteGroupElement.value = groupModel
-        repository.saveFavouriteGroupElement(groupModel)
+    fun updateFavouriteGroupElement(group: Group) = viewModelScope.launch {
+        favouriteGroupElement.value = group
+        repository.saveFavouriteGroupElement(group)
         favouriteFailure.value = null
         Log.d(
             "MainViewModel",
             "updateFavouriteGroupElement: favouriteGroupElement=${favouriteGroupElement.value}"
         )
+    }
+
+    private fun updateScriptList(scriptList: ArrayList<Script>?) {
+        this.scriptList.value = scriptList
     }
 
     private fun updateGroupFailure(failure: Failure) {
