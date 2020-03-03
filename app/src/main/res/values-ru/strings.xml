@@ -66,4 +66,5 @@
     <string name="script_default_seekbar_value">0%</string>
     <string name="action_turn_on_all_light">Включить весь свет</string>
     <string name="action_turn_off_all_light">Выключить весь свет</string>
+    <string name="error_deserialization">Произошла ошибка чтения данных из кэша. Перейдите в настройки и отчистите хранилище приложения.</string>
 </resources>

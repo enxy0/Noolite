@@ -1,12 +1,11 @@
 package com.enxy.noolite.features.model
 
-import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Group(
-    @SerializedName("id") val id: Int = 0,
-    @SerializedName("name") val name: String = "empty",
-    @SerializedName("channelElementsList") var channelList: ArrayList<Channel> = ArrayList()
+    val id: Int = 0,
+    val name: String = "empty",
+    var channelList: ArrayList<Channel> = ArrayList()
 ) : Serializable {
 
     fun channelElementsToString(): String {

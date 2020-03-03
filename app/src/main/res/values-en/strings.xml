@@ -62,4 +62,5 @@
     <string name="script_default_seekbar_value">0%</string>
     <string name="action_turn_on_all_light">Turn on all light</string>
     <string name="action_turn_off_all_light">Turn off all light</string>
+    <string name="error_deserialization">Data reading error happened! Go to the settings and clear storage.</string>
 </resources>

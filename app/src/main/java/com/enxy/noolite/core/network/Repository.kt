@@ -3,20 +3,18 @@ package com.enxy.noolite.core.network
 import BinParser
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.exception.Success
-import com.enxy.noolite.core.extension.getArrayListBuildType
+import com.enxy.noolite.core.extension.fromJson
 import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
 import com.enxy.noolite.core.platform.FileManager
-import com.enxy.noolite.core.platform.Serializer
 import com.enxy.noolite.features.model.Group
-import com.enxy.noolite.features.model.GroupListHolderModel
 import com.enxy.noolite.features.model.Script
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
-import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,7 +23,7 @@ class Repository @Inject constructor(
     private val connectionManager: ConnectionManager,
     private val service: NetworkService,
     private val fileManager: FileManager,
-    private val serializer: Serializer
+    private val gson: Gson
 ) {
     companion object {
         // URLs
@@ -48,7 +46,7 @@ class Repository @Inject constructor(
     }
 
     suspend fun saveScripts(scriptList: ArrayList<Script>) = withContext(Dispatchers.Default) {
-        val scriptListJson = serializer.serialize(scriptList)
+        val scriptListJson: String = gson.toJson(scriptList)
         fileManager.saveStringToPrefs(
             FileManager.MAIN_DATA_FILE, FileManager.SCRIPT_LIST_KEY, scriptListJson
         )
@@ -58,10 +56,9 @@ class Repository @Inject constructor(
         val json: String? = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.SCRIPT_LIST_KEY)
         }
-        val type: Type = getArrayListBuildType<ArrayList<Script>>()
         return if (json != null) {
             val scriptList: ArrayList<Script> = withContext(Dispatchers.Default) {
-                serializer.deserialize<ArrayList<Script>>(json, type)
+                gson.fromJson<ArrayList<Script>>(json)
             }
             Right(scriptList)
         } else
@@ -69,67 +66,66 @@ class Repository @Inject constructor(
     }
 
     suspend fun getFavouriteGroupElement(): Either<Failure, Group> {
-        val groupModelString = withContext(Dispatchers.Default) {
+        val groupJson = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(
-                FileManager.MAIN_DATA_FILE,
-                FileManager.FAVOURITE_GROUP_KEY
+                FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY
             )
         }
-        return if (groupModelString != null) {
-            val groupElement = withContext(Dispatchers.Default) {
-                serializer.deserialize(groupModelString, Group::class.java)
+        return if (groupJson != null) {
+            val group: Group = withContext(Dispatchers.Default) {
+                gson.fromJson<Group>(groupJson)
             }
-            Right(groupElement)
+            Right(group)
         } else {
             Left(Failure.DataNotFound)
         }
     }
 
-    suspend fun saveFavouriteGroupElement(group: Group) =
-        withContext(Dispatchers.Default) {
-            val serializedGroupModel = serializer.serialize(group)
-            fileManager.saveStringToPrefs(
-                FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, serializedGroupModel
-            )
-        }
+    suspend fun saveFavouriteGroupElement(group: Group) = withContext(Dispatchers.Default) {
+        val groupJson: String = gson.toJson(group)
+        fileManager.saveStringToPrefs(
+            FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, groupJson
+        )
+    }
 
-    suspend fun getGroupHolder(
+    suspend fun getGroupList(
         ipAddress: String,
         isForceUpdating: Boolean
-    ): Either<Failure, GroupListHolderModel> {
-        val groupElementList = fileManager.getStringFromPrefs(
+    ): Either<Failure, ArrayList<Group>> {
+        val groupListJson = fileManager.getStringFromPrefs(
             FileManager.MAIN_DATA_FILE,
-            FileManager.GROUP_ELEMENT_LIST_KEY
+            FileManager.GROUP_LIST_KEY
         )
-        if (groupElementList != null && !isForceUpdating) {
-            val groupHolder =
-                serializer.deserialize(groupElementList, GroupListHolderModel::class.java)
-            return Right(groupHolder)
+        return if (groupListJson != null && !isForceUpdating) {
+            val groupList: ArrayList<Group> = withContext(Dispatchers.Default) {
+                gson.fromJson<ArrayList<Group>>(groupListJson)
+            }
+            Right(groupList)
         } else if (connectionManager.isWifiConnected()) {
             API_URL = ipAddress
-            return request(
+            request(
                 call = {
                     service.getNooliteApi().getGroupsAsync(url = API_URL + SERVER_SETTINGS_FILE)
                 },
-                transform = ::transformBinToGroupHolder
+                transform = ::transformBinToGroupList
             )
         } else
-            return Left(Failure.WifiConnectionError)
+            Left(Failure.WifiConnectionError)
     }
 
-    suspend fun saveGroupGroupHolder(groupListHolderModel: GroupListHolderModel) =
+    suspend fun saveGroupList(groupList: ArrayList<Group>) =
         withContext(Dispatchers.Default) {
-            val groupListHolderJson = serializer.serialize(groupListHolderModel)
+            val groupListJson = gson.toJson(groupList)
             fileManager.saveStringToPrefs(
-                FileManager.MAIN_DATA_FILE, FileManager.GROUP_ELEMENT_LIST_KEY, groupListHolderJson
+                FileManager.MAIN_DATA_FILE, FileManager.GROUP_LIST_KEY, groupListJson
             )
         }
 
-    private suspend fun transformBinToGroupHolder(responseBody: ResponseBody): GroupListHolderModel =
+    private suspend fun transformBinToGroupList(responseBody: ResponseBody): ArrayList<Group> =
         withContext(Dispatchers.Default) {
             val inputStream = responseBody.byteStream()
-            val groupElementList = BinParser.parseData(inputStream.readBytes())
-            GroupListHolderModel(groupElementList)
+            val groupList = BinParser.parseData(inputStream.readBytes())
+            groupList
         }
 
     private suspend fun transformToSuccessRequest(responseBody: ResponseBody): Success.GoodRequest {

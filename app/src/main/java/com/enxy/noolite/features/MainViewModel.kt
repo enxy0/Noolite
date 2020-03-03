@@ -6,17 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
-import com.enxy.noolite.core.platform.FileManager
-import com.enxy.noolite.core.platform.Serializer
-import com.enxy.noolite.features.model.*
+import com.enxy.noolite.features.model.Action
+import com.enxy.noolite.features.model.Group
+import com.enxy.noolite.features.model.Script
+import com.enxy.noolite.features.model.TestData
 import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     val settingsManager: SettingsManager,
-    private val fileManager: FileManager,
-    private val serializer: Serializer,
     private val repository: Repository
 ) : ViewModel() {
     val scriptList = MutableLiveData(ArrayList<Script>())
@@ -64,7 +63,7 @@ class MainViewModel @Inject constructor(
 
     fun loadGroupElementList(ipAddress: String, isForceUpdating: Boolean = false) =
         viewModelScope.launch {
-            repository.getGroupHolder(ipAddress, isForceUpdating)
+            repository.getGroupList(ipAddress, isForceUpdating)
                 .either(::updateGroupFailure, ::updateGroupHolder)
         }
 
@@ -97,15 +96,12 @@ class MainViewModel @Inject constructor(
             .either(::updateLightFailure, { })
     }
 
-    private fun updateGroupHolder(groupListHolderModel: GroupListHolderModel) =
+    private fun updateGroupHolder(groupList: ArrayList<Group>) =
         viewModelScope.launch {
-            groupElementList.value = groupListHolderModel.groupList
-            repository.saveGroupGroupHolder(groupListHolderModel)
+            groupElementList.value = groupList
+            repository.saveGroupList(groupList)
             groupFailure.value = null
-            Log.d(
-                "MainViewModel",
-                "updateGroupHolder: groupListHolderModel=${groupListHolderModel.groupList}"
-            )
+            Log.d("MainViewModel", "updateGroupHolder: groupListHolderModel=${groupList}")
         }
 
     fun updateFavouriteGroupElement(group: Group) = viewModelScope.launch {

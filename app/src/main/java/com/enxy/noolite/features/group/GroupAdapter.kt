@@ -31,12 +31,12 @@ class GroupAdapter(private val listener: GroupListener) :
     }
 
     inner class GroupHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(group: Group) {
-            itemView.groupLinearLayout.setOnClickListener { listener.onGroupOpen(group) }
-            itemView.turnOnLightButton.setOnClickListener { listener.onTurnOnLights(group) }
-            itemView.turnOffLightButton.setOnClickListener { listener.onTurnOffLights(group) }
-            itemView.headerTextView.text = group.name
-            itemView.secondaryTextView.text = group.channelElementsToString()
+        fun bind(group: Group) = with(itemView) {
+            groupLinearLayout.setOnClickListener { listener.onGroupOpen(group) }
+            turnOnLightButton.setOnClickListener { listener.onTurnOnLights(group) }
+            turnOffLightButton.setOnClickListener { listener.onTurnOffLights(group) }
+            headerTextView.text = group.name
+            secondaryTextView.text = group.channelElementsToString()
         }
     }
 

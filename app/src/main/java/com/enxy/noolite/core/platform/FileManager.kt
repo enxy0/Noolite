@@ -17,7 +17,7 @@ class FileManager @Inject constructor(private val appContext: Context) {
         const val IP_ADDRESS_KEY = "ip_address"
         const val WIFI_NOTIFICATION_KEY = "wifi_notification"
         const val FAVOURITE_GROUP_KEY = "favourite_group_element"
-        const val GROUP_ELEMENT_LIST_KEY = "group_element_list"
+        const val GROUP_LIST_KEY = "group_list"
         const val THEME_KEY = "theme"
         const val THEME_CHANGED = "themed"
         const val SCROLL_X_KEY = "scroll_x"

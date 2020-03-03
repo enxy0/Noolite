@@ -7,10 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.enxy.noolite.AndroidApplication
+import com.enxy.noolite.core.di.ApplicationComponent
 import com.enxy.noolite.features.MainActivity
 import kotlinx.android.synthetic.main.activity_base.*
 
 abstract class BaseFragment : Fragment() {
+    val appComponent: ApplicationComponent by lazy {
+        (requireActivity().application as AndroidApplication).appComponent
+    }
+
     internal fun notify(@StringRes message: Int) {
         getMainActivity().notify(message)
     }
@@ -56,5 +62,5 @@ abstract class BaseFragment : Fragment() {
         getMainActivity().toolbar.title = message
     }
 
-    internal fun getMainActivity() = activity!! as MainActivity
+    internal fun getMainActivity() = requireActivity() as MainActivity
 }
