@@ -20,7 +20,7 @@ data class Script(
     }
 
     fun remove(channel: Channel, action: Action) {
-        for (position in 0..actionsList.size) {
+        for (position in 0 until actionsList.size) {
             val channelAction = actionsList[position]
             if (channelAction.channelId == channel.id && channelAction.action == action) {
                 actionsList.remove(channelAction)
