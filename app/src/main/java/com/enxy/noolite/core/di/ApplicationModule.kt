@@ -23,6 +23,5 @@ class ApplicationModule(private val application: AndroidApplication) {
         .build()
 
     @Provides
-    @Singleton
     fun provideGson(): Gson = Gson()
 }

@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.ParseException
 
-
+// TODO: Add package, refactor parse function 
 /* This class was decompiled from original Noolite app.
  * I removed sensors and other stuff that I don't have in my house, cause I can't test if its working or not.
  */

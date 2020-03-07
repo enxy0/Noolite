@@ -3,6 +3,7 @@ package com.enxy.noolite.core.di.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.features.MainViewModel
+import com.enxy.noolite.features.channel.ChannelViewModel
 import com.enxy.noolite.features.group.GroupViewModel
 import dagger.Binds
 import dagger.Module
@@ -22,4 +23,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(GroupViewModel::class)
     abstract fun bindsGroupViewModel(groupViewModel: GroupViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChannelViewModel::class)
+    abstract fun bindsChannelViewModel(channelViewModel: ChannelViewModel): ViewModel
 }

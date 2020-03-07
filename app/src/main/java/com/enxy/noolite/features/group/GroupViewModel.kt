@@ -1,6 +1,5 @@
 package com.enxy.noolite.features.group
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,11 +14,9 @@ class GroupViewModel @Inject constructor(
     private val repository: Repository,
     private val settingsManager: SettingsManager
 ) : ViewModel() {
-    private val _groupList: MutableLiveData<ArrayList<Group>> = MutableLiveData()
-    private val _failure: MutableLiveData<Failure> = MutableLiveData()
+    val groupList: MutableLiveData<ArrayList<Group>> = MutableLiveData()
+    val failure: MutableLiveData<Failure> = MutableLiveData()
 
-    val failure: LiveData<Failure> = _failure
-    val groupList: LiveData<ArrayList<Group>> = _groupList
 
     init {
         fetchGroupList()
@@ -32,23 +29,23 @@ class GroupViewModel @Inject constructor(
         }
     }
 
-    private fun handleGroupList(groupList: ArrayList<Group>) {
-        this._groupList.value = groupList
-    }
-
-    private fun handleFailure(failure: Failure) {
-        this._failure.value = failure
-    }
-
     fun turnOnLight(channelId: Int) {
         viewModelScope.launch {
-            repository.turnOnLight(channelId).either(::handleFailure, { })
+            repository.turnOnLight(channelId).either(::handleFailure) { }
         }
     }
 
     fun turnOffLight(channelId: Int) {
         viewModelScope.launch {
-            repository.turnOffLight(channelId).either(::handleFailure, { })
+            repository.turnOffLight(channelId).either(::handleFailure) { }
         }
+    }
+
+    private fun handleGroupList(groupList: ArrayList<Group>) {
+        this.groupList.value = groupList
+    }
+
+    private fun handleFailure(failure: Failure) {
+        this.failure.value = failure
     }
 }

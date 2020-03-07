@@ -3,10 +3,12 @@ package com.enxy.noolite.features.settings
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.FileManager
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SettingsManager @Inject constructor(
-    val connectionManager: ConnectionManager,
-    val fileManager: FileManager
+    private val connectionManager: ConnectionManager,
+    private val fileManager: FileManager
 ) {
     var hasToggleButton: Boolean = true
         set(value) {

@@ -6,17 +6,16 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Channel
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 
-class ChannelAdapter(private var viewModel: MainViewModel) :
-    RecyclerView.Adapter<ChannelAdapter.ChannelHolderDefault>() {
+class ChannelAdapter(private val listener: ChannelListener, private val hasToggleButton: Boolean) :
+    RecyclerView.Adapter<ChannelAdapter.ChannelHolder>() {
     private var data: ArrayList<Channel> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolderDefault {
-        return ChannelHolderDefault(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolder {
+        return ChannelHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_channel,
                 parent,
@@ -27,7 +26,7 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: ChannelHolderDefault, position: Int) {
+    override fun onBindViewHolder(holder: ChannelHolder, position: Int) {
         holder.bind(data[position])
     }
 
@@ -37,97 +36,64 @@ class ChannelAdapter(private var viewModel: MainViewModel) :
         notifyDataSetChanged()
     }
 
-    inner class ChannelHolderDefault(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(channel: Channel) {
+    inner class ChannelHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(channel: Channel) = with(itemView) {
+            headerTextView.text = channel.name
             when (channel.type) {
                 0 -> {
-                    itemView.brightnessLinearLayout.visibility = View.GONE
-                    itemView.overflowLinearLayout.visibility = View.GONE
+                    brightnessLinearLayout.visibility = View.GONE
+                    overflowLinearLayout.visibility = View.GONE
                 }
-
                 1 -> {
-                    itemView.overflowLinearLayout.visibility = View.GONE
-                    itemView.indicatorSeekBar.setOnSeekBarChangeListener(object :
-                        SeekBar.OnSeekBarChangeListener {
-                        override fun onProgressChanged(
-                            seekBar: SeekBar?,
-                            progress: Int,
-                            fromUser: Boolean
-                        ) {
-                        }
+                    indicatorSeekBar.setOnSeekBarChangeListener(getSeekBarListener(channel))
+                    overflowLinearLayout.visibility = View.GONE
+                }
+                3 -> {
+                    indicatorSeekBar.setOnSeekBarChangeListener(getSeekBarListener(channel))
+                }
+            }
 
-                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                            if (seekBar!!.progress == 0)
-                                viewModel.turnOnLight(channel.id)
-                        }
+            toggleLightButton.setOnClickListener { listener.onChangeState(channel) }
+            turnOnLightButton.setOnClickListener { listener.onTurnOnLight(channel) }
+            turnOffLightButton.setOnClickListener { listener.onTurnOffLight(channel) }
+            startOverflowButton.setOnClickListener { listener.onStartOverflow(channel) }
+            stopOverflowButton.setOnClickListener { listener.onStopOverflow(channel) }
+            changeColorButton.setOnClickListener { listener.onChangeBacklightColor(channel) }
 
-                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                            when (val brightness = seekBar!!.progress) {
-                                0 -> viewModel.turnOffLight(channel.id)
-                                else -> viewModel.changeBacklightBrightness(
-                                    channel.id,
-                                    brightness
-                                )
-                            }
-                            itemView.overflowLinearLayout.visibility = View.GONE
-                        }
-                    })
+            if (hasToggleButton) {
+                turnOnLightButton.visibility = View.GONE
+                turnOffLightButton.visibility = View.GONE
+            } else {
+                toggleLightButton.visibility = View.GONE
+            }
+        }
+
+        private fun getSeekBarListener(channel: Channel): SeekBar.OnSeekBarChangeListener =
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?, progress: Int, fromUser: Boolean
+                ) = Unit
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    if (seekBar!!.progress == 0)
+                        listener.onTurnOnLight(channel)
                 }
 
-                3 -> itemView.indicatorSeekBar.setOnSeekBarChangeListener(object :
-                    SeekBar.OnSeekBarChangeListener {
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                        if (seekBar!!.progress == 0)
-                            viewModel.turnOnLight(channel.id)
+                override fun onStopTrackingTouch(seekBar: SeekBar?) =
+                    when (val brightness = seekBar!!.progress) {
+                        0 -> listener.onTurnOffLight(channel)
+                        else -> listener.onChangeBrightness(channel, brightness)
                     }
-
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                        when (val brightness = seekBar!!.progress) {
-                            0 -> viewModel.turnOffLight(channel.id)
-                            else -> viewModel.changeBacklightBrightness(channel.id, brightness)
-                        }
-                    }
-
-                    override fun onProgressChanged(
-                        seekBar: SeekBar?,
-                        progress: Int,
-                        fromUser: Boolean
-                    ) {
-                    }
-                })
             }
+    }
 
-            itemView.toggleLightButton.setOnClickListener {
-                viewModel.changeLightState(channel.id)
-            }
-
-            itemView.turnOnLightButton.setOnClickListener {
-                viewModel.turnOnLight(channel.id)
-            }
-
-            itemView.turnOffLightButton.setOnClickListener {
-                viewModel.turnOffLight(channel.id)
-            }
-
-            itemView.startOverflowButton.setOnClickListener {
-                viewModel.startBacklightOverflow(channel.id)
-            }
-
-            itemView.stopOverflowButton.setOnClickListener {
-                viewModel.stopBacklightOverflow(channel.id)
-            }
-
-            itemView.changeColorButton.setOnClickListener {
-                viewModel.changeBacklightColor(channel.id)
-            }
-
-            if (!viewModel.settingsManager.hasToggleButton) {
-                itemView.toggleLightButton.visibility = View.GONE
-            } else {
-                itemView.turnOnLightButton.visibility = View.GONE
-                itemView.turnOffLightButton.visibility = View.GONE
-            }
-            itemView.headerTextView.text = channel.name
-        }
+    interface ChannelListener {
+        fun onTurnOnLight(channel: Channel)
+        fun onTurnOffLight(channel: Channel)
+        fun onChangeState(channel: Channel)
+        fun onChangeBrightness(channel: Channel, brightness: Int)
+        fun onStartOverflow(channel: Channel)
+        fun onStopOverflow(channel: Channel)
+        fun onChangeBacklightColor(channel: Channel)
     }
 }

@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun loadFavouriteGroupElement() = viewModelScope.launch {
-        repository.getFavouriteGroupElement()
+        repository.getFavouriteGroup()
             .either(::updateFavouriteFailure, ::updateFavouriteGroupElement)
     }
 

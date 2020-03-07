@@ -29,9 +29,3 @@ data class Script(
         }
     }
 }
-
-enum class Action {
-    TURN_ON, TURN_OFF, TOGGLE_STATE, CHANGE_BRIGHTNESS, CHANGE_COLOR, START_OVERFLOW, STOP_OVERFLOW
-}
-
-data class ChannelAction(val channelId: Int, val action: Action, val brightness: Int?)

@@ -65,7 +65,7 @@ class Repository @Inject constructor(
             Left(Failure.DataNotFound)
     }
 
-    suspend fun getFavouriteGroupElement(): Either<Failure, Group> {
+    suspend fun getFavouriteGroup(): Either<Failure, Group> {
         val groupJson = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(
                 FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY
@@ -81,8 +81,8 @@ class Repository @Inject constructor(
         }
     }
 
-    suspend fun saveFavouriteGroupElement(group: Group) = withContext(Dispatchers.Default) {
-        val groupJson: String = gson.toJson(group)
+    suspend fun saveFavouriteGroupElement(group: Group) = withContext(Dispatchers.IO) {
+        val groupJson: String = withContext(Dispatchers.Default) { gson.toJson(group) }
         fileManager.saveStringToPrefs(
             FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, groupJson
         )
@@ -92,10 +92,9 @@ class Repository @Inject constructor(
         ipAddress: String,
         isForceUpdating: Boolean
     ): Either<Failure, ArrayList<Group>> {
-        val groupListJson = fileManager.getStringFromPrefs(
-            FileManager.MAIN_DATA_FILE,
-            FileManager.GROUP_LIST_KEY
-        )
+        val groupListJson: String? = withContext(Dispatchers.IO) {
+            fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.GROUP_LIST_KEY)
+        }
         return if (groupListJson != null && !isForceUpdating) {
             val groupList: ArrayList<Group> = withContext(Dispatchers.Default) {
                 gson.fromJson<ArrayList<Group>>(groupListJson)

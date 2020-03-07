@@ -1,5 +1,6 @@
 package com.enxy.noolite.features.group
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -29,10 +30,14 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
     private lateinit var viewModel: GroupViewModel
     override val layoutId = R.layout.fragment_group
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         appComponent.inject(this)
         viewModel = getViewModel(this, viewModelFactory)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpViews()
         with(viewModel) {
             observe(groupList, ::renderData)
@@ -54,14 +59,6 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
     override fun onResume() {
         super.onResume()
         setToolbarTitle(R.string.title_groups)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.let {
-            it.groupList.removeObservers(this)
-            it.failure.removeObservers(this)
-        }
     }
 
     private fun renderData(groupList: ArrayList<Group>?) {

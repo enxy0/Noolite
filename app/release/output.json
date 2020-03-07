@@ -11,7 +11,8 @@
       "enabled": true,
       "outputFile": "com.enxy.noolite_release_1.0.3-alpha-1.apk",
       "fullName": "release",
-      "baseName": "release"
+      "baseName": "release",
+      "dirName": ""
     },
     "path": "com.enxy.noolite_release_1.0.3-alpha-1.apk",
     "properties": {}
