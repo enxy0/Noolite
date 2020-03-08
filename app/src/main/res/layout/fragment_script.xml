@@ -23,9 +23,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addScript"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_expanded_vertical_margin"
                 android:layout_marginStart="@dimen/card_expanded_horizontal_margin"
                 android:layout_marginEnd="@dimen/card_expanded_horizontal_margin"
                 android:text="@string/add_script_button" />
