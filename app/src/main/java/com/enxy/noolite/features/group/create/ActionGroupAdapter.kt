@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.script.create
+package com.enxy.noolite.features.group.create
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager
@@ -97,7 +97,10 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
          */
         private fun setUpRecyclerView(channelList: ArrayList<Channel>) =
             with(itemView.actionChannelList) {
-                val channelAdapter = ActionChannelAdapter(actionListener)
+                val channelAdapter =
+                    ActionChannelAdapter(
+                        actionListener
+                    )
                 adapter = channelAdapter
                 layoutManager =
                     LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)

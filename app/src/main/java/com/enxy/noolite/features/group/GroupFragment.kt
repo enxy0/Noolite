@@ -19,9 +19,9 @@ import com.enxy.noolite.core.extension.getViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.channel.ChannelFragment
+import com.enxy.noolite.features.group.create.ActionGroupFragment
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
-import com.enxy.noolite.features.script.create.ActionGroupFragment
 import kotlinx.android.synthetic.main.content_error.view.*
 import kotlinx.android.synthetic.main.fragment_group.*
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.script.create
+package com.enxy.noolite.features.group.create
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -25,7 +25,8 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
 
     companion object {
         const val TAG = "CreateScriptFragment"
-        fun newInstance() = ActionGroupFragment()
+        fun newInstance() =
+            ActionGroupFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +41,8 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
             parentFragmentManager.popBackStack()
         }
         viewModel = getActivityViewModel(this)
-        actionGroupAdapter = ActionGroupAdapter(this)
+        actionGroupAdapter =
+            ActionGroupAdapter(this)
         setUpRecyclerView()
         with(viewModel) {
             observe(groupElementList, ::renderData)

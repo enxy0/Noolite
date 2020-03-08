@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.script.create
+package com.enxy.noolite.features.group.create
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager
