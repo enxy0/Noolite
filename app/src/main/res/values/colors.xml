@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#4CAF50</color>
     <color name="colorAccent">#FF5252</color>
     <color name="lightGreen">#cde4c6</color>
-    <color name="yellow">#FFB700</color>
+    <color name="yellow">#FBC02D</color>
     <color name="orange">#F1B72A</color>
     <!--<color name="yellow">#FF9900</color>-->
     <color name="dark">#808080</color>
@@ -41,7 +41,7 @@
     <color name="dividerDark">#3D3D3D</color>
     <color name="dividerLight">#E3E3E3</color>
 
-    <color name="inactiveMainButtonColorLight">#E5E5E5</color>
+    <color name="inactiveMainButtonColorLight">#EDEDED</color>
     <color name="inactiveMainButtonColorDark">#383838</color>
     <color name="inactiveMainButtonColorBlack">#333333</color>
 

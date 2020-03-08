@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="infoIconColor">@color/infoIconColorLight</item>
         <item name="buttonIconColor">@color/buttonIconColorLight</item>
-        <item name="pressedMainButtonColor">@color/orange</item>
+        <item name="pressedMainButtonColor">@color/yellow</item>
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorLight</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/black</item>
