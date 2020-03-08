@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_favourite"
-        android:icon="@drawable/bottom_nav_favourite_selector"
+        android:icon="@drawable/ic_heart"
         android:title="@string/title_favourite" />
     <item
         android:id="@+id/navigation_groups"
-        android:icon="@drawable/bottom_nav_list_selector"
+        android:icon="@drawable/ic_list"
         android:title="@string/title_groups" />
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/bottom_nav_settings_selector"
+        android:icon="@drawable/ic_settings"
         android:title="@string/title_settings" />
 </menu>
