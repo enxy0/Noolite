@@ -20,9 +20,9 @@
             android:id="@+id/groupRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/group_layout_margin"
+            android:layout_marginTop="@dimen/group_layout_margin"
+            android:layout_marginEnd="@dimen/group_layout_margin"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
@@ -40,8 +40,8 @@
                 style="@style/Text.Header"
                 android:layout_width="0dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginStart="@dimen/script_section_margin"
+                android:layout_marginEnd="@dimen/script_section_margin"
                 android:layout_weight="1"
                 android:text="@string/title_scripts" />
 
@@ -49,7 +49,7 @@
                 android:id="@+id/addScript"
                 style="@style/Button.Icon"
                 android:layout_gravity="center"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="@dimen/script_section_margin"
                 android:src="@drawable/ic_add" />
         </LinearLayout>
 

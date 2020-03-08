@@ -10,56 +10,43 @@
         style="@style/Clickable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginStart="@dimen/item_group_layout_margin"
+            android:layout_marginTop="@dimen/item_group_layout_margin"
+            android:layout_marginEnd="@dimen/item_group_layout_margin"
             android:orientation="horizontal">
 
             <View
                 android:id="@+id/turnOnLightButton"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                style="@style/Button.Circular"
                 android:layout_marginEnd="12dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="@drawable/light_button_pressed"
-                android:padding="12dp" />
+                android:foreground="@drawable/light_button_pressed" />
 
             <View
                 android:id="@+id/turnOffLightButton"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="@drawable/light_button_normal"
-                android:padding="12dp" />
+                style="@style/Button.Circular"
+                android:foreground="@drawable/light_button_normal" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="@dimen/item_group_layout_margin"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginEnd="@dimen/item_group_layout_margin"
+            android:layout_marginBottom="@dimen/item_group_layout_margin"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/headerTextView"
                 style="@style/Text"
                 android:layout_gravity="start"
-                android:textAlignment="center"
                 tools:text="Коридор" />
 
             <TextView
