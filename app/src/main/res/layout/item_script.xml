@@ -18,7 +18,10 @@
             style="@style/Text.Bold"
             android:layout_width="0dp"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/script_view_margin"
+            android:layout_marginStart="@dimen/script_view_horizontal_margin"
+            android:layout_marginTop="@dimen/script_view_vertical_margin"
+            android:layout_marginEnd="@dimen/script_view_horizontal_margin"
+            android:layout_marginBottom="@dimen/script_view_vertical_margin"
             android:layout_weight="1"
             tools:text="Script Name" />
 
@@ -26,7 +29,10 @@
             android:id="@+id/settingsButton"
             style="@style/Button.Icon"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/script_view_margin"
+            android:layout_marginStart="@dimen/script_view_horizontal_margin"
+            android:layout_marginTop="@dimen/script_view_vertical_margin"
+            android:layout_marginEnd="@dimen/script_view_horizontal_margin"
+            android:layout_marginBottom="@dimen/script_view_vertical_margin"
             android:src="@drawable/ic_settings" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

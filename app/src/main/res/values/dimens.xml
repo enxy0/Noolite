@@ -13,6 +13,8 @@
     <dimen name="icon_check_size">28dp</dimen>
     <dimen name="script_horizontal_padding">5dp</dimen>
     <dimen name="script_view_margin">16dp</dimen>
+    <dimen name="script_view_vertical_margin">8dp</dimen>
+    <dimen name="script_view_horizontal_margin">16dp</dimen>
     <dimen name="script_action_view_margin">4dp</dimen>
     <dimen name="script_action_switch_end_padding">12dp</dimen>
     <dimen name="script_action_vertical_padding">8dp</dimen>
