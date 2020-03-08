@@ -1,12 +1,12 @@
 package com.enxy.noolite.core.network
 
-import BinParser
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.exception.Success
 import com.enxy.noolite.core.extension.fromJson
 import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
+import com.enxy.noolite.core.parser.BinParser
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
