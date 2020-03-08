@@ -26,11 +26,6 @@ class SettingsFragment : BaseFragment() {
         setUpUiHandlers()
     }
 
-    override fun onResume() {
-        super.onResume()
-        setToolbarTitle(R.string.title_settings)
-    }
-
     companion object {
         fun newInstance() = SettingsFragment()
     }

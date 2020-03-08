@@ -82,11 +82,6 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.
         fun newInstance() = GroupFragment()
     }
 
-    override fun onResume() {
-        super.onResume()
-        setToolbarTitle(R.string.title_groups)
-    }
-
     private fun renderData(groupList: ArrayList<Group>?) {
         if (!groupList.isNullOrEmpty()) {
             if (errorLayout.isVisible) {

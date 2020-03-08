@@ -88,6 +88,11 @@ class MainActivity : BaseActivity() {
             ) = Unit
 
             override fun onPageSelected(position: Int) {
+                when (position) {
+                    CHANNEL_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_favourite)
+                    GROUP_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_groups)
+                    SETTINGS_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_settings)
+                }
                 navView.menu.getItem(position).isChecked = true
             }
 
@@ -100,14 +105,17 @@ class MainActivity : BaseActivity() {
             clearFragmentBackStack()
             when (it.itemId) {
                 R.id.navigation_favourite -> {
+                    setToolbarTitle(R.string.title_favourite)
                     viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_groups -> {
+                    setToolbarTitle(R.string.title_groups)
                     viewPager.currentItem = GROUP_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_settings -> {
+                    setToolbarTitle(R.string.title_settings)
                     viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }

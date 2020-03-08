@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     internal fun setToolbarTitle(@StringRes message: Int) {
-        toolbar.title = title
+        toolbar.setTitle(message)
     }
 
     internal fun setToolbarTitle(message: String) {

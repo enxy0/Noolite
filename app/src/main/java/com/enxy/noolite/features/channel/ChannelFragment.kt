@@ -60,13 +60,10 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     override fun onResume() {
         super.onResume()
         if (hasPassedData) {
-            setToolbarTitle(passedGroup.name)
+//            setToolbarTitle(passedGroup.name)
             setUpBackButton()
         } else {
-            if (viewModel.hasFavouriteGroup)
-                setToolbarTitle(viewModel.favouriteGroupName!!)
-            else
-                setToolbarTitle(R.string.title_favourite)
+            setToolbarTitle(R.string.title_favourite)
         }
     }
 
@@ -97,7 +94,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     }
 
     private fun renderGroupElement(group: Group) {
-        setToolbarTitle(group.name)
         if (errorLayout.isVisible) {
             channelRecyclerView.isVisible = true
             errorLayout.isGone = true
@@ -108,8 +104,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     override fun onPause() {
         super.onPause()
         hideBackButton()
-        if (hasPassedData)
-            setToolbarTitle(R.string.title_groups)
     }
 
     private fun setUpRecyclerView() {
