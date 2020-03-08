@@ -34,15 +34,16 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener {
         super.onAttach(context)
         appComponent.inject(this)
         viewModel = getViewModel(this, viewModelFactory)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpViews()
         with(viewModel) {
             observe(groupList, ::renderData)
             failure(failure, ::handleError)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.fetchGroupList()
+        setUpViews()
     }
 
     companion object {

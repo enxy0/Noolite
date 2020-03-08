@@ -17,12 +17,7 @@ class GroupViewModel @Inject constructor(
     val groupList: MutableLiveData<ArrayList<Group>> = MutableLiveData()
     val failure: MutableLiveData<Failure> = MutableLiveData()
 
-
-    init {
-        fetchGroupList()
-    }
-
-    private fun fetchGroupList() {
+    fun fetchGroupList() {
         viewModelScope.launch {
             repository.getGroupList(settingsManager.ipAddress, false)
                 .either(::handleFailure, ::handleGroupList)
