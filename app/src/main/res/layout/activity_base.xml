@@ -65,6 +65,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/bottomNavigationBarColor"
         app:elevation="0dp"
+        app:itemRippleColor="?attr/defaultRippleColor"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"
