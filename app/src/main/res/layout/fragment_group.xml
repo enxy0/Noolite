@@ -23,6 +23,7 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             tools:itemCount="6"
@@ -57,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_default_margin"
+            android:nestedScrollingEnabled="false"
             tools:itemCount="2"
             tools:listitem="@layout/item_script" />
     </LinearLayout>
