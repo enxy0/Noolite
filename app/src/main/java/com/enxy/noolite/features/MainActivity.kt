@@ -22,9 +22,8 @@ class MainActivity : BaseActivity() {
 
     companion object {
         const val CHANNEL_FRAGMENT_POSITION = 0
-        const val SCRIPTS_FRAGMENT_POSITION = 1
-        const val GROUP_FRAGMENT_POSITION = 2
-        const val SETTINGS_FRAGMENT_POSITION = 3
+        const val GROUP_FRAGMENT_POSITION = 1
+        const val SETTINGS_FRAGMENT_POSITION = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,10 +101,6 @@ class MainActivity : BaseActivity() {
             when (it.itemId) {
                 R.id.navigation_favourite -> {
                     viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_scripts -> {
-                    viewPager.currentItem = SCRIPTS_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_groups -> {

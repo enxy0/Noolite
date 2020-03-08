@@ -14,7 +14,7 @@
         <include
             android:id="@+id/errorLayout"
             layout="@layout/content_error"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/groupRecyclerView"
@@ -28,5 +28,30 @@
             tools:itemCount="6"
             tools:layoutAnimation="@null"
             tools:listitem="@layout/item_group" />
+
+        <TextView
+            style="@style/Text.Header"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:text="@string/title_scripts" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scriptRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_default_margin"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_script" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addScript"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_expanded_horizontal_margin"
+            android:layout_marginEnd="@dimen/card_expanded_horizontal_margin"
+            android:layout_marginBottom="@dimen/card_expanded_vertical_margin"
+            android:text="@string/add_script_button" />
     </LinearLayout>
 </ScrollView>
