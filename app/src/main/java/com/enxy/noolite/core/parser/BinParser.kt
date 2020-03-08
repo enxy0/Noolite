@@ -1,59 +1,60 @@
+package com.enxy.noolite.core.parser
+
 import com.enxy.noolite.features.model.Channel
 import com.enxy.noolite.features.model.Group
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.ParseException
 
-// TODO: Add package, refactor parse function 
 /* This class was decompiled from original Noolite app.
  * I removed sensors and other stuff that I don't have in my house, cause I can't test if its working or not.
  */
 object BinParser {
-    private const val CHANNEL_OFFSET = 25
-    private const val FIRST_SIX_BYTES = 63
-    private const val GROUP_OFFSET = 32
-    private const val NUMBER_OF_CHANNELS = 32
-    private const val NUMBER_OF_CHANNELS_IN_GROUP = 8
-    private const val NUMBER_OF_GROUPS = 16
-    private const val OFFSET = 24
     private const val START_OFFSET = 6
+    private const val OFFSET = 24
+    private const val GROUP_OFFSET = 32
+    private const val CHANNEL_OFFSET = 25
+    private const val MAX_GROUPS = 16
+    private const val MAX_CHANNELS = 32
+    private const val CHANNELS_IN_GROUP = 8
+    private const val FIRST_SIX_BYTES = 63
 
     fun parseData(data: ByteArray): ArrayList<Group> {
         try {
             val groupArrayList = ArrayList<Group>()
-            val currentChannelPosition = GROUP_OFFSET * NUMBER_OF_GROUPS
-            var currentGroupPosition = 0
-            for (groupId in 1..NUMBER_OF_GROUPS) {
-                val groupName = getName(data, START_OFFSET + currentGroupPosition)
-                val groupVisibility = getVisibilityOfGroup(data[START_OFFSET + OFFSET + currentGroupPosition])
+            val currentChannelPosition = GROUP_OFFSET * MAX_GROUPS
+            var currentGroupPos = 0
+            for (groupId in 1..MAX_GROUPS) {
+                val groupName = getName(data, START_OFFSET + currentGroupPos)
+                val groupVisibility =
+                    getVisibilityOfGroup(data[START_OFFSET + OFFSET + currentGroupPos])
                 if (groupVisibility) {
 //                    val groupElement = GroupModel(groupId, groupName, true)
                     val groupElement = Group(groupId, groupName)
-                    for (j in 0 until NUMBER_OF_CHANNELS_IN_GROUP) {
-                        val channelElementId =
-                            getChannelElementId(data[currentGroupPosition + START_OFFSET + OFFSET + j])
-                        if (channelElementId != 0) {
-                            val channelElement = Channel(
-                                channelElementId - 1,
-                                getName(
+                    for (currentChannelPos in 0 until CHANNELS_IN_GROUP) {
+                        val channelId =
+                            getChannelId(data[START_OFFSET + OFFSET + currentGroupPos + currentChannelPos])
+                        if (channelId != 0) {
+                            val channel = Channel(
+                                id = channelId - 1,
+                                name = getName(
                                     data,
-                                    START_OFFSET + currentChannelPosition + (channelElementId - 1) * CHANNEL_OFFSET
+                                    START_OFFSET + currentChannelPosition + (channelId - 1) * CHANNEL_OFFSET
                                 ),
-                                data[START_OFFSET + currentChannelPosition + (channelElementId - 1) * CHANNEL_OFFSET + OFFSET].toInt()
+                                type = data[START_OFFSET + currentChannelPosition + (channelId - 1) * CHANNEL_OFFSET + OFFSET].toInt()
                             )
-                            groupElement.channelList.add(channelElement)
+                            groupElement.channelList.add(channel)
                         }
                     }
                     groupArrayList.add(groupElement)
                 }
-                currentGroupPosition += GROUP_OFFSET
+                currentGroupPos += GROUP_OFFSET
             }
             return groupArrayList
         } catch (ex: Exception) {
             throw ParseException("Something bad happened. Couldn't parse given bytes!", 0)
         }
     }
-
 
     private fun getName(data: ByteArray, currentPosition: Int): String {
         var result: String? = null
@@ -69,7 +70,7 @@ object BinParser {
         return result?.trim { it <= ' ' } ?: "no name"
     }
 
-    private fun getChannelElementId(b: Byte): Int {
+    private fun getChannelId(b: Byte): Int {
         return b.toInt() and FIRST_SIX_BYTES
     }
 
