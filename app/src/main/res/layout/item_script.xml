@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/scriptName"
-            style="@style/Text.Bold"
+            style="@style/Text"
             android:layout_width="0dp"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/script_view_horizontal_margin"

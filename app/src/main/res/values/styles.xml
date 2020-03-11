@@ -123,7 +123,7 @@
     </style>
 
     <style name="Text.Header" parent="Text.Bold">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="BaseCard" parent="Widget.MaterialComponents.CardView">

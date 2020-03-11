@@ -45,7 +45,7 @@
     <color name="inactiveMainButtonColorDark">#383838</color>
     <color name="inactiveMainButtonColorBlack">#333333</color>
 
-    <color name="backgroundLight">#F2F2F2</color>
+    <color name="backgroundLight">#EDEDED</color>
     <color name="backgroundDark">#191919</color>
     <color name="backgroundBlack">#000000</color>
 

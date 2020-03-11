@@ -2,6 +2,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="snackbar_icon_padding">8dp</dimen>
+    <dimen name="default_icon_size">28dp</dimen>
     <dimen name="channel_horizontal_padding">16dp</dimen>
     <dimen name="channel_vertical_padding">8dp</dimen>
     <dimen name="channel_elements_horizontal_margin">8dp</dimen>
@@ -14,7 +15,7 @@
     <dimen name="icon_button_wide_padding">5dp</dimen>
     <dimen name="icon_check_size">28dp</dimen>
     <dimen name="script_horizontal_padding">5dp</dimen>
-    <dimen name="script_section_margin">12dp</dimen>
+    <dimen name="script_section_margin">18dp</dimen>
     <dimen name="script_view_margin">16dp</dimen>
     <dimen name="script_view_vertical_margin">8dp</dimen>
     <dimen name="script_view_horizontal_margin">16dp</dimen>
