@@ -8,16 +8,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomNavigationBarColor">@color/itemBackgroundColor</item>
+        <item name="bottomNavigationBarColor">@color/backgroundLight</item>
         <item name="toolbarTextColor">@android:color/black</item>
         <item name="android:textColorPrimary">@android:color/black</item>
-        <item name="android:navigationBarColor">@color/itemBackgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundLight</item>
         <item name="android:windowBackground">@color/backgroundLight</item>
         <item name="itemBackgroundColor">@color/itemBackgroundColor</item>
         <item name="inactiveNavigationIconColor">@color/inactiveIconColor</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColor</item>
-        <item name="toolbarColor">@color/itemBackgroundColor</item>
-        <item name="android:statusBarColor">@color/itemBackgroundColor</item>
+        <item name="toolbarColor">@color/backgroundLight</item>
+        <item name="android:statusBarColor">@color/backgroundLight</item>
         <item name="dividerColor">@color/dividerLight</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
