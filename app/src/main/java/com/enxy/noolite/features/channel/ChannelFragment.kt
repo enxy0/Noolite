@@ -100,6 +100,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
             channelRecyclerView.isVisible = true
             errorLayout.isGone = true
         }
+        groupName.text = group.name
         channelAdapter.updateData(group.channelList)
     }
 

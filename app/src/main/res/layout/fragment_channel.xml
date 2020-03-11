@@ -17,6 +17,14 @@
             layout="@layout/content_error"
             tools:visibility="visible" />
 
+        <TextView
+            android:id="@+id/groupName"
+            style="@style/Text.Section"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:text="Гостинная" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/channelRecyclerView"
             android:layout_width="match_parent"
