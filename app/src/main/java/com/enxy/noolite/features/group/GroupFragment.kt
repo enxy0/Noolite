@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,8 +19,10 @@ import com.enxy.noolite.core.extension.failure
 import com.enxy.noolite.core.extension.getViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
+import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.channel.ChannelFragment
 import com.enxy.noolite.features.group.create.ActionGroupFragment
+import com.enxy.noolite.features.model.ChannelAction
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.content_error.view.*
@@ -31,39 +34,29 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val groupAdapter: GroupAdapter = GroupAdapter(this)
+    private val activityViewModel: MainViewModel by activityViewModels()
     private lateinit var viewModel: GroupViewModel
     private val scriptAdapter: ScriptAdapter =
         ScriptAdapter(this)
     override val layoutId = R.layout.fragment_group
 
+    companion object {
+        fun newInstance() = GroupFragment()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
         viewModel = getViewModel(this, viewModelFactory)
-        with(viewModel) {
-            observe(groupList, ::renderData)
-            failure(failure, ::handleError)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchGroupList()
-
-        val spanCount = if (isInLandscapeOrientation()) 3 else 2
-        with(groupRecyclerView) {
-            layoutManager = GridLayoutManager(context, spanCount)
-            adapter = groupAdapter
+        setUpRecyclerView()
+        with(activityViewModel) {
+            observe(groupList, ::renderData)
+            failure(groupListFailure, ::handleError)
         }
-
-        with(scriptRecyclerView) {
-            layoutManager = LinearLayoutManager(
-                requireContext(), LinearLayoutManager.VERTICAL, false
-            )
-            adapter = scriptAdapter
-            setHasFixedSize(true)
-        }
-
         addScript.setOnClickListener {
             parentFragmentManager.commit {
                 addToBackStack(ActionGroupFragment.TAG)
@@ -78,8 +71,19 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.
         }
     }
 
-    companion object {
-        fun newInstance() = GroupFragment()
+    private fun setUpRecyclerView() {
+        val spanCount = if (isInLandscapeOrientation()) 3 else 2
+        with(groupRecyclerView) {
+            layoutManager = GridLayoutManager(context, spanCount)
+            adapter = groupAdapter
+        }
+        with(scriptRecyclerView) {
+            layoutManager = LinearLayoutManager(
+                requireContext(), LinearLayoutManager.VERTICAL, false
+            )
+            adapter = scriptAdapter
+            setHasFixedSize(true)
+        }
     }
 
     private fun renderData(groupList: ArrayList<Group>?) {
@@ -120,19 +124,21 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.
 
     override fun onTurnOnLights(group: Group) {
         for (channel in group.channelList)
-            viewModel.turnOnLight(channel.id)
+            viewModel.doAction(ChannelAction.createTurnOnAction(channel.id))
     }
 
     override fun onTurnOffLights(group: Group) {
         for (channel in group.channelList)
-            viewModel.turnOffLight(channel.id)
+            viewModel.doAction(ChannelAction.createTurnOffAction(channel.id))
     }
 
     override fun onScriptExecute(script: Script) {
         Log.d("GroupFragment", "onScriptExecute: script=$script")
+        viewModel.runScript(script)
     }
 
     override fun onScriptEdit(script: Script) {
         Log.d("GroupFragment", "onScriptEdit: script=$script")
+        TODO("Add edit script function")
     }
 }

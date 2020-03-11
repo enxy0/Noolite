@@ -45,7 +45,7 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
             ActionGroupAdapter(this)
         setUpRecyclerView()
         with(viewModel) {
-            observe(groupElementList, ::renderData)
+            observe(groupList, ::renderData)
 //            TODO: Close fragment on failure and notify user?
 //            failure(groupFailure, ::handleFailure)1
         }

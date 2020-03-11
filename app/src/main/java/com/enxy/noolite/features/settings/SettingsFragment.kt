@@ -56,9 +56,9 @@ class SettingsFragment : BaseFragment() {
                 notify(R.string.message_data_updated)
             }
             viewModel.let {
-                it.groupElementList.removeObservers(this)
-                it.groupFailure.removeObservers(this)
-                it.groupFailure.value = null
+                it.groupList.removeObservers(this)
+                it.favouriteGroupFailure.removeObservers(this)
+                it.favouriteGroupFailure.value = null
             }
         }
     }
@@ -67,9 +67,9 @@ class SettingsFragment : BaseFragment() {
         failureNullable?.let {
             notifyError(R.string.error_general)
             viewModel.let {
-                it.groupElementList.removeObservers(this)
-                it.groupFailure.removeObservers(this)
-                it.groupElementList.value = null
+                it.groupList.removeObservers(this)
+                it.favouriteGroupFailure.removeObservers(this)
+                it.groupList.value = null
             }
         }
     }
@@ -95,12 +95,12 @@ class SettingsFragment : BaseFragment() {
 
         updateDataButton.setOnClickListener {
             with(viewModel) {
-                groupElementList.value = null
-                groupFailure.value = null
-                observe(groupElementList, ::handleUpdate)
-                failure(groupFailure, ::handleError)
+                groupList.value = null
+                favouriteGroupFailure.value = null
+                observe(groupList, ::handleUpdate)
+                failure(favouriteGroupFailure, ::handleError)
                 settingsManager.ipAddress = ipAddressEditText.text.toString()
-                loadGroupElementList(ipAddress = settingsManager.ipAddress, isForceUpdating = true)
+                fetchGroupList(ipAddress = settingsManager.ipAddress, isForceUpdating = true)
             }
         }
 
@@ -121,10 +121,10 @@ class SettingsFragment : BaseFragment() {
 
         loadTestDataLinearLayout.setOnClickListener {
             with(viewModel) {
-                groupElementList.value = null
-                groupFailure.value = null
-                observe(groupElementList, ::handleUpdate)
-                failure(groupFailure, ::handleError)
+                groupList.value = null
+                favouriteGroupFailure.value = null
+                observe(groupList, ::handleUpdate)
+                failure(favouriteGroupFailure, ::handleError)
                 loadTestData()
             }
         }
@@ -154,8 +154,8 @@ class SettingsFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         viewModel.let {
-            it.groupElementList.removeObservers(this)
-            it.groupFailure.removeObservers(this)
+            it.groupList.removeObservers(this)
+            it.favouriteGroupFailure.removeObservers(this)
         }
     }
 

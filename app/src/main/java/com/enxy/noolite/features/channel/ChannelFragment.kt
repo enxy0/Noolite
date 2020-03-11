@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
@@ -12,6 +13,7 @@ import com.enxy.noolite.core.extension.failure
 import com.enxy.noolite.core.extension.getViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
+import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Channel
 import com.enxy.noolite.features.model.ChannelAction
 import com.enxy.noolite.features.model.Group
@@ -23,6 +25,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var channelAdapter: ChannelAdapter
+    private val activityViewModel: MainViewModel by activityViewModels()
     private lateinit var viewModel: ChannelViewModel
     private val passedGroup: Group
         get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as Group
@@ -45,16 +48,15 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         viewModel = getViewModel(this, viewModelFactory)
-        with(viewModel) {
-            observe(favouriteGroup, ::handleFavouriteGroup)
-            failure(failure, ::handleFailure)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchFavouriteGroup()
         setUpRecyclerView()
+        with(activityViewModel) {
+            observe(favouriteGroup, ::handleFavouriteGroup)
+            failure(favouriteGroupFailure, ::handleFailure)
+        }
     }
 
     override fun onResume() {
@@ -72,7 +74,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
             if (hasPassedData) {
                 renderGroupElement(passedGroup)
                 if (favouriteGroup != passedGroup)
-                    setUpFavouriteButton()
+                    showAddToFavourite()
             } else
                 renderGroupElement(favouriteGroup)
         }
@@ -82,7 +84,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         failure?.let {
             if (hasPassedData) {
                 renderGroupElement(passedGroup)
-                setUpFavouriteButton()
+                showAddToFavourite()
             } else {
                 if (!errorLayout.isVisible) {
                     channelRecyclerView.isGone = true
@@ -116,10 +118,16 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         }
     }
 
-    private fun setUpFavouriteButton() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activityViewModel.favouriteGroup.removeObservers(this)
+        activityViewModel.groupListFailure.removeObservers(this)
+    }
+
+    private fun showAddToFavourite() {
         favouriteButton.visibility = View.VISIBLE
         favouriteButton.setOnClickListener {
-            viewModel.setFavouriteGroup(passedGroup)
+            activityViewModel.setFavouriteGroup(passedGroup)
             notify(R.string.message_room_added_as_favourite)
         }
     }

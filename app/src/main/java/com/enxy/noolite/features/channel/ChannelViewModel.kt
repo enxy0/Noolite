@@ -7,7 +7,6 @@ import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
 import com.enxy.noolite.features.model.Action
 import com.enxy.noolite.features.model.ChannelAction
-import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,19 +17,8 @@ class ChannelViewModel @Inject constructor(
 ) : ViewModel() {
     val hasToggleButton: Boolean
         get() = settingsManager.hasToggleButton
-    val hasFavouriteGroup: Boolean
-        get() = favouriteGroup.value != null
-    val favouriteGroupName: String?
-        get() = favouriteGroup.value?.name
 
-    val favouriteGroup: MutableLiveData<Group> = MutableLiveData()
     val failure: MutableLiveData<Failure> = MutableLiveData()
-
-    fun fetchFavouriteGroup() {
-        viewModelScope.launch {
-            repository.getFavouriteGroup().either(::handleFailure, ::handleFavouriteGroup)
-        }
-    }
 
     fun doAction(channelAction: ChannelAction) {
         viewModelScope.launch {
@@ -58,17 +46,6 @@ class ChannelViewModel @Inject constructor(
                     .either(::handleFailure) { }
             }
         }
-    }
-
-    fun setFavouriteGroup(group: Group) {
-        viewModelScope.launch {
-            favouriteGroup.value = group
-            repository.saveFavouriteGroupElement(group)
-        }
-    }
-
-    private fun handleFavouriteGroup(group: Group) {
-        this.favouriteGroup.value = group
     }
 
     private fun handleFailure(failure: Failure) {
