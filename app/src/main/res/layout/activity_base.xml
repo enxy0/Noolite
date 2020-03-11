@@ -37,7 +37,6 @@
                 app:title="My room"
                 app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
-            <View style="@style/Divider" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -53,20 +52,14 @@
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <View
-        style="@style/Divider"
-        app:layout_constraintBottom_toTopOf="@id/navView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/bottomNavigationBarColor"
         app:elevation="0dp"
-        app:itemRippleColor="?attr/defaultRippleColor"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemRippleColor="?attr/defaultRippleColor"
         app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
