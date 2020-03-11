@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import com.enxy.noolite.R
 import com.google.android.material.snackbar.Snackbar
 
-private const val cornerRadius = 8f
 private const val margin = 8
 private const val snackBarElevationInPx = 6f
 
@@ -21,7 +20,8 @@ fun Snackbar.withColor(@ColorInt color: Int): Snackbar {
     val snackbarTextView =
         this.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
     params.setMargins(margin.dp, 0, margin.dp, margin.dp)
-    gradientDrawable.cornerRadius = cornerRadius.dp
+    gradientDrawable.cornerRadius =
+        this.context.resources.getDimension(R.dimen.global_corner_radius)
     gradientDrawable.setColor(color)
     snackbarTextView.setTextColor(ContextCompat.getColor(this.view.context, android.R.color.white))
     ViewCompat.setElevation(this.view, snackBarElevationInPx)
@@ -45,7 +45,8 @@ fun Snackbar.withColorPrimary(): Snackbar {
 
     params.setMargins(margin.dp, 0, margin.dp, margin.dp)
     gradientDrawable.setColor(color)
-    gradientDrawable.cornerRadius = cornerRadius.dp
+    gradientDrawable.cornerRadius =
+        this.context.resources.getDimension(R.dimen.global_corner_radius)
     snackbarTextView.setTextColor(ContextCompat.getColor(this.view.context, android.R.color.white))
     ViewCompat.setElevation(this.view, snackBarElevationInPx)
 

@@ -24,6 +24,7 @@
     <dimen name="script_action_horizontal_padding">18dp</dimen>
     <dimen name="script_action_seekbar_end_margin">8dp</dimen>
     <dimen name="card_default_margin">6dp</dimen>
+    <dimen name="global_corner_radius">8dp</dimen>
     <dimen name="card_expanded_horizontal_margin">12dp</dimen>
     <dimen name="card_expanded_vertical_margin">6dp</dimen>
     <dimen name="floating_button_margin">16dp</dimen>
