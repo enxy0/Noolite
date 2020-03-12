@@ -20,10 +20,10 @@
         <TextView
             android:id="@+id/groupName"
             style="@style/Text.Section"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="18dp"
-            android:text="Гостинная" />
+            android:layout_marginStart="@dimen/section_horizontal_margin"
+            android:layout_marginTop="@dimen/section_vertical_margin"
+            android:layout_marginEnd="@dimen/section_horizontal_margin"
+            tools:text="Гостинная" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/channelRecyclerView"
