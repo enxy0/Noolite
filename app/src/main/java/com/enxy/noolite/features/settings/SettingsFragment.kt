@@ -95,10 +95,8 @@ class SettingsFragment : BaseFragment() {
 
         updateDataButton.setOnClickListener {
             with(viewModel) {
-                groupList.value = null
-                favouriteGroupFailure.value = null
                 observe(groupList, ::handleUpdate)
-                failure(favouriteGroupFailure, ::handleError)
+                failure(groupListFailure, ::handleError)
                 settingsManager.ipAddress = ipAddressEditText.text.toString()
                 fetchGroupList(ipAddress = settingsManager.ipAddress, isForceUpdating = true)
             }
