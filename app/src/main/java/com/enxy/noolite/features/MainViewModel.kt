@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
+import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.model.TestData
@@ -26,6 +28,14 @@ class MainViewModel @Inject constructor(
     val groupList = MutableLiveData(ArrayList<Group>())
     val favouriteGroup = MutableLiveData<Group>()
     val favouriteGroupFailure = MutableLiveData<Failure>()
+    val themeChanged: Boolean
+        get() = settingsManager.themeChanged
+    val currentTheme: Int
+        get() = when (settingsManager.currentTheme) {
+            FileManager.BLACK_BLUE_THEME_VALUE -> R.style.AppTheme_Black_Amber
+            FileManager.WHITE_BLUE_THEME_VALUE -> R.style.AppTheme_White_Blue
+            else -> R.style.AppTheme_Dark_Green
+        }
 
     init {
         fetchGroupList(ipAddress = settingsManager.ipAddress)
@@ -67,11 +77,18 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun setThemeChangeValues(_themeChanged: Boolean, settingsScrollX: Int, settingsScrollY: Int) =
+        with(settingsManager) {
+            themeChanged = _themeChanged
+            scrollX = settingsScrollX
+            scrollY = settingsScrollY
+        }
+
     private fun handleGroupList(groupList: ArrayList<Group>) {
         viewModelScope.launch {
             this@MainViewModel.groupList.value = groupList
             repository.saveGroupList(groupList)
-            favouriteGroupFailure.value = null
+//            groupListFailure.value = null
             Log.d("MainViewModel", "handleGroupList: groupList=$groupList")
         }
     }

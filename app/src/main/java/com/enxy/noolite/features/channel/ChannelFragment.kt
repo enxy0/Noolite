@@ -61,12 +61,8 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
 
     override fun onResume() {
         super.onResume()
-        if (hasPassedData) {
-//            setToolbarTitle(passedGroup.name)
+        if (hasPassedData)
             setUpBackButton()
-        } else {
-            setToolbarTitle(R.string.title_favourite)
-        }
     }
 
     private fun handleFavouriteGroup(favouriteGroup: Group?) {
@@ -90,7 +86,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
                     channelRecyclerView.isGone = true
                     errorLayout.isVisible = true
                 }
-                setToolbarTitle(R.string.title_favourite)
             }
         }
     }
@@ -122,7 +117,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     override fun onDestroyView() {
         super.onDestroyView()
         activityViewModel.favouriteGroup.removeObservers(this)
-        activityViewModel.groupListFailure.removeObservers(this)
+        activityViewModel.favouriteGroupFailure.removeObservers(this)
     }
 
     private fun showAddToFavourite() {

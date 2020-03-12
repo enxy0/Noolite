@@ -31,7 +31,7 @@ class MainActivity : BaseActivity() {
         appComponent.inject(this)
         viewModel = getViewModel(viewModelFactory, MainViewModel::class.java)
         getIntentExtras()
-        setUpTheme()
+        setTheme(viewModel.currentTheme)
         setContentView(R.layout.activity_base)
         setUpToolbar()
         setUpViewPager()
@@ -44,11 +44,10 @@ class MainActivity : BaseActivity() {
 
     private fun getIntentExtras() {
         intent?.extras?.let { bundle ->
-            with(viewModel.settingsManager) {
-                themeChanged = bundle.getBoolean(FileManager.THEME_CHANGED)
-                scrollX = bundle.getInt(FileManager.SCROLL_X_KEY, 0)
-                scrollY = bundle.getInt(FileManager.SCROLL_Y_KEY, 0)
-            }
+            val themeChanged = bundle.getBoolean(FileManager.THEME_CHANGED)
+            val settingsScrollX = bundle.getInt(FileManager.SCROLL_X_KEY, 0)
+            val settingsScrollY = bundle.getInt(FileManager.SCROLL_Y_KEY, 0)
+            viewModel.setThemeChangeValues(themeChanged, settingsScrollX, settingsScrollY)
         }
     }
 
@@ -58,17 +57,9 @@ class MainActivity : BaseActivity() {
             notifyError(R.string.error_no_wifi)
     }
 
-    private fun setUpTheme() {
-        when (viewModel.settingsManager.currentTheme) {
-            FileManager.WHITE_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_White_Blue)
-            FileManager.DARK_GREEN_THEME_VALUE -> setTheme(R.style.AppTheme_Dark_Green)
-            FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Amber)
-        }
-    }
-
     private fun showDefaultFragment() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
-            if (viewModel.settingsManager.themeChanged) {
+            if (viewModel.themeChanged) {
                 navView.selectedItemId = R.id.navigation_settings
             } else {
                 navView.selectedItemId = R.id.navigation_favourite
