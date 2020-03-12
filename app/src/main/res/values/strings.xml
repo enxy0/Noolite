@@ -3,7 +3,8 @@
     <string name="settings_default_ip_address" translatable="false">192.168.1.10</string>
     <string name="settings_current_theme" translatable="false">Dark Green</string>
     <string name="title_favourite">Избранное</string>
-    <string name="title_groups">Все группы</string>
+    <string name="section_groups">Все группы</string>
+    <string name="title_home">Дом</string>
     <string name="title_scripts">Сценарии</string>
     <string name="title_settings">Настройки</string>
     <string name="message_update_your_settings">Обновите данные в настройках!</string>

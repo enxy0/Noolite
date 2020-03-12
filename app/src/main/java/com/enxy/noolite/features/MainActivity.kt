@@ -90,7 +90,7 @@ class MainActivity : BaseActivity() {
             override fun onPageSelected(position: Int) {
                 when (position) {
                     CHANNEL_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_favourite)
-                    GROUP_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_groups)
+                    GROUP_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_home)
                     SETTINGS_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_settings)
                 }
                 navView.menu.getItem(position).isChecked = true
@@ -110,7 +110,7 @@ class MainActivity : BaseActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_groups -> {
-                    setToolbarTitle(R.string.title_groups)
+                    setToolbarTitle(R.string.section_groups)
                     viewPager.currentItem = GROUP_FRAGMENT_POSITION
                     return@setOnNavigationItemSelectedListener true
                 }

@@ -31,7 +31,7 @@
         turn on buttons
     </string>
     <string name="title_favourite">Favourite</string>
-    <string name="title_groups">All groups</string>
+    <string name="section_groups">All groups</string>
     <string name="title_settings">Settings</string>
     <string name="update_button">Update</string>
     <string name="channel_summary_turn_on_off">Light control</string>
@@ -63,4 +63,5 @@
     <string name="action_turn_on_all_light">Turn on all light</string>
     <string name="action_turn_off_all_light">Turn off all light</string>
     <string name="error_deserialization">Data reading error happened! Go to the settings and clear storage.</string>
+    <string name="title_home">Home</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <string name="title_favourite">Избранное</string>
-    <string name="title_groups">Все группы</string>
+    <string name="section_groups">Все группы</string>
     <string name="title_settings">Настройки</string>
     <string name="message_update_your_settings">Обновите данные в настройках!</string>
     <string name="message_authentication_is_not_available">Аутентификация еще не поддерживается. Ждите ее в следующем
@@ -67,4 +67,5 @@
     <string name="action_turn_on_all_light">Включить весь свет</string>
     <string name="action_turn_off_all_light">Выключить весь свет</string>
     <string name="error_deserialization">Произошла ошибка чтения данных из кэша. Перейдите в настройки и отчистите хранилище приложения.</string>
+    <string name="title_home">Дом</string>
 </resources>
