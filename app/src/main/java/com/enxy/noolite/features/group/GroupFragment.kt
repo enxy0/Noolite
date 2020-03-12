@@ -107,6 +107,9 @@ class GroupFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.
                 is Failure.DataNotFound -> {
                     errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
                 }
+                is Failure.WifiConnectionError -> {
+                    errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
+                }
                 is Failure.DeserializeError -> {
                     errorLayout.errorTextView.setText(R.string.error_deserialization)
                 }
