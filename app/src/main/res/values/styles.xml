@@ -172,6 +172,13 @@
         <item name="android:tint">?attr/colorPrimary</item>
     </style>
 
+    <style name="Icon">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="tint">?attr/infoIconColor</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
     <!-- Toolbar styles -->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

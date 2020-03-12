@@ -74,4 +74,11 @@
     <string name="action_turn_on_all_light">Включить весь свет</string>
     <string name="action_turn_off_all_light">Выключить весь свет</string>
     <string name="error_deserialization">Произошла ошибка чтения данных из кэша. Перейдите в настройки и отчистите хранилище приложения.</string>
+    <string name="settings_github_title" translatable="false">GitHub</string>
+    <string name="settings_github_summary" translatable="false">https://github.com/enxy0/Noolite</string>
+    <string name="settings_author_title">Автор</string>
+    <string name="settings_author_summary" translatable="false">enxy0</string>
+    <string name="settings_app_version_title">Версия приложения</string>
+    <string name="settings_build_number_title">Номер сборки</string>
+    <string name="settings_vk_url" translatable="false">https://vk.com/enxyo</string>
 </resources>

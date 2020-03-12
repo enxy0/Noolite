@@ -338,29 +338,156 @@
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/githubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/custom_ripple"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    style="@style/Icon"
+                    android:layout_marginEnd="16dp"
+                    app:srcCompat="@drawable/ic_github" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/githubTitle"
+                        style="@style/Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_github_title" />
+
+                    <TextView
+                        android:id="@+id/githubSummary"
+                        style="@style/Text.Secondary"
+                        android:layout_width="wrap_content"
+                        android:maxWidth="300dp"
+                        android:text="@string/settings_github_summary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/authorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/custom_ripple"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    style="@style/Icon"
+                    android:layout_marginEnd="16dp"
+                    app:srcCompat="@drawable/ic_vk" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/authorTitle"
+                        style="@style/Text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_author_title" />
+
+                    <TextView
+                        android:id="@+id/authorSummary"
+                        style="@style/Text.Secondary"
+                        android:layout_width="wrap_content"
+                        android:maxWidth="300dp"
+                        android:text="@string/settings_author_summary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/appVersionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/custom_ripple"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    style="@style/Icon"
+                    android:layout_marginEnd="16dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/appVersionTitle"
+                        style="@style/Text"
+                        android:text="@string/settings_app_version_title" />
+
+                    <TextView
+                        android:id="@+id/appVersionSummary"
+                        style="@style/Text.Secondary"
+                        android:maxWidth="300dp"
+                        tools:text="X.X.X" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/buildNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/custom_ripple"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    style="@style/Icon"
+                    android:layout_marginEnd="16dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/buildNumberTitle"
+                        style="@style/Text"
+                        android:text="@string/settings_build_number_title" />
+
+                    <TextView
+                        android:id="@+id/buildNumberSummary"
+                        style="@style/Text.Secondary"
+                        android:maxWidth="300dp"
+                        tools:text="XX" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-
-        <View style="@style/Divider" />
-
-        <TextView
-            android:id="@+id/appInfoTextView"
-            style="@style/Text.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:textAlignment="center"
-            tools:text="Noolite for Android vX.X.X (XXXX)" />
-
-        <TextView
-            android:id="@+id/authorTextView"
-            style="@style/Text.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:textAlignment="center"
-            android:autoLink="web"
-            android:text="@string/author" />
     </LinearLayout>
 </ScrollView>

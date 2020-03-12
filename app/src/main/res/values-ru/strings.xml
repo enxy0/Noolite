@@ -68,4 +68,7 @@
     <string name="action_turn_off_all_light">Выключить весь свет</string>
     <string name="error_deserialization">Произошла ошибка чтения данных из кэша. Перейдите в настройки и отчистите хранилище приложения.</string>
     <string name="title_home">Дом</string>
+    <string name="settings_author_title">Автор</string>
+    <string name="settings_app_version_title">Версия приложения</string>
+    <string name="settings_build_number_title">Номер сборки</string>
 </resources>

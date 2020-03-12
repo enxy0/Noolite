@@ -1,6 +1,8 @@
 package com.enxy.noolite.features.settings
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -30,6 +32,7 @@ class SettingsFragment : BaseFragment() {
         fun newInstance() = SettingsFragment()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUpViews() {
         with(viewModel) {
             when (settingsManager.currentTheme) {
@@ -44,10 +47,8 @@ class SettingsFragment : BaseFragment() {
                 settingsManager.currentTheme.fromUnderscoreToNormal().capitalizeWords()
             toggleButtonSwitch.isChecked = settingsManager.hasToggleButton
         }
-        val appName = context!!.applicationInfo.loadLabel(context!!.packageManager)
-        val appInfo = "$appName for Android " +
-                "v${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-        appInfoTextView.text = appInfo
+        appVersionSummary.text = "v${BuildConfig.VERSION_NAME}"
+        buildNumberSummary.text = BuildConfig.VERSION_CODE.toString()
     }
 
     private fun handleUpdate(groupList: ArrayList<Group>?) {
@@ -63,8 +64,8 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
-    private fun handleError(failureNullable: Failure?) {
-        failureNullable?.let {
+    private fun handleError(failure: Failure?) {
+        failure?.let {
             notifyError(R.string.error_general)
             viewModel.let {
                 it.groupList.removeObservers(this)
@@ -147,6 +148,18 @@ class SettingsFragment : BaseFragment() {
             override fun onGlobalFocusChanged(oldFocus: View?, newFocus: View?) {
             }
         })
+
+        githubLayout.setOnClickListener {
+            val githubUri = Uri.parse(getString(R.string.settings_github_summary))
+            val openGithub = Intent(Intent.ACTION_VIEW, githubUri)
+            startActivity(openGithub)
+        }
+
+        authorLayout.setOnClickListener {
+            val vkUri = Uri.parse(getString(R.string.settings_vk_url))
+            val openVk = Intent(Intent.ACTION_VIEW, vkUri)
+            startActivity(openVk)
+        }
     }
 
     override fun onStop() {
