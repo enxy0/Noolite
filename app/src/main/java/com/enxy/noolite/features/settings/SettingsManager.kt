@@ -1,5 +1,6 @@
 package com.enxy.noolite.features.settings
 
+import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.FileManager
 import javax.inject.Inject
@@ -53,6 +54,10 @@ class SettingsManager @Inject constructor(
     var scrollX: Int = 0
 
     var scrollY: Int = 0
+
+    val appVersion: String = "v${BuildConfig.VERSION_NAME}"
+
+    val appBuildNumber: String = BuildConfig.VERSION_CODE.toString()
 
     init {
         this.hasToggleButton = fileManager.getBooleanFromPrefs(

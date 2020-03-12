@@ -17,7 +17,7 @@ import javax.inject.Inject
 * MainViewModel contains data which is shared and used across the app (fragments)
 */
 class MainViewModel @Inject constructor(
-    val settingsManager: SettingsManager,
+    private val settingsManager: SettingsManager,
     private val repository: Repository
 ) : ViewModel() {
     val scriptList = MutableLiveData(ArrayList<Script>())
