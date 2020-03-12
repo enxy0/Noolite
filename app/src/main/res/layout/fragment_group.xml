@@ -11,17 +11,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/errorLayout"
-            layout="@layout/content_error"
-            tools:visibility="gone" />
-
         <TextView
             style="@style/Text.Section"
             android:layout_marginStart="@dimen/section_horizontal_margin"
             android:layout_marginTop="@dimen/section_vertical_margin"
             android:layout_marginEnd="@dimen/section_horizontal_margin"
             android:text="@string/section_groups" />
+
+        <include
+            android:id="@+id/errorLayout"
+            layout="@layout/content_error"
+            tools:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/groupRecyclerView"
@@ -55,13 +55,13 @@
             <ImageView
                 android:id="@+id/addScript"
                 style="@style/Button.Icon"
-                android:tint="?attr/colorPrimary"
                 android:layout_width="@dimen/default_icon_size"
                 android:layout_height="@dimen/default_icon_size"
-                android:padding="0dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/section_horizontal_margin"
-                android:src="@drawable/ic_add" />
+                android:padding="0dp"
+                android:src="@drawable/ic_add"
+                android:tint="?attr/colorPrimary" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
