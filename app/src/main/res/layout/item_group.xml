@@ -45,7 +45,7 @@
 
             <TextView
                 android:id="@+id/headerTextView"
-                style="@style/Text"
+                style="@style/Text.Bold"
                 android:layout_gravity="start"
                 tools:text="Коридор" />
 
