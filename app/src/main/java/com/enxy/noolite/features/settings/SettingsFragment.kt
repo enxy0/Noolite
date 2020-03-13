@@ -58,14 +58,12 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun handleUpdate(groupList: ArrayList<Group>?) {
-        groupList?.let { groupListModel ->
-            if (groupListModel.isNotEmpty()) {
-                notify(R.string.message_data_updated)
-            }
-            activityViewModel.let {
+        if (!groupList.isNullOrEmpty()) {
+            activityViewModel.updateGroupList(groupList)
+            notify(R.string.message_data_updated)
+            viewModel.let {
                 it.groupList.removeObservers(this)
-                it.favouriteGroupFailure.removeObservers(this)
-                it.favouriteGroupFailure.value = null
+                it.failure.removeObservers(this)
             }
         }
     }
@@ -73,10 +71,9 @@ class SettingsFragment : BaseFragment() {
     private fun handleError(failure: Failure?) {
         failure?.let {
             notifyError(R.string.error_general)
-            activityViewModel.let {
+            viewModel.let {
                 it.groupList.removeObservers(this)
-                it.favouriteGroupFailure.removeObservers(this)
-                it.groupList.value = null
+                it.failure.removeObservers(this)
             }
         }
     }
@@ -102,11 +99,11 @@ class SettingsFragment : BaseFragment() {
 
         updateDataButton.setOnClickListener {
             val ipAddress: String = ipAddressEditText.text.toString()
-            viewModel.setIpAddress(ipAddress)
-            with(activityViewModel) {
+            with(viewModel) {
+                prepareToFetchGroupList(ipAddress)
                 observe(groupList, ::handleUpdate)
-                failure(groupListFailure, ::handleError)
-                fetchGroupList(ipAddress = ipAddress, isForceUpdating = true)
+                failure(failure, ::handleError)
+                fetchGroupList(ipAddress)
             }
         }
 
@@ -127,11 +124,8 @@ class SettingsFragment : BaseFragment() {
         }
 
         loadTestDataLinearLayout.setOnClickListener {
-            with(activityViewModel) {
-                observe(groupList, ::handleUpdate)
-                failure(groupListFailure, ::handleError)
-                loadTestData()
-            }
+            activityViewModel.loadTestData()
+            notify(R.string.message_data_updated)
         }
 
         settingsScrollView.viewTreeObserver.addOnGlobalLayoutListener(object :

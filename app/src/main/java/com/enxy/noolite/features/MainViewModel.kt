@@ -43,11 +43,15 @@ class MainViewModel @Inject constructor(
         fetchScripts()
     }
 
-    fun fetchGroupList(ipAddress: String, isForceUpdating: Boolean = false) {
+    private fun fetchGroupList(ipAddress: String, isForceUpdating: Boolean = false) {
         viewModelScope.launch {
             repository.getGroupList(ipAddress, isForceUpdating)
                 .either(::handleGroupListFailure, ::handleGroupList)
         }
+    }
+
+    fun updateGroupList(groupList: ArrayList<Group>) {
+        handleGroupList(groupList)
     }
 
     private fun fetchFavouriteGroup() {
