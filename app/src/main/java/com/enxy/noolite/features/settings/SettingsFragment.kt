@@ -156,10 +156,10 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        activityViewModel.groupList.removeObservers(this)
-        activityViewModel.groupListFailure.removeObservers(this)
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.groupList.removeObservers(this)
+        viewModel.failure.removeObservers(this)
     }
 
     private fun restartAppWithAnimation() {
