@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.channel.ChannelFragment
 import com.enxy.noolite.features.group.GroupFragment
-import com.enxy.noolite.features.settings.SettingsFragment
 import javax.inject.Inject
 
 
@@ -13,8 +12,7 @@ class SectionsPagerAdapter @Inject constructor(fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private val listOfFragments = arrayListOf(
         ChannelFragment.newInstance(),
-        GroupFragment.newInstance(),
-        SettingsFragment.newInstance()
+        GroupFragment.newInstance()
     )
 
     override fun getItem(position: Int): BaseFragment {
@@ -22,5 +20,5 @@ class SectionsPagerAdapter @Inject constructor(fm: FragmentManager) :
         return listOfFragments[position]
     }
 
-    override fun getCount(): Int = 3 // 3 tabs: favourite / all groups / settings
+    override fun getCount(): Int = 2
 }

@@ -2,13 +2,17 @@ package com.enxy.noolite.features
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.platform.BaseActivity
 import com.enxy.noolite.core.platform.FileManager
+import com.enxy.noolite.features.settings.SettingsFragment
 import kotlinx.android.synthetic.main.activity_base.*
 import javax.inject.Inject
 
@@ -16,6 +20,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
     @Inject
     lateinit var connectionManager: ConnectionManager
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MainViewModel
@@ -23,7 +28,23 @@ class MainActivity : BaseActivity() {
     companion object {
         const val CHANNEL_FRAGMENT_POSITION = 0
         const val GROUP_FRAGMENT_POSITION = 1
-        const val SETTINGS_FRAGMENT_POSITION = 2
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> {
+                supportFragmentManager.commit {
+                    replace(R.id.fragmentHolder, SettingsFragment.newInstance())
+                    addToBackStack(null)
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +81,10 @@ class MainActivity : BaseActivity() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
             if (viewModel.themeChanged) {
                 setToolbarTitle(R.string.title_settings)
-                viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
+                supportFragmentManager.commit {
+                    replace(R.id.fragmentHolder, SettingsFragment.newInstance())
+                    addToBackStack(null)
+                }
             } else {
                 setToolbarTitle(R.string.title_favourite)
                 viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
@@ -83,7 +107,6 @@ class MainActivity : BaseActivity() {
                 when (position) {
                     CHANNEL_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_favourite)
                     GROUP_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_home)
-                    SETTINGS_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_settings)
                 }
             }
 

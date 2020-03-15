@@ -25,6 +25,11 @@ abstract class BaseActivity : AppCompatActivity() {
         return ViewModelProvider(this, factory)[viewModelClass]
     }
 
+    internal fun setUpBackButton() {
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+    }
+
     internal fun notify(@StringRes message: Int) {
         Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_SHORT)
             .withColorPrimary()

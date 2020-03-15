@@ -156,8 +156,8 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.groupList.removeObservers(this)
         viewModel.failure.removeObservers(this)
     }
