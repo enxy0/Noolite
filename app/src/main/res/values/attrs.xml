@@ -10,6 +10,5 @@
     <attr name="dividerColor" format="reference" />
     <attr name="infoIconColor" format="reference"/>
     <attr name="buttonIconColor" format="reference"/>
-    <attr name="bottomNavigationBarColor" format="reference"/>
     <attr name="defaultRippleColor" format="reference"/>
 </resources>

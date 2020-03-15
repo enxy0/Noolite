@@ -8,7 +8,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomNavigationBarColor">@color/backgroundLight</item>
         <item name="toolbarTextColor">@android:color/black</item>
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:navigationBarColor">@color/backgroundLight</item>
@@ -44,9 +43,7 @@
         <item name="infoIconColor">@color/infoIconColorDark</item>
         <item name="buttonIconColor">@color/buttonIconColorDark</item>
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorDark</item>
-        <!--        <item name="android:statusBarColor">@color/toolbarColorDark</item>-->
         <item name="android:statusBarColor">@color/backgroundDark</item>
-        <!--        <item name="toolbarColor">@color/toolbarColorDark</item>-->
         <item name="toolbarColor">@color/backgroundDark</item>
         <item name="dividerColor">@color/dividerDark</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorDark</item>
@@ -55,9 +52,6 @@
         <item name="toolbarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccentDarker</item>
-        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorDark</item>-->
-        <item name="bottomNavigationBarColor">@color/backgroundDark</item>
-        <!--        <item name="android:navigationBarColor">@color/navigationDarker</item>-->
         <item name="android:navigationBarColor">@color/backgroundDark</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
@@ -72,9 +66,7 @@
         <item name="infoIconColor">@color/infoIconColorBlack</item>
         <item name="buttonIconColor">@color/buttonIconColorBlack</item>
         <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorBlack</item>
-        <!--        <item name="android:statusBarColor">@color/toolbarColorBlack</item>-->
         <item name="android:statusBarColor">@color/backgroundBlack</item>
-        <!--        <item name="toolbarColor">@color/toolbarColorBlack</item>-->
         <item name="toolbarColor">@color/backgroundBlack</item>
         <item name="dividerColor">@color/dividerBlack</item>
         <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorBlack</item>
@@ -83,9 +75,6 @@
         <item name="toolbarTextColor">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccentBlack</item>
-        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorBlack</item>-->
-        <item name="bottomNavigationBarColor">@color/backgroundBlack</item>
-        <!--        <item name="android:navigationBarColor">@color/navigationBlack</item>-->
         <item name="android:navigationBarColor">@color/backgroundBlack</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
@@ -116,7 +105,6 @@
     </style>
 
     <style name="Text.Section" parent="Text">
-        <!--        <item name="android:textColor">?attr/colorPrimary</item>-->
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -126,7 +114,6 @@
     </style>
 
     <style name="BaseCard" parent="Widget.MaterialComponents.CardView">
-        <!--        <item name="cardBackgroundColor">?android:attr/windowBackground</item>-->
         <item name="cardBackgroundColor">?itemBackgroundColor</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeColor">?attr/dividerColor</item>

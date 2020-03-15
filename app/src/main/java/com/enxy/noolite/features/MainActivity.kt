@@ -35,7 +35,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_base)
         setUpToolbar()
         setUpViewPager()
-        setUpNavView()
         showDefaultFragment()
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             window.navigationBarColor = ContextCompat.getColor(this, android.R.color.black)
@@ -60,9 +59,11 @@ class MainActivity : BaseActivity() {
     private fun showDefaultFragment() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
             if (viewModel.themeChanged) {
-                navView.selectedItemId = R.id.navigation_settings
+                setToolbarTitle(R.string.title_settings)
+                viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
             } else {
-                navView.selectedItemId = R.id.navigation_favourite
+                setToolbarTitle(R.string.title_favourite)
+                viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
             }
     }
 
@@ -84,35 +85,10 @@ class MainActivity : BaseActivity() {
                     GROUP_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_home)
                     SETTINGS_FRAGMENT_POSITION -> setToolbarTitle(R.string.title_settings)
                 }
-                navView.menu.getItem(position).isChecked = true
             }
 
             override fun onPageScrollStateChanged(state: Int) = Unit
         })
-    }
-
-    private fun setUpNavView() {
-        navView.setOnNavigationItemSelectedListener {
-            clearFragmentBackStack()
-            when (it.itemId) {
-                R.id.navigation_favourite -> {
-                    setToolbarTitle(R.string.title_favourite)
-                    viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_groups -> {
-                    setToolbarTitle(R.string.section_groups)
-                    viewPager.currentItem = GROUP_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_settings -> {
-                    setToolbarTitle(R.string.title_settings)
-                    viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-            }
-            return@setOnNavigationItemSelectedListener false
-        }
     }
 
     private fun clearFragmentBackStack() {
