@@ -11,6 +11,7 @@ import com.enxy.noolite.core.extension.withColor
 import com.enxy.noolite.core.extension.withColorPrimary
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseActivity : AppCompatActivity() {
 

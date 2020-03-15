@@ -15,16 +15,7 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/Toolbar"
-            app:contentInsetStartWithNavigation="0dp"
-            app:layout_scrollFlags="enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="My room"
-            app:titleTextAppearance="@style/ToolbarTextAppearance" />
+        <include layout="@layout/toolbar" />
 
         <View style="@style/Divider" />
     </com.google.android.material.appbar.AppBarLayout>

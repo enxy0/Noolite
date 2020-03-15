@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.enxy.noolite.AndroidApplication
 import com.enxy.noolite.core.di.ApplicationComponent
 import com.enxy.noolite.features.MainActivity
-import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseFragment : Fragment() {
     val appComponent: ApplicationComponent by lazy {

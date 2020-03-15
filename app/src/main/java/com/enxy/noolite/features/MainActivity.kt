@@ -14,6 +14,7 @@ import com.enxy.noolite.core.platform.BaseActivity
 import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.settings.SettingsFragment
 import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 
