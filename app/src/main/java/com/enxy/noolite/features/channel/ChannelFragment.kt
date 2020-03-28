@@ -7,9 +7,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
-import com.enxy.noolite.core.exception.Failure
-import com.enxy.noolite.core.extension.failure
-import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Channel
@@ -36,14 +33,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         const val GROUP_MODEL_KEY = "group_model"
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        with(viewModel) {
-            observe(favouriteGroup, ::handleFavouriteGroup)
-            failure(failure, ::handleFailure)
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         channelAdapter.setToggleButtonVisibility(viewModel.hasToggleButton)
@@ -54,6 +43,9 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
             isNestedScrollingEnabled = false
             setHasFixedSize(true)
         }
+        renderGroupElement(passedGroup)
+        if (viewModel.favouriteGroup.value != passedGroup)
+            showAddToFavourite()
     }
 
     override fun onResume() {
@@ -62,27 +54,11 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         setToolbarTitle(passedGroup.name)
     }
 
-    private fun handleFavouriteGroup(favouriteGroup: Group?) {
-        favouriteGroup?.let {
-            renderGroupElement(passedGroup)
-            if (favouriteGroup != passedGroup)
-                showAddToFavourite()
-        }
-    }
-
-    private fun handleFailure(failure: Failure?) {
-        failure?.let {
-            renderGroupElement(passedGroup)
-            showAddToFavourite()
-        }
-    }
-
     private fun renderGroupElement(group: Group) {
         if (errorLayout.isVisible) {
             channelRecyclerView.isVisible = true
             errorLayout.isGone = true
         }
-        groupName.text = group.name
         channelAdapter.updateData(group.channelList)
     }
 
