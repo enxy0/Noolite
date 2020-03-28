@@ -83,12 +83,10 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
             R.id.settingsItem -> parentFragmentManager.commit {
                 replace(R.id.fragmentHolder, SettingsFragment.newInstance())
                 addToBackStack(null)
-                return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
-
 
     override fun onResume() {
         super.onResume()
