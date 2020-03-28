@@ -38,6 +38,7 @@ class SettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setToolbarTitle(R.string.title_settings)
         initSettingsValues()
         setUpUiHandlers()
     }
