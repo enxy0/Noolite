@@ -10,8 +10,9 @@ import com.enxy.noolite.features.model.Channel
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 
-class ChannelAdapter(private val listener: ChannelListener, private val hasToggleButton: Boolean) :
+class ChannelAdapter(private val listener: ChannelListener) :
     RecyclerView.Adapter<ChannelAdapter.ChannelHolder>() {
+    private var hasToggleButton: Boolean = true
     private var data: ArrayList<Channel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolder {
@@ -33,6 +34,11 @@ class ChannelAdapter(private val listener: ChannelListener, private val hasToggl
     fun updateData(channelList: ArrayList<Channel>) {
         this.data.clear()
         this.data.addAll(channelList)
+        notifyDataSetChanged()
+    }
+
+    fun setToggleButtonVisibility(hasToggleButton: Boolean) {
+        this.hasToggleButton = hasToggleButton
         notifyDataSetChanged()
     }
 

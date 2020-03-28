@@ -104,14 +104,14 @@ class MainViewModel @Inject constructor(
 
     fun addScript(script: Script) {
         viewModelScope.launch {
-            scriptList.value!!.add(script)
+            this@MainViewModel.scriptList.value!!.add(script)
             repository.saveScripts(scriptList.value!!)
         }
     }
 
     fun setFavouriteGroup(group: Group) {
         viewModelScope.launch {
-            favouriteGroup.value = group
+            this@MainViewModel.favouriteGroup.value = group
             repository.saveFavouriteGroupElement(group)
         }
     }

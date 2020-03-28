@@ -150,12 +150,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/channelList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:paddingTop="@dimen/list_padding"
                 android:paddingBottom="@dimen/list_padding"
-                tools:itemCount="2"
+                tools:itemCount="1"
                 tools:listitem="@layout/item_channel" />
         </LinearLayout>
     </ScrollView>

@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.extension.failure
-import com.enxy.noolite.core.extension.getViewModel
+import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
@@ -24,9 +23,8 @@ import javax.inject.Inject
 class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var channelAdapter: ChannelAdapter
-    private val activityViewModel: MainViewModel by activityViewModels()
-    private lateinit var viewModel: ChannelViewModel
+    private val channelAdapter: ChannelAdapter = ChannelAdapter(this)
+    private lateinit var viewModel: MainViewModel
     private val passedGroup: Group
         get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as Group
 
@@ -45,13 +43,13 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
-        viewModel = getViewModel(this, viewModelFactory)
+        viewModel = getActivityViewModel(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
-        with(activityViewModel) {
+        with(viewModel) {
             observe(favouriteGroup, ::handleFavouriteGroup)
             failure(failure, ::handleFailure)
         }
@@ -88,7 +86,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     }
 
     private fun setUpRecyclerView() {
-        channelAdapter = ChannelAdapter(this, viewModel.hasToggleButton)
+        channelAdapter.setToggleButtonVisibility(viewModel.hasToggleButton)
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         with(channelRecyclerView) {
             adapter = channelAdapter
@@ -100,7 +98,7 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     private fun showAddToFavourite() {
         favouriteButton.visibility = View.VISIBLE
         favouriteButton.setOnClickListener {
-            activityViewModel.setFavouriteGroup(passedGroup)
+            viewModel.setFavouriteGroup(passedGroup)
             notify(R.string.message_room_added_as_favourite)
         }
     }

@@ -3,7 +3,6 @@ package com.enxy.noolite.core.di.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.channel.ChannelViewModel
 import com.enxy.noolite.features.settings.SettingsViewModel
 import dagger.Binds
 import dagger.Module
@@ -18,11 +17,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindsMainViewModel(mainViewModel: MainViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ChannelViewModel::class)
-    abstract fun bindsChannelViewModel(channelViewModel: ChannelViewModel): ViewModel
 
     @Binds
     @IntoMap

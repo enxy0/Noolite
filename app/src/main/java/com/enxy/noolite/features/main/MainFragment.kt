@@ -10,13 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.extension.failure
+import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
@@ -38,8 +38,8 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val groupAdapter: GroupAdapter = GroupAdapter(this)
-    lateinit var channelAdapter: ChannelAdapter
-    private val viewModel: MainViewModel by activityViewModels()
+    private val channelAdapter: ChannelAdapter = ChannelAdapter(this)
+    private lateinit var viewModel: MainViewModel
     private val scriptAdapter: ScriptAdapter = ScriptAdapter(this)
     override val layoutId = R.layout.fragment_main
 
@@ -50,19 +50,18 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        with(viewModel) {
-            failure(failure, ::handleError)
-            observe(groupList, ::renderData)
-            observe(favouriteGroup, ::renderFavouriteGroup)
-        }
+        viewModel = getActivityViewModel(this)
+        observe(viewModel.groupList, ::renderData)
+        observe(viewModel.favouriteGroup, ::renderFavouriteGroup)
+        failure(viewModel.failure, ::handleError)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
+        Log.d("MainFragment", "onViewCreated: called")
         addScript.setOnClickListener {
             parentFragmentManager.commit {
-                addToBackStack(ActionGroupFragment.TAG)
                 setCustomAnimations(
                     R.anim.zoom_in,
                     R.anim.zoom_out,
@@ -70,6 +69,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
                     R.anim.zoom_out
                 )
                 replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
+                addToBackStack(ActionGroupFragment.TAG)
             }
         }
     }
@@ -109,7 +109,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
             adapter = scriptAdapter
             setHasFixedSize(true)
         }
-        channelAdapter = ChannelAdapter(this, viewModel.hasToggleButton)
+        channelAdapter.setToggleButtonVisibility(viewModel.hasToggleButton)
         with(channelList) {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -120,6 +120,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     private fun renderData(data: ArrayList<Group>?) {
         if (!data.isNullOrEmpty()) {
+            Log.d("MainFragment", "renderData: data=$data")
             if (errorLayout.isVisible) {
                 errorLayout.isGone = true
                 groupList.isVisible = true
@@ -130,6 +131,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     private fun renderFavouriteGroup(data: Group?) {
         data?.let {
+            Log.d("MainFragment", "renderFavouriteGroup: data=$data")
             channelAdapter.updateData(data.channelList)
         }
     }
@@ -157,9 +159,9 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onGroupOpen(group: Group) {
         parentFragmentManager.commit {
-            addToBackStack(null)
             setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
             replace(R.id.fragmentHolder, ChannelFragment.newInstance(group))
+            addToBackStack(null)
         }
     }
 
@@ -170,7 +172,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onTurnOffLights(group: Group) {
         for (channel in group.channelList)
-            viewModel.doAction(ChannelAction.createTurnOffAction(channel.id))
+            onTurnOffLight(channel)
     }
 
     override fun onScriptExecute(script: Script) {
