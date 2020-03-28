@@ -50,13 +50,14 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        failure(viewModel.failure, ::handleError)
         observe(viewModel.groupList, ::renderData)
         observe(viewModel.favouriteGroup, ::renderFavouriteGroup)
-        failure(viewModel.failure, ::handleError)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setToolbarTitle(R.string.app_name)
         setUpRecyclerView()
         Log.d("MainFragment", "onViewCreated: called")
         addScript.setOnClickListener {
@@ -88,11 +89,6 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setToolbarTitle(R.string.app_name)
-    }
-
     private fun setUpRecyclerView() {
         with(groupList) {
             layoutManager =
@@ -118,10 +114,8 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     private fun renderData(data: ArrayList<Group>?) {
         if (!data.isNullOrEmpty()) {
             Log.d("MainFragment", "renderData: data=$data")
-            if (errorLayout.isVisible) {
-                errorLayout.isGone = true
-                groupList.isVisible = true
-            }
+            errorLayout.isGone = true
+            groupList.isVisible = true
             groupAdapter.updateData(data)
         }
     }
