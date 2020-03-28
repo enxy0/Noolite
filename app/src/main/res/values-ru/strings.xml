@@ -51,7 +51,7 @@
     <string name="settings_notification_section">Уведомления</string>
     <string name="settings_wifi_notification_title">WiFi подключение</string>
     <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
-    <string name="title_scripts">Сценарии</string>
+    <string name="section_scripts">Сценарии</string>
     <string name="add_script_button">Добавить сценарий</string>
     <string name="action_turn_on_light">Включить свет</string>
     <string name="action_turn_off_light">Выключить свет</string>
@@ -71,4 +71,5 @@
     <string name="settings_author_title">Автор</string>
     <string name="settings_app_version_title">Версия приложения</string>
     <string name="settings_build_number_title">Номер сборки</string>
+    <string name="section_favourite">Избранное</string>
 </resources>

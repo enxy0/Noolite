@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootCardView"
     style="@style/BaseCard"
-    tools:layout_width="180dp">
+    android:layout_width="170dp">
 
     <LinearLayout
         android:id="@+id/groupLinearLayout"

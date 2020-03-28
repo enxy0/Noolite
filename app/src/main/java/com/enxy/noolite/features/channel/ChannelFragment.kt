@@ -29,8 +29,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     private lateinit var viewModel: ChannelViewModel
     private val passedGroup: Group
         get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as Group
-    private val hasPassedData: Boolean
-        get() = arguments != null
 
     override val layoutId = R.layout.fragment_channel
 
@@ -55,38 +53,28 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         setUpRecyclerView()
         with(activityViewModel) {
             observe(favouriteGroup, ::handleFavouriteGroup)
-            failure(favouriteGroupFailure, ::handleFailure)
+            failure(failure, ::handleFailure)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (hasPassedData)
-            setUpBackButton()
+//            showBackButton()
+        setToolbarTitle(passedGroup.name)
     }
 
     private fun handleFavouriteGroup(favouriteGroup: Group?) {
         favouriteGroup?.let {
-            if (hasPassedData) {
-                renderGroupElement(passedGroup)
-                if (favouriteGroup != passedGroup)
-                    showAddToFavourite()
-            } else
-                renderGroupElement(favouriteGroup)
+            renderGroupElement(passedGroup)
+            if (favouriteGroup != passedGroup)
+                showAddToFavourite()
         }
     }
 
     private fun handleFailure(failure: Failure?) {
         failure?.let {
-            if (hasPassedData) {
-                renderGroupElement(passedGroup)
-                showAddToFavourite()
-            } else {
-                if (!errorLayout.isVisible) {
-                    channelRecyclerView.isGone = true
-                    errorLayout.isVisible = true
-                }
-            }
+            renderGroupElement(passedGroup)
+            showAddToFavourite()
         }
     }
 
@@ -99,11 +87,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
         channelAdapter.updateData(group.channelList)
     }
 
-    override fun onPause() {
-        super.onPause()
-        hideBackButton()
-    }
-
     private fun setUpRecyclerView() {
         channelAdapter = ChannelAdapter(this, viewModel.hasToggleButton)
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -112,12 +95,6 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
             layoutManager = linearLayoutManager
             isNestedScrollingEnabled = false
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activityViewModel.favouriteGroup.removeObservers(this)
-        activityViewModel.favouriteGroupFailure.removeObservers(this)
     }
 
     private fun showAddToFavourite() {

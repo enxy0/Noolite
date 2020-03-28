@@ -11,7 +11,6 @@ import com.enxy.noolite.core.extension.withColor
 import com.enxy.noolite.core.extension.withColorPrimary
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_base.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -24,11 +23,6 @@ abstract class BaseActivity : AppCompatActivity() {
         viewModelClass: Class<T>
     ): T {
         return ViewModelProvider(this, factory)[viewModelClass]
-    }
-
-    internal fun setUpBackButton() {
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
     }
 
     internal fun notify(@StringRes message: Int) {
@@ -47,13 +41,5 @@ abstract class BaseActivity : AppCompatActivity() {
         Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_SHORT)
             .withColor(ContextCompat.getColor(this, R.color.error))
             .show()
-    }
-
-    internal fun setToolbarTitle(@StringRes message: Int) {
-        toolbar.setTitle(message)
-    }
-
-    internal fun setToolbarTitle(message: String) {
-        toolbar.title = title
     }
 }

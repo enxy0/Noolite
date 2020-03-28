@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.channel.ChannelViewModel
-import com.enxy.noolite.features.group.GroupViewModel
+import com.enxy.noolite.features.main.GroupViewModel
 import com.enxy.noolite.features.settings.SettingsViewModel
 import dagger.Binds
 import dagger.Module

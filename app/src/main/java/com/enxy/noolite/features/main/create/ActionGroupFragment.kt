@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.group.create
+package com.enxy.noolite.features.main.create
 
 import android.animation.ObjectAnimator
 import android.os.Bundle

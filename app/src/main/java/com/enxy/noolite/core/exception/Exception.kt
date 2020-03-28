@@ -11,6 +11,11 @@ sealed class Failure {
     object DataNotFound : Failure()
     object DeserializeError: Failure()
 
+    // Feature failure
+    object FavouriteGroupNotFound : FeatureFailure()
+    object GroupListNotFound : FeatureFailure()
+    object ScriptListNotFound : FeatureFailure()
+
     /** * Extend this class for feature specific failures.*/
     abstract class FeatureFailure : Failure()
 }

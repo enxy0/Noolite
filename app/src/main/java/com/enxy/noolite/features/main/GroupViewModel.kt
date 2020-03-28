@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.group
+package com.enxy.noolite.features.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

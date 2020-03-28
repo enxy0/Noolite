@@ -1,6 +1,5 @@
 package com.enxy.noolite.core.platform
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,31 +35,26 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(layoutId, container, false)
+        val view = inflater.inflate(layoutId, container, false)
+        return view
     }
 
-    internal fun isInLandscapeOrientation(): Boolean {
-        val orientation = resources.configuration.orientation
-        return orientation == Configuration.ORIENTATION_LANDSCAPE
+    override fun onResume() {
+        super.onResume()
+        setUpToolbar()
     }
 
-    internal fun setUpBackButton() {
-        getMainActivity().supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        getMainActivity().supportActionBar!!.setDisplayShowHomeEnabled(true)
-    }
-
-    internal fun hideBackButton() {
-        getMainActivity().supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        getMainActivity().supportActionBar!!.setDisplayShowHomeEnabled(false)
+    private fun setUpToolbar() {
+        getMainActivity().setSupportActionBar(toolbar)
     }
 
     internal fun setToolbarTitle(@StringRes message: Int) {
-        getMainActivity().toolbar.setTitle(message)
+        toolbar.setTitle(message)
     }
 
     internal fun setToolbarTitle(message: String) {
-        getMainActivity().toolbar.title = message
+        toolbar.title = message
     }
 
-    internal fun getMainActivity() = requireActivity() as MainActivity
+    internal fun getMainActivity(): MainActivity = requireActivity() as MainActivity
 }

@@ -1,11 +1,11 @@
-package com.enxy.noolite.features.group
+package com.enxy.noolite.features.main
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.features.group.ScriptAdapter.ScriptHolder
+import com.enxy.noolite.features.main.ScriptAdapter.ScriptHolder
 import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.item_script.view.*
 
