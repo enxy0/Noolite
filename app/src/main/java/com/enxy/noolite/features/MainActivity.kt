@@ -48,14 +48,13 @@ class MainActivity : BaseActivity() {
 
     private fun showDefaultFragment() {
         if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
+            supportFragmentManager.commitNow {
+                replace(R.id.fragmentHolder, MainFragment.newInstance())
+            }
             if (viewModel.themeChanged) {
                 supportFragmentManager.commit {
                     replace(R.id.fragmentHolder, SettingsFragment.newInstance())
                     addToBackStack(null)
-                }
-            } else {
-                supportFragmentManager.commitNow {
-                    replace(R.id.fragmentHolder, MainFragment.newInstance())
                 }
             }
     }
