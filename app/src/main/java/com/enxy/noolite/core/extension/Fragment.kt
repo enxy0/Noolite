@@ -4,9 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-inline fun <reified T : ViewModel> getActivityViewModel(fragment: Fragment) =
-    ViewModelProvider(fragment.requireActivity())[T::class.java]
-
 inline fun <reified T : ViewModel> getViewModel(
     fragment: Fragment,
     factory: ViewModelProvider.Factory

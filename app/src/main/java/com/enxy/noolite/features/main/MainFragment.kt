@@ -10,13 +10,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.extension.failure
-import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
@@ -30,16 +29,13 @@ import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.settings.SettingsFragment
 import kotlinx.android.synthetic.main.content_error.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
-import javax.inject.Inject
 
 
 class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.ScriptListener,
     ChannelAdapter.ChannelListener {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
     private val groupAdapter: GroupAdapter = GroupAdapter(this)
     private val channelAdapter: ChannelAdapter = ChannelAdapter(this)
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private val scriptAdapter: ScriptAdapter = ScriptAdapter(this)
     override val layoutId = R.layout.fragment_main
 
@@ -47,10 +43,8 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         fun newInstance() = MainFragment()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        viewModel = getActivityViewModel(this)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         observe(viewModel.groupList, ::renderData)
         observe(viewModel.favouriteGroup, ::renderFavouriteGroup)
         failure(viewModel.failure, ::handleError)
@@ -59,6 +53,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
+        setHasOptionsMenu(true)
         Log.d("MainFragment", "onViewCreated: called")
         addScript.setOnClickListener {
             parentFragmentManager.commit {
