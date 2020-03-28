@@ -35,8 +35,7 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(layoutId, container, false)
-        return view
+        return inflater.inflate(layoutId, container, false)
     }
 
     override fun onResume() {
