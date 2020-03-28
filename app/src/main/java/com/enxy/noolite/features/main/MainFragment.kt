@@ -43,6 +43,11 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         fun newInstance() = MainFragment()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observe(viewModel.groupList, ::renderData)
@@ -53,7 +58,6 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
-        setHasOptionsMenu(true)
         Log.d("MainFragment", "onViewCreated: called")
         addScript.setOnClickListener {
             parentFragmentManager.commit {

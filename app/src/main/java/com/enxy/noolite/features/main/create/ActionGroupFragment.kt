@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
-import com.enxy.noolite.core.extension.getActivityViewModel
 import com.enxy.noolite.core.extension.observe
 import com.enxy.noolite.core.platform.BaseFragment
 import com.enxy.noolite.features.MainViewModel
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_script_group.*
 
 class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener {
     override val layoutId: Int = R.layout.fragment_script_group
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var actionGroupAdapter: ActionGroupAdapter
     private val script: Script = Script("TestScript", ArrayList())
 
@@ -40,9 +40,7 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
                 notify("Пустой сценарий был удален")
             parentFragmentManager.popBackStack()
         }
-        viewModel = getActivityViewModel(this)
-        actionGroupAdapter =
-            ActionGroupAdapter(this)
+        actionGroupAdapter = ActionGroupAdapter(this)
         setUpRecyclerView()
         with(viewModel) {
             observe(groupList, ::renderData)
