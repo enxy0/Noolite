@@ -19,7 +19,7 @@
     <color name="colorAccentBlack">#FFC107</color>
     <color name="colorPrimaryBlack">#FFC107</color>
 
-    <color name="itemBackgroundColor">#F0F0F0</color>
+    <color name="itemBackgroundColor">#FFFFFF</color>
     <color name="itemBackgroundColorDark">#272727</color>
     <color name="itemBackgroundColorBlack">#151515</color>
 
@@ -42,11 +42,11 @@
     <color name="dividerDark">#2D2D2D</color>
     <color name="dividerBlack">#1F1F1F</color>
 
-    <color name="inactiveMainButtonColorLight">#E5E5E5</color>
+    <color name="inactiveMainButtonColorLight">#F3F3F3</color>
     <color name="inactiveMainButtonColorDark">#333333</color>
     <color name="inactiveMainButtonColorBlack">#202020</color>
 
-    <color name="backgroundLight">#E8E8E8</color>
+    <color name="backgroundLight">#F3F3F3</color>
     <color name="backgroundDark">#191919</color>
     <color name="backgroundBlack">#000000</color>
 
