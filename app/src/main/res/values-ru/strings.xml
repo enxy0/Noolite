@@ -14,9 +14,6 @@
     <string name="error_general">Произошла ошибка! Проверьте корректность введенных данных и подключение через WiFi.
     </string>
     <string name="error_no_wifi">Произошла ошибка! Проверьте подключение к сети Wifi.</string>
-    <string name="error_favourite_room_not_found">Избранная комната не найдена! Перейдите во Все комнаты, чтобы добавить
-        ее.
-    </string>
     <string name="settings_anim_open_title">Анимация открытия</string>
     <string name="settings_anim_transition_title">Анимация переходов</string>
     <string name="settings_anim_open_summary">Использовать анимацию при переходе к группе</string>
@@ -72,4 +69,7 @@
     <string name="settings_app_version_title">Версия приложения</string>
     <string name="settings_build_number_title">Номер сборки</string>
     <string name="section_favourite">Избранное</string>
+    <string name="error_script_list_not_found">Вы еще не создали ни один сценарий! Для создания нажмите плюсик.</string>
+    <string name="error_unexpected">Произошла непредвиденная ошибка!</string>
+    <string name="error_favourite_room_not_found">Избранная группа не найдена! Выберите нужную из списка групп и нажмите «Добавить в избранное»</string>
 </resources>

@@ -11,16 +11,18 @@ import kotlinx.android.synthetic.main.item_script.view.*
 
 class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptHolder>() {
     // Test Data
-    private val scriptList = arrayListOf(
-        Script("Выключить весь свет", ArrayList()),
-        Script("Ночь (подсветка везде)", ArrayList())
-    )
+    private val scriptList: ArrayList<Script> = ArrayList()
+
+    fun updateData(data: ArrayList<Script>) {
+        this.scriptList.clear()
+        this.scriptList.addAll(data)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScriptHolder {
         val view =
             LayoutInflater.from(parent.context!!).inflate(R.layout.item_script, parent, false)
         return ScriptHolder(view)
-
     }
 
     override fun getItemCount(): Int = scriptList.size
@@ -35,7 +37,6 @@ class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptH
             scriptLayout.setOnClickListener { listener.onScriptExecute(script) }
             settingsButton.setOnClickListener { listener.onScriptEdit(script) }
         }
-
     }
 
     interface ScriptListener {

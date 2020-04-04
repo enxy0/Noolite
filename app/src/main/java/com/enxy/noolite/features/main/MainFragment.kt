@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.ScriptListener,
     ChannelAdapter.ChannelListener {
     private val groupAdapter: GroupAdapter = GroupAdapter(this)
-    private val channelAdapter: ChannelAdapter = ChannelAdapter(this)
+    private val favouriteGroupAdapter: ChannelAdapter = ChannelAdapter(this)
     private val viewModel: MainViewModel by activityViewModels()
     private val scriptAdapter: ScriptAdapter = ScriptAdapter(this)
     override val layoutId = R.layout.fragment_main
@@ -49,9 +49,12 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        failure(viewModel.failure, ::handleError)
-        observe(viewModel.groupList, ::renderData)
+        failure(viewModel.groupListFailure, ::handleGroupListFailure)
+        failure(viewModel.favouriteGroupFailure, ::handleFavouriteGroupFailure)
+        failure(viewModel.scriptListFailure, ::handleScriptListFailure)
+        observe(viewModel.groupList, ::renderGroupList)
         observe(viewModel.favouriteGroup, ::renderFavouriteGroup)
+        observe(viewModel.scriptList, ::renderScriptList)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,12 +64,6 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         Log.d("MainFragment", "onViewCreated: called")
         addScript.setOnClickListener {
             parentFragmentManager.commit {
-                setCustomAnimations(
-                    R.anim.zoom_in,
-                    R.anim.zoom_out,
-                    R.anim.zoom_in,
-                    R.anim.zoom_out
-                )
                 replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
                 addToBackStack(ActionGroupFragment.TAG)
             }
@@ -101,18 +98,17 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
             adapter = scriptAdapter
             setHasFixedSize(true)
         }
-        channelAdapter.setToggleButtonVisibility(viewModel.hasToggleButton)
-        with(channelList) {
+        favouriteGroupAdapter.setToggleButtonVisibility(viewModel.hasToggleButton)
+        with(favouriteGroup) {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = channelAdapter
+            adapter = favouriteGroupAdapter
             setHasFixedSize(true)
         }
     }
 
-    private fun renderData(data: ArrayList<Group>?) {
+    private fun renderGroupList(data: ArrayList<Group>?) {
         if (!data.isNullOrEmpty()) {
-            Log.d("MainFragment", "renderData: data=$data")
             groupListError.isGone = true
             groupList.isVisible = true
             groupAdapter.updateData(data)
@@ -121,32 +117,67 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     private fun renderFavouriteGroup(data: Group?) {
         data?.let {
-            Log.d("MainFragment", "renderFavouriteGroup: data=$data")
-            channelAdapter.updateData(data.channelList)
+            favouriteGroupError.isGone = true
+            favouriteGroup.isVisible = true
+            favouriteGroupAdapter.updateData(data.channelList)
         }
     }
 
-    private fun handleError(failure: Failure?) {
-        if (groupList.size == 0) {
-            groupList.isGone = true
-            groupListError.isVisible = true
-            when (failure) {
-                is Failure.DataNotFound -> {
-                    groupListError.errorTextView.setText(R.string.error_group_list_not_found)
-                }
-                is Failure.WifiConnectionError -> {
-                    groupListError.errorTextView.setText(R.string.error_group_list_not_found)
-                }
-                is Failure.DeserializeError -> {
-                    groupListError.errorTextView.setText(R.string.error_deserialization)
-                }
+    private fun renderScriptList(data: ArrayList<Script>?) {
+        data?.let {
+            scriptAdapter.updateData(data)
+        }
+    }
+
+    private fun handleGroupListFailure(failure: Failure?) {
+        if (groupList.size == 0 && failure != null) {
+            val text = when (failure) {
+                // TODO: Add more error messages
+                is Failure.DataNotFound -> R.string.error_group_list_not_found
+                is Failure.WifiConnectionError -> R.string.error_group_list_not_found
+                is Failure.DeserializeError -> R.string.error_deserialization
+                else -> R.string.error_unexpected
             }
+            setUpErrorLayout(groupListError, text, R.drawable.ic_question)
+            groupListError.isVisible = true
+            groupList.isGone = true
+        }
+    }
+
+    private fun setUpErrorLayout(view: View, text: Int, icon: Int) {
+        view.errorTextView.setText(text)
+        view.errorImageView.setImageResource(icon)
+    }
+
+    private fun handleFavouriteGroupFailure(failure: Failure?) {
+        if (favouriteGroup.size == 0 && failure != null) {
+            val text = when (failure) {
+                is Failure.DataNotFound -> R.string.error_favourite_group_not_found
+                is Failure.DeserializeError -> R.string.error_deserialization
+                else -> R.string.error_unexpected
+            }
+            setUpErrorLayout(favouriteGroupError, text, R.drawable.ic_star)
+            favouriteGroupError.isVisible = true
+            favouriteGroup.isGone = true
+        }
+    }
+
+    private fun handleScriptListFailure(failure: Failure?) {
+        if (scriptList.size == 0 && failure != null) {
+            val text = when (failure) {
+                is Failure.DataNotFound -> R.string.error_script_list_not_found
+                is Failure.DeserializeError -> R.string.error_deserialization
+                else -> R.string.error_unexpected
+            }
+            setUpErrorLayout(scriptError, text, R.drawable.ic_script)
+            scriptError.isVisible = true
+            scriptList.isGone = true
         }
     }
 
     override fun onGroupOpen(group: Group) {
         parentFragmentManager.commit {
-            setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
+//            setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
             replace(R.id.fragmentHolder, ChannelFragment.newInstance(group))
             addToBackStack(null)
         }

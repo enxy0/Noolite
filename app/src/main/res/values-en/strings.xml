@@ -4,7 +4,7 @@
     <string name="channel_color_button_backlight_extended">Color</string>
     <string name="channel_start_overflow_button_backlight_extended">Overflow</string>
     <string name="channel_stop_overflow_button_backlight_extended">Overflow</string>
-    <string name="error_favourite_room_not_found">Favourite room is not found!</string>
+    <string name="error_favourite_group_not_found">Favourite room is not found! Choose it from group list and tap Add to Favourite</string>
     <string name="error_general">Error! Make sure you have connected to WiFi and check entered data.</string>
     <string name="error_group_list_not_found">To load group list go to settings and configure the application.</string>
     <string name="error_no_wifi">Error! Check your WiFi connection.</string>
@@ -68,4 +68,6 @@
     <string name="settings_app_version_title">App Version</string>
     <string name="settings_build_number_title">Build Number</string>
     <string name="section_favourite">Favourite</string>
+    <string name="error_script_list_not_found">There is no scripts found. Tap plus to create one.</string>
+    <string name="error_unexpected">Unexpected error happened!</string>
 </resources>

@@ -25,9 +25,14 @@ class MainViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
     val scriptList = MutableLiveData(ArrayList<Script>())
+    val scriptListFailure = MutableLiveData<Failure>()
+
     val groupList = MutableLiveData(ArrayList<Group>())
+    val groupListFailure = MutableLiveData<Failure>()
+
     val favouriteGroup = MutableLiveData<Group>()
-    val failure = MutableLiveData<Failure>()
+    val favouriteGroupFailure = MutableLiveData<Failure>()
+
     val hasToggleButton: Boolean
         get() = settingsManager.hasToggleButton
     val themeChanged: Boolean
@@ -98,7 +103,7 @@ class MainViewModel @Inject constructor(
 
     private fun fetchScripts() {
         viewModelScope.launch {
-            repository.getScripts().either({}, ::handleScriptList)
+            repository.getScripts().either(::handleScriptListFailure, ::handleScriptList)
         }
     }
 
@@ -127,7 +132,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             this@MainViewModel.groupList.value = groupList
             repository.saveGroupList(groupList)
-//            groupListFailure.value = null
             Log.d("MainViewModel", "handleGroupList: groupList=$groupList")
         }
     }
@@ -137,7 +141,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleGroupListFailure(failure: Failure) {
-        this.failure.value = failure
+        this.groupListFailure.value = failure
         Log.d("MainViewModel", "handleGroupListFailure: failure=${failure.javaClass.name}")
     }
 
@@ -146,11 +150,16 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleFavouriteGroupFailure(failure: Failure) {
-        this.failure.value = failure
+        this.favouriteGroupFailure.value = failure
+    }
+
+    private fun handleScriptListFailure(failure: Failure) {
+        this.scriptListFailure.value = failure
     }
 
     fun loadTestData() {
-        failure.value = null
+        groupListFailure.value = null
+        favouriteGroupFailure.value = null
         groupList.value = TestData.groupElementList
         favouriteGroup.value = TestData.favouriteGroupElement
     }
