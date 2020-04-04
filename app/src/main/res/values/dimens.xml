@@ -31,4 +31,6 @@
     <dimen name="card_expanded_horizontal_margin">12dp</dimen>
     <dimen name="card_expanded_vertical_margin">6dp</dimen>
     <dimen name="floating_button_margin">16dp</dimen>
+    <dimen name="error_layout_margin">14dp</dimen>
+    <dimen name="error_icon_size">40dp</dimen>
 </resources>

@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
@@ -27,7 +26,7 @@ import com.enxy.noolite.features.model.ChannelAction
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.settings.SettingsFragment
-import kotlinx.android.synthetic.main.content_error.view.*
+import kotlinx.android.synthetic.main.content_feature_error.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
@@ -114,7 +113,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     private fun renderData(data: ArrayList<Group>?) {
         if (!data.isNullOrEmpty()) {
             Log.d("MainFragment", "renderData: data=$data")
-            errorLayout.isGone = true
+            groupListError.isGone = true
             groupList.isVisible = true
             groupAdapter.updateData(data)
         }
@@ -130,19 +129,16 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     private fun handleError(failure: Failure?) {
         if (groupList.size == 0) {
             groupList.isGone = true
-            errorLayout.isVisible = true
-            errorLayout.errorImageView.setImageDrawable(
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_list)
-            )
+            groupListError.isVisible = true
             when (failure) {
                 is Failure.DataNotFound -> {
-                    errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
+                    groupListError.errorTextView.setText(R.string.error_group_list_not_found)
                 }
                 is Failure.WifiConnectionError -> {
-                    errorLayout.errorTextView.setText(R.string.error_group_list_not_found)
+                    groupListError.errorTextView.setText(R.string.error_group_list_not_found)
                 }
                 is Failure.DeserializeError -> {
-                    errorLayout.errorTextView.setText(R.string.error_deserialization)
+                    groupListError.errorTextView.setText(R.string.error_deserialization)
                 }
             }
         }
