@@ -138,15 +138,15 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
                 is Failure.DeserializeError -> R.string.error_deserialization
                 else -> R.string.error_unexpected
             }
-            setUpErrorLayout(groupListError, text, R.drawable.ic_question)
-            groupListError.isVisible = true
+            showErrorLayout(groupListError, text, R.drawable.ic_question)
             groupList.isGone = true
         }
     }
 
-    private fun setUpErrorLayout(view: View, text: Int, icon: Int) {
+    private fun showErrorLayout(view: View, text: Int, icon: Int) {
         view.errorTextView.setText(text)
         view.errorImageView.setImageResource(icon)
+        view.isVisible = true
     }
 
     private fun handleFavouriteGroupFailure(failure: Failure?) {
@@ -156,8 +156,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
                 is Failure.DeserializeError -> R.string.error_deserialization
                 else -> R.string.error_unexpected
             }
-            setUpErrorLayout(favouriteGroupError, text, R.drawable.ic_star)
-            favouriteGroupError.isVisible = true
+            showErrorLayout(favouriteGroupError, text, R.drawable.ic_star)
             favouriteGroup.isGone = true
         }
     }
@@ -169,8 +168,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
                 is Failure.DeserializeError -> R.string.error_deserialization
                 else -> R.string.error_unexpected
             }
-            setUpErrorLayout(scriptError, text, R.drawable.ic_script)
-            scriptError.isVisible = true
+            showErrorLayout(scriptError, text, R.drawable.ic_script)
             scriptList.isGone = true
         }
     }
