@@ -125,6 +125,8 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     private fun renderScriptList(data: ArrayList<Script>?) {
         data?.let {
+            scriptError.isGone = true
+            scriptList.isVisible = true
             scriptAdapter.updateData(data)
         }
     }
