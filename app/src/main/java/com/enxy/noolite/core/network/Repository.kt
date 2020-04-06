@@ -1,7 +1,9 @@
 package com.enxy.noolite.core.network
 
 import com.enxy.noolite.core.exception.Failure
+import com.enxy.noolite.core.exception.Failure.ServerError
 import com.enxy.noolite.core.exception.Success
+import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
 import com.enxy.noolite.core.parser.BinParser
@@ -58,7 +60,7 @@ class Repository @Inject constructor(
         )
     }
 
-    suspend fun getScripts(): com.enxy.noolite.core.functional.Either<Failure, ArrayList<Script>> {
+    suspend fun getScripts(): Either<Failure, ArrayList<Script>> {
         val json: String? = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(MAIN_DATA_FILE, SCRIPT_LIST_KEY)
         }
@@ -71,7 +73,7 @@ class Repository @Inject constructor(
             Left(Failure.DataNotFound)
     }
 
-    suspend fun getFavouriteGroup(): com.enxy.noolite.core.functional.Either<Failure, Group> {
+    suspend fun getFavouriteGroup(): Either<Failure, Group> {
         val groupJson = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(
                 MAIN_DATA_FILE, FAVOURITE_GROUP_KEY
@@ -97,7 +99,7 @@ class Repository @Inject constructor(
     suspend fun getGroupList(
         ipAddress: String,
         isForceUpdating: Boolean
-    ): com.enxy.noolite.core.functional.Either<Failure, ArrayList<Group>> {
+    ): Either<Failure, ArrayList<Group>> {
         val groupListJson: String? = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(MAIN_DATA_FILE, GROUP_LIST_KEY)
         }
@@ -137,7 +139,7 @@ class Repository @Inject constructor(
         return Success.GoodRequest
     }
 
-    suspend fun changeLightState(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    suspend fun changeLightState(channelId: Int): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -153,7 +155,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun changeBacklightColor(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    suspend fun changeBacklightColor(channelId: Int): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -169,7 +171,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun turnOnLight(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    suspend fun turnOnLight(channelId: Int): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -185,7 +187,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun turnOffLight(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    suspend fun turnOffLight(channelId: Int): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -204,7 +206,7 @@ class Repository @Inject constructor(
     suspend fun changeBacklightBrightness(
         channelId: Int,
         brightness: Int
-    ): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    ): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -222,7 +224,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun startBacklightOverflow(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    suspend fun startBacklightOverflow(channelId: Int): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -238,7 +240,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun stopBacklightOverflow(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
+    suspend fun stopBacklightOverflow(channelId: Int): Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -257,7 +259,7 @@ class Repository @Inject constructor(
     private suspend fun <T> request(
         call: suspend () -> Response<ResponseBody>,
         transform: suspend (ResponseBody) -> T
-    ): com.enxy.noolite.core.functional.Either<Failure, T> {
+    ): Either<Failure, T> {
         return try {
             val response: Response<ResponseBody> = withContext(Dispatchers.IO) { call.invoke() }
             when (response.isSuccessful) {
@@ -266,12 +268,12 @@ class Repository @Inject constructor(
                     if (body != null)
                         Right(transform(body))
                     else
-                        Left(Failure.ResponseBodyIsNull)
+                        Left(ServerError)
                 }
-                false -> Left(Failure.ServerError)
+                false -> Left(ServerError)
             }
         } catch (e: Throwable) {
-            Left(Failure.ServerError)
+            Left(ServerError)
         }
     }
 }
