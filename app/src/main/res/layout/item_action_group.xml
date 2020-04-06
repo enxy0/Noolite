@@ -59,7 +59,7 @@
             <View style="@style/Divider" />
 
             <TextView
-                style="@style/Text.Section"
+                style="@style/Text.Bold"
                 android:layout_marginStart="@dimen/script_view_margin"
                 android:layout_marginTop="@dimen/script_view_margin"
                 android:layout_marginEnd="@dimen/script_view_margin"
