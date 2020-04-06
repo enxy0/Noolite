@@ -1,13 +1,10 @@
 package com.enxy.noolite.features
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.enxy.noolite.R
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
-import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.model.Action.*
 import com.enxy.noolite.features.model.ChannelAction
 import com.enxy.noolite.features.model.Group
@@ -35,17 +32,12 @@ class MainViewModel @Inject constructor(
 
     val hasToggleButton: Boolean
         get() = settingsManager.hasToggleButton
-    val themeChanged: Boolean
-        get() = settingsManager.themeChanged
-    val currentTheme: Int
-        get() = when (settingsManager.currentTheme) {
-            FileManager.BLACK_BLUE_THEME_VALUE -> R.style.AppTheme_Black_Amber
-            FileManager.WHITE_BLUE_THEME_VALUE -> R.style.AppTheme_White_Blue
-            else -> R.style.AppTheme_Dark_Green
-        }
+
+    val currentTheme: String
+        get() = settingsManager.currentTheme
 
     init {
-        fetchGroupList(ipAddress = settingsManager.ipAddress)
+        fetchGroupList(settingsManager.ipAddress)
         fetchFavouriteGroup()
         fetchScripts()
     }
@@ -121,18 +113,25 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setThemeChangeValues(_themeChanged: Boolean, settingsScrollX: Int, settingsScrollY: Int) =
-        with(settingsManager) {
+    fun setThemeChangeValues(
+        _themeChanged: Boolean,
+        themeName: String,
+        settingsScrollX: Int,
+        settingsScrollY: Int
+    ) {
+        settingsManager.apply {
             themeChanged = _themeChanged
+            currentTheme = themeName
             scrollX = settingsScrollX
             scrollY = settingsScrollY
         }
+
+    }
 
     private fun handleGroupList(groupList: ArrayList<Group>) {
         viewModelScope.launch {
             this@MainViewModel.groupList.value = groupList
             repository.saveGroupList(groupList)
-            Log.d("MainViewModel", "handleGroupList: groupList=$groupList")
         }
     }
 
@@ -142,7 +141,6 @@ class MainViewModel @Inject constructor(
 
     private fun handleGroupListFailure(failure: Failure) {
         this.groupListFailure.value = failure
-        Log.d("MainViewModel", "handleGroupListFailure: failure=${failure.javaClass.name}")
     }
 
     private fun handleFavouriteGroup(group: Group) {

@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.core.extension.toggleVisibility
+import com.enxy.noolite.core.utils.extension.toggleVisibility
 import com.enxy.noolite.features.model.Channel
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script

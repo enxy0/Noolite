@@ -9,10 +9,12 @@ import android.view.ViewTreeObserver
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.R
+import com.enxy.noolite.core.base.BaseFragment
 import com.enxy.noolite.core.exception.Failure
-import com.enxy.noolite.core.extension.*
-import com.enxy.noolite.core.platform.BaseFragment
-import com.enxy.noolite.core.platform.FileManager
+import com.enxy.noolite.core.utils.Constants.Companion.BLACK_THEME_VALUE
+import com.enxy.noolite.core.utils.Constants.Companion.DARK_THEME_VALUE
+import com.enxy.noolite.core.utils.Constants.Companion.WHITE_THEME_VALUE
+import com.enxy.noolite.core.utils.extension.*
 import com.enxy.noolite.features.MainActivity
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Group
@@ -24,7 +26,8 @@ class SettingsFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val activityViewModel: MainViewModel by activityViewModels()
     private lateinit var viewModel: SettingsViewModel
-    override val layoutId = R.layout.fragment_settings
+    override val layoutId: Int
+        get() = R.layout.fragment_settings
 
     companion object {
         fun newInstance() = SettingsFragment()
@@ -45,9 +48,8 @@ class SettingsFragment : BaseFragment() {
 
     private fun initSettingsValues() = with(viewModel) {
         when (currentTheme) {
-            FileManager.WHITE_BLUE_THEME_VALUE -> whiteBlueThemeSwitch.isChecked = true
-            FileManager.DARK_GREEN_THEME_VALUE -> darkGreenThemeSwitch.isChecked = true
-            FileManager.BLACK_BLUE_THEME_VALUE -> blackBlueThemeSwitch.isChecked = true
+            BLACK_THEME_VALUE -> blackBlueThemeSwitch.isChecked = true
+            WHITE_THEME_VALUE -> whiteBlueThemeSwitch.isChecked = true
             else -> darkGreenThemeSwitch.isChecked = true
         }
         wifiNotificationButtonSwitch.isChecked = wifiNotification
@@ -81,21 +83,18 @@ class SettingsFragment : BaseFragment() {
 
     private fun setUpUiHandlers() {
         whiteBlueThemeSwitch.setOnClickListener {
-            viewModel.setLightTheme()
-            removeThemeOnClickListeners()
-            restartAppWithAnimation()
+            viewModel.setTheme(WHITE_THEME_VALUE)
+            changeTheme(WHITE_THEME_VALUE)
         }
 
         darkGreenThemeSwitch.setOnClickListener {
-            viewModel.setDarkTheme()
-            removeThemeOnClickListeners()
-            restartAppWithAnimation()
+            viewModel.setTheme(DARK_THEME_VALUE)
+            changeTheme(DARK_THEME_VALUE)
         }
 
         blackBlueThemeSwitch.setOnClickListener {
-            viewModel.setBlackTheme()
-            removeThemeOnClickListeners()
-            restartAppWithAnimation()
+            viewModel.setTheme(BLACK_THEME_VALUE)
+            changeTheme(BLACK_THEME_VALUE)
         }
 
         updateDataButton.setOnClickListener {
@@ -163,21 +162,20 @@ class SettingsFragment : BaseFragment() {
         viewModel.failure.removeObservers(this)
     }
 
-    private fun restartAppWithAnimation() {
-        val newMainActivity = Intent(requireContext(), MainActivity::class.java).apply {
-            putExtra(FileManager.THEME_CHANGED, true)
-            putExtra(FileManager.SCROLL_X_KEY, settingsScrollView.scrollX)
-            putExtra(FileManager.SCROLL_Y_KEY, settingsScrollView.scrollY)
-        }
-        startActivity(newMainActivity)
-        getMainActivity().finish()
-        getMainActivity().overridePendingTransition(0, R.anim.fade_out)
-    }
-
-    private fun removeThemeOnClickListeners() {
-        // To prevent app from restarting to many times, if user did more than one click
+    private fun changeTheme(themeName: String) {
+        // Remove listeners to prevent app from restarting too many times
+        // if the user clicked more than one time
         whiteBlueThemeSwitch.setOnClickListener(null)
         darkGreenThemeSwitch.setOnClickListener(null)
         blackBlueThemeSwitch.setOnClickListener(null)
+
+        // Saving scrollView position to make theme change seamless
+        val scrollX = settingsScrollView.scrollX
+        val scrollY = settingsScrollView.scrollY
+
+        // Starting new activity and passing theme name, scroll position of x and y of SettingsFragment
+        startActivity(MainActivity.newThemedActivity(requireContext(), themeName, scrollX, scrollY))
+        getMainActivity().finish() // finishing current activity
+        getMainActivity().overridePendingTransition(0, R.anim.fade_out) // seamless animation
     }
 }

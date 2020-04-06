@@ -1,4 +1,4 @@
-package com.enxy.noolite.core.platform
+package com.enxy.noolite.core.base
 
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.AndroidApplication
 import com.enxy.noolite.R
-import com.enxy.noolite.core.extension.withColor
-import com.enxy.noolite.core.extension.withColorPrimary
+import com.enxy.noolite.core.utils.extension.withColor
+import com.enxy.noolite.core.utils.extension.withColorPrimary
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_base.*
 

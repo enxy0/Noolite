@@ -10,13 +10,12 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
+import com.enxy.noolite.core.base.BaseFragment
 import com.enxy.noolite.core.exception.Failure
-import com.enxy.noolite.core.extension.failure
-import com.enxy.noolite.core.extension.observe
-import com.enxy.noolite.core.platform.BaseFragment
+import com.enxy.noolite.core.utils.extension.failure
+import com.enxy.noolite.core.utils.extension.observe
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.channel.ChannelAdapter
 import com.enxy.noolite.features.channel.ChannelFragment
@@ -32,11 +31,12 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.ScriptListener,
     ChannelAdapter.ChannelListener {
-    private val groupAdapter: GroupAdapter = GroupAdapter(this)
-    private val favouriteGroupAdapter: ChannelAdapter = ChannelAdapter(this)
     private val viewModel: MainViewModel by activityViewModels()
-    private val scriptAdapter: ScriptAdapter = ScriptAdapter(this)
-    override val layoutId = R.layout.fragment_main
+    private val groupAdapter = GroupAdapter(this)
+    private val scriptAdapter = ScriptAdapter(this)
+    private val favouriteGroupAdapter = ChannelAdapter(this)
+    override val layoutId: Int
+        get() = R.layout.fragment_main
 
     companion object {
         fun newInstance() = MainFragment()
@@ -49,24 +49,35 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        failure(viewModel.groupListFailure, ::handleGroupListFailure)
-        failure(viewModel.favouriteGroupFailure, ::handleFavouriteGroupFailure)
-        failure(viewModel.scriptListFailure, ::handleScriptListFailure)
-        observe(viewModel.groupList, ::renderGroupList)
-        observe(viewModel.favouriteGroup, ::renderFavouriteGroup)
-        observe(viewModel.scriptList, ::renderScriptList)
+        with(viewModel) {
+            failure(groupListFailure, ::handleGroupListFailure)
+            failure(favouriteGroupFailure, ::handleFavouriteGroupFailure)
+            failure(scriptListFailure, ::handleScriptListFailure)
+            observe(groupList, ::renderGroupList)
+            observe(favouriteGroup, ::renderFavouriteGroup)
+            observe(scriptList, ::renderScriptList)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbarTitle(R.string.app_name)
         setUpRecyclerView()
-        Log.d("MainFragment", "onViewCreated: called")
+        Log.d("MainFragment", "onViewCreated: favouriteGroup=${viewModel.favouriteGroup.value}")
+        Log.d(
+            "MainFragment",
+            "onViewCreated: favouriteGroupError=${viewModel.favouriteGroupFailure.value?.javaClass?.simpleName}"
+        )
+        Log.d("MainFragment", "onViewCreated: scriptList=${viewModel.scriptList.value}")
+        Log.d(
+            "MainFragment",
+            "onViewCreated: scriptError=${viewModel.scriptListFailure.value?.javaClass?.simpleName}"
+        )
         addScript.setOnClickListener {
-            parentFragmentManager.commit {
-                replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
-                addToBackStack(ActionGroupFragment.TAG)
-            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
+                .addToBackStack(ActionGroupFragment.TAG)
+                .commit()
         }
     }
 
@@ -77,10 +88,10 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.settingsItem -> parentFragmentManager.commit {
-                replace(R.id.fragmentHolder, SettingsFragment.newInstance())
-                addToBackStack(null)
-            }
+            R.id.settingsItem -> parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentHolder, SettingsFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -124,7 +135,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     }
 
     private fun renderScriptList(data: ArrayList<Script>?) {
-        data?.let {
+        if (!data.isNullOrEmpty()) {
             scriptError.isGone = true
             scriptList.isVisible = true
             scriptAdapter.updateData(data)
@@ -143,12 +154,6 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
             showErrorLayout(groupListError, text, R.drawable.ic_question)
             groupList.isGone = true
         }
-    }
-
-    private fun showErrorLayout(view: View, text: Int, icon: Int) {
-        view.errorTextView.setText(text)
-        view.errorImageView.setImageResource(icon)
-        view.isVisible = true
     }
 
     private fun handleFavouriteGroupFailure(failure: Failure?) {
@@ -175,12 +180,18 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         }
     }
 
+    private fun showErrorLayout(view: View, text: Int, icon: Int) {
+        view.errorTextView.setText(text)
+        view.errorImageView.setImageResource(icon)
+        view.isVisible = true
+    }
+
     override fun onGroupOpen(group: Group) {
-        parentFragmentManager.commit {
+        parentFragmentManager.beginTransaction()
 //            setCustomAnimations(R.anim.zoom_in, R.anim.zoom_out, R.anim.zoom_in, R.anim.zoom_out)
-            replace(R.id.fragmentHolder, ChannelFragment.newInstance(group))
-            addToBackStack(null)
-        }
+            .replace(R.id.fragmentHolder, ChannelFragment.newInstance(group))
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onTurnOnLights(group: Group) {

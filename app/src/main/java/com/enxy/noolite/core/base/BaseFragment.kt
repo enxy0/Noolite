@@ -1,4 +1,4 @@
-package com.enxy.noolite.core.platform
+package com.enxy.noolite.core.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.enxy.noolite.core.extension
+package com.enxy.noolite.core.utils.extension
 
 import android.content.Context
 import android.graphics.Point

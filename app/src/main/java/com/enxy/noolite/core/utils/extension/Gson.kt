@@ -1,4 +1,4 @@
-package com.enxy.noolite.core.extension
+package com.enxy.noolite.core.utils.extension
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

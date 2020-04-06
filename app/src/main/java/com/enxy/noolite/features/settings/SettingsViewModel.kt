@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
-import com.enxy.noolite.core.platform.FileManager
 import com.enxy.noolite.features.model.Group
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,16 +48,8 @@ class SettingsViewModel @Inject constructor(
         settingsManager.ipAddress = ipAddress
     }
 
-    fun setLightTheme() {
-        settingsManager.currentTheme = FileManager.WHITE_BLUE_THEME_VALUE
-    }
-
-    fun setDarkTheme() {
-        settingsManager.currentTheme = FileManager.DARK_GREEN_THEME_VALUE
-    }
-
-    fun setBlackTheme() {
-        settingsManager.currentTheme = FileManager.BLACK_BLUE_THEME_VALUE
+    fun setTheme(themeName: String) {
+        settingsManager.currentTheme = themeName
     }
 
     fun setWifiNotification(isChecked: Boolean) {

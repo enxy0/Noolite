@@ -8,8 +8,8 @@ import android.view.animation.OvershootInterpolator
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
-import com.enxy.noolite.core.extension.observe
-import com.enxy.noolite.core.platform.BaseFragment
+import com.enxy.noolite.core.base.BaseFragment
+import com.enxy.noolite.core.utils.extension.observe
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Action
 import com.enxy.noolite.features.model.Channel
@@ -18,10 +18,11 @@ import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.fragment_script_group.*
 
 class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener {
-    override val layoutId: Int = R.layout.fragment_script_group
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var actionGroupAdapter: ActionGroupAdapter
     private val script: Script = Script("TestScript", ArrayList())
+    override val layoutId: Int
+        get() = R.layout.fragment_script_group
 
     companion object {
         const val TAG = "CreateScriptFragment"

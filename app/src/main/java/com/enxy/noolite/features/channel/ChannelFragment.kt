@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
-import com.enxy.noolite.core.platform.BaseFragment
+import com.enxy.noolite.core.base.BaseFragment
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Channel
 import com.enxy.noolite.features.model.ChannelAction
@@ -20,8 +20,8 @@ class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     private val viewModel: MainViewModel by activityViewModels()
     private val passedGroup: Group
         get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as Group
-
-    override val layoutId = R.layout.fragment_channel
+    override val layoutId: Int
+        get() = R.layout.fragment_channel
 
     companion object {
         fun newInstance(group: Group) = ChannelFragment().apply {

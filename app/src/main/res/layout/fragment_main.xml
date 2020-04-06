@@ -74,7 +74,6 @@
                 android:paddingTop="@dimen/list_padding"
                 android:paddingEnd="@dimen/list_padding"
                 tools:itemCount="3"
-                tools:layoutAnimation="@null"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_group"
                 tools:orientation="horizontal"

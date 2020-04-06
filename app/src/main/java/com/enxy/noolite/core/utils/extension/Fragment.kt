@@ -1,4 +1,4 @@
-package com.enxy.noolite.core.extension
+package com.enxy.noolite.core.utils.extension
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel

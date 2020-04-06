@@ -2,12 +2,16 @@ package com.enxy.noolite.core.network
 
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.exception.Success
-import com.enxy.noolite.core.extension.fromJson
-import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
 import com.enxy.noolite.core.parser.BinParser
-import com.enxy.noolite.core.platform.FileManager
+import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_IP_ADDRESS_VALUE
+import com.enxy.noolite.core.utils.Constants.Companion.FAVOURITE_GROUP_KEY
+import com.enxy.noolite.core.utils.Constants.Companion.GROUP_LIST_KEY
+import com.enxy.noolite.core.utils.Constants.Companion.MAIN_DATA_FILE
+import com.enxy.noolite.core.utils.Constants.Companion.SCRIPT_LIST_KEY
+import com.enxy.noolite.core.utils.FileManager
+import com.enxy.noolite.core.utils.extension.fromJson
 import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import com.google.gson.Gson
@@ -25,15 +29,17 @@ class Repository @Inject constructor(
     private val fileManager: FileManager,
     private val gson: Gson
 ) {
+    // TODO: Rewrite Retrofit network calls with api
     companion object {
         // URLs
-        var API_URL = "http://${FileManager.DEFAULT_IP_ADDRESS_VALUE}"
+        var API_URL = "http://${DEFAULT_IP_ADDRESS_VALUE}"
             set(value) {
                 field = "http://$value"
             }
         const val API_PAGE = "/api.htm"
         const val SERVER_SETTINGS_FILE = "/noolite_settings.bin"
 
+        // TODO: Move commands to somewhere else ? 
         // Commands
         const val TURN_OFF_COMMAND = 0
         const val TURN_ON_COMMAND = 2
@@ -48,13 +54,13 @@ class Repository @Inject constructor(
     suspend fun saveScripts(scriptList: ArrayList<Script>) = withContext(Dispatchers.Default) {
         val scriptListJson: String = gson.toJson(scriptList)
         fileManager.saveStringToPrefs(
-            FileManager.MAIN_DATA_FILE, FileManager.SCRIPT_LIST_KEY, scriptListJson
+            MAIN_DATA_FILE, SCRIPT_LIST_KEY, scriptListJson
         )
     }
 
-    suspend fun getScripts(): Either<Failure, ArrayList<Script>> {
+    suspend fun getScripts(): com.enxy.noolite.core.functional.Either<Failure, ArrayList<Script>> {
         val json: String? = withContext(Dispatchers.IO) {
-            fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.SCRIPT_LIST_KEY)
+            fileManager.getStringFromPrefs(MAIN_DATA_FILE, SCRIPT_LIST_KEY)
         }
         return if (json != null) {
             val scriptList: ArrayList<Script> = withContext(Dispatchers.Default) {
@@ -65,10 +71,10 @@ class Repository @Inject constructor(
             Left(Failure.DataNotFound)
     }
 
-    suspend fun getFavouriteGroup(): Either<Failure, Group> {
+    suspend fun getFavouriteGroup(): com.enxy.noolite.core.functional.Either<Failure, Group> {
         val groupJson = withContext(Dispatchers.IO) {
             fileManager.getStringFromPrefs(
-                FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY
+                MAIN_DATA_FILE, FAVOURITE_GROUP_KEY
             )
         }
         return if (groupJson != null) {
@@ -84,16 +90,16 @@ class Repository @Inject constructor(
     suspend fun saveFavouriteGroupElement(group: Group) = withContext(Dispatchers.IO) {
         val groupJson: String = withContext(Dispatchers.Default) { gson.toJson(group) }
         fileManager.saveStringToPrefs(
-            FileManager.MAIN_DATA_FILE, FileManager.FAVOURITE_GROUP_KEY, groupJson
+            MAIN_DATA_FILE, FAVOURITE_GROUP_KEY, groupJson
         )
     }
 
     suspend fun getGroupList(
         ipAddress: String,
         isForceUpdating: Boolean
-    ): Either<Failure, ArrayList<Group>> {
+    ): com.enxy.noolite.core.functional.Either<Failure, ArrayList<Group>> {
         val groupListJson: String? = withContext(Dispatchers.IO) {
-            fileManager.getStringFromPrefs(FileManager.MAIN_DATA_FILE, FileManager.GROUP_LIST_KEY)
+            fileManager.getStringFromPrefs(MAIN_DATA_FILE, GROUP_LIST_KEY)
         }
         return if (groupListJson != null && !isForceUpdating) {
             val groupList: ArrayList<Group> = withContext(Dispatchers.Default) {
@@ -116,7 +122,7 @@ class Repository @Inject constructor(
         withContext(Dispatchers.Default) {
             val groupListJson = gson.toJson(groupList)
             fileManager.saveStringToPrefs(
-                FileManager.MAIN_DATA_FILE, FileManager.GROUP_LIST_KEY, groupListJson
+                MAIN_DATA_FILE, GROUP_LIST_KEY, groupListJson
             )
         }
 
@@ -131,7 +137,7 @@ class Repository @Inject constructor(
         return Success.GoodRequest
     }
 
-    suspend fun changeLightState(channelId: Int): Either<Failure, Success.GoodRequest> {
+    suspend fun changeLightState(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -147,7 +153,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun changeBacklightColor(channelId: Int): Either<Failure, Success.GoodRequest> {
+    suspend fun changeBacklightColor(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -163,7 +169,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun turnOnLight(channelId: Int): Either<Failure, Success.GoodRequest> {
+    suspend fun turnOnLight(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -179,7 +185,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun turnOffLight(channelId: Int): Either<Failure, Success.GoodRequest> {
+    suspend fun turnOffLight(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -198,7 +204,7 @@ class Repository @Inject constructor(
     suspend fun changeBacklightBrightness(
         channelId: Int,
         brightness: Int
-    ): Either<Failure, Success.GoodRequest> {
+    ): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -216,7 +222,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun startBacklightOverflow(channelId: Int): Either<Failure, Success.GoodRequest> {
+    suspend fun startBacklightOverflow(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -232,7 +238,7 @@ class Repository @Inject constructor(
             Left(Failure.WifiConnectionError)
     }
 
-    suspend fun stopBacklightOverflow(channelId: Int): Either<Failure, Success.GoodRequest> {
+    suspend fun stopBacklightOverflow(channelId: Int): com.enxy.noolite.core.functional.Either<Failure, Success.GoodRequest> {
         return if (connectionManager.isWifiConnected())
             request(
                 call = {
@@ -251,7 +257,7 @@ class Repository @Inject constructor(
     private suspend fun <T> request(
         call: suspend () -> Response<ResponseBody>,
         transform: suspend (ResponseBody) -> T
-    ): Either<Failure, T> {
+    ): com.enxy.noolite.core.functional.Either<Failure, T> {
         return try {
             val response: Response<ResponseBody> = withContext(Dispatchers.IO) { call.invoke() }
             when (response.isSuccessful) {
