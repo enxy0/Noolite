@@ -86,20 +86,20 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     }
 
     private fun setUpRecyclerView() {
-        with(groupList) {
+        groupList.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = groupAdapter
             setHasFixedSize(true)
         }
-        with(scriptList) {
+        scriptList.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = scriptAdapter
             setHasFixedSize(true)
         }
         favouriteGroupAdapter.setToggleButtonVisibility(viewModel.hasToggleButton)
-        with(favouriteGroup) {
+        favouriteGroup.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = favouriteGroupAdapter
