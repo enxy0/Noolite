@@ -19,7 +19,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_question"
-        android:tint="@color/dark" />
+        android:tint="?attr/colorIcon" />
 
     <TextView
         android:id="@+id/errorTextView"

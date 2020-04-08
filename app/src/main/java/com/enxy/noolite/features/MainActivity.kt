@@ -52,9 +52,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getCurrentTheme(): Int = when (viewModel.currentTheme) {
-        Constants.BLACK_THEME_VALUE -> R.style.AppTheme_Black_Amber
-        Constants.WHITE_THEME_VALUE -> R.style.AppTheme_White_Blue
+        Constants.WHITE_THEME_VALUE -> R.style.AppTheme
         Constants.DARK_THEME_VALUE -> R.style.AppTheme_Dark_Green
+        Constants.BLACK_THEME_VALUE -> R.style.AppTheme_Black_Amber
         else -> Constants.DEFAULT_THEME
     }
 

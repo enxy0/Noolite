@@ -39,7 +39,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     internal fun notifyError(@StringRes message: Int) {
         Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_SHORT)
-            .withColor(ContextCompat.getColor(this, R.color.error))
+            .withColor(ContextCompat.getColor(this, R.color.colorError))
             .show()
     }
 }

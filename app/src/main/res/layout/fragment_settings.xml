@@ -11,7 +11,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/toolbarColor"
+        android:background="?attr/colorToolbar"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
 
@@ -98,7 +98,7 @@
                         android:background="@drawable/lavander_theme_selector"
                         android:text="@string/settings_theme_text"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccentLavander"
+                        android:textColor="@color/colorAccentWhite"
                         android:textStyle="bold"
                         android:thumb="@null" />
 
@@ -214,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/settings_ip_address"
                         android:textColorHint="?android:attr/textColorSecondary"
-                        app:boxBackgroundColor="?attr/inputLayoutBackgroundColor">
+                        app:boxBackgroundColor="?attr/colorInputLayoutBackground">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ipAddressEditText"
