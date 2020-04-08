@@ -23,11 +23,12 @@
         <item name="colorRipple">@color/colorRippleWhite</item>
     </style>
 
-    <style name="AppTheme.Dark.Green" parent="AppTheme">
+    <style name="AppTheme.Dark.Green" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorControlHighlight">@color/colorRippleDark</item>
         <item name="colorRipple">@color/colorRippleDark</item>
         <item name="colorIcon">@color/colorIconDark</item>
         <item name="colorIconButton">@color/colorButtonIconDark</item>
+        <item name="colorPressedMainButton">@color/colorPressedMainButton</item>
         <item name="colorInactiveMainButton">@color/colorInactiveMainButtonDark</item>
         <item name="android:statusBarColor">@color/colorBackgroundDark</item>
         <item name="colorToolbar">@color/colorBackgroundDark</item>
@@ -46,11 +47,12 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="AppTheme.Black.Amber" parent="AppTheme">
+    <style name="AppTheme.Black.Amber" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorControlHighlight">@color/colorRippleDark</item>
         <item name="colorRipple">@color/colorRippleDark</item>
         <item name="colorIcon">@color/colorIconBlack</item>
         <item name="colorIconButton">@color/colorButtonIconBlack</item>
+        <item name="colorPressedMainButton">@color/colorPressedMainButton</item>
         <item name="colorInactiveMainButton">@color/colorInactiveMainButtonBlack</item>
         <item name="android:statusBarColor">@color/colorBackgroundBlack</item>
         <item name="colorToolbar">@color/colorBackgroundBlack</item>
