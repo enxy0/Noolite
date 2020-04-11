@@ -2,8 +2,8 @@ package com.enxy.noolite.features.settings
 
 import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.core.network.ConnectionManager
-import com.enxy.noolite.core.utils.Constants
 import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_IP_ADDRESS_VALUE
+import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_THEME_NAME
 import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_WIFI_NOTIFICATION_VALUE
 import com.enxy.noolite.core.utils.Constants.Companion.IP_ADDRESS_KEY
 import com.enxy.noolite.core.utils.Constants.Companion.SETTINGS_FILE
@@ -23,23 +23,17 @@ class SettingsManager @Inject constructor(
         set(value) {
             field = value
             fileManager.saveBooleanToPrefs(
-                SETTINGS_FILE,
-                TOGGLE_BUTTON_KEY,
-                value
+                SETTINGS_FILE, TOGGLE_BUTTON_KEY, value
             )
         }
 
     var ipAddress: String = DEFAULT_IP_ADDRESS_VALUE
         set(value) {
             field = value
-            fileManager.saveStringToPrefs(
-                SETTINGS_FILE,
-                IP_ADDRESS_KEY,
-                value
-            )
+            fileManager.saveStringToPrefs(SETTINGS_FILE, IP_ADDRESS_KEY, value)
         }
 
-    var currentTheme: String = Constants.DARK_THEME_VALUE
+    var currentTheme: String = DEFAULT_THEME_NAME
         set(value) {
             field = value
             fileManager.saveStringToPrefs(SETTINGS_FILE, THEME_KEY, value)
@@ -49,11 +43,7 @@ class SettingsManager @Inject constructor(
         set(value) {
             connectionManager.isEnabled = value
             field = value
-            fileManager.saveBooleanToPrefs(
-                SETTINGS_FILE,
-                WIFI_NOTIFICATION_KEY,
-                value
-            )
+            fileManager.saveBooleanToPrefs(SETTINGS_FILE, WIFI_NOTIFICATION_KEY, value)
         }
 
     // Settings for seamless theme change
@@ -68,21 +58,13 @@ class SettingsManager @Inject constructor(
     val appBuildNumber: String = BuildConfig.VERSION_CODE.toString()
 
     init {
-        this.hasToggleButton = fileManager.getBooleanFromPrefs(
-            SETTINGS_FILE,
-            TOGGLE_BUTTON_KEY
-        )
-        this.ipAddress =
-            fileManager.getStringFromPrefs(SETTINGS_FILE, IP_ADDRESS_KEY)
-                ?: DEFAULT_IP_ADDRESS_VALUE
-        this.currentTheme =
-            fileManager.getStringFromPrefs(SETTINGS_FILE, THEME_KEY)
-                ?: Constants.DARK_THEME_VALUE
+        this.hasToggleButton = fileManager.getBooleanFromPrefs(SETTINGS_FILE, TOGGLE_BUTTON_KEY)
+        this.ipAddress = fileManager.getStringFromPrefs(SETTINGS_FILE, IP_ADDRESS_KEY)
+            ?: DEFAULT_IP_ADDRESS_VALUE
+        this.currentTheme = fileManager.getStringFromPrefs(SETTINGS_FILE, THEME_KEY)
+            ?: DEFAULT_THEME_NAME
         this.wifiNotification =
-            fileManager.getBooleanFromPrefs(
-                SETTINGS_FILE,
-                WIFI_NOTIFICATION_KEY
-            )
+            fileManager.getBooleanFromPrefs(SETTINGS_FILE, WIFI_NOTIFICATION_KEY)
         this.connectionManager.isEnabled = this.wifiNotification
     }
 }
