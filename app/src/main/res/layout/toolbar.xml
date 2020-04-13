@@ -8,6 +8,5 @@
     android:theme="@style/Toolbar"
     app:contentInsetStartWithNavigation="0dp"
     app:layout_scrollFlags="enterAlways"
-    app:popupTheme="@style/AppTheme.PopupOverlay"
     app:titleTextAppearance="@style/ToolbarTextAppearance"
     tools:title="Title" />

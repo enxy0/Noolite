@@ -4,6 +4,8 @@
     <!--  Independent colors  -->
     <color name="colorError">#f44336</color>
     <color name="colorPressedMainButton">#FBC02D</color>
+    <color name="textColorPrimaryWhite">@android:color/black</color>
+    <color name="textColorSecondaryWhite">#666666</color>
     <color name="textColorPrimaryInverse">#FFFFFF</color>
     <color name="textColorSecondaryInverse">#AEAEAE</color>
 

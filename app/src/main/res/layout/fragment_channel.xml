@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorToolbar"
-        android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
 
         <include layout="@layout/toolbar" />
