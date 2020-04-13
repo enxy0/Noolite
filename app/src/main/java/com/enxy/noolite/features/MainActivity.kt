@@ -8,6 +8,7 @@ import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseActivity
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.utils.Constants
+import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_THEME_NAME
 import com.enxy.noolite.features.main.MainFragment
 import com.enxy.noolite.features.settings.SettingsFragment
 import javax.inject.Inject
@@ -62,8 +63,7 @@ class MainActivity : BaseActivity() {
 
     private fun getPassedData() {
         intent?.extras?.let { bundle ->
-            // TODO: Rewrite Default themeName value
-            val themeName = bundle.getString(THEME_NAME_KEY) ?: Constants.DEFAULT_THEME_NAME
+            val themeName = bundle.getString(THEME_NAME_KEY) ?: DEFAULT_THEME_NAME
             val settingsScrollX = bundle.getInt(SCROLL_X_KEY, 0)
             val settingsScrollY = bundle.getInt(SCROLL_Y_KEY, 0)
             this.themeChanged = true
