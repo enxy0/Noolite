@@ -42,7 +42,8 @@
                 android:id="@+id/channelRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="6dp"
+                android:clipToPadding="false"
+                android:paddingTop="6dp"
                 tools:itemCount="1"
                 tools:layoutAnimation="@null"
                 tools:listitem="@layout/item_channel" />
