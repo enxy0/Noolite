@@ -40,7 +40,7 @@
     <string name="channel_backlight">Backlight</string>
     <string name="channel_backlight_color">Overflow / Color</string>
     <string name="and">and</string>
-    <string name="error_happen">Error happend:</string>
+    <string name="error_happen">Error happened:</string>
     <string name="settings_load_test_data_summary">Use test data to view the application in demo mode</string>
     <string name="settings_load_test_data_title">Test data</string>
     <string name="settings_other_section">Other</string>
@@ -70,4 +70,8 @@
     <string name="section_favourite">Favourite</string>
     <string name="error_script_list_not_found">There is no scripts found. Tap plus to create one.</string>
     <string name="error_unexpected">Unexpected error happened!</string>
+    <string name="script_enter_name">Enter script name</string>
+    <string name="script_notify_done">Script was created successfully</string>
+    <string name="script_notify_cancel">"Script creation was cancelled "</string>
+    <string name="script_notify_empty_name">Script name cannot be empty!</string>
 </resources>

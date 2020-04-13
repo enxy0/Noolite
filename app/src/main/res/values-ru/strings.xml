@@ -71,5 +71,9 @@
     <string name="section_favourite">Избранное</string>
     <string name="error_script_list_not_found">Вы еще не создали ни один сценарий! Для создания нажмите плюсик.</string>
     <string name="error_unexpected">Произошла непредвиденная ошибка!</string>
-    <string name="error_favourite_room_not_found">Избранная группа не найдена! Выберите нужную из списка групп и нажмите «Добавить в избранное»</string>
+    <string name="script_enter_name">Введите название сценария</string>
+    <string name="error_favourite_group_not_found">Избранная группа не найдена! Выберите нужную из списка групп и нажмите «Добавить в избранное»</string>
+    <string name="script_notify_done">Сценарий был успешно создан!</string>
+    <string name="script_notify_cancel">Создание сценария отменено.</string>
+    <string name="script_notify_empty_name">Имя сценария не может быть пустым!</string>
 </resources>

@@ -1,10 +1,8 @@
 package com.enxy.noolite.features.main.create
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.OvershootInterpolator
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
@@ -17,74 +15,62 @@ import com.enxy.noolite.features.model.Group
 import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.fragment_script_group.*
 
+
 class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener {
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var actionGroupAdapter: ActionGroupAdapter
-    private val script: Script = Script("TestScript", ArrayList())
+    private val actionGroupAdapter: ActionGroupAdapter = ActionGroupAdapter(this)
+    private val script: Script = Script("", ArrayList())
     override val layoutId: Int
         get() = R.layout.fragment_script_group
 
     companion object {
-        const val TAG = "CreateScriptFragment"
-        fun newInstance() =
-            ActionGroupFragment()
+        const val TAG = "ActionGroupFragment"
+        fun newInstance() = ActionGroupFragment()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        finishScript.setOnClickListener {
-            Log.d("ActionGroupFragment", "onViewCreated: script=$script")
-            if (script.actionsList.isNotEmpty()) {
-                viewModel.addScript(script)
-                notify("Скрипт был успешно создан!")
-            } else
-                notify("Пустой сценарий был удален")
-            parentFragmentManager.popBackStack()
-        }
-        actionGroupAdapter = ActionGroupAdapter(this)
-        setUpRecyclerView()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         with(viewModel) {
             observe(groupList, ::renderData)
 //            TODO: Close fragment on failure and notify user?
 //            failure(groupFailure, ::handleFailure)1
         }
-//        startAnimation()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        actionGroupList.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = actionGroupAdapter
+        }
+        createScript.setOnClickListener {
+            script.name = scriptName.text.toString()
+            Log.d("ActionGroupFragment", "onViewCreated: script=$script")
+            if (script.actionsList.isNotEmpty()) {
+                if (script.name.isNotEmpty()) {
+                    viewModel.addScript(script)
+                    notify(R.string.script_notify_done)
+                    close()
+                } else {
+                    showKeyboardOnView(scriptName)
+                    notify(R.string.script_notify_empty_name)
+                }
+            } else {
+                notify(R.string.script_notify_cancel)
+                close()
+            }
+        }
+        cancelCreation.setOnClickListener {
+            notify(R.string.script_notify_cancel)
+            close()
+        }
     }
 
     private fun renderData(groupList: ArrayList<Group>?) {
-        groupList?.let { actionGroupAdapter.updateData(it) }
-    }
-
-    private fun setUpRecyclerView() = with(actionGroupList) {
-        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        adapter = actionGroupAdapter
-        setHasFixedSize(false)
-//        layoutAnimation = AnimationUtils.loadLayoutAnimation(
-//            requireContext(), R.anim.layout_animation_fall_down
-//        )
-    }
-
-    private fun startAnimation() {
-        // Get duration
-        val resources = requireContext().resources
-        val layoutDuration = resources.getInteger(R.integer.layout_anim_duration).toLong()
-        val fabDuration = resources.getInteger(R.integer.fab_anim_duration).toLong()
-
-        // Animate appear of layout
-        ObjectAnimator.ofFloat(scriptParentLayout, View.ALPHA, 0f, 1f).apply {
-            duration = layoutDuration
-        }.start()
-
-        // Animate appear of FAB button
-        with(finishScript) {
-            alpha = 0f
-            scaleX = 0f
-            scaleY = 0f
-            animate()
-                .setDuration(fabDuration)
-                .scaleX(1f).scaleY(1f).alpha(1f)
-                .setInterpolator(OvershootInterpolator())
-                .start()
+        if (!groupList.isNullOrEmpty()) {
+            actionGroupAdapter.updateData(groupList)
         }
     }
 
