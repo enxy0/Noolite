@@ -42,6 +42,7 @@ class ScriptTest {
             write(groupList[0], Action.TURN_OFF)
             write(groupList[1], Action.TURN_ON)
             write(groupList[2], Action.TOGGLE_STATE)
+            write(groupList[0].channelList[0], Action.CHANGE_BRIGHTNESS, 50)
         }
         val expectedActionList: ArrayList<ChannelAction> = arrayListOf(
             ChannelAction(0, Action.TURN_OFF, null),
@@ -49,7 +50,8 @@ class ScriptTest {
             ChannelAction(2, Action.TURN_ON, null),
             ChannelAction(3, Action.TURN_ON, null),
             ChannelAction(4, Action.TOGGLE_STATE, null),
-            ChannelAction(5, Action.TOGGLE_STATE, null)
+            ChannelAction(5, Action.TOGGLE_STATE, null),
+            ChannelAction(0, Action.CHANGE_BRIGHTNESS, 50)
         )
         val expectedScript = script.copy(actionsList = expectedActionList)
         assertEquals(expectedScript, script)
@@ -61,6 +63,7 @@ class ScriptTest {
             remove(groupList[1], Action.TURN_ON) // should remove group
             for (channel in groupList[2].channelList)
                 remove(channel, Action.TOGGLE_STATE)
+            remove(groupList[0].channelList[0], Action.CHANGE_BRIGHTNESS)
         }
         expectedScript.actionsList.clear()
         assertEquals(expectedScript, script)
