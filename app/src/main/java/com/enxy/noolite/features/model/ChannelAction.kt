@@ -1,6 +1,6 @@
 package com.enxy.noolite.features.model
 
-data class ChannelAction(val channelId: Int, val action: Action, val brightness: Int?) {
+data class ChannelAction(val channelId: Int, val action: Action, var brightness: Int?) {
     companion object {
         fun createTurnOnAction(channelId: Int) =
             ChannelAction(channelId, Action.TURN_ON, null)

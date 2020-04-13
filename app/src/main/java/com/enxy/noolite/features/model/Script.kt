@@ -6,7 +6,20 @@ data class Script(
 ) {
 
     fun write(channel: Channel, action: Action, brightness: Int? = null) {
-        actionsList.add(ChannelAction(channel.id, action, brightness))
+        // Checking if ChannelAction is in list to prevent adding several actions
+        // when user changes brightness with SeekBar
+        if (action == Action.CHANGE_BRIGHTNESS) {
+            val changeBrightness: ChannelAction? = actionsList.find {
+                it.channelId == channel.id && it.action == action
+            }
+            if (changeBrightness != null) {
+                changeBrightness.brightness = brightness
+            } else {
+                actionsList.add(ChannelAction(channel.id, action, brightness))
+            }
+        } else {
+            actionsList.add(ChannelAction(channel.id, action, brightness))
+        }
     }
 
     fun write(group: Group, action: Action, brightness: Int? = null) {
@@ -20,12 +33,8 @@ data class Script(
     }
 
     fun remove(channel: Channel, action: Action) {
-        for (position in 0 until actionsList.size) {
-            val channelAction = actionsList[position]
-            if (channelAction.channelId == channel.id && channelAction.action == action) {
-                actionsList.remove(channelAction)
-                break
-            }
+        actionsList.removeAll {
+            it.channelId == channel.id && it.action == action
         }
     }
 }

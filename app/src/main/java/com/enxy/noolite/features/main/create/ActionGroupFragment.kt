@@ -89,17 +89,19 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
     }
 
     override fun onTurnOffActionChange(isChecked: Boolean, group: Group) {
-        if (isChecked)
+        if (isChecked) {
             script.write(group, Action.TURN_OFF)
-        else
+        } else {
             script.remove(group, Action.TURN_OFF)
+        }
     }
 
     override fun onTurnOffActionChange(isChecked: Boolean, channel: Channel) {
-        if (isChecked)
+        if (isChecked) {
             script.write(channel, Action.TURN_OFF)
-        else
+        } else {
             script.remove(channel, Action.TURN_OFF)
+        }
     }
 
     override fun onBrightnessChange(
@@ -107,23 +109,26 @@ class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener 
         channel: Channel,
         brightness: Int
     ) {
-        if (isChecked)
+        if (isChecked) {
             script.write(channel, Action.CHANGE_BRIGHTNESS, brightness)
-        else
+        } else {
             script.remove(channel, Action.CHANGE_BRIGHTNESS)
+        }
     }
 
     override fun onStartOverflowChange(isChecked: Boolean, channel: Channel) {
-        if (isChecked)
+        if (isChecked) {
             script.write(channel, Action.START_OVERFLOW)
-        else
+        } else {
             script.remove(channel, Action.START_OVERFLOW)
+        }
     }
 
     override fun onStopOverflowChange(isChecked: Boolean, channel: Channel) {
-        if (isChecked)
+        if (isChecked) {
             script.write(channel, Action.STOP_OVERFLOW)
-        else
+        } else {
             script.remove(channel, Action.STOP_OVERFLOW)
+        }
     }
 }

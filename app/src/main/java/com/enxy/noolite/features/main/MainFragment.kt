@@ -60,6 +60,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         setToolbarTitle(R.string.app_name)
         setUpRecyclerView()
         addScript.setOnClickListener {
+            // TODO: show notification if group list is empty
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())
                 .addToBackStack(ActionGroupFragment.TAG)
