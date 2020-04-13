@@ -25,7 +25,8 @@ class Constants {
 
 
         // Default values
-        const val DEFAULT_IP_ADDRESS_VALUE = "192.168.1.10"
+        const val DEFAULT_IP_ADDRESS_VALUE = "192.168.0.10"
+        const val DEFAULT_THEME_NAME = DARK_THEME_VALUE
         const val DEFAULT_THEME = R.style.AppTheme_Dark_Green
         const val DEFAULT_WIFI_NOTIFICATION_VALUE = true
     }
