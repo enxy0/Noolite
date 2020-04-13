@@ -46,7 +46,6 @@ class SettingsManager @Inject constructor(
             fileManager.saveBooleanToPrefs(SETTINGS_FILE, WIFI_NOTIFICATION_KEY, value)
         }
 
-    // Settings for seamless theme change
     var themeChanged: Boolean = false
 
     var scrollX: Int = 0

@@ -42,11 +42,6 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
         fun newInstance() = MainFragment()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         with(viewModel) {
@@ -61,18 +56,9 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         setToolbarTitle(R.string.app_name)
         setUpRecyclerView()
-        Log.d("MainFragment", "onViewCreated: favouriteGroup=${viewModel.favouriteGroup.value}")
-        Log.d(
-            "MainFragment",
-            "onViewCreated: favouriteGroupError=${viewModel.favouriteGroupFailure.value?.javaClass?.simpleName}"
-        )
-        Log.d("MainFragment", "onViewCreated: scriptList=${viewModel.scriptList.value}")
-        Log.d(
-            "MainFragment",
-            "onViewCreated: scriptError=${viewModel.scriptListFailure.value?.javaClass?.simpleName}"
-        )
         addScript.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentHolder, ActionGroupFragment.newInstance())

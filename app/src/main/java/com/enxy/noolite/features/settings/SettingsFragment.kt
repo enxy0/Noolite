@@ -83,17 +83,14 @@ class SettingsFragment : BaseFragment() {
 
     private fun setUpUiHandlers() {
         whiteBlueThemeSwitch.setOnClickListener {
-            viewModel.setTheme(WHITE_THEME_VALUE)
             changeTheme(WHITE_THEME_VALUE)
         }
 
         darkGreenThemeSwitch.setOnClickListener {
-            viewModel.setTheme(DARK_THEME_VALUE)
             changeTheme(DARK_THEME_VALUE)
         }
 
         blackBlueThemeSwitch.setOnClickListener {
-            viewModel.setTheme(BLACK_THEME_VALUE)
             changeTheme(BLACK_THEME_VALUE)
         }
 
@@ -163,6 +160,8 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun changeTheme(themeName: String) {
+        viewModel.setTheme(themeName)
+
         // Remove listeners to prevent app from restarting too many times
         // if the user clicked more than one time
         whiteBlueThemeSwitch.setOnClickListener(null)
@@ -173,9 +172,8 @@ class SettingsFragment : BaseFragment() {
         val scrollX = settingsScrollView.scrollX
         val scrollY = settingsScrollView.scrollY
 
-        // Starting new activity and passing theme name, scroll position of x and y of SettingsFragment
         startActivity(MainActivity.newThemedActivity(requireContext(), themeName, scrollX, scrollY))
-        getMainActivity().finish() // finishing current activity
-        getMainActivity().overridePendingTransition(0, R.anim.fade_out) // seamless animation
+        getMainActivity().finish()
+        getMainActivity().overridePendingTransition(0, R.anim.fade_out)
     }
 }

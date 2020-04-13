@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
     val hasToggleButton: Boolean
         get() = settingsManager.hasToggleButton
 
-    val currentTheme: String
+    val themeName: String
         get() = settingsManager.currentTheme
 
     init {

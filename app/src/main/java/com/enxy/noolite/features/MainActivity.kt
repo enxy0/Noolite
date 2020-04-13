@@ -23,7 +23,7 @@ class MainActivity : BaseActivity() {
     private var themeChanged = false
 
     companion object {
-        const val THEME_NAME_KEY = "theme_name"
+        const val THEME_NAME_KEY = "theme"
         const val SCROLL_X_KEY = "scroll_x"
         const val SCROLL_Y_KEY = "scroll_y"
 
@@ -51,17 +51,19 @@ class MainActivity : BaseActivity() {
         showDefaultFragment()
     }
 
-    private fun getCurrentTheme(): Int = when (viewModel.currentTheme) {
-        Constants.WHITE_THEME_VALUE -> R.style.AppTheme
-        Constants.DARK_THEME_VALUE -> R.style.AppTheme_Dark_Green
-        Constants.BLACK_THEME_VALUE -> R.style.AppTheme_Black_Amber
-        else -> Constants.DEFAULT_THEME
+    private fun getCurrentTheme(): Int {
+        return when (viewModel.themeName) {
+            Constants.WHITE_THEME_VALUE -> R.style.AppTheme
+            Constants.DARK_THEME_VALUE -> R.style.AppTheme_Dark_Green
+            Constants.BLACK_THEME_VALUE -> R.style.AppTheme_Black_Amber
+            else -> Constants.DEFAULT_THEME
+        }
     }
 
     private fun getPassedData() {
         intent?.extras?.let { bundle ->
             // TODO: Rewrite Default themeName value
-            val themeName = bundle.getString(THEME_NAME_KEY) ?: Constants.DARK_THEME_VALUE
+            val themeName = bundle.getString(THEME_NAME_KEY) ?: Constants.DEFAULT_THEME_NAME
             val settingsScrollX = bundle.getInt(SCROLL_X_KEY, 0)
             val settingsScrollY = bundle.getInt(SCROLL_Y_KEY, 0)
             this.themeChanged = true
