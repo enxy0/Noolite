@@ -1,7 +1,7 @@
 package com.enxy.noolite.features.model
 
 data class Script(
-    val name: String,
+    var name: String,
     val actionsList: ArrayList<ChannelAction>
 ) {
 
