@@ -31,6 +31,11 @@ class ChannelAdapter(private val listener: ChannelListener) :
         holder.bind(data[position])
     }
 
+    fun clear() {
+        this.data.clear()
+        notifyDataSetChanged()
+    }
+
     fun updateData(channelList: ArrayList<Channel>) {
         this.data.clear()
         this.data.addAll(channelList)

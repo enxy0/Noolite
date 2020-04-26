@@ -66,6 +66,10 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
                 .addToBackStack(ActionGroupFragment.TAG)
                 .commit()
         }
+        removeFavourite.setOnClickListener {
+            favouriteGroupAdapter.clear()
+            viewModel.clearFavouriteGroup()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,7 +148,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     }
 
     private fun handleFavouriteGroupFailure(failure: Failure?) {
-        if (favouriteGroup.size == 0 && failure != null) {
+        if (failure != null) {
             val text = when (failure) {
                 is Failure.DataNotFound -> R.string.error_favourite_group_not_found
                 is Failure.DeserializeError -> R.string.error_deserialization

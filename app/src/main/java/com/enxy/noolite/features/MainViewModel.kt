@@ -113,6 +113,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun clearFavouriteGroup() {
+        this.favouriteGroup.value = null
+        this.favouriteGroupFailure.value = Failure.DataNotFound
+        viewModelScope.launch {
+            repository.removeFavouriteGroup()
+        }
+    }
+
     fun setThemeChangeValues(
         _themeChanged: Boolean,
         themeName: String,

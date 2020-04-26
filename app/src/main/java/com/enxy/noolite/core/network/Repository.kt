@@ -96,6 +96,10 @@ class Repository @Inject constructor(
         )
     }
 
+    suspend fun removeFavouriteGroup() = withContext(Dispatchers.IO) {
+        fileManager.removeString(MAIN_DATA_FILE, FAVOURITE_GROUP_KEY)
+    }
+
     suspend fun getGroupList(
         ipAddress: String,
         isForceUpdating: Boolean
