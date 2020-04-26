@@ -48,42 +48,44 @@ class FileManager @Inject constructor(private val appContext: Context) {
     }
 
     fun saveStringToPrefs(preferencesName: String, key: String, value: String) {
-        val prefs = appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
-        with(prefs.edit()) {
-            putString(key, value)
-            apply()
-        }
+        appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
+            .edit()
+            .putString(key, value)
+            .apply()
     }
 
     fun saveBooleanToPrefs(preferencesName: String, key: String, value: Boolean) {
-        val prefs = appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
-        with(prefs.edit()) {
-            putBoolean(key, value)
-            apply()
-        }
+        appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
+            .edit()
+            .putBoolean(key, value)
+            .apply()
     }
 
     fun saveIntToPrefs(preferencesName: String, key: String, value: Int) {
-        val prefs = appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
-        with(prefs.edit()) {
-            putInt(key, value)
-            apply()
-        }
+        appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
+            .edit()
+            .putInt(key, value)
+            .apply()
     }
 
     fun saveLongToPrefs(preferencesName: String, key: String, value: Long) {
-        val prefs = appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
-        with(prefs.edit()) {
-            putLong(key, value)
-            apply()
-        }
+        appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
+            .edit()
+            .putLong(key, value)
+            .apply()
     }
 
     fun saveFloatToPrefs(preferencesName: String, key: String, value: Float) {
-        val prefs = appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
-        with(prefs.edit()) {
-            putFloat(key, value)
-            apply()
-        }
+        appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
+            .edit()
+            .putFloat(key, value)
+            .apply()
+    }
+
+    fun removeString(preferencesName: String, key: String) {
+        appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
+            .edit()
+            .remove(key)
+            .apply()
     }
 }
