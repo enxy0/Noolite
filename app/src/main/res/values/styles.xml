@@ -10,7 +10,6 @@
         <item name="colorInactiveMainButton">@color/colorInactiveMainButtonWhite</item>
         <item name="colorToolbarText">@android:color/black</item>
         <item name="android:navigationBarColor">@color/colorBackgroundWhite</item>
-        <item name="colorInactiveNavigationIcon">@color/colorInactiveIconWhite</item>
         <item name="colorInputLayoutBackground">@color/colorInputLayoutWhite</item>
         <item name="colorToolbar">@color/colorBackgroundWhite</item>
         <item name="android:statusBarColor">@color/colorBackgroundWhite</item>
@@ -35,7 +34,6 @@
         <item name="colorToolbar">@color/colorBackgroundDark</item>
         <item name="colorDivider">@color/colorDividerDark</item>
         <item name="colorInputLayoutBackground">@color/colorInputLayoutDark</item>
-        <item name="colorInactiveNavigationIcon">@color/colorInactiveIconDark</item>
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorToolbarText">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
@@ -59,7 +57,6 @@
         <item name="colorToolbar">@color/colorBackgroundBlack</item>
         <item name="colorDivider">@color/colorDividerBlack</item>
         <item name="colorInputLayoutBackground">@color/colorInputLayoutBlack</item>
-        <item name="colorInactiveNavigationIcon">@color/colorInactiveIconBlack</item>
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
         <item name="colorToolbarText">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>

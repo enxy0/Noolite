@@ -2,7 +2,6 @@
 <resources>
     <attr name="colorToolbarText" format="reference" />
     <attr name="colorCard" format="reference" />
-    <attr name="colorInactiveNavigationIcon" format="reference" />
     <attr name="colorInputLayoutBackground" format="reference" />
     <attr name="colorInactiveMainButton" format="reference" />
     <attr name="colorPressedMainButton" format="reference" />
