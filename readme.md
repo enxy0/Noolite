@@ -1,44 +1,39 @@
-# Noolite (PR1132) - Kotlin Android App
+# Alterlite (для шлюза noolite PR-1132) - Kotlin Android App
 
-Noolite - Android приложение, являющееся альтернативным клиентом для Ethernet-шлюза PR1132 системы умного дома Noolite. В данном приложении я попытался сделать максимально удобный и приятный глазу интерфейс (чего как раз и не хватало в оригинальном приложении [Noolite](https://play.google.com/store/apps/details?id=com.noolite)).
+Alterlite - Android приложение, являющееся альтернативным клиентом для Ethernet-шлюза PR1132 системы умного дома [Noolite](https://play.google.com/store/apps/details?id=com.noolite). 
 
 **Что приложение умеет:**
-
-* Показывать группы и каналы.
-* Добавлять группу в избранное. При каждом запуске будет открываться выбранная вами группа.
-* Включать и выключать свет (вкл/выкл нагрузку).
-* Менять яркость подсветки.
-* Менять цвет подсветки, включать и выключать переливание из одного цвета в другой.
-* Подгружать все группы и каналы с сервера.
-* Показывать ошибку, если телефон не подключен к WiFi.
+* Показывать группы и каналы
+* Добавлять группу в избранное. При каждом запуске будет открываться выбранная вами группа
+* Включать и выключать свет (вкл/выкл нагрузку)
+* Менять яркость подсветки
+* Менять цвет подсветки, включать и выключать переливание из одного цвета в другой
+* Подгружать все группы и каналы с сервера
+* Создавать и выполнять пользовательские сценарии
+* Показывать ошибку, если телефон не подключен к WiFi
 * Менять темы интерфейса (White Blue, Dark Green and Black Amber)
 
-**Что приложение не умеет:**
-* Подгружать все группы и каналы с сервера, используя аутентификацию.
-* Обновлять и отображать данные с сенсоров.
- 
 **Приложение написано на Kotlin при помощи:**
 * Model-View-ViewModel (MVVM) architecture pattern
-* [Retrofit](https://github.com/square/retrofit) (2.7.0)
+* [Retrofit](https://github.com/square/retrofit) (2.8.1)
 * [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines) (1.3.3)
-* [Kotlin Coroutines Adapter](https://github.com/JakeWharton/retrofit2-kotlin-coroutines-adapter) (0.9.2)
-* [Dagger 2](https://github.com/google/dagger) (2.20)
+* [Dagger 2](https://github.com/google/dagger) (2.27)
 * [Gson](https://github.com/google/gson) (2.8.6)
-* [Android Architecture Components: ViewModel (1.0.0-rc03)](https://developer.android.com/topic/libraries/architecture/viewmodel)
+* [Android Architecture Components: ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) (2.2.0)
 * [Android KTX](https://developer.android.com/kotlin/ktx)
 
 # Скриншоты
-<img  src="/extras/screenshot_all_groups.png?raw=true"  width=33% /> <img  src="/extras/screenshot_chosen_room.png?raw=true"  width=33% /> <img  src="/extras/screenshot_settings.png?raw=true"  width=33% />
+<img  src="https://raw.githubusercontent.com/enxy0/Noolite/development/extras/screenshot_main.png?raw=true"  width=24% /> <img  src="https://raw.githubusercontent.com/enxy0/Noolite/development/extras/screenshot_channel.png?raw=true"  width=24% /> <img  src="https://raw.githubusercontent.com/enxy0/Noolite/development/extras/screenshot_script.png?raw=true" width=24% /> <img  src="https://raw.githubusercontent.com/enxy0/Noolite/development/extras/screenshot_settings.png?raw=true" width=24% />
 
 # Как использовать данный проект
 
 Вы можете найти готовый APK файл во вкладке `Releases`.
 
-Для автоматической загрузки списка групп при первом запуске приложения, перейдите в `app/src/main/java/com/enxy/noolite/core/platform/FileManager.kt` и измените стандартный IP адрес:
+Для автоматической загрузки списка групп при первом запуске приложения, перейдите в `app/src/main/java/com/enxy/noolite/core/utils/Constants.kt` и измените стандартный IP адрес:
 
 ```kotlin
 ...
-const val DEFAULT_IP_ADDRESS_VALUE = "ВАШ_IP_АДРЕС" // например "192.168.0.168"
+const val DEFAULT_IP_ADDRESS_VALUE = "ВАШ_IP_АДРЕС" // например "192.168.0.10"
 ...
 ```
 
@@ -80,34 +75,34 @@ const val DEFAULT_IP_ADDRESS_VALUE = "ВАШ_IP_АДРЕС" // например 
 
 `http://192.168.0.168/api.htm?ch=2&cmd=6&fm=3&br=50` (Установить яркость подсветки в 50% на канале №3)
 
-Полную и официальную документацию можно найти тут: [PR1132.pdf](/extras/PR1132.pdf)
+Полную и официальную документацию можно найти тут: [PR1132.pdf](https://github.com/enxy0/Noolite/raw/master/extras/PR1132.pdf)
 
 # Иконки
 
 Выражаю благодарность следующим авторам:
 
-<img  src="https://image.flaticon.com/icons/svg/606/606795.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/good-ware"  title="Good Ware">Good Ware</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/606/606795.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/good-ware"  title="Good Ware">Good Ware</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/865/865140.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/good-ware"  title="Good Ware">Good Ware</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/865/865140.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/good-ware"  title="Good Ware">Good Ware</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/339/339853.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/cursor-creative"  title="Cursor Creative">Cursor Creative</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/339/339853.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/cursor-creative"  title="Cursor Creative">Cursor Creative</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/446/446108.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/freepik"  title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/446/446108.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/freepik"  title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/863/863684.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/good-ware"  title="Good Ware">Good Ware</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/863/863684.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/good-ware"  title="Good Ware">Good Ware</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/126/126479.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/gregor-cresnar"  title="Gregor Cresnar">Gregor Cresnar</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/126/126479.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/gregor-cresnar"  title="Gregor Cresnar">Gregor Cresnar</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/1077/1077035.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/freepik"  title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/1077/1077035.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/freepik"  title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/159/159841.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/gregor-cresnar"  title="Gregor Cresnar">Gregor Cresnar</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/159/159841.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/gregor-cresnar"  title="Gregor Cresnar">Gregor Cresnar</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/1451/1451553.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/freepik"  title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/1451/1451553.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/freepik"  title="Freepik">Freepik</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/svg/126/126472.svg"  width=30> Icon made by <a  href="https://www.flaticon.com/authors/gregor-cresnar"  title="Gregor Cresnar">Gregor Cresnar</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
+<img  src="https://image.flaticon.com/icons/svg/126/126472.svg"  width=3%> Icon made by <a  href="https://www.flaticon.com/authors/gregor-cresnar"  title="Gregor Cresnar">Gregor Cresnar</a> from <a  href="https://www.flaticon.com/"  title="Flaticon">www.flaticon.com</a> is licensed by <a  href="http://creativecommons.org/licenses/by/3.0/"  title="Creative Commons BY 3.0"  target="_blank">CC 3.0 BY</a>
 
-<img  src="https://image.flaticon.com/icons/png/512/0/375.png"  width=30> Icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+<img  src="https://image.flaticon.com/icons/png/512/0/375.png"  width=3%> Icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
 
-<img  src="https://image.flaticon.com/icons/png/512/159/159599.png"  width=30> Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+<img  src="https://image.flaticon.com/icons/png/512/159/159599.png"  width=3%> Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
 
-<img  src="https://image.flaticon.com/icons/png/512/112/112489.png"  width=30> Icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+<img  src="https://image.flaticon.com/icons/png/512/112/112489.png"  width=3%> Icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
