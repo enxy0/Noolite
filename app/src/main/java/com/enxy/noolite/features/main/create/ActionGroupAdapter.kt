@@ -1,7 +1,6 @@
 package com.enxy.noolite.features.main.create
 
 import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +75,6 @@ class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.Action
                 .getInteger(R.integer.expand_animation_speed)
                 .toLong()
             val autoTransition = AutoTransition().apply { duration = animationSpeed }
-            TransitionManager.beginDelayedTransition(recyclerView, autoTransition)
             if (additionalContent.isVisible) {
                 additionalContentButton.animate()
                     .setDuration(animationSpeed)
