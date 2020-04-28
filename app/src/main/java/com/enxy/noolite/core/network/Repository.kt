@@ -6,7 +6,7 @@ import com.enxy.noolite.core.exception.Success
 import com.enxy.noolite.core.functional.Either
 import com.enxy.noolite.core.functional.Either.Left
 import com.enxy.noolite.core.functional.Either.Right
-import com.enxy.noolite.core.parser.BinParser
+import com.enxy.noolite.core.utils.BinParser
 import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_IP_ADDRESS_VALUE
 import com.enxy.noolite.core.utils.Constants.Companion.FAVOURITE_GROUP_KEY
 import com.enxy.noolite.core.utils.Constants.Companion.GROUP_LIST_KEY
