@@ -1,16 +1,11 @@
 <resources>
-    <string name="app_name" translatable="false">Noolite</string>
+    <string name="app_name" translatable="false">xylite</string>
     <string name="settings_default_ip_address" translatable="false">192.168.1.10</string>
     <string name="settings_current_theme" translatable="false">Dark Green</string>
     <string name="title_favourite">Избранное</string>
     <string name="section_groups">Все группы</string>
-    <string name="title_home">Дом</string>
     <string name="section_scripts">Сценарии</string>
     <string name="title_settings">Настройки</string>
-    <string name="message_update_your_settings">Обновите данные в настройках!</string>
-    <string name="message_authentication_is_not_available">Аутентификация еще не поддерживается. Ждите ее в следующем
-        обновлении!
-    </string>
     <string name="message_room_added_as_favourite">Группа успешно добавлена в избранное!</string>
     <string name="message_data_updated">Данные успешно обновлены!</string>
     <string name="error_group_list_not_found">Для загрузки списка групп и работы приложения необходимо перейти в
@@ -20,10 +15,6 @@
     </string>
     <string name="error_no_wifi">Произошла ошибка! Проверьте подключение к сети Wifi.</string>
     <string name="error_favourite_group_not_found">Избранная группа не найдена! Выберите нужную из списка групп и нажмите «Добавить в избранное»</string>
-    <string name="settings_anim_open_title">Анимация открытия</string>
-    <string name="settings_anim_transition_title">Анимация переходов</string>
-    <string name="settings_anim_open_summary">Использовать анимацию при переходе к группе</string>
-    <string name="settings_anim_transition_summary">Использовать анимацию при переходе между вкладками</string>
     <string name="settings_toggle_button_title">Переключатель</string>
     <string name="settings_toggle_button_summary">Использовать одну кнопку для переключения состояния света, вместо
         кнопок включения и выключения
@@ -35,34 +26,19 @@
     <string name="settings_server_section">Сервер</string>
     <string name="update_button">Обновить</string>
     <string name="add_to_favourite_button">Добавить в избранное</string>
-    <string name="settings_auth_title">Аутентификация</string>
-    <string name="settings_auth_summary">Использовать логин и пароль при аутентификации</string>
     <string name="settings_ip_address">Адрес</string>
-    <string name="settings_login">Логин</string>
-    <string name="settings_password">Пароль</string>
     <string name="settings_theme">Тема</string>
     <string name="settings_theme_text" translatable="false">T</string>
-    <string name="channel_color_button_backlight_extended">Цвет</string>
-    <string name="channel_start_overflow_button_backlight_extended">Перелив</string>
-    <string name="channel_stop_overflow_button_backlight_extended">Перелив</string>
     <string name="channel_title_turn_on_off">Вкл / Выкл</string>
-    <string name="channel_summary_turn_on_off">Управление светом</string>
-    <string name="channel_brightness">Яркость</string>
     <string name="channel_backlight">Подсветка</string>
     <string name="channel_backlight_color">Перелив / Цвет</string>
-    <string name="and">и</string>
-    <string name="error_happen">Произошла ошибка:</string>
     <string name="settings_other_section">Другое</string>
     <string name="settings_notification_section">Уведомления</string>
     <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
     <string name="settings_wifi_notification_title">WiFi подключение</string>
-    <string name="author" translatable="false">by vk.com/enxyo</string>
-    <string name="add_script_button">Добавить сценарий</string>
     <string name="action_turn_on_light">Включить свет</string>
     <string name="action_turn_off_light">Выключить свет</string>
-    <string name="script_actions">Действия</string>
     <string name="script_channel_pick_action">Выберите действие</string>
-    <string name="action_change_brightness">Изменить яркость</string>
     <string name="script_section_light">Свет</string>
     <string name="action_start_overflow">Начать перелив</string>
     <string name="action_stop_overflow">Остановить перелив</string>

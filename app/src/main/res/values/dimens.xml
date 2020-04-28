@@ -1,7 +1,4 @@
 <resources>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="snackbar_icon_padding">8dp</dimen>
     <dimen name="default_icon_size">28dp</dimen>
     <dimen name="channel_horizontal_padding">16dp</dimen>
     <dimen name="channel_vertical_padding">8dp</dimen>
@@ -12,25 +9,20 @@
     <dimen name="icon_button_size">44dp</dimen>
     <dimen name="icon_size">30dp</dimen>
     <dimen name="icon_button_padding">10dp</dimen>
-    <dimen name="icon_button_wide_size">34dp</dimen>
-    <dimen name="icon_button_wide_padding">5dp</dimen>
     <dimen name="icon_check_size">28dp</dimen>
     <dimen name="script_horizontal_padding">5dp</dimen>
     <dimen name="section_horizontal_margin">18dp</dimen>
     <dimen name="section_vertical_margin">16dp</dimen>
     <dimen name="script_view_margin">16dp</dimen>
     <dimen name="script_view_vertical_margin">8dp</dimen>
-    <dimen name="script_view_horizontal_margin">16dp</dimen>
+    <dimen name="script_view_horizontal_margin">8dp</dimen>
     <dimen name="script_action_view_margin">4dp</dimen>
     <dimen name="script_action_switch_end_padding">12dp</dimen>
     <dimen name="script_action_vertical_padding">8dp</dimen>
     <dimen name="script_action_horizontal_padding">18dp</dimen>
-    <dimen name="script_action_seekbar_end_margin">8dp</dimen>
     <dimen name="card_default_margin">6dp</dimen>
     <dimen name="global_corner_radius">8dp</dimen>
     <dimen name="card_expanded_horizontal_margin">12dp</dimen>
-    <dimen name="card_expanded_vertical_margin">6dp</dimen>
-    <dimen name="floating_button_margin">16dp</dimen>
     <dimen name="error_layout_margin">14dp</dimen>
     <dimen name="error_icon_size">40dp</dimen>
 </resources>
