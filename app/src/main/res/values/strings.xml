@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">xylite</string>
+    <string name="app_name" translatable="false">Alterlite</string>
     <string name="settings_default_ip_address" translatable="false">192.168.1.10</string>
     <string name="settings_current_theme" translatable="false">Dark Green</string>
     <string name="title_favourite">Избранное</string>
