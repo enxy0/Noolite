@@ -1,11 +1,11 @@
 package com.enxy.noolite.features.main.create
 
 import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
@@ -46,12 +46,25 @@ class ActionChannelAdapter(private val listener: ActionListener) :
     inner class ActionChannelHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(channel: Channel) = with(itemView) {
             channelHeader.text = channel.name
+            when (channel.type) {
+                0 -> {
+                    brightnessSection.isGone = true
+                    overflowSection.isGone = true
+                }
+                1 -> {
+                    overflowSection.isGone = true
+                    setUpBrightnessSection(channel)
+                }
+                3 -> {
+                    setUpBrightnessSection(channel)
+                    setUpOverflowSection(channel)
+                }
+            }
 
             // Animate button rotation and show additional content
             channelLayout.setOnClickListener { toggleAdditionalContent() }
             additionalContentButton.setOnClickListener { toggleAdditionalContent() }
 
-            // Light section
             turnOnAction.setOnClickListener {
                 turnOnCheck.toggleVisibility()
                 listener.onTurnOnActionChange(turnOnCheck.isVisible, channel)
@@ -60,8 +73,10 @@ class ActionChannelAdapter(private val listener: ActionListener) :
                 turnOffCheck.toggleVisibility()
                 listener.onTurnOffActionChange(turnOffCheck.isVisible, channel)
             }
+        }
 
-            // Brightness section
+        private fun setUpBrightnessSection(channel: Channel) = with(itemView) {
+            indicatorSeekBar.setOnSeekBarChangeListener(getSeekBarListener(channel))
             changeBrightnessAction.setOnClickListener {
                 changeBrightnessCheck.toggleVisibility()
                 listener.onBrightnessChange(
@@ -70,33 +85,9 @@ class ActionChannelAdapter(private val listener: ActionListener) :
                     indicatorSeekBar.progress
                 )
             }
+        }
 
-            indicatorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?, progress: Int, fromUser: Boolean
-                ) {
-                    val value = "${progress}%"
-                    progressValue.text = value
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                    if (!changeBrightnessCheck.isVisible) {
-                        changeBrightnessCheck.toggleVisibility()
-                    }
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    seekBar?.let {
-                        listener.onBrightnessChange(
-                            changeBrightnessCheck.isVisible,
-                            channel,
-                            seekBar.progress
-                        )
-                    }
-                }
-            })
-
-            // Overflow section
+        private fun setUpOverflowSection(channel: Channel) = with(itemView) {
             startOverflowAction.setOnClickListener {
                 startOverflowCheck.toggleVisibility()
                 listener.onStartOverflowChange(startOverflowCheck.isVisible, channel)
@@ -107,11 +98,28 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             }
         }
 
-        private fun boundViews(first: View, second: View) {
-            first.toggleVisibility()
-            if (second.isVisible)
-                second.toggleVisibility()
-        }
+        private fun getSeekBarListener(channel: Channel): SeekBar.OnSeekBarChangeListener =
+            object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?, progress: Int, fromUser: Boolean
+                ) {
+                    val value = "${progress}%"
+                    itemView.progressValue.text = value
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    if (!itemView.changeBrightnessCheck.isVisible) {
+                        itemView.changeBrightnessCheck.toggleVisibility()
+                    }
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    seekBar?.let {
+                        val isChecked = itemView.changeBrightnessCheck.isVisible
+                        listener.onBrightnessChange(isChecked, channel, seekBar.progress)
+                    }
+                }
+            }
 
         private fun toggleAdditionalContent() = with(itemView) {
             val animationSpeed = context.applicationContext.resources
@@ -120,7 +128,6 @@ class ActionChannelAdapter(private val listener: ActionListener) :
             val autoTransition = AutoTransition().apply {
                 duration = animationSpeed
             }
-            TransitionManager.beginDelayedTransition(recyclerView, autoTransition)
             if (additionalContent.isVisible) {
                 additionalContentButton.animate()
                     .setDuration(animationSpeed)
