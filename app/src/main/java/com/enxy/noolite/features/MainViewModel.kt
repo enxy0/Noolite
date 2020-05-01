@@ -47,25 +47,18 @@ class MainViewModel @Inject constructor(
             when (channelAction.action) {
                 TURN_OFF -> repository
                     .turnOffLight(channelAction.channelId)
-                    .either({}) { }
                 TURN_ON -> repository
                     .turnOnLight(channelAction.channelId)
-                    .either({}) { }
                 TOGGLE_STATE -> repository
                     .changeLightState(channelAction.channelId)
-                    .either({}) { }
                 CHANGE_BRIGHTNESS -> repository
                     .changeBacklightBrightness(channelAction.channelId, channelAction.brightness!!)
-                    .either({}) { }
                 CHANGE_COLOR -> repository
                     .changeBacklightColor(channelAction.channelId)
-                    .either({}) { }
                 START_OVERFLOW -> repository
                     .startBacklightOverflow(channelAction.channelId)
-                    .either({}) { }
                 STOP_OVERFLOW -> repository
                     .stopBacklightOverflow(channelAction.channelId)
-                    .either({}) { }
             }
         }
     }
