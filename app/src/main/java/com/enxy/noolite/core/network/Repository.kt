@@ -21,11 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class Repository @Inject constructor(
+class Repository(
     private val connectionManager: ConnectionManager,
     private val service: NetworkService,
     private val fileManager: FileManager,

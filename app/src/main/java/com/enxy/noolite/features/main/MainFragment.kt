@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.size
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
@@ -27,11 +26,12 @@ import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.settings.SettingsFragment
 import kotlinx.android.synthetic.main.content_feature_error.view.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.ScriptListener,
     ChannelAdapter.ChannelListener {
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by sharedViewModel()
     private val groupAdapter = GroupAdapter(this)
     private val scriptAdapter = ScriptAdapter(this)
     private val favouriteGroupAdapter = ChannelAdapter(this)

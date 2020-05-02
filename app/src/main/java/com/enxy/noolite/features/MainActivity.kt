@@ -3,24 +3,17 @@ package com.enxy.noolite.features
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseActivity
-import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.utils.Constants
 import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_THEME_NAME
 import com.enxy.noolite.features.main.MainFragment
 import com.enxy.noolite.features.settings.SettingsFragment
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : BaseActivity() {
-    @Inject
-    lateinit var connectionManager: ConnectionManager
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by inject()
     private var themeChanged = false
 
     companion object {
@@ -44,8 +37,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appComponent.inject(this)
-        viewModel = getViewModel(viewModelFactory, MainViewModel::class.java)
         getPassedData()
         setTheme(getCurrentTheme())
         setContentView(R.layout.activity_base)
@@ -78,7 +69,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!connectionManager.isWifiConnected())
+        if (!viewModel.isWifiConnected)
             notifyError(R.string.error_no_wifi)
     }
 

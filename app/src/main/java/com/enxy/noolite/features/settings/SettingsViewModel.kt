@@ -7,9 +7,8 @@ import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
 import com.enxy.noolite.features.model.Group
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel(
     private val settingsManager: SettingsManager,
     private val repository: Repository
 ) : ViewModel() {

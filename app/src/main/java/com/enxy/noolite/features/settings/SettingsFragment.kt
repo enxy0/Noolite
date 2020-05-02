@@ -1,42 +1,35 @@
 package com.enxy.noolite.features.settings
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.utils.Constants.Companion.BLACK_THEME_VALUE
 import com.enxy.noolite.core.utils.Constants.Companion.DARK_THEME_VALUE
 import com.enxy.noolite.core.utils.Constants.Companion.WHITE_THEME_VALUE
-import com.enxy.noolite.core.utils.extension.*
+import com.enxy.noolite.core.utils.extension.capitalizeWords
+import com.enxy.noolite.core.utils.extension.failure
+import com.enxy.noolite.core.utils.extension.fromUnderscoreToNormal
+import com.enxy.noolite.core.utils.extension.observe
 import com.enxy.noolite.features.MainActivity
 import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.fragment_settings.*
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SettingsFragment : BaseFragment() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val activityViewModel: MainViewModel by activityViewModels()
-    private lateinit var viewModel: SettingsViewModel
+    private val activityViewModel: MainViewModel by sharedViewModel()
+    private val viewModel: SettingsViewModel by inject()
     override val layoutId: Int
         get() = R.layout.fragment_settings
 
     companion object {
         fun newInstance() = SettingsFragment()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appComponent.inject(this)
-        viewModel = getViewModel(this, viewModelFactory)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

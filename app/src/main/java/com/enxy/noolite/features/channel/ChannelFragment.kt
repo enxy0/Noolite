@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
@@ -13,11 +12,12 @@ import com.enxy.noolite.features.model.Channel
 import com.enxy.noolite.features.model.ChannelAction
 import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.fragment_channel.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class ChannelFragment : BaseFragment(), ChannelAdapter.ChannelListener {
     private val channelAdapter: ChannelAdapter = ChannelAdapter(this)
-    private val viewModel: MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by sharedViewModel()
     private val passedGroup: Group
         get() = requireArguments().getSerializable(GROUP_MODEL_KEY) as Group
     override val layoutId: Int

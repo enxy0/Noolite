@@ -11,11 +11,8 @@ import com.enxy.noolite.core.utils.Constants.Companion.THEME_KEY
 import com.enxy.noolite.core.utils.Constants.Companion.TOGGLE_BUTTON_KEY
 import com.enxy.noolite.core.utils.Constants.Companion.WIFI_NOTIFICATION_KEY
 import com.enxy.noolite.core.utils.FileManager
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SettingsManager @Inject constructor(
+class SettingsManager(
     private val connectionManager: ConnectionManager,
     private val fileManager: FileManager
 ) {

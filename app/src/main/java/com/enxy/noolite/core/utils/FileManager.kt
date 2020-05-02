@@ -2,11 +2,8 @@ package com.enxy.noolite.core.utils
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class FileManager @Inject constructor(private val appContext: Context) {
+class FileManager(private val appContext: Context) {
     fun getStringFromPrefs(preferencesName: String, key: String): String? {
         val prefs = appContext.getSharedPreferences(preferencesName, MODE_PRIVATE)
         return if (prefs.contains(key))

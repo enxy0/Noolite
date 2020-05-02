@@ -9,9 +9,6 @@ import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.enxy.noolite.AndroidApplication
 import com.enxy.noolite.R
 import com.enxy.noolite.core.utils.extension.withColor
 import com.enxy.noolite.core.utils.extension.withColorPrimary
@@ -20,18 +17,6 @@ import kotlinx.android.synthetic.main.activity_base.*
 
 
 abstract class BaseActivity : AppCompatActivity() {
-
-    internal val appComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (application as AndroidApplication).appComponent
-    }
-
-    fun <T : ViewModel> getViewModel(
-        factory: ViewModelProvider.Factory,
-        viewModelClass: Class<T>
-    ): T {
-        return ViewModelProvider(this, factory)[viewModelClass]
-    }
-
     internal fun notify(@StringRes message: Int) {
         Snackbar.make(fragmentHolder, message, Snackbar.LENGTH_SHORT)
             .withColorPrimary()

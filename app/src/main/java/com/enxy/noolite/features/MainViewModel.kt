@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enxy.noolite.core.exception.Failure
+import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.network.Repository
 import com.enxy.noolite.features.model.Action.*
 import com.enxy.noolite.features.model.ChannelAction
@@ -12,14 +13,14 @@ import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.model.TestData
 import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /*
 * MainViewModel contains data which is shared and used across the app (fragments)
 */
-class MainViewModel @Inject constructor(
+class MainViewModel(
     private val settingsManager: SettingsManager,
-    private val repository: Repository
+    private val repository: Repository,
+    private val connectionManager: ConnectionManager
 ) : ViewModel() {
     val scriptList = MutableLiveData(ArrayList<Script>())
     val scriptListFailure = MutableLiveData<Failure>()
@@ -29,6 +30,9 @@ class MainViewModel @Inject constructor(
 
     val favouriteGroup = MutableLiveData<Group>()
     val favouriteGroupFailure = MutableLiveData<Failure>()
+
+    val isWifiConnected: Boolean
+        get() = connectionManager.isWifiConnected()
 
     val hasToggleButton: Boolean
         get() = settingsManager.hasToggleButton
