@@ -8,9 +8,11 @@ sealed class Failure {
     object ServerError : Failure()
     object DataNotFound : Failure()
     object DeserializeError: Failure()
-
 }
 
+/**
+ * Base class for handling success result.
+ */
 sealed class Success {
     object GoodRequest: Success()
 }

@@ -8,6 +8,9 @@ import com.enxy.noolite.core.network.Repository
 import com.enxy.noolite.features.model.Group
 import kotlinx.coroutines.launch
 
+/**
+ * [SettingsViewModel] contains data that is being used by [SettingsFragment].
+ */
 class SettingsViewModel(
     private val settingsManager: SettingsManager,
     private val repository: Repository
@@ -55,6 +58,9 @@ class SettingsViewModel(
         settingsManager.wifiNotification = isChecked
     }
 
+    /**
+     * Ends the process of theme change by clearing all the values.
+     */
     fun clearThemeChangeValues() = with(settingsManager) {
         themeChanged = false
         scrollX = 0

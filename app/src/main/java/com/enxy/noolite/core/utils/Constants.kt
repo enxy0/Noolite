@@ -2,6 +2,9 @@ package com.enxy.noolite.core.utils
 
 import com.enxy.noolite.R
 
+/**
+ * Constants used throughout the app.
+ */
 class Constants {
     companion object {
         // File names
@@ -16,13 +19,11 @@ class Constants {
         const val TOGGLE_BUTTON_KEY = "toggle_button"
         const val SCRIPT_LIST_KEY = "script_list"
 
-
-        // Theme
+        // Themes
         const val THEME_KEY = "theme"
         const val WHITE_THEME_VALUE = "white"
         const val DARK_THEME_VALUE = "dark"
         const val BLACK_THEME_VALUE = "black"
-
 
         // Default values
         const val DEFAULT_IP_ADDRESS_VALUE = "192.168.0.10"

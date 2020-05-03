@@ -13,7 +13,7 @@ import com.enxy.noolite.core.utils.Constants.Companion.DARK_THEME_VALUE
 import com.enxy.noolite.core.utils.Constants.Companion.WHITE_THEME_VALUE
 import com.enxy.noolite.core.utils.extension.capitalizeWords
 import com.enxy.noolite.core.utils.extension.failure
-import com.enxy.noolite.core.utils.extension.fromUnderscoreToNormal
+import com.enxy.noolite.core.utils.extension.fromUnderscoreToSpaces
 import com.enxy.noolite.core.utils.extension.observe
 import com.enxy.noolite.features.MainActivity
 import com.enxy.noolite.features.MainViewModel
@@ -39,6 +39,9 @@ class SettingsFragment : BaseFragment() {
         setUpUiHandlers()
     }
 
+    /**
+     * Applies saved values (settings) to the UI.
+     */
     private fun initSettingsValues() = with(viewModel) {
         when (currentTheme) {
             BLACK_THEME_VALUE -> blackBlueThemeSwitch.isChecked = true
@@ -47,15 +50,18 @@ class SettingsFragment : BaseFragment() {
         }
         wifiNotificationButtonSwitch.isChecked = wifiNotification
         ipAddressEditText.setText(ipAddress)
-        currentThemeTextView.text = currentTheme.fromUnderscoreToNormal().capitalizeWords()
+        currentThemeTextView.text = currentTheme.fromUnderscoreToSpaces().capitalizeWords()
         toggleButtonSwitch.isChecked = hasToggleButton
         appVersionSummary.text = appVersion
         buildNumberSummary.text = appBuildNumber
     }
 
+    /**
+     * Handles success fetch of GroupList from the given IP Address.
+     */
     private fun handleUpdate(groupList: ArrayList<Group>?) {
         if (!groupList.isNullOrEmpty()) {
-            activityViewModel.updateGroupList(groupList)
+            activityViewModel.updateGroupList(groupList) // updating shared list
             notify(R.string.message_data_updated)
             viewModel.let {
                 it.groupList.removeObservers(this)
@@ -64,6 +70,10 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Handles failure from fetching GroupList.
+     * TODO: Add more messages to notify the user about failure.
+     */
     private fun handleError(failure: Failure?) {
         failure?.let {
             notifyError(R.string.error_general)
@@ -90,7 +100,7 @@ class SettingsFragment : BaseFragment() {
         updateDataButton.setOnClickListener {
             val ipAddress: String = ipAddressEditText.text.toString()
             with(viewModel) {
-                prepareToFetchGroupList(ipAddress)
+                prepareToFetchGroupList(ipAddress) // clear all the previous attempts
                 observe(groupList, ::handleUpdate)
                 failure(failure, ::handleError)
                 fetchGroupList(ipAddress)
@@ -114,7 +124,7 @@ class SettingsFragment : BaseFragment() {
         }
 
         loadTestDataLinearLayout.setOnClickListener {
-            activityViewModel.loadTestData()
+            activityViewModel.setTestData()
             notify(R.string.message_data_updated)
         }
 
@@ -124,8 +134,11 @@ class SettingsFragment : BaseFragment() {
             override fun onGlobalLayout() {
                 if (settingsScrollView != null && settingsScrollView.height != 0)
                     if (viewModel.themeChanged) {
-                        settingsScrollView.scrollTo(viewModel.scrollX, viewModel.scrollY)
-                        viewModel.clearThemeChangeValues()
+                        settingsScrollView.scrollTo(
+                            viewModel.scrollX,
+                            viewModel.scrollY
+                        ) // restore scroll after theme change
+                        viewModel.clearThemeChangeValues() // finish theme change process and remove unnecessary data
                     }
                 settingsScrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
@@ -152,6 +165,9 @@ class SettingsFragment : BaseFragment() {
         viewModel.failure.removeObservers(this)
     }
 
+    /**
+     * Starts the process of seamless theme change which opens [MainActivity] with new theme.
+     */
     private fun changeTheme(themeName: String) {
         viewModel.setTheme(themeName)
 

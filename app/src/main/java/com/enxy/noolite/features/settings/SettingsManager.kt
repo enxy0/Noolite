@@ -12,6 +12,10 @@ import com.enxy.noolite.core.utils.Constants.Companion.TOGGLE_BUTTON_KEY
 import com.enxy.noolite.core.utils.Constants.Companion.WIFI_NOTIFICATION_KEY
 import com.enxy.noolite.core.utils.FileManager
 
+/**
+ * [SettingsManager] manages app settings. It's a singleton which stores and saves app values.
+ * Only [SettingsManager] allowed to save values of its properties.
+ */
 class SettingsManager(
     private val connectionManager: ConnectionManager,
     private val fileManager: FileManager

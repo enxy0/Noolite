@@ -15,7 +15,7 @@ import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.launch
 
 /*
-* MainViewModel contains data which is shared and used across the app (fragments)
+* MainViewModel contains data which is shared and used across the app (fragments).
 */
 class MainViewModel(
     private val settingsManager: SettingsManager,
@@ -34,6 +34,11 @@ class MainViewModel(
     val isWifiConnected: Boolean
         get() = connectionManager.isWifiConnected()
 
+    /**
+     * App has two options for turning on and off the light.
+     * if hasToggleButton == true, then there will be only one button (toggle).
+     * Otherwise, there will be two buttons - turn on and turn off.
+     */
     val hasToggleButton: Boolean
         get() = settingsManager.hasToggleButton
 
@@ -46,6 +51,9 @@ class MainViewModel(
         fetchScripts()
     }
 
+    /**
+     * Performs a single action on the channel.
+     */
     fun doAction(channelAction: ChannelAction) {
         viewModelScope.launch {
             when (channelAction.action) {
@@ -67,6 +75,9 @@ class MainViewModel(
         }
     }
 
+    /**
+     * Runs the given script (performs actions on all channels in the script)
+     */
     fun runScript(script: Script) {
         for (channelAction in script.actionsList)
             doAction(channelAction)
@@ -110,6 +121,9 @@ class MainViewModel(
         }
     }
 
+    /**
+     * Clears favourite group and removes it from database.
+     */
     fun clearFavouriteGroup() {
         this.favouriteGroup.value = null
         this.favouriteGroupFailure.value = Failure.DataNotFound
@@ -118,6 +132,11 @@ class MainViewModel(
         }
     }
 
+    /**
+     * Updates theme related values in [SettingsManager].
+     * Should be used in Activity to retrieve bundled data
+     * after "theme change" (activity restart).
+     */
     fun setThemeChangeValues(
         _themeChanged: Boolean,
         themeName: String,
@@ -130,7 +149,6 @@ class MainViewModel(
             scrollX = settingsScrollX
             scrollY = settingsScrollY
         }
-
     }
 
     private fun handleGroupList(groupList: ArrayList<Group>) {
@@ -160,7 +178,10 @@ class MainViewModel(
         this.scriptListFailure.value = failure
     }
 
-    fun loadTestData() {
+    /**
+     * Sets test data to showcase app functionality/design.
+     */
+    fun setTestData() {
         groupListFailure.value = null
         favouriteGroupFailure.value = null
         groupList.value = TestData.groupElementList

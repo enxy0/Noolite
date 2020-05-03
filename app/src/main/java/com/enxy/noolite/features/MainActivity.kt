@@ -14,13 +14,16 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by inject()
-    private var themeChanged = false
+    private var themeChanged = false // indicates if theme was changed (activity restarted).
 
     companion object {
         const val THEME_NAME_KEY = "theme"
         const val SCROLL_X_KEY = "scroll_x"
         const val SCROLL_Y_KEY = "scroll_y"
 
+        /**
+         * Creates new activity with given theme.
+         */
         fun newThemedActivity(
             context: Context,
             themeName: String,
@@ -67,6 +70,10 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Notifies the user whether the phone is connected to the WiFi or not.
+     * Snackbar shows every time when app is shown to the user (for first time or when
+     */
     override fun onResume() {
         super.onResume()
         if (!viewModel.isWifiConnected)

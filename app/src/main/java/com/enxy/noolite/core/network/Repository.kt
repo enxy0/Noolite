@@ -22,6 +22,9 @@ import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
 
+/**
+ * Repository module for handling data operations.
+ */
 class Repository(
     private val connectionManager: ConnectionManager,
     private val service: NetworkService,

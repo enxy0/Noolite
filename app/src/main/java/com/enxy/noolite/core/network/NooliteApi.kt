@@ -5,7 +5,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface NooliteApi {
-
     @POST
     @Streaming
     suspend fun getGroupsAsync(@Url url: String): Response<ResponseBody>

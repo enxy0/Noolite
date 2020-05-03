@@ -14,6 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 private const val margin = 8
 private const val snackBarElevationInPx = 6f
 
+/**
+ * [withColor] changes Snackbar background color.
+ */
 fun Snackbar.withColor(@ColorInt color: Int): Snackbar {
     val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
     val gradientDrawable = GradientDrawable()
@@ -31,7 +34,9 @@ fun Snackbar.withColor(@ColorInt color: Int): Snackbar {
     return this
 }
 
-
+/**
+ * [withColorPrimary] changes Snackbar background color to primaryColor from current theme.
+ */
 fun Snackbar.withColorPrimary(): Snackbar {
     val params = this.view.layoutParams as ViewGroup.MarginLayoutParams
     val gradientDrawable = GradientDrawable()
