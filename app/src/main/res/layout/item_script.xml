@@ -27,12 +27,12 @@
             tools:text="Script Name" />
 
         <ImageView
-            android:id="@+id/settingsButton"
+            android:id="@+id/removeScript"
             style="@style/Button.Icon"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/script_view_vertical_margin"
             android:layout_marginEnd="@dimen/script_view_vertical_margin"
             android:layout_marginBottom="@dimen/script_view_vertical_margin"
-            android:src="@drawable/ic_settings" />
+            android:src="@drawable/ic_close" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -28,19 +28,27 @@ class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptH
     override fun getItemCount(): Int = scriptList.size
 
     override fun onBindViewHolder(holder: ScriptHolder, position: Int) {
-        holder.bind(scriptList[position])
+        holder.bind(scriptList[position], position)
     }
 
     inner class ScriptHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(script: Script) = with(itemView) {
+        fun bind(script: Script, position: Int) = with(itemView) {
             scriptName.text = script.name
             scriptLayout.setOnClickListener { listener.onScriptExecute(script) }
-            removeScript.setOnClickListener { listener.onScriptEdit(script) }
+            removeScript.setOnClickListener {
+                listener.onScriptRemove(script)
+                scriptList.remove(script)
+                if (scriptList.isEmpty())
+                    listener.onEmptyScriptList()
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, scriptList.size)
+            }
         }
     }
 
     interface ScriptListener {
+        fun onEmptyScriptList()
         fun onScriptExecute(script: Script)
-        fun onScriptEdit(script: Script)
+        fun onScriptRemove(script: Script)
     }
 }

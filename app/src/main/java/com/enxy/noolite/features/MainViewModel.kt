@@ -108,8 +108,15 @@ class MainViewModel(
     }
 
     fun addScript(script: Script) {
+        this.scriptList.value!!.add(script)
         viewModelScope.launch {
-            this@MainViewModel.scriptList.value!!.add(script)
+            repository.saveScripts(scriptList.value!!)
+        }
+    }
+
+    fun removeScript(script: Script) {
+        this.scriptList.value!!.remove(script)
+        viewModelScope.launch {
             repository.saveScripts(scriptList.value!!)
         }
     }

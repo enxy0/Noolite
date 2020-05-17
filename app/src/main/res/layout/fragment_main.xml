@@ -48,6 +48,7 @@
                     android:text="@string/section_groups" />
 
                 <ImageView
+                    android:visibility="invisible"
                     android:id="@+id/allGroups"
                     style="@style/Button.Icon"
                     android:layout_width="@dimen/default_icon_size"

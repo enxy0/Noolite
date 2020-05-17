@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
@@ -126,15 +125,19 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     }
 
     private fun renderScriptList(data: ArrayList<Script>?) {
-        if (!data.isNullOrEmpty()) {
-            scriptError.isGone = true
-            scriptList.isVisible = true
-            scriptAdapter.updateData(data)
+        if (data != null) {
+            if (data.isNotEmpty()) {
+                scriptError.isGone = true
+                scriptList.isVisible = true
+                scriptAdapter.updateData(data)
+            } else {
+                onEmptyScriptList()
+            }
         }
     }
 
     private fun handleGroupListFailure(failure: Failure?) {
-        if (groupList.size == 0 && failure != null) {
+        if (groupAdapter.itemCount == 0 && failure != null) {
             val text = when (failure) {
                 // TODO: Add more error messages
                 is Failure.DataNotFound -> R.string.error_group_list_not_found
@@ -160,7 +163,7 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
     }
 
     private fun handleScriptListFailure(failure: Failure?) {
-        if (scriptList.size == 0 && failure != null) {
+        if (scriptAdapter.itemCount == 0 && failure != null) {
             val text = when (failure) {
                 is Failure.DataNotFound -> R.string.error_script_list_not_found
                 is Failure.DeserializeError -> R.string.error_deserialization
@@ -195,14 +198,17 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
             onTurnOffLight(channel)
     }
 
+    override fun onEmptyScriptList() {
+        handleScriptListFailure(Failure.DataNotFound)
+    }
+
     override fun onScriptExecute(script: Script) {
         Log.d("GroupFragment", "onScriptExecute: script=$script")
         viewModel.runScript(script)
     }
 
-    override fun onScriptEdit(script: Script) {
-        Log.d("GroupFragment", "onScriptEdit: script=$script")
-        TODO("Add edit script function")
+    override fun onScriptRemove(script: Script) {
+        viewModel.removeScript(script)
     }
 
     override fun onTurnOnLight(channel: Channel) {
