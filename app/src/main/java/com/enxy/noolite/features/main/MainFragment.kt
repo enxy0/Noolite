@@ -141,9 +141,9 @@ class MainFragment : BaseFragment(), GroupAdapter.GroupListener, ScriptAdapter.S
             val text = when (failure) {
                 // TODO: Add more error messages
                 is Failure.DataNotFound -> R.string.error_group_list_not_found
+                is Failure.ServerError -> R.string.error_group_list_not_found
                 is Failure.WifiConnectionError -> R.string.error_group_list_not_found
                 is Failure.DeserializeError -> R.string.error_deserialization
-                else -> R.string.error_unexpected
             }
             showErrorLayout(groupListError, text, R.drawable.ic_question)
             groupList.isGone = true
