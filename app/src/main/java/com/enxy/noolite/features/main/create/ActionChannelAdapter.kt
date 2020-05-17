@@ -9,9 +9,9 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
+import com.enxy.noolite.core.data.Channel
+import com.enxy.noolite.core.data.Group
 import com.enxy.noolite.core.utils.extension.toggleVisibility
-import com.enxy.noolite.features.model.Channel
-import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.item_action_channel.view.*
 
 class ActionChannelAdapter(private val listener: ActionListener) :

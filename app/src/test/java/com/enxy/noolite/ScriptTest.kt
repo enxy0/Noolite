@@ -1,6 +1,6 @@
 package com.enxy.noolite
 
-import com.enxy.noolite.features.model.*
+import com.enxy.noolite.core.data.*
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -18,17 +18,20 @@ class ScriptTest {
         groupList = arrayListOf(
             Group(
                 0, "Kitchen", arrayListOf(
-                    Channel(0, "Main", 2), Channel(1, "Backlight", 3)
+                    Channel(0, "Main", 2),
+                    Channel(1, "Backlight", 3)
                 )
             ),
             Group(
                 1, "Living Room", arrayListOf(
-                    Channel(2, "Main", 1), Channel(3, "Backlight", 2)
+                    Channel(2, "Main", 1),
+                    Channel(3, "Backlight", 2)
                 )
             ),
             Group(
                 2, "Bathroom", arrayListOf(
-                    Channel(4, "Main", 0), Channel(5, "Above the toilet", 3)
+                    Channel(4, "Main", 0),
+                    Channel(5, "Above the toilet", 3)
                 )
             )
         )
@@ -49,9 +52,21 @@ class ScriptTest {
             ChannelAction(1, Action.TURN_OFF, null),
             ChannelAction(2, Action.TURN_ON, null),
             ChannelAction(3, Action.TURN_ON, null),
-            ChannelAction(4, Action.TOGGLE_STATE, null),
-            ChannelAction(5, Action.TOGGLE_STATE, null),
-            ChannelAction(0, Action.CHANGE_BRIGHTNESS, 50)
+            ChannelAction(
+                4,
+                Action.TOGGLE_STATE,
+                null
+            ),
+            ChannelAction(
+                5,
+                Action.TOGGLE_STATE,
+                null
+            ),
+            ChannelAction(
+                0,
+                Action.CHANGE_BRIGHTNESS,
+                50
+            )
         )
         val expectedScript = script.copy(actionsList = expectedActionList)
         assertEquals(expectedScript, script)

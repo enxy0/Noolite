@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
+import com.enxy.noolite.core.data.Group
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.utils.Constants.Companion.BLACK_THEME_VALUE
 import com.enxy.noolite.core.utils.Constants.Companion.DARK_THEME_VALUE
@@ -17,7 +18,6 @@ import com.enxy.noolite.core.utils.extension.fromUnderscoreToSpaces
 import com.enxy.noolite.core.utils.extension.observe
 import com.enxy.noolite.features.MainActivity
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

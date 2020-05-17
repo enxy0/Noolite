@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.features.model.Channel
+import com.enxy.noolite.core.data.Channel
 import kotlinx.android.synthetic.main.item_channel.view.*
 
 

@@ -6,12 +6,12 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
+import com.enxy.noolite.core.data.Action
+import com.enxy.noolite.core.data.Channel
+import com.enxy.noolite.core.data.Group
+import com.enxy.noolite.core.data.Script
 import com.enxy.noolite.core.utils.extension.observe
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.model.Action
-import com.enxy.noolite.features.model.Channel
-import com.enxy.noolite.features.model.Group
-import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.fragment_script_group.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -19,7 +19,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class ActionGroupFragment : BaseFragment(), ActionChannelAdapter.ActionListener {
     private val viewModel: MainViewModel by sharedViewModel()
     private val actionGroupAdapter: ActionGroupAdapter = ActionGroupAdapter(this)
-    private val script: Script = Script("", ArrayList())
+    private val script: Script =
+        Script("", ArrayList())
     override val layoutId: Int
         get() = R.layout.fragment_script_group
 

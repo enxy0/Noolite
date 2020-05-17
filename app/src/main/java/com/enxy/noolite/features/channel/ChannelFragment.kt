@@ -7,10 +7,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
+import com.enxy.noolite.core.data.Channel
+import com.enxy.noolite.core.data.ChannelAction
+import com.enxy.noolite.core.data.Group
 import com.enxy.noolite.features.MainViewModel
-import com.enxy.noolite.features.model.Channel
-import com.enxy.noolite.features.model.ChannelAction
-import com.enxy.noolite.features.model.Group
 import kotlinx.android.synthetic.main.fragment_channel.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

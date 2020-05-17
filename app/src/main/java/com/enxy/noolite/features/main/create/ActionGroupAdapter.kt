@@ -9,10 +9,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
+import com.enxy.noolite.core.data.Channel
+import com.enxy.noolite.core.data.Group
+import com.enxy.noolite.core.data.Script
 import com.enxy.noolite.core.utils.extension.toggleVisibility
-import com.enxy.noolite.features.model.Channel
-import com.enxy.noolite.features.model.Group
-import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.item_action_group.view.*
 
 class ActionGroupAdapter(private val actionListener: ActionChannelAdapter.ActionListener) :

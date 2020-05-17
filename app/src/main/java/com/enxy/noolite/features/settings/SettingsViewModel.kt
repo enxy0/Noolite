@@ -3,9 +3,9 @@ package com.enxy.noolite.features.settings
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.enxy.noolite.core.data.Group
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.Repository
-import com.enxy.noolite.features.model.Group
 import kotlinx.coroutines.launch
 
 /**

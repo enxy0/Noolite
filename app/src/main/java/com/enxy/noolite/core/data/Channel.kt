@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.model
+package com.enxy.noolite.core.data
 
 import java.io.Serializable
 

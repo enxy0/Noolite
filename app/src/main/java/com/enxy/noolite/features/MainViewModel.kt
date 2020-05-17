@@ -3,14 +3,14 @@ package com.enxy.noolite.features
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.enxy.noolite.core.data.Action.*
+import com.enxy.noolite.core.data.ChannelAction
+import com.enxy.noolite.core.data.Dummy
+import com.enxy.noolite.core.data.Group
+import com.enxy.noolite.core.data.Script
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.network.ConnectionManager
 import com.enxy.noolite.core.network.Repository
-import com.enxy.noolite.features.model.Action.*
-import com.enxy.noolite.features.model.ChannelAction
-import com.enxy.noolite.features.model.Group
-import com.enxy.noolite.features.model.Script
-import com.enxy.noolite.features.model.TestData
 import com.enxy.noolite.features.settings.SettingsManager
 import kotlinx.coroutines.launch
 
@@ -184,7 +184,9 @@ class MainViewModel(
     fun setTestData() {
         groupListFailure.value = null
         favouriteGroupFailure.value = null
-        groupList.value = TestData.groupElementList
-        favouriteGroup.value = TestData.favouriteGroupElement
+        scriptListFailure.value = null
+        groupList.value = Dummy.groupList
+        favouriteGroup.value = Dummy.favouriteGroup
+        scriptList.value = Dummy.scriptList
     }
 }

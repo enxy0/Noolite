@@ -12,6 +12,10 @@ import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enxy.noolite.R
 import com.enxy.noolite.core.base.BaseFragment
+import com.enxy.noolite.core.data.Channel
+import com.enxy.noolite.core.data.ChannelAction
+import com.enxy.noolite.core.data.Group
+import com.enxy.noolite.core.data.Script
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.utils.extension.failure
 import com.enxy.noolite.core.utils.extension.observe
@@ -19,10 +23,6 @@ import com.enxy.noolite.features.MainViewModel
 import com.enxy.noolite.features.channel.ChannelAdapter
 import com.enxy.noolite.features.channel.ChannelFragment
 import com.enxy.noolite.features.main.create.ActionGroupFragment
-import com.enxy.noolite.features.model.Channel
-import com.enxy.noolite.features.model.ChannelAction
-import com.enxy.noolite.features.model.Group
-import com.enxy.noolite.features.model.Script
 import com.enxy.noolite.features.settings.SettingsFragment
 import kotlinx.android.synthetic.main.content_feature_error.view.*
 import kotlinx.android.synthetic.main.fragment_main.*

@@ -1,4 +1,4 @@
-package com.enxy.noolite.features.model
+package com.enxy.noolite.core.data
 
 data class Script(
     var name: String,
@@ -15,10 +15,22 @@ data class Script(
             if (changeBrightness != null) {
                 changeBrightness.brightness = brightness
             } else {
-                actionsList.add(ChannelAction(channel.id, action, brightness))
+                actionsList.add(
+                    ChannelAction(
+                        channel.id,
+                        action,
+                        brightness
+                    )
+                )
             }
         } else {
-            actionsList.add(ChannelAction(channel.id, action, brightness))
+            actionsList.add(
+                ChannelAction(
+                    channel.id,
+                    action,
+                    brightness
+                )
+            )
         }
     }
 

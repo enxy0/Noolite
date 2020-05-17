@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
-import com.enxy.noolite.features.model.Group
+import com.enxy.noolite.core.data.Group
 import kotlinx.android.synthetic.main.item_group.view.*
 
 

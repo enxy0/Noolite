@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.enxy.noolite.R
+import com.enxy.noolite.core.data.Script
 import com.enxy.noolite.features.main.ScriptAdapter.ScriptHolder
-import com.enxy.noolite.features.model.Script
 import kotlinx.android.synthetic.main.item_script.view.*
 
 class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptHolder>() {
@@ -35,7 +35,7 @@ class ScriptAdapter(val listener: ScriptListener) : RecyclerView.Adapter<ScriptH
         fun bind(script: Script) = with(itemView) {
             scriptName.text = script.name
             scriptLayout.setOnClickListener { listener.onScriptExecute(script) }
-            settingsButton.setOnClickListener { listener.onScriptEdit(script) }
+            removeScript.setOnClickListener { listener.onScriptEdit(script) }
         }
     }
 

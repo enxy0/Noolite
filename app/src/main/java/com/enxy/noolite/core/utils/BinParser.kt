@@ -1,7 +1,7 @@
 package com.enxy.noolite.core.utils
 
-import com.enxy.noolite.features.model.Channel
-import com.enxy.noolite.features.model.Group
+import com.enxy.noolite.core.data.Channel
+import com.enxy.noolite.core.data.Group
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.ParseException

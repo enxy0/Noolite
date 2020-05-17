@@ -1,5 +1,7 @@
 package com.enxy.noolite.core.network
 
+import com.enxy.noolite.core.data.Group
+import com.enxy.noolite.core.data.Script
 import com.enxy.noolite.core.exception.Failure
 import com.enxy.noolite.core.exception.Failure.ServerError
 import com.enxy.noolite.core.exception.Success
@@ -14,8 +16,6 @@ import com.enxy.noolite.core.utils.Constants.Companion.MAIN_DATA_FILE
 import com.enxy.noolite.core.utils.Constants.Companion.SCRIPT_LIST_KEY
 import com.enxy.noolite.core.utils.FileManager
 import com.enxy.noolite.core.utils.extension.fromJson
-import com.enxy.noolite.features.model.Group
-import com.enxy.noolite.features.model.Script
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
