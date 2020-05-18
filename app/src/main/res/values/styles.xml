@@ -1,113 +1,84 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="infoIconColor">@color/infoIconColorLight</item>
-        <item name="buttonIconColor">@color/buttonIconColorLight</item>
-        <item name="pressedMainButtonColor">@color/orange</item>
-        <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorLight</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryWhite</item>
         <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorLight</item>-->
-        <item name="bottomNavigationBarColor">@color/backgroundLight</item>
-        <item name="toolbarTextColor">@android:color/black</item>
-        <item name="android:textColorPrimary">@android:color/black</item>
-        <!--        <item name="android:navigationBarColor">@color/navigation</item>-->
-        <item name="android:navigationBarColor">@color/backgroundLight</item>
-        <item name="android:windowBackground">@color/backgroundLight</item>
-        <item name="itemBackgroundColor">@color/itemBackgroundColor</item>
-        <item name="inactiveNavigationIconColor">@color/inactiveIconColor</item>
-        <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColor</item>
-        <!--        <item name="toolbarColor">@color/toolbarColorLight</item>-->
-        <item name="toolbarColor">@color/backgroundLight</item>
-        <!--        <item name="android:statusBarColor">@color/toolbarColorLight</item>-->
-        <item name="android:statusBarColor">@color/backgroundLight</item>
-        <item name="dividerColor">@color/dividerLight</item>
+        <item name="colorAccent">@color/colorAccentWhite</item>
+        <item name="colorIcon">@color/colorIconWhite</item>
+        <item name="colorIconButton">@color/colorButtonIconWhite</item>
+        <item name="colorPressedMainButton">@color/colorPressedMainButton</item>
+        <item name="colorInactiveMainButton">@color/colorInactiveMainButtonWhite</item>
+        <item name="colorToolbarText">@android:color/black</item>
+        <item name="android:navigationBarColor">@color/colorBackgroundWhite</item>
+        <item name="colorInputLayoutBackground">@color/colorInputLayoutWhite</item>
+        <item name="colorToolbar">@color/colorBackgroundWhite</item>
+        <item name="android:statusBarColor">@color/colorBackgroundWhite</item>
+        <item name="colorDivider">@color/colorDividerWhite</item>
+        <item name="colorControlHighlight">@color/colorRippleWhite</item>
+        <item name="colorRipple">@color/colorRippleWhite</item>
+        <item name="colorCard">@color/colorCardWhite</item>
+        <item name="android:textColorPrimary">@color/textColorPrimaryWhite</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryWhite</item>
+        <item name="android:windowBackground">@color/colorBackgroundWhite</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="AppTheme.White.Red" parent="AppTheme">
-        <item name="colorControlHighlight">@color/defaultRippleColorLight</item>
-        <item name="defaultRippleColor">@color/defaultRippleColorLight</item>
-        <item name="colorPrimary">@color/colorPrimaryPeach</item>
-        <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/colorAccentPeach</item>
-    </style>
-
-    <style name="AppTheme.White.Blue" parent="AppTheme">
-        <item name="colorControlHighlight">@color/defaultRippleColorLight</item>
-        <item name="defaultRippleColor">@color/defaultRippleColorLight</item>
-        <item name="colorPrimary">@color/colorPrimaryLavander</item>
-        <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/colorAccentLavander</item>
-    </style>
-
     <style name="AppTheme.Dark.Green" parent="AppTheme">
-        <item name="colorControlHighlight">@color/defaultRippleColorDark</item>
-        <item name="defaultRippleColor">@color/defaultRippleColorDark</item>
-        <item name="infoIconColor">@color/infoIconColorDark</item>
-        <item name="buttonIconColor">@color/buttonIconColorDark</item>
-        <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorDark</item>
-        <!--        <item name="android:statusBarColor">@color/toolbarColorDark</item>-->
-        <item name="android:statusBarColor">@color/backgroundDark</item>
-        <!--        <item name="toolbarColor">@color/toolbarColorDark</item>-->
-        <item name="toolbarColor">@color/backgroundDark</item>
-        <item name="dividerColor">@color/dividerDark</item>
-        <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorDark</item>
-        <item name="inactiveNavigationIconColor">@color/inactiveIconColorDark</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="toolbarTextColor">@android:color/white</item>
+        <item name="colorControlHighlight">@color/colorRippleDark</item>
+        <item name="colorRipple">@color/colorRippleDark</item>
+        <item name="colorIcon">@color/colorIconDark</item>
+        <item name="colorIconButton">@color/colorButtonIconDark</item>
+        <item name="colorPressedMainButton">@color/colorPressedMainButton</item>
+        <item name="colorInactiveMainButton">@color/colorInactiveMainButtonDark</item>
+        <item name="android:statusBarColor">@color/colorBackgroundDark</item>
+        <item name="colorToolbar">@color/colorBackgroundDark</item>
+        <item name="colorDivider">@color/colorDividerDark</item>
+        <item name="colorInputLayoutBackground">@color/colorInputLayoutDark</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorToolbarText">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/colorAccentDarker</item>
-        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorDark</item>-->
-        <item name="bottomNavigationBarColor">@color/backgroundDark</item>
-        <!--        <item name="android:navigationBarColor">@color/navigationDarker</item>-->
-        <item name="android:navigationBarColor">@color/backgroundDark</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
+        <item name="android:navigationBarColor">@color/colorBackgroundDark</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
-        <item name="itemBackgroundColor">@color/itemBackgroundColorDark</item>
-        <item name="android:windowBackground">@color/backgroundDark</item>
+        <item name="colorCard">@color/colorCardDark</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="AppTheme.Black.Amber" parent="AppTheme">
-        <item name="colorControlHighlight">@color/defaultRippleColorDark</item>
-        <item name="defaultRippleColor">@color/defaultRippleColorDark</item>
-        <item name="infoIconColor">@color/infoIconColorBlack</item>
-        <item name="buttonIconColor">@color/buttonIconColorBlack</item>
-        <item name="inactiveMainButtonColor">@color/inactiveMainButtonColorBlack</item>
-        <!--        <item name="android:statusBarColor">@color/toolbarColorBlack</item>-->
-        <item name="android:statusBarColor">@color/backgroundBlack</item>
-        <!--        <item name="toolbarColor">@color/toolbarColorBlack</item>-->
-        <item name="toolbarColor">@color/backgroundBlack</item>
-        <item name="dividerColor">@color/dividerBlack</item>
-        <item name="inputLayoutBackgroundColor">@color/inputLayoutBackgroundColorBlack</item>
-        <item name="inactiveNavigationIconColor">@color/inactiveIconColorBlack</item>
+        <item name="colorControlHighlight">@color/colorRippleDark</item>
+        <item name="colorRipple">@color/colorRippleDark</item>
+        <item name="colorIcon">@color/colorIconBlack</item>
+        <item name="colorIconButton">@color/colorButtonIconBlack</item>
+        <item name="colorPressedMainButton">@color/colorPressedMainButton</item>
+        <item name="colorInactiveMainButton">@color/colorInactiveMainButtonBlack</item>
+        <item name="android:statusBarColor">@color/colorBackgroundBlack</item>
+        <item name="colorToolbar">@color/colorBackgroundBlack</item>
+        <item name="colorDivider">@color/colorDividerBlack</item>
+        <item name="colorInputLayoutBackground">@color/colorInputLayoutBlack</item>
         <item name="colorPrimary">@color/colorPrimaryBlack</item>
-        <item name="toolbarTextColor">@android:color/white</item>
+        <item name="colorToolbarText">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccentBlack</item>
-        <!--        <item name="bottomNavigationBarColor">@color/bottomNavigationBarColorBlack</item>-->
-        <item name="bottomNavigationBarColor">@color/backgroundBlack</item>
-        <!--        <item name="android:navigationBarColor">@color/navigationBlack</item>-->
-        <item name="android:navigationBarColor">@color/backgroundBlack</item>
+        <item name="android:navigationBarColor">@color/colorBackgroundBlack</item>
         <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
-        <item name="itemBackgroundColor">@color/itemBackgroundColorBlack</item>
-        <item name="android:windowBackground">@color/backgroundBlack</item>
+        <item name="colorCard">@color/colorCardBlack</item>
+        <item name="android:windowBackground">@color/colorBackgroundBlack</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="primaryText">
+    <style name="Text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:disabledAlpha">0.5</item>
+        <!--        <item name="android:disabledAlpha">0.5</item>-->
         <item name="android:textColor">@drawable/textview_selector</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="secondaryText">
+    <style name="Text.Secondary">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorSecondary</item>
@@ -115,91 +86,98 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="itemText" parent="primaryText">
+    <style name="Text.Bold" parent="Text">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="sectionText" parent="primaryText">
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">14sp</item>
+    <style name="Text.Section" parent="Text">
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
-
     </style>
 
-    <style name="cardView" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">?attr/itemBackgroundColor</item>
+    <style name="BaseCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?attr/colorCard</item>
         <item name="cardElevation">0dp</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">@dimen/global_corner_radius</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/card_default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_default_margin</item>
+        <item name="android:layout_marginTop">@dimen/card_default_margin</item>
+        <item name="android:layout_marginBottom">@dimen/card_default_margin</item>
     </style>
 
-    <style name="tileCardView" parent="cardView">
-        <item name="android:layout_marginStart">6dp</item>
-        <item name="android:layout_marginEnd">6dp</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
+    <style name="BaseCard.Wide" parent="BaseCard">
+        <item name="android:layout_marginStart">@dimen/card_expanded_horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/card_expanded_horizontal_margin</item>
     </style>
 
-    <style name="itemCardView" parent="cardView">
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginBottom">6dp</item>
+    <style name="Button.Circular" parent="Clickable.Borderless">
+        <item name="android:layout_width">@dimen/channel_button_size</item>
+        <item name="android:layout_height">@dimen/channel_button_size</item>
+    </style>
+
+    <style name="Clickable">
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/custom_ripple</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Clickable.Borderless" parent="Clickable">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="Button.Icon" parent="Clickable.Borderless">
+        <item name="android:tint">?attr/colorIcon</item>
+        <item name="android:padding">@dimen/icon_button_padding</item>
+        <item name="android:layout_width">@dimen/icon_button_size</item>
+        <item name="android:layout_height">@dimen/icon_button_size</item>
+    </style>
+
+    <style name="CheckIcon">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">@dimen/icon_check_size</item>
+        <item name="android:layout_height">@dimen/icon_check_size</item>
+        <item name="android:src">@drawable/ic_check</item>
+        <item name="android:tint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Icon">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="tint">?attr/colorIcon</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
     <!-- Toolbar styles -->
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+    <style name="Toolbar">
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
+        <item name="android:textColorPrimary">?attr/colorToolbarText</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-
-    <style name="toolbar">
-        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
-        <item name="android:textColorPrimary">?toolbarTextColor</item>
-    </style>
-
-    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+    <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="toolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
+    <style name="ToolbarTextAppearance" parent="TextAppearance.AppCompat.Title">
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:text">@string/title_favourite</item>
-        <item name="android:textColorPrimary">?attr/toolbarTextColor</item>
+        <item name="android:textColorPrimary">?attr/colorToolbarText</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="mainButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="iconSize">34dp</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:layout_width">50dp</item>
-        <item name="cornerRadius">36dp</item>
-        <item name="android:strokeColor">?attr/colorPrimary</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="divider">
+    <style name="Divider">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
-        <item name="android:background">?attr/dividerColor</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/colorDivider</item>
     </style>
 
-    <style name="itemDivider" parent="divider">
-        <item name="android:layout_height">6dp</item>
-        <item name="android:background">?android:attr/windowBackground</item>
-    </style>
-
-    <style name="materialButton" parent="Widget.MaterialComponents.Button">
+    <style name="Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="cornerRadius">8dp</item>
+        <item name="cornerRadius">@dimen/global_corner_radius</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

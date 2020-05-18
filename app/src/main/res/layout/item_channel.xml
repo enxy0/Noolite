@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/BaseCard.Wide">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/channel_vertical_padding"
+        android:paddingBottom="@dimen/channel_vertical_padding">
+
+        <LinearLayout
+            android:id="@+id/lightLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/channel_horizontal_padding"
+            android:paddingTop="@dimen/channel_vertical_padding"
+            android:paddingEnd="@dimen/channel_horizontal_padding"
+            android:paddingBottom="@dimen/channel_vertical_padding">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/headerTextView"
+                    style="@style/Text.Bold"
+                    tools:text="Кухня" />
+
+                <TextView
+                    android:id="@+id/onOffTextView"
+                    style="@style/Text.Secondary"
+                    android:text="@string/channel_title_turn_on_off" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/turnOnLightButton"
+                style="@style/Button.Circular"
+                android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
+                android:foreground="@drawable/light_button_pressed" />
+
+            <View
+                android:id="@+id/turnOffLightButton"
+                style="@style/Button.Circular"
+                android:foreground="@drawable/light_button_normal" />
+
+            <View
+                android:id="@+id/toggleLightButton"
+                style="@style/Button.Circular"
+                android:layout_marginStart="@dimen/channel_elements_horizontal_margin"
+                android:foreground="@drawable/light_button_toggle"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/brightnessLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/indicatorSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/channel_vertical_padding"
+                android:paddingBottom="@dimen/channel_vertical_padding"
+                android:layout_marginStart="6dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/overflowLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/channel_horizontal_padding"
+            android:paddingTop="@dimen/channel_vertical_padding"
+            android:paddingEnd="@dimen/channel_horizontal_padding"
+            android:paddingBottom="@dimen/channel_vertical_padding">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/overflowTextView"
+                    style="@style/Text"
+                    android:text="@string/channel_backlight" />
+
+                <TextView
+                    android:id="@+id/summaryOverflowTextView"
+                    style="@style/Text.Secondary"
+                    android:text="@string/channel_backlight_color" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/startOverflowButton"
+                style="@style/Button.Circular"
+                android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
+                android:foreground="@drawable/overflow_button_normal" />
+
+            <View
+                android:id="@+id/stopOverflowButton"
+                style="@style/Button.Circular"
+                android:layout_marginEnd="@dimen/channel_elements_horizontal_margin"
+                android:foreground="@drawable/overflow_button_checked" />
+
+            <View
+                android:id="@+id/changeColorButton"
+                style="@style/Button.Circular"
+                android:foreground="@drawable/refresh_button_normal" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

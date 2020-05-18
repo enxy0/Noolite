@@ -1,139 +1,98 @@
 package com.enxy.noolite.features
 
-import android.os.Build
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.ViewPager
 import com.enxy.noolite.R
-import com.enxy.noolite.core.network.ConnectionManager
-import com.enxy.noolite.core.platform.BaseActivity
-import com.enxy.noolite.core.platform.FileManager
-import com.enxy.noolite.features.adapter.SectionsPagerAdapter
-import kotlinx.android.synthetic.main.activity_base.*
-import javax.inject.Inject
+import com.enxy.noolite.core.base.BaseActivity
+import com.enxy.noolite.core.utils.Constants
+import com.enxy.noolite.core.utils.Constants.Companion.DEFAULT_THEME_NAME
+import com.enxy.noolite.features.main.MainFragment
+import com.enxy.noolite.features.settings.SettingsFragment
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : BaseActivity() {
-    @Inject
-    lateinit var connectionManager: ConnectionManager
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by inject()
+    private var themeChanged = false // indicates if theme was changed (activity restarted).
 
     companion object {
-        const val CHANNEL_FRAGMENT_POSITION = 0
-        const val GROUP_FRAGMENT_POSITION = 1
-        const val SETTINGS_FRAGMENT_POSITION = 2
+        const val THEME_NAME_KEY = "theme"
+        const val SCROLL_X_KEY = "scroll_x"
+        const val SCROLL_Y_KEY = "scroll_y"
+
+        /**
+         * Creates new activity with given theme.
+         */
+        fun newThemedActivity(
+            context: Context,
+            themeName: String,
+            settingsScrollX: Int,
+            settingsScrollY: Int
+        ): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                putExtra(THEME_NAME_KEY, themeName)
+                putExtra(SCROLL_X_KEY, settingsScrollX)
+                putExtra(SCROLL_Y_KEY, settingsScrollY)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appComponent.inject(this)
-        viewModel = getViewModel(viewModelFactory, MainViewModel::class.java)
-        getIntentExtras()
-        setUpTheme()
+        getPassedData()
+        setTheme(getCurrentTheme())
         setContentView(R.layout.activity_base)
-        setUpToolbar()
-        setUpViewPager()
-        setUpNavView()
         showDefaultFragment()
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-            window.navigationBarColor = ContextCompat.getColor(this, android.R.color.black)
+    }
+
+    private fun getCurrentTheme(): Int {
+        return when (viewModel.themeName) {
+            Constants.WHITE_THEME_VALUE -> R.style.AppTheme
+            Constants.DARK_THEME_VALUE -> R.style.AppTheme_Dark_Green
+            Constants.BLACK_THEME_VALUE -> R.style.AppTheme_Black_Amber
+            else -> Constants.DEFAULT_THEME
         }
     }
 
-    private fun getIntentExtras() {
+    private fun getPassedData() {
         intent?.extras?.let { bundle ->
-            with(viewModel.settingsManager) {
-                themeChanged = bundle.getBoolean(FileManager.THEME_CHANGED)
-                scrollX = bundle.getInt(FileManager.SCROLL_X_KEY, 0)
-                scrollY = bundle.getInt(FileManager.SCROLL_Y_KEY, 0)
-            }
+            val themeName = bundle.getString(THEME_NAME_KEY) ?: DEFAULT_THEME_NAME
+            val settingsScrollX = bundle.getInt(SCROLL_X_KEY, 0)
+            val settingsScrollY = bundle.getInt(SCROLL_Y_KEY, 0)
+            this.themeChanged = true
+            viewModel.setThemeChangeValues(
+                themeChanged,
+                themeName,
+                settingsScrollX,
+                settingsScrollY
+            )
         }
     }
 
+    /**
+     * Notifies the user whether the phone is connected to the WiFi or not.
+     * Snackbar shows every time when app is shown to the user (for first time or when
+     */
     override fun onResume() {
         super.onResume()
-        if (!connectionManager.isWifiConnected())
+        if (!viewModel.isWifiConnected)
             notifyError(R.string.error_no_wifi)
     }
 
-    private fun setUpTheme() {
-        when (viewModel.settingsManager.currentTheme) {
-            FileManager.WHITE_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_White_Blue)
-            FileManager.DARK_GREEN_THEME_VALUE -> setTheme(R.style.AppTheme_Dark_Green)
-            FileManager.BLACK_BLUE_THEME_VALUE -> setTheme(R.style.AppTheme_Black_Amber)
-        }
-    }
-
     private fun showDefaultFragment() {
-        if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null)
-            if (viewModel.settingsManager.themeChanged) {
-                navView.selectedItemId = R.id.navigation_settings
-            } else {
-                navView.selectedItemId = R.id.navigation_favourite
-            }
-    }
-
-    private fun setUpViewPager() {
-        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
-        viewPager.adapter = sectionsPagerAdapter
-
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-                navView.menu.getItem(position).isChecked = true
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-        })
-    }
-
-    private fun setUpNavView() {
-        navView.setOnNavigationItemSelectedListener {
-            clearFragmentBackStack()
-            when (it.itemId) {
-                R.id.navigation_favourite -> {
-                    viewPager.currentItem = CHANNEL_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_groups -> {
-                    viewPager.currentItem = GROUP_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_settings -> {
-                    viewPager.currentItem = SETTINGS_FRAGMENT_POSITION
-                    return@setOnNavigationItemSelectedListener true
-                }
-            }
-            return@setOnNavigationItemSelectedListener false
+        if (supportFragmentManager.findFragmentById(R.id.fragmentHolder) == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentHolder, MainFragment.newInstance())
+                .commitNow()
+            // If theme was changed we also add SettingsFragment above the MainFragment
+            // to imitate seamless theme change
+            if (themeChanged)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentHolder, SettingsFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
         }
-    }
-
-    private fun clearFragmentBackStack() {
-        val size = supportFragmentManager.backStackEntryCount
-        for (i in 0..size)
-            supportFragmentManager.popBackStack()
-    }
-
-    private fun setUpToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 }
 

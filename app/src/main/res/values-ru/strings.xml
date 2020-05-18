@@ -1,11 +1,7 @@
 <resources>
     <string name="title_favourite">Избранное</string>
-    <string name="title_groups">Все группы</string>
+    <string name="section_groups">Все группы</string>
     <string name="title_settings">Настройки</string>
-    <string name="message_update_your_settings">Обновите данные в настройках!</string>
-    <string name="message_authentication_is_not_available">Аутентификация еще не поддерживается. Ждите ее в следующем
-        обновлении!
-    </string>
     <string name="message_room_added_as_favourite">Группа успешно добавлена в избранное!</string>
     <string name="message_data_updated">Данные успешно обновлены!</string>
     <string name="error_group_list_not_found">Для загрузки списка групп и работы приложения необходимо перейти в
@@ -14,13 +10,6 @@
     <string name="error_general">Произошла ошибка! Проверьте корректность введенных данных и подключение через WiFi.
     </string>
     <string name="error_no_wifi">Произошла ошибка! Проверьте подключение к сети Wifi.</string>
-    <string name="error_favourite_room_not_found">Избранная комната не найдена! Перейдите во Все комнаты, чтобы добавить
-        ее.
-    </string>
-    <string name="settings_anim_open_title">Анимация открытия</string>
-    <string name="settings_anim_transition_title">Анимация переходов</string>
-    <string name="settings_anim_open_summary">Использовать анимацию при переходе к группе</string>
-    <string name="settings_anim_transition_summary">Использовать анимацию при переходе между вкладками</string>
     <string name="settings_toggle_button_title">Переключатель</string>
     <string name="settings_toggle_button_summary">Использовать одну кнопку для переключения состояния света, вместо
         кнопок включения и выключения
@@ -29,27 +18,39 @@
     <string name="settings_server_section">Сервер</string>
     <string name="update_button">Обновить</string>
     <string name="add_to_favourite_button">Добавить в избранное</string>
-    <string name="settings_auth_title">Аутентификация</string>
-    <string name="settings_auth_summary">Использовать логин и пароль при аутентификации</string>
     <string name="settings_ip_address">Адрес</string>
-    <string name="settings_login">Логин</string>
-    <string name="settings_password">Пароль</string>
     <string name="settings_theme">Тема</string>
-    <string name="settings_theme_text">T</string>
-    <string name="channel_color_button_backlight_extended">Цвет</string>
-    <string name="channel_start_overflow_button_backlight_extended">Перелив</string>
-    <string name="channel_stop_overflow_button_backlight_extended">Перелив</string>
     <string name="channel_title_turn_on_off">Вкл / Выкл</string>
-    <string name="channel_summary_turn_on_off">Управление светом</string>
-    <string name="channel_brightness">Яркость</string>
     <string name="channel_backlight">Подсветка</string>
     <string name="channel_backlight_color">Перелив / Цвет</string>
-    <string name="and">и</string>
-    <string name="error_happend">Произошла ошибка:</string>
     <string name="settings_load_test_data_summary">Использовать тестовые данные просмотра приложения в демо режиме</string>
     <string name="settings_load_test_data_title">Тестовые данные</string>
     <string name="settings_other_section">Другое</string>
     <string name="settings_notification_section">Уведомления</string>
     <string name="settings_wifi_notification_title">WiFi подключение</string>
     <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
+    <string name="section_scripts">Сценарии</string>
+    <string name="action_turn_on_light">Включить свет</string>
+    <string name="action_turn_off_light">Выключить свет</string>
+    <string name="script_channel_pick_action">Выберите действие</string>
+    <string name="script_section_light">Свет</string>
+    <string name="action_start_overflow">Начать перелив</string>
+    <string name="action_stop_overflow">Остановить перелив</string>
+    <string name="script_section_brightness">Яркость</string>
+    <string name="script_section_color">Цвет</string>
+    <string name="script_default_seekbar_value">0%</string>
+    <string name="action_turn_on_all_light">Включить весь свет</string>
+    <string name="action_turn_off_all_light">Выключить весь свет</string>
+    <string name="error_deserialization">Произошла ошибка чтения данных из кэша. Перейдите в настройки и отчистите хранилище приложения.</string>
+    <string name="settings_author_title">Автор</string>
+    <string name="settings_app_version_title">Версия приложения</string>
+    <string name="settings_build_number_title">Номер сборки</string>
+    <string name="section_favourite">Избранное</string>
+    <string name="error_script_list_not_found">Вы еще не создали ни один сценарий! Для создания нажмите плюсик.</string>
+    <string name="error_unexpected">Произошла непредвиденная ошибка!</string>
+    <string name="script_enter_name">Введите название сценария</string>
+    <string name="error_favourite_group_not_found">Избранная группа не найдена! Выберите нужную из списка групп и нажмите «Добавить в избранное»</string>
+    <string name="script_notify_done">Сценарий был успешно создан!</string>
+    <string name="script_notify_cancel">Создание сценария отменено.</string>
+    <string name="script_notify_empty_name">Имя сценария не может быть пустым!</string>
 </resources>

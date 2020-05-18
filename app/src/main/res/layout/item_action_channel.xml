@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootCardView"
+    style="@style/BaseCard.Wide"
+    app:strokeColor="?attr/colorDivider"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/channelLayout"
+            style="@style/Clickable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/script_view_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/channelHeader"
+                    style="@style/Text.Bold"
+                    android:layout_gravity="start"
+                    tools:text="Основной" />
+
+                <TextView
+                    style="@style/Text.Secondary"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:text="@string/script_channel_pick_action" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/additionalContentButton"
+                style="@style/Button.Icon"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/script_view_margin"
+                android:src="@drawable/ic_arrow_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/additionalContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/script_action_vertical_padding"
+            tools:visibility="visible">
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:id="@+id/lightSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Text.Bold"
+                    android:layout_marginStart="@dimen/script_view_margin"
+                    android:layout_marginTop="@dimen/script_view_margin"
+                    android:layout_marginEnd="@dimen/script_view_margin"
+                    android:text="@string/script_section_light" />
+
+                <LinearLayout
+                    android:id="@+id/turnOnAction"
+                    style="@style/Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/script_action_horizontal_padding"
+                    android:paddingTop="@dimen/script_action_vertical_padding"
+                    android:paddingEnd="@dimen/script_action_switch_end_padding"
+                    android:paddingBottom="@dimen/script_action_vertical_padding">
+
+                    <TextView
+                        style="@style/Text"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/script_action_view_margin"
+                        android:layout_weight="1"
+                        android:text="@string/action_turn_on_light" />
+
+                    <ImageView
+                        android:id="@+id/turnOnCheck"
+                        style="@style/CheckIcon"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/turnOffAction"
+                    style="@style/Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/script_action_horizontal_padding"
+                    android:paddingTop="@dimen/script_action_vertical_padding"
+                    android:paddingEnd="@dimen/script_action_switch_end_padding"
+                    android:paddingBottom="@dimen/script_action_vertical_padding">
+
+                    <TextView
+                        style="@style/Text"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/script_action_view_margin"
+                        android:layout_weight="1"
+                        android:text="@string/action_turn_off_light" />
+
+                    <ImageView
+                        android:id="@+id/turnOffCheck"
+                        style="@style/CheckIcon"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/brightnessSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Text.Bold"
+                    android:layout_marginStart="@dimen/script_view_margin"
+                    android:layout_marginTop="@dimen/script_view_margin"
+                    android:layout_marginEnd="@dimen/script_view_margin"
+                    android:text="@string/script_section_brightness" />
+
+                <LinearLayout
+                    android:id="@+id/changeBrightnessAction"
+                    style="@style/Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/script_view_margin"
+                    android:paddingEnd="@dimen/script_action_switch_end_padding">
+
+                    <SeekBar
+                        android:id="@+id/indicatorSeekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/channel_vertical_padding"
+                        android:paddingBottom="@dimen/channel_vertical_padding" />
+
+                    <TextView
+                        android:id="@+id/progressValue"
+                        style="@style/Text"
+                        android:layout_width="40dp"
+                        android:layout_gravity="center|center_vertical"
+                        android:layout_margin="@dimen/script_action_view_margin"
+                        android:text="@string/script_default_seekbar_value"
+                        android:textAlignment="center" />
+
+                    <ImageView
+                        android:id="@+id/changeBrightnessCheck"
+                        style="@style/CheckIcon"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/overflowSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Text.Bold"
+                    android:layout_marginStart="@dimen/script_view_margin"
+                    android:layout_marginTop="@dimen/script_view_margin"
+                    android:layout_marginEnd="@dimen/script_view_margin"
+                    android:text="@string/script_section_color" />
+
+                <LinearLayout
+                    android:id="@+id/startOverflowAction"
+                    style="@style/Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/script_action_horizontal_padding"
+                    android:paddingTop="@dimen/script_action_vertical_padding"
+                    android:paddingEnd="@dimen/script_action_switch_end_padding"
+                    android:paddingBottom="@dimen/script_action_vertical_padding">
+
+                    <TextView
+                        style="@style/Text"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/script_action_view_margin"
+                        android:layout_weight="1"
+                        android:text="@string/action_start_overflow" />
+
+                    <ImageView
+                        android:id="@+id/startOverflowCheck"
+                        style="@style/CheckIcon"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/stopOverflowAction"
+                    style="@style/Clickable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/script_action_horizontal_padding"
+                    android:paddingTop="@dimen/script_action_vertical_padding"
+                    android:paddingEnd="@dimen/script_action_switch_end_padding"
+                    android:paddingBottom="@dimen/script_action_vertical_padding">
+
+                    <TextView
+                        style="@style/Text"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/script_action_view_margin"
+                        android:layout_weight="1"
+                        android:text="@string/action_stop_overflow" />
+
+                    <ImageView
+                        android:id="@+id/stopOverflowCheck"
+                        style="@style/CheckIcon"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="toolbarTextColor" format="reference"/>
-    <attr name="itemBackgroundColor" format="reference"/>
-    <attr name="inactiveNavigationIconColor" format="reference"/>
-    <attr name="inputLayoutBackgroundColor" format="reference"/>
-    <attr name="inactiveMainButtonColor" format="reference"/>
-    <attr name="pressedMainButtonColor" format="reference"/>
-    <attr name="toolbarColor" format="reference"/>
-    <attr name="dividerColor" format="reference" />
-    <attr name="infoIconColor" format="reference"/>
-    <attr name="buttonIconColor" format="reference"/>
-    <attr name="bottomNavigationBarColor" format="reference"/>
-    <attr name="defaultRippleColor" format="reference"/>
+    <attr name="colorToolbarText" format="reference" />
+    <attr name="colorCard" format="reference" />
+    <attr name="colorInputLayoutBackground" format="reference" />
+    <attr name="colorInactiveMainButton" format="reference" />
+    <attr name="colorPressedMainButton" format="reference" />
+    <attr name="colorToolbar" format="reference" />
+    <attr name="colorDivider" format="reference" />
+    <attr name="colorIcon" format="reference" />
+    <attr name="colorIconButton" format="reference" />
+    <attr name="colorRipple" format="reference" />
 </resources>

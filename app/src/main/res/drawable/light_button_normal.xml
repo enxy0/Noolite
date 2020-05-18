@@ -3,7 +3,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="?attr/inactiveMainButtonColor" />
+            <solid android:color="?attr/colorInactiveMainButton" />
             <size
                 android:width="70dp"
                 android:height="70dp" />
