@@ -1,4 +1,6 @@
-# Alterlite (для шлюза noolite PR-1132) - Kotlin Android App
+# Alterlite - приложение для системы умного дома noolite (PR1132)
+
+<a  href="https://play.google.com/store/apps/details?id=com.enxy.noolite"><img  src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"  height="75"></a>
 
 Alterlite - Android приложение, являющееся альтернативным клиентом для Ethernet-шлюза PR1132 системы умного дома [Noolite](https://play.google.com/store/apps/details?id=com.noolite).
 
