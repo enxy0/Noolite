@@ -1,65 +1,57 @@
 <resources>
-    <string name="app_name" translatable="false">Alterlite</string>
-    <string name="settings_default_ip_address" translatable="false">192.168.1.10</string>
-    <string name="settings_current_theme" translatable="false">Dark Green</string>
-    <string name="title_favourite">Избранное</string>
-    <string name="section_groups">Все группы</string>
-    <string name="section_scripts">Сценарии</string>
-    <string name="title_settings">Настройки</string>
-    <string name="message_room_added_as_favourite">Группа успешно добавлена в избранное!</string>
-    <string name="message_data_updated">Данные успешно обновлены!</string>
-    <string name="error_group_list_not_found">Для загрузки списка групп и работы приложения необходимо перейти в
-        настройки.
+    <string name="app_name">AlterLite</string>
+    <string name="home_groups">Группы</string>
+    <string name="home_scripts">Сценарии</string>
+    <string name="home_favorite">Избранное</string>
+
+    <string name="home_empty">
+        — Настройте умный дом через web-интерфейс ethernet-шлюза PR1132. Добавьте группы и привяжите к ним каналы
+        \n— Введите IP-адрес ethernet-шлюза PR1132 в поле ниже. Приложение загрузит и обработает все необходимые настройки
     </string>
-    <string name="error_general">Произошла ошибка! Проверьте корректность введенных данных и подключение через WiFi.
-    </string>
-    <string name="error_no_wifi">Произошла ошибка! Проверьте подключение к сети Wifi.</string>
-    <string name="error_favourite_group_not_found">Избранная группа не найдена! Выберите нужную из списка групп и нажмите «Добавить в избранное»</string>
-    <string name="settings_toggle_button_title">Переключатель</string>
-    <string name="settings_toggle_button_summary">Использовать одну кнопку для переключения состояния света, вместо
-        кнопок включения и выключения
-    </string>
-    <string name="settings_load_test_data_title">Тестовые данные</string>
-    <string name="settings_load_test_data_summary">Использовать тестовые данные просмотра приложения в демо режиме
-    </string>
-    <string name="settings_appearance_section">Внешний вид</string>
-    <string name="settings_server_section">Сервер</string>
-    <string name="update_button">Обновить</string>
-    <string name="add_to_favourite_button">Добавить в избранное</string>
-    <string name="settings_ip_address">Адрес</string>
-    <string name="settings_theme">Тема</string>
-    <string name="settings_theme_text" translatable="false">T</string>
-    <string name="channel_title_turn_on_off">Вкл / Выкл</string>
-    <string name="channel_backlight">Подсветка</string>
-    <string name="channel_backlight_color">Перелив / Цвет</string>
-    <string name="settings_other_section">Другое</string>
-    <string name="settings_notification_section">Уведомления</string>
-    <string name="settings_wifi_notification_summary">Показывать уведомление внутри приложения об отсуствии соединения по WiFi</string>
-    <string name="settings_wifi_notification_title">WiFi подключение</string>
-    <string name="action_turn_on_light">Включить свет</string>
-    <string name="action_turn_off_light">Выключить свет</string>
-    <string name="script_channel_pick_action">Выберите действие</string>
-    <string name="script_section_light">Свет</string>
-    <string name="action_start_overflow">Начать перелив</string>
-    <string name="action_stop_overflow">Остановить перелив</string>
-    <string name="script_section_brightness">Яркость</string>
-    <string name="script_section_color">Цвет</string>
-    <string name="script_default_seekbar_value">0%</string>
-    <string name="action_turn_on_all_light">Включить весь свет</string>
-    <string name="action_turn_off_all_light">Выключить весь свет</string>
-    <string name="error_deserialization">Произошла ошибка чтения данных из кэша. Перейдите в настройки и отчистите хранилище приложения.</string>
-    <string name="settings_github_title" translatable="false">GitHub</string>
-    <string name="settings_github_summary" translatable="false">https://github.com/enxy0/Noolite</string>
-    <string name="settings_author_title">Автор</string>
-    <string name="settings_author_summary" translatable="false">enxy0</string>
-    <string name="settings_app_version_title">Версия приложения</string>
-    <string name="settings_build_number_title">Номер сборки</string>
-    <string name="settings_vk_url" translatable="false">https://vk.com/enxyo</string>
-    <string name="section_favourite">Избранное</string>
-    <string name="error_script_list_not_found">Вы еще не создали ни один сценарий! Для создания нажмите плюсик.</string>
-    <string name="error_unexpected">Произошла непредвиденная ошибка!</string>
-    <string name="script_enter_name">Введите название сценария</string>
-    <string name="script_notify_done">Сценарий был успешно создан!</string>
-    <string name="script_notify_cancel">Создание сценария отменено.</string>
-    <string name="script_notify_empty_name">Имя сценария не может быть пустым!</string>
+    <string name="home_groups_empty">Пока что групп нет, перейдите в настройки, чтобы загрузить настройки с ethernet-шлюза</string>
+    <string name="home_scripts_empty">Нажмите на значок + рядом с заголовком, чтобы создать новый сценарий</string>
+    <string name="home_favorite_empty">В избранном пока ничего нет. Нажмите на сердечко в группе, чтобы добавить её в избранное</string>
+    <string name="home_onboarding_title">Подключение к шлюзу</string>
+    <string name="home_onboarding_action">Подключиться</string>
+
+    <string name="channels_turn_on_off">Вкл / Выкл</string>
+    <string name="channels_backlight">Подсветка</string>
+    <string name="channels_backlight_description">Перелив / Цвет</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_section_appearance">Внешний вид</string>
+    <string name="settings_section_other">Другое</string>
+    <string name="settings_section_server">Шлюз</string>
+    <string name="settings_theme_title">Темная тема</string>
+    <string name="settings_theme_description">Использовать темную тему в приложении</string>
+    <string name="settings_server_title">Адрес</string>
+    <string name="settings_server_update">Обновить</string>
+    <string name="settings_wifi_title">WiFi подключение</string>
+    <string name="settings_wifi_description">Уведомлять об отстуствии подключения по WiFi, в случае ошибки</string>
+    <string name="settings_use_toggle_title">Переключатель</string>
+    <string name="settings_use_toggle_description">Использовать одну кнопку для переключения света, вместо двух кнопок вкл/выкл</string>
+    <string name="settings_github_title">Github</string>
+    <string name="settings_github_description">https://github.com/enxy0/Noolite</string>
+    <string name="settings_test_title">Тестовые данные</string>
+    <string name="settings_app_version">Версия приложения</string>
+    <string name="settings_test_description">Использовать тестовые данные для просмотра приложения в демо режиме</string>
+    <string name="settings_update_groups_success">Настройки были успешно загружены</string>
+    <string name="settings_update_groups_failure">Не удалось загрузить настройки</string>
+    <string name="settings_demo_info_success">Тестовые данные загружены, демо режим включен</string>
+    <string name="settings_demo_info_failure">Не удалось включить демо режим</string>
+
+    <string name="script_title">Сценарий</string>
+    <string name="script_name_title">Название сценария</string>
+    <string name="script_action_title">Действия</string>
+    <string name="script_name_placeholder">Введите название сценария</string>
+    <string name="script_name_error">Имя сценария не может быть пустым</string>
+    <string name="script_create">Создать сценарий</string>
+    <string name="script_group_turn_on">Включить все</string>
+    <string name="script_group_turn_off">Выключить все</string>
+    <string name="script_channel_light_on">Включить</string>
+    <string name="script_channel_light_off">Выключить</string>
+    <string name="script_channel_light_brightness">Яркость</string>
+    <string name="script_channel_light_change_color">Сменить цвет</string>
+    <string name="script_channel_light_start_overflow">Начать переливание цвета</string>
+    <string name="script_channel_light_stop_overflow">Остановить переливание цвета</string>
 </resources>

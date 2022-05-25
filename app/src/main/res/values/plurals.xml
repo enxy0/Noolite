@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="script_actions">
+        <item quantity="one">%d действие</item>
+        <item quantity="few">%d действия</item>
+        <item quantity="other">%d действий</item>
+    </plurals>
+</resources>

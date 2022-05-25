@@ -1,46 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--  Independent colors  -->
-    <color name="colorError">#f44336</color>
-    <color name="colorPressedMainButton">#FBC02D</color>
-    <color name="textColorPrimaryWhite">@android:color/black</color>
-    <color name="textColorSecondaryWhite">#666666</color>
-    <color name="textColorPrimaryInverse">#FFFFFF</color>
-    <color name="textColorSecondaryInverse">#AEAEAE</color>
-
-    <!-- Light theme -->
-    <color name="colorPrimaryWhite">#634be7</color>
-    <color name="colorAccentWhite">#634be7</color>
-    <color name="colorCardWhite">#FFFFFF</color>
-    <color name="colorInputLayoutWhite">#FFFFFF</color>
-    <color name="colorDividerWhite">#CDCDCD</color>
-    <color name="colorInactiveMainButtonWhite">#F3F3F3</color>
-    <color name="colorBackgroundWhite">#F3F3F3</color>
-    <color name="colorButtonIconWhite">#555555</color>
-    <color name="colorIconWhite">#555555</color>
-    <color name="colorRippleWhite">#1A000000</color>
-
-    <!--  Dark Theme  -->
-    <color name="colorPrimaryDark">#4CAF50</color>
-    <color name="colorAccentDark">#4CAF50</color>
-    <color name="colorCardDark">#272727</color>
-    <color name="colorInputLayoutDark">#333333</color>
-    <color name="colorDividerDark">#3D3D3D</color>
-    <color name="colorInactiveMainButtonDark">#333333</color>
-    <color name="colorBackgroundDark">#191919</color>
-    <color name="colorButtonIconDark">#a3a3a3</color>
-    <color name="colorIconDark">#777777</color>
-    <color name="colorRippleDark">#1AFFFFFF</color>
-
-    <!--  Black Theme -->
-    <color name="colorAccentBlack">#FFC107</color>
-    <color name="colorPrimaryBlack">#FFC107</color>
-    <color name="colorCardBlack">#151515</color>
-    <color name="colorInputLayoutBlack">#303030</color>
-    <color name="colorDividerBlack">#2D2D2D</color>
-    <color name="colorInactiveMainButtonBlack">#202020</color>
-    <color name="colorBackgroundBlack">#000000</color>
-    <color name="colorButtonIconBlack">#a0a0a0</color>
-    <color name="colorIconBlack">#777777</color>
+    <color name="amber_500">#FFFFC107</color>
+    <color name="amber_a700">#FFFFAB00</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
