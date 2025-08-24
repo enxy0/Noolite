@@ -22,8 +22,8 @@ object FakeUiDataProvider {
         id = 1,
         name = "Кухня",
         channels = listOf(
-            Channel(name = "Над столом", type = 0),
-            Channel(name = "Подсветка стола", type = 3),
+            Channel(id = 0, name = "Над столом", type = 0),
+            Channel(id = 1, name = "Подсветка стола", type = 3),
         )
     )
 
@@ -92,6 +92,7 @@ object FakeUiDataProvider {
     fun getScriptGroups() = getGroups().map { group ->
         ScriptGroup(
             group = group,
+            expanded = true,
             channels = group.channels.map { channel ->
                 ScriptChannel(channel)
             }

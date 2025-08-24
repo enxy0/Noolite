@@ -17,15 +17,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @Composable
 fun IconActionButton(
     painter: Painter,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    containerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
 ) {
     Box(
         modifier = Modifier
@@ -43,11 +43,11 @@ fun IconActionButton(
     }
 }
 
-@Preview("Action")
-@Preview("Action (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview("Action", showBackground = true)
+@Preview("Action (dark)", uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun PreviewActionButton() {
-    ThemedPreview {
+    NooliteTheme {
         IconActionButton(
             painter = painterResource(R.drawable.ic_on),
             onClick = {}

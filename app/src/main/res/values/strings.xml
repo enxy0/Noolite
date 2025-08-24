@@ -45,7 +45,7 @@
     <string name="script_action_title">Действия</string>
     <string name="script_name_placeholder">Введите название сценария</string>
     <string name="script_name_error">Имя сценария не может быть пустым</string>
-    <string name="script_create">Создать сценарий</string>
+    <string name="script_create">Сохранить</string>
     <string name="script_group_turn_on">Включить все</string>
     <string name="script_group_turn_off">Выключить все</string>
     <string name="script_channel_light_on">Включить</string>

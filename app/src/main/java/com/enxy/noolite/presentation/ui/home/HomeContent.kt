@@ -72,7 +72,7 @@ import com.enxy.noolite.presentation.ui.detail.Channel
 import com.enxy.noolite.presentation.ui.home.sections.Groups
 import com.enxy.noolite.presentation.ui.home.sections.Scripts
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -423,7 +423,7 @@ private enum class ContentType {
 @Preview("Initial Home Screen")
 @Composable
 private fun PreviewContentHomeScreen() {
-    ThemedPreview {
+    NooliteTheme {
         HomeScaffold(
             state = HomeState.Content(
                 data = FakeUiDataProvider.getHomeData(),
@@ -444,7 +444,7 @@ private fun PreviewContentHomeScreen() {
 @Preview("Content Home Screen")
 @Composable
 private fun PreviewInitialHomeScreen() {
-    ThemedPreview {
+    NooliteTheme {
         HomeScaffold(
             state = HomeState.Empty(
                 apiUrl = FakeUiDataProvider.getSettings().apiUrl,

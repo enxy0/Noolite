@@ -108,6 +108,7 @@ class MainFlowComponentImpl(
     ): ScriptComponent = ScriptComponentImpl(
         componentContext = componentContext,
         onBackClicked = ::onBackClick,
+        onScripCreated = navigation::pop,
     )
 
     private fun settingsComponent(

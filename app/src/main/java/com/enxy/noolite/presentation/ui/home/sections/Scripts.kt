@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
 import com.enxy.noolite.domain.features.common.Script
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
 import com.enxy.noolite.presentation.utils.extensions.pluralResource
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -38,7 +38,7 @@ fun Scripts(
     onScriptClick: (script: Script) -> Unit,
     onScriptRemove: (script: Script) -> Unit,
     modifier: Modifier = Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(16.dp),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp),
     contentPadding: PaddingValues = PaddingValues(16.dp),
 ) {
     LazyRow(
@@ -107,7 +107,7 @@ private fun Script(
 @Preview("Scripts (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewScripts() {
-    ThemedPreview {
+    NooliteTheme {
         Scripts(
             scripts = FakeUiDataProvider.getScripts(),
             onScriptClick = {},

@@ -1,88 +1,85 @@
 package com.enxy.noolite.presentation.ui.script
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import android.content.Context
 import com.arkivanov.decompose.ComponentContext
+import com.enxy.noolite.R
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
+import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.domain.features.script.CreateScriptUseCase
 import com.enxy.noolite.domain.features.script.GetGroupsUseCase
 import com.enxy.noolite.domain.features.script.model.CreateScriptPayload
-import com.enxy.noolite.presentation.ui.script.model.ScriptGroup
 import com.enxy.noolite.utils.componentScope
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.take
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.container
 import timber.log.Timber
 
-interface ScriptComponent {
-    val groups: List<ScriptGroup>
-    val name: State<String>
-    val isError: State<Boolean>
-    val isScriptCreated: Flow<Boolean>
+interface ScriptComponent : ContainerHost<ScriptState, Nothing> {
     fun onNameChange(name: String)
     fun onCreateScriptClick()
     fun onAddGroupAction(action: GroupAction)
     fun onRemoveGroupAction(action: GroupAction)
     fun onAddChannelAction(action: ChannelAction)
     fun onRemoveChannelAction(action: ChannelAction)
+    fun onExpandGroupClick(groupId: Int, expanded: Boolean)
+    fun onExpandChannelClick(channelId: Int, expanded: Boolean)
     fun onBackClick()
 }
 
 class ScriptComponentImpl(
     componentContext: ComponentContext,
-    private val onBackClicked: () -> Unit
+    private val onBackClicked: () -> Unit,
+    private val onScripCreated: () -> Unit,
 ) : ComponentContext by componentContext,
     ScriptComponent,
     KoinComponent { // TODO: Remove
 
     private val getGroupsUseCase: GetGroupsUseCase by inject()
     private val createScriptUseCase: CreateScriptUseCase by inject()
-
+    private val context: Context by inject()
     private val scope = componentScope()
+    private var modifyChannelJob: Job? = null
+    private var modifyGroupJob: Job? = null
 
-    private val _groups = mutableStateListOf<ScriptGroup>()
-    override val groups = _groups
-
-    private val _name = mutableStateOf("")
-    override val name: State<String> = _name
-
-    private val _isError = mutableStateOf(false)
-    override val isError: State<Boolean> = _isError
-
-    private val _isScriptCreated = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
-    override val isScriptCreated: Flow<Boolean> = _isScriptCreated.asSharedFlow()
+    override val container: Container<ScriptState, Nothing> = scope.container(ScriptState.Loading)
 
     init {
         loadGroups()
     }
 
     override fun onNameChange(name: String) {
-        _name.value = name
+        intent {
+            reduce {
+                val state = state as? ScriptState.Content ?: return@reduce state
+                state.copy(name = name)
+            }
+        }
     }
 
     override fun onCreateScriptClick() {
-        if (!validate()) return
-        val name = _name.value
-        val actions = _groups.flatMap { it.toChannelActions() }
-        createScriptUseCase(CreateScriptPayload(name, actions))
-            .onEach { result ->
-                result
-                    .onSuccess {
-                        _isScriptCreated.emit(true)
-                    }
-                    .onFailure {
-                        Timber.e(it)
-                    }
+        intent {
+            val state = container.stateFlow.value as? ScriptState.Content ?: return@intent
+            if (state.name.isBlank()) {
+                reduce {
+                    state.copy(error = context.getString(R.string.script_name_error))
+                }
+                return@intent
             }
-            .launchIn(scope)
+            val actions = state.groups.flatMap { it.toChannelActions() }
+            createScriptUseCase(CreateScriptPayload(state.name, actions))
+                .take(1)
+                .collect { result ->
+                    result
+                        .onSuccess { onScripCreated() }
+                        .onFailure { Timber.e(it) }
+                }
+        }
     }
 
     override fun onAddGroupAction(action: GroupAction) {
@@ -101,36 +98,80 @@ class ScriptComponentImpl(
         modifyChannelAction(action = action, isNew = false)
     }
 
+    override fun onExpandGroupClick(groupId: Int, expanded: Boolean) {
+        intent {
+            reduce {
+                val state = state as? ScriptState.Content ?: return@reduce state
+                val groups = state.groups.map { scriptGroup ->
+                    if (scriptGroup.group.id == groupId) {
+                        scriptGroup.copy(expanded = expanded)
+                    } else {
+                        scriptGroup
+                    }
+                }
+                state.copy(groups = groups)
+            }
+        }
+    }
+
+    override fun onExpandChannelClick(channelId: Int, expanded: Boolean) {
+        intent {
+            reduce {
+                val state = state as? ScriptState.Content ?: return@reduce state
+                val groups = state.groups.map { scriptGroup ->
+                    val channels = scriptGroup.channels.map { channel ->
+                        if (channel.id == channelId) {
+                            channel.copy(expanded = expanded)
+                        } else {
+                            channel
+                        }
+                    }
+                    scriptGroup.copy(channels = channels)
+                }
+                state.copy(groups = groups)
+            }
+        }
+    }
+
     override fun onBackClick() {
         onBackClicked()
     }
 
-    private fun loadGroups() {
+    private fun loadGroups() = intent {
         getGroupsUseCase(Unit)
-            .take(1)
-            .onEach { result ->
+            .collectLatest { result ->
                 result
                     .onSuccess { groups ->
-                        _groups.addAll(groups.map { it.toScriptGroup() })
-                    }
-                    .onFailure {
-                        Timber.e(it)
+                        val scriptGroups = groups.map(Group::toScriptGroup)
+                        reduce {
+                            (state as? ScriptState.Content)
+                                ?.copy(groups = scriptGroups)
+                                ?: ScriptState.Content(name = "", error = "", groups = scriptGroups)
+                        }
                     }
             }
-            .launchIn(scope)
     }
 
     private fun modifyGroupAction(
         action: GroupAction,
         isNew: Boolean
     ) {
-        val index = groups.indexOfFirst { scriptGroup -> scriptGroup.group.id == action.group.id }
-        if (index in groups.indices) {
-            val group = groups[index]
-            val actions = group.actions.toMutableList().apply {
-                if (isNew) add(action) else remove(action)
+        modifyGroupJob?.cancel()
+        modifyGroupJob = intent {
+            reduce {
+                val state = state as? ScriptState.Content ?: return@reduce state
+                val groups = state.groups.map { scriptGroup ->
+                    if (scriptGroup.group.id == action.group.id) {
+                        val actions = scriptGroup.actions.toMutableSet().apply {
+                            if (isNew) add(action) else remove(action)
+                        }
+                        scriptGroup.copy(actions = actions)
+                    } else {
+                        scriptGroup
+                    }
+                }
+                state.copy(groups = groups)
             }
-            _groups[index] = group.copy(actions = actions)
         }
     }
 
@@ -138,28 +179,29 @@ class ScriptComponentImpl(
         action: ChannelAction,
         isNew: Boolean
     ) {
-        var indexOfChannel = -1
-        val indexOfGroup = groups.indexOfFirst { model ->
-            indexOfChannel = model.channels.indexOfFirst { scriptChannel ->
-                scriptChannel.id == action.channelId
+        modifyChannelJob?.cancel()
+        modifyChannelJob = intent {
+            val state = state as? ScriptState.Content ?: return@intent
+            reduce {
+                val groups = state.groups.map { scriptGroup ->
+                    if (scriptGroup.channels.any { channel -> channel.id == action.channelId }) {
+                        val channels = scriptGroup.channels.map { channel ->
+                            if (channel.id == action.channelId) {
+                                val actions = channel.actions.toMutableSet().apply {
+                                    if (isNew) add(action) else remove(action)
+                                }
+                                channel.copy(actions = actions)
+                            } else {
+                                channel
+                            }
+                        }
+                        scriptGroup.copy(channels = channels)
+                    } else {
+                        scriptGroup
+                    }
+                }
+                state.copy(groups = groups)
             }
-            indexOfChannel in model.channels.indices
         }
-        if (indexOfGroup in groups.indices) {
-            val group = groups[indexOfGroup]
-            val channel = group.channels[indexOfChannel]
-            val actions = channel.actions.toMutableList().apply {
-                if (isNew) add(action) else remove(action)
-            }
-            val channels = group.channels.toMutableList()
-            channels[indexOfChannel] = channel.copy(actions = actions)
-            _groups[indexOfGroup] = group.copy(channels = channels)
-        }
-    }
-
-    private fun validate(): Boolean {
-        val isValid = _name.value.isNotBlank()
-        _isError.value = !isValid
-        return isValid
     }
 }

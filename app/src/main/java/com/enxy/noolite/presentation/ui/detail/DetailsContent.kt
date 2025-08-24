@@ -17,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,31 +24,19 @@ import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.presentation.ui.common.TopAppBar
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
-
-data class DetailsState(
-    val onBackClick: () -> Unit = {},
-    val onFavoriteClick: (isFavorite: Boolean) -> Unit = {},
-    val onChannelActionClick: (action: ChannelAction) -> Unit = {},
-)
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @Composable
 fun DetailsContent(
     component: DetailsComponent,
     modifier: Modifier = Modifier,
 ) {
-    val state = remember {
-        DetailsState(
-            onBackClick = component::onBackClick,
-            onFavoriteClick = { isFavorite -> component.onFavoriteClick(isFavorite) },
-            onChannelActionClick = component::onChannelActionClick,
-        )
-    }
-    val group = component.group
     val isFavorite by component.isFavoriteGroup.collectAsState(false)
     DetailsContent(
-        group = group,
-        state = state,
+        group = component.group,
+        onBackClick = component::onBackClick,
+        onFavoriteClick = component::onFavoriteClick,
+        onChannelActionClick = component::onChannelActionClick,
         isFavorite = isFavorite,
         modifier = modifier,
     )
@@ -58,23 +45,36 @@ fun DetailsContent(
 @Composable
 private fun DetailsContent(
     group: Group,
-    state: DetailsState,
     isFavorite: Boolean,
+    onBackClick: () -> Unit,
+    onChannelActionClick: (action: ChannelAction) -> Unit,
+    onFavoriteClick: (favorite: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
-        topBar = { AppBarContent(group.name, state, isFavorite) },
+        topBar = {
+            AppBarContent(
+                title = group.name,
+                onBackClick = onBackClick,
+                onFavoriteClick = onFavoriteClick,
+                isFavorite = isFavorite,
+            )
+        },
         modifier = modifier,
     ) { contentPadding ->
         LazyColumn(
             contentPadding = contentPadding,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
-            items(group.channels) { channel ->
+            items(
+                items = group.channels,
+                key = { channel -> channel.id },
+                contentType = { channel -> channel.type },
+            ) { channel ->
                 Spacer(Modifier.height(16.dp))
                 Channel(
                     channel = channel,
-                    onChannelActionClick = state.onChannelActionClick,
+                    onChannelActionClick = onChannelActionClick,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -85,14 +85,15 @@ private fun DetailsContent(
 @Composable
 private fun AppBarContent(
     title: String,
-    state: DetailsState,
+    onBackClick: () -> Unit,
+    onFavoriteClick: (favorite: Boolean) -> Unit,
     isFavorite: Boolean
 ) {
     TopAppBar(
         title = title,
-        onBackClick = state.onBackClick,
+        onBackClick = onBackClick,
         actions = {
-            IconButton(onClick = { state.onFavoriteClick(!isFavorite) }) {
+            IconButton(onClick = { onFavoriteClick(!isFavorite) }) {
                 if (isFavorite) {
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
@@ -114,10 +115,12 @@ private fun AppBarContent(
 @Preview("Details screen (dark)", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDetailsScreen() {
-    ThemedPreview {
+    NooliteTheme {
         DetailsContent(
             group = FakeUiDataProvider.getFavoriteGroup(),
-            state = DetailsState(),
+            onBackClick = {},
+            onChannelActionClick = {},
+            onFavoriteClick = {},
             isFavorite = true
         )
     }

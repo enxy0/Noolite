@@ -30,7 +30,9 @@ import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.common.Channel
 import com.enxy.noolite.presentation.ui.common.IconActionButton
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
+
+private val ChannelShape = RoundedCornerShape(24.dp)
 
 @Composable
 fun Channel(
@@ -40,8 +42,8 @@ fun Channel(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .clip(ChannelShape)
+            .background(MaterialTheme.colorScheme.surfaceContainer, ChannelShape)
             .fillMaxWidth()
             .padding(16.dp)
     ) {
@@ -152,11 +154,11 @@ private fun LightContent(
     }
 }
 
-@Preview("Channel type 0")
-@Preview("Channel type 0 (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview("Channel type 0", showBackground = true)
+@Preview("Channel type 0 (dark)", uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun PreviewChannel0() {
-    ThemedPreview {
+    NooliteTheme {
         Channel(
             channel = FakeUiDataProvider.getChannelType0(),
             onChannelActionClick = {},
@@ -164,11 +166,11 @@ private fun PreviewChannel0() {
     }
 }
 
-@Preview("Channel type 1")
-@Preview("Channel type 1 (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview("Channel type 1", showBackground = true)
+@Preview("Channel type 1 (dark)", uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun PreviewChannel1() {
-    ThemedPreview {
+    NooliteTheme {
         Channel(
             channel = FakeUiDataProvider.getChannelType1(),
             onChannelActionClick = {},
@@ -176,11 +178,11 @@ private fun PreviewChannel1() {
     }
 }
 
-@Preview("Channel type 3")
-@Preview("Channel type 3 (dark)", uiMode = UI_MODE_NIGHT_YES)
+@Preview("Channel type 3", showBackground = true)
+@Preview("Channel type 3 (dark)", uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun PreviewChannel3() {
-    ThemedPreview {
+    NooliteTheme {
         Channel(
             channel = FakeUiDataProvider.getChannelType3(),
             onChannelActionClick = {},

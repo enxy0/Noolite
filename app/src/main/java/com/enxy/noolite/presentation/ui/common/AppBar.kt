@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.enxy.noolite.R
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +56,7 @@ fun TopAppBar(
 @Preview("AppBar (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewAppBar() {
-    ThemedPreview {
+    NooliteTheme {
         TopAppBar(
             title = stringResource(R.string.settings_title),
             onBackClick = {}
@@ -68,7 +68,7 @@ private fun PreviewAppBar() {
 @Preview("AppBar with actions (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewActionsAppBar() {
-    ThemedPreview {
+    NooliteTheme {
         TopAppBar(
             title = stringResource(R.string.app_name),
             actions = {

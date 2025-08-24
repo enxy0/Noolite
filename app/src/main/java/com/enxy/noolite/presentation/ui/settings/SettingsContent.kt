@@ -1,7 +1,6 @@
 package com.enxy.noolite.presentation.ui.settings
 
 import android.content.res.Configuration
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -22,6 +27,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,10 +49,9 @@ import com.enxy.noolite.domain.features.common.Event
 import com.enxy.noolite.domain.features.settings.model.AppSettings
 import com.enxy.noolite.presentation.ui.common.AppTextField
 import com.enxy.noolite.presentation.ui.common.ShapeIcon
-import com.enxy.noolite.presentation.ui.common.TopAppBar
 import com.enxy.noolite.presentation.ui.settings.model.SettingsAction
-import com.enxy.noolite.presentation.utils.ThemedPreview
 import com.enxy.noolite.presentation.utils.intent.IntentActionsProvider
+import com.enxy.noolite.ui.theme.NooliteTheme
 import org.koin.compose.koinInject
 
 private class SettingsState {
@@ -86,12 +91,25 @@ private fun rememberSettingsState(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsContent(
     settings: AppSettings, event: Event<SettingsAction>?, state: SettingsState
 ) {
     Scaffold(
-        topBar = { TopAppBar(stringResource(R.string.settings_title), state.onBackClick) },
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.settings_title)) },
+                navigationIcon = {
+                    IconButton(onClick = state.onBackClick) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                        )
+                    }
+                }
+            )
+        },
         modifier = Modifier.fillMaxSize(),
         content = { contentPadding ->
             Box(
@@ -134,17 +152,27 @@ private fun SettingsItems(
         contentPadding = contentPadding,
         modifier = Modifier.fillMaxSize()
     ) {
-        item { Section(R.string.settings_section_appearance) }
+        item {
+            SectionTitle(
+                text = stringResource(R.string.settings_section_appearance),
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            )
+        }
         item {
             SwitchSettingsItem(
                 icon = painterResource(R.drawable.ic_on),
                 title = stringResource(R.string.settings_theme_title),
                 isChecked = settings.isDarkTheme,
                 description = stringResource(R.string.settings_theme_description),
-                onCheckedChange = state.onDarkThemeChange
+                onCheckedChange = state.onDarkThemeChange,
             )
         }
-        item { Section(R.string.settings_section_server) }
+        item {
+            SectionTitle(
+                text = stringResource(R.string.settings_section_server),
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+            )
+        }
         item {
             ServerSettingsItem(
                 icon = painterResource(R.drawable.ic_server),
@@ -153,7 +181,12 @@ private fun SettingsItems(
                 onApiUrlChange = state.onApiUrlChange
             )
         }
-        item { Section(R.string.settings_section_other) }
+        item {
+            SectionTitle(
+                text = stringResource(R.string.settings_section_other),
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+            )
+        }
         /*
         item {
             SwitchSettingsItem(
@@ -218,12 +251,12 @@ private fun ServerSettingsItem(
                     modifier = Modifier.weight(1f)
                 )
             }
-            Button(
+            FilledTonalButton(
                 onClick = {
                     focusManager.clearFocus()
                     onApiUrlChange(text)
                 },
-                elevation = null,
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
                     .padding(start = SettingsState.ICON_SIZE + 16.dp)
                     .fillMaxWidth()
@@ -240,10 +273,11 @@ private fun SwitchSettingsItem(
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     description: String = "",
-    icon: Painter? = null
+    icon: Painter? = null,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .clickable { onCheckedChange(!isChecked) }
             .padding(16.dp)
             .fillMaxWidth(),
@@ -255,8 +289,8 @@ private fun SwitchSettingsItem(
             Spacer(modifier = Modifier.width(SettingsState.ICON_SIZE))
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyMedium)
-            Text(description, style = MaterialTheme.typography.bodySmall)
+            Text(title, style = MaterialTheme.typography.titleSmall)
+            Text(description, style = MaterialTheme.typography.bodyMedium)
         }
         Switch(
             checked = isChecked,
@@ -289,18 +323,21 @@ private fun SettingsItem(
             Spacer(modifier = Modifier.width(SettingsState.ICON_SIZE))
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyMedium)
-            Text(description, style = MaterialTheme.typography.bodySmall)
+            Text(title, style = MaterialTheme.typography.titleSmall)
+            Text(description, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
 
 @Composable
-private fun Section(@StringRes titleResId: Int) {
+private fun SectionTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     Text(
-        text = stringResource(titleResId),
-        style = MaterialTheme.typography.headlineSmall,
-        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier,
     )
 }
 
@@ -308,7 +345,7 @@ private fun Section(@StringRes titleResId: Int) {
 @Preview("Settings screen (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewDetailsScreen() {
-    ThemedPreview {
+    NooliteTheme {
         SettingsContent(AppSettings.default(), null, SettingsState())
     }
 }

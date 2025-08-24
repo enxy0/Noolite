@@ -1,12 +1,12 @@
 package com.enxy.noolite.presentation.ui.script
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,25 +14,30 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,122 +52,180 @@ import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
 import com.enxy.noolite.domain.features.common.Channel
 import com.enxy.noolite.presentation.ui.common.TopAppBar
-import com.enxy.noolite.presentation.ui.script.model.ScriptChannel
 import com.enxy.noolite.presentation.ui.script.model.ScriptGroup
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
 import com.enxy.noolite.presentation.utils.extensions.firstOfTypeOrNull
-
-private data class ScriptState(
-    val onBackClick: () -> Unit = {},
-    val onCreateScriptClick: () -> Unit = {},
-    val onNameChange: (name: String) -> Unit = {},
-    val onAddGroupAction: (action: GroupAction) -> Unit = {},
-    val onRemoveGroupAction: (action: GroupAction) -> Unit = {},
-    val onAddChannelAction: (action: ChannelAction) -> Unit = {},
-    val onRemoveChannelAction: (action: ChannelAction) -> Unit = {}
-)
-
-private val DP_ACTION_SPACING = 4.dp
+import com.enxy.noolite.ui.theme.NooliteTheme
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun ScriptContent(
-    component: ScriptComponent
+    component: ScriptComponent,
+    modifier: Modifier = Modifier,
 ) {
-    val name by component.name
-    val isError by component.isError
-    val groups = component.groups
-    val state = rememberScriptState(component::onBackClick, component)
+    val state by component.collectAsState()
     ScriptScaffold(
         state = state,
-        name = name,
-        groups = groups,
-        isError = isError
-    )
-}
-
-@Composable
-private fun rememberScriptState(
-    onBackClick: () -> Unit,
-    viewModel: ScriptComponent
-) = remember {
-    ScriptState(
-        onBackClick = onBackClick,
-        onNameChange = viewModel::onNameChange,
-        onCreateScriptClick = viewModel::onCreateScriptClick,
-        onAddGroupAction = viewModel::onAddGroupAction,
-        onRemoveGroupAction = viewModel::onRemoveGroupAction,
-        onAddChannelAction = viewModel::onAddChannelAction,
-        onRemoveChannelAction = viewModel::onRemoveChannelAction,
+        onBackClick = component::onBackClick,
+        onCreateScriptClick = component::onCreateScriptClick,
+        onNameChange = component::onNameChange,
+        onAddGroupAction = component::onAddGroupAction,
+        onRemoveGroupAction = component::onRemoveGroupAction,
+        onAddChannelAction = component::onAddChannelAction,
+        onRemoveChannelAction = component::onRemoveChannelAction,
+        onExpandGroupClick = component::onExpandGroupClick,
+        onExpandChannelClick = component::onExpandChannelClick,
+        modifier = modifier,
     )
 }
 
 @Composable
 private fun ScriptScaffold(
     state: ScriptState,
-    name: String,
-    isError: Boolean,
-    groups: List<ScriptGroup>
+    onBackClick: () -> Unit,
+    onCreateScriptClick: () -> Unit,
+    onNameChange: (name: String) -> Unit,
+    onAddGroupAction: (action: GroupAction) -> Unit,
+    onRemoveGroupAction: (action: GroupAction) -> Unit,
+    onAddChannelAction: (action: ChannelAction) -> Unit,
+    onRemoveChannelAction: (action: ChannelAction) -> Unit,
+    onExpandGroupClick: (groupId: Int, expanded: Boolean) -> Unit,
+    onExpandChannelClick: (channelId: Int, expanded: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                stringResource(R.string.script_title),
-                state.onBackClick
+                title = stringResource(R.string.script_title),
+                onBackClick = onBackClick,
             )
-        }
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            LazyColumn(
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    top = 16.dp,
-                    end = 16.dp,
-                    bottom = 80.dp
+        },
+        floatingActionButton = {
+            ScriptCreateButton(onClick = onCreateScriptClick)
+        },
+        modifier = modifier,
+    ) { contentPadding ->
+        when (state) {
+            is ScriptState.Content -> {
+                ScriptContentState(
+                    state = state,
+                    contentPadding = contentPadding,
+                    onNameChange = onNameChange,
+                    onAddGroupAction = onAddGroupAction,
+                    onRemoveGroupAction = onRemoveGroupAction,
+                    onAddChannelAction = onAddChannelAction,
+                    onRemoveChannelAction = onRemoveChannelAction,
+                    onExpandGroupClick = onExpandGroupClick,
+                    onExpandChannelClick = onExpandChannelClick
                 )
-            ) {
-                item { SectionTitle(stringResource(R.string.script_name_title)) }
-                item { Spacer(Modifier.height(16.dp)) }
-                item { SectionScriptName(name, state, isError) }
-                item { Spacer(Modifier.height(24.dp)) }
-                item { SectionTitle(stringResource(R.string.script_action_title)) }
-                item { Spacer(Modifier.height(4.dp)) }
-                items(
-                    items = groups,
-                    key = { scriptGroup -> scriptGroup.group.id },
-                ) { scriptGroup ->
-                    Group(
-                        state = state,
-                        scriptGroup = scriptGroup,
-                        modifier = Modifier
-                            .padding(vertical = 4.dp)
-                            .animateItem()
-                    )
-                }
             }
-            ScriptCreateButton(state.onCreateScriptClick)
+            is ScriptState.Loading -> Unit
         }
     }
 }
 
 @Composable
-private fun SectionTitle(name: String) {
-    Text(text = name, style = MaterialTheme.typography.headlineSmall)
+private fun ScriptContentState(
+    state: ScriptState.Content,
+    contentPadding: PaddingValues,
+    onNameChange: (String) -> Unit,
+    onAddGroupAction: (GroupAction) -> Unit,
+    onRemoveGroupAction: (GroupAction) -> Unit,
+    onAddChannelAction: (ChannelAction) -> Unit,
+    onRemoveChannelAction: (ChannelAction) -> Unit,
+    onExpandGroupClick: (Int, Boolean) -> Unit,
+    onExpandChannelClick: (Int, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        contentPadding = contentPadding,
+        modifier = modifier
+            .imePadding()
+            .fillMaxSize()
+    ) {
+        item(
+            key = ScriptContentType.ScriptNameTitle.name,
+            contentType = ScriptContentType.ScriptNameTitle,
+        ) {
+            SectionTitle(
+                name = stringResource(R.string.script_name_title),
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+            )
+        }
+        item(
+            key = ScriptContentType.ScriptName.name,
+            contentType = ScriptContentType.ScriptName,
+        ) {
+            ScriptName(
+                name = state.name,
+                onNameChange = onNameChange,
+                error = state.error,
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+            )
+        }
+        item(
+            key = ScriptContentType.ScriptActionTitle.name,
+            contentType = ScriptContentType.ScriptActionTitle,
+        ) {
+            SectionTitle(
+                name = stringResource(R.string.script_action_title),
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
+            )
+        }
+        items(
+            items = state.groups,
+            contentType = { ScriptContentType.Group },
+            key = { scriptGroup -> scriptGroup.group.id },
+        ) { scriptGroup ->
+            Group(
+                scriptGroup = scriptGroup,
+                onAddGroupAction = onAddGroupAction,
+                onRemoveGroupAction = onRemoveGroupAction,
+                onAddChannelAction = onAddChannelAction,
+                onRemoveChannelAction = onRemoveChannelAction,
+                onExpandGroupClick = onExpandGroupClick,
+                onExpandChannelClick = onExpandChannelClick,
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 16.dp)
+            )
+        }
+    }
+}
+
+private enum class ScriptContentType {
+    ScriptNameTitle,
+    ScriptName,
+    ScriptActionTitle,
+    Group,
 }
 
 @Composable
-private fun SectionScriptName(
+private fun SectionTitle(
     name: String,
-    state: ScriptState,
-    isError: Boolean
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = name,
+        style = MaterialTheme.typography.headlineSmall,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun ScriptName(
+    name: String,
+    error: String,
+    onNameChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
-    Column {
+    Column(modifier) {
         TextField(
             value = name,
-            onValueChange = { value -> state.onNameChange(value) },
+            onValueChange = onNameChange,
             placeholder = { Text(text = stringResource(R.string.script_name_placeholder)) },
             keyboardOptions = KeyboardOptions(
                 autoCorrectEnabled = false,
@@ -170,48 +233,70 @@ private fun SectionScriptName(
             ),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             singleLine = true,
-            isError = isError,
+            isError = error.isNotBlank(),
             modifier = Modifier.fillMaxWidth()
         )
-        if (isError) {
-            Text(
-                text = stringResource(id = R.string.script_name_error),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+        AnimatedContent(error) { error ->
+            if (error.isNotBlank()) {
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = 4.dp, start = 12.dp, end = 12.dp)
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun Group(
-    state: ScriptState,
     scriptGroup: ScriptGroup,
+    onAddGroupAction: (action: GroupAction) -> Unit,
+    onAddChannelAction: (action: ChannelAction) -> Unit,
+    onRemoveGroupAction: (action: GroupAction) -> Unit,
+    onRemoveChannelAction: (action: ChannelAction) -> Unit,
+    onExpandGroupClick: (groupId: Int, expanded: Boolean) -> Unit,
+    onExpandChannelClick: (channelId: Int, expanded: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var expanded by rememberSaveable { mutableStateOf(false) }
-    val group = scriptGroup.group
     Column(
-        modifier = modifier then Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable { expanded = !expanded }
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .clickable { onExpandGroupClick(scriptGroup.group.id, !scriptGroup.expanded) }
             .padding(16.dp)
     ) {
-        Text(text = group.name)
+        Text(text = scriptGroup.group.name)
         Text(
-            text = group.channelNames,
+            text = scriptGroup.group.channelNames,
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 1
         )
-        if (expanded) {
+        AnimatedVisibility(scriptGroup.expanded) {
             Column {
-                GroupLightContent(state, scriptGroup)
-                for (channel in scriptGroup.channels) {
-                    Spacer(Modifier.height(4.dp))
-                    Channel(state, channel)
+                Spacer(Modifier.height(16.dp))
+                GroupLightContent(
+                    scriptGroup = scriptGroup,
+                    onAddGroupAction = onAddGroupAction,
+                    onRemoveGroupAction = onRemoveGroupAction,
+                )
+                for (scriptChannel in scriptGroup.channels) {
+                    Spacer(Modifier.height(12.dp))
+                    Channel(
+                        channel = scriptChannel.channel,
+                        actions = scriptChannel.actions,
+                        expanded = scriptChannel.expanded,
+                        onAddChannelAction = onAddChannelAction,
+                        onRemoveChannelAction = onRemoveChannelAction,
+                        onChannelClick = {
+                            onExpandChannelClick(
+                                scriptChannel.channel.id,
+                                !scriptChannel.expanded,
+                            )
+                        },
+                    )
                 }
             }
         }
@@ -220,75 +305,90 @@ private fun Group(
 
 @Composable
 private fun GroupLightContent(
-    state: ScriptState,
-    scriptGroup: ScriptGroup
+    scriptGroup: ScriptGroup,
+    onAddGroupAction: (action: GroupAction) -> Unit,
+    onRemoveGroupAction: (action: GroupAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val turnOnAction: GroupAction.TurnOn? = scriptGroup.actions.firstOfTypeOrNull()
-    val turnOffAction: GroupAction.TurnOff? = scriptGroup.actions.firstOfTypeOrNull()
-    Spacer(Modifier.height(16.dp))
-    CheckableAction(
-        text = stringResource(R.string.script_group_turn_on),
-        isChecked = turnOnAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                state.onAddGroupAction(GroupAction.TurnOn(scriptGroup.group))
-            } else {
-                state.onRemoveGroupAction(turnOnAction!!)
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        val turnOnAction: GroupAction.TurnOn? = scriptGroup.actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_group_turn_on),
+            isChecked = turnOnAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddGroupAction(GroupAction.TurnOn(scriptGroup.group))
+                } else {
+                    onRemoveGroupAction(turnOnAction!!)
+                }
             }
-        }
-    )
-    Spacer(Modifier.height(DP_ACTION_SPACING))
-    CheckableAction(
-        text = stringResource(R.string.script_group_turn_off),
-        isChecked = turnOffAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                state.onAddGroupAction(GroupAction.TurnOff(scriptGroup.group))
-            } else {
-                state.onRemoveGroupAction(turnOffAction!!)
+        )
+        val turnOffAction: GroupAction.TurnOff? = scriptGroup.actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_group_turn_off),
+            isChecked = turnOffAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddGroupAction(GroupAction.TurnOff(scriptGroup.group))
+                } else {
+                    onRemoveGroupAction(turnOffAction!!)
+                }
             }
-        }
-    )
+        )
+    }
 }
 
+private val ChannelShape = RoundedCornerShape(12.dp)
+
 @Composable
-private fun Channel(state: ScriptState, scriptChannel: ScriptChannel) {
-    var expanded by remember { mutableStateOf(false) }
-    val channel = scriptChannel.channel
-    val actions = scriptChannel.actions
+private fun Channel(
+    channel: Channel,
+    actions: Set<ChannelAction>,
+    expanded: Boolean,
+    onAddChannelAction: (action: ChannelAction) -> Unit,
+    onRemoveChannelAction: (action: ChannelAction) -> Unit,
+    onChannelClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp))
-            .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-            .clickable { expanded = !expanded }
+            .clip(ChannelShape)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, ChannelShape)
+            .clickable(onClick = onChannelClick)
             .padding(16.dp)
     ) {
         Text(channel.name)
         AnimatedVisibility(expanded) {
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(top = 16.dp),
+            ) {
                 if (channel.hasLight) {
                     ChannelLightContent(
                         channel = channel,
                         actions = actions,
-                        onAddChannelAction = state.onAddChannelAction,
-                        onRemoveChannelAction = state.onRemoveChannelAction
+                        onAddChannelAction = onAddChannelAction,
+                        onRemoveChannelAction = onRemoveChannelAction,
                     )
                 }
                 if (channel.hasBrightness) {
                     ChannelBrightnessContent(
                         channel = channel,
                         actions = actions,
-                        onAddChannelAction = state.onAddChannelAction,
-                        onRemoveChannelAction = state.onRemoveChannelAction
+                        onAddChannelAction = onAddChannelAction,
+                        onRemoveChannelAction = onRemoveChannelAction,
                     )
                 }
-                if (scriptChannel.channel.hasBacklight) {
+                if (channel.hasBacklight) {
                     ChannelBacklightContent(
                         channel = channel,
                         actions = actions,
-                        onAddChannelAction = state.onAddChannelAction,
-                        onRemoveChannelAction = state.onRemoveChannelAction
+                        onAddChannelAction = onAddChannelAction,
+                        onRemoveChannelAction = onRemoveChannelAction,
                     )
                 }
             }
@@ -299,108 +399,115 @@ private fun Channel(state: ScriptState, scriptChannel: ScriptChannel) {
 @Composable
 private fun ChannelLightContent(
     channel: Channel,
-    actions: List<ChannelAction>,
+    actions: Set<ChannelAction>,
     onAddChannelAction: (action: ChannelAction) -> Unit,
-    onRemoveChannelAction: (action: ChannelAction) -> Unit
+    onRemoveChannelAction: (action: ChannelAction) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val turnOnAction: ChannelAction.TurnOn? = actions.firstOfTypeOrNull()
-    val turnOffAction: ChannelAction.TurnOff? = actions.firstOfTypeOrNull()
-    Spacer(Modifier.height(16.dp))
-    CheckableAction(
-        text = stringResource(R.string.script_channel_light_on),
-        isChecked = turnOnAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                onAddChannelAction(ChannelAction.TurnOn(channel.id))
-            } else {
-                onRemoveChannelAction(turnOnAction!!)
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        val turnOnAction: ChannelAction.TurnOn? = actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_channel_light_on),
+            isChecked = turnOnAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddChannelAction(ChannelAction.TurnOn(channel.id))
+                } else {
+                    onRemoveChannelAction(turnOnAction!!)
+                }
             }
-        }
-    )
-    Spacer(Modifier.height(DP_ACTION_SPACING))
-    CheckableAction(
-        text = stringResource(R.string.script_channel_light_off),
-        isChecked = turnOffAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                onAddChannelAction(ChannelAction.TurnOff(channel.id))
-            } else {
-                onRemoveChannelAction(turnOffAction!!)
+        )
+        val turnOffAction: ChannelAction.TurnOff? = actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_channel_light_off),
+            isChecked = turnOffAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddChannelAction(ChannelAction.TurnOff(channel.id))
+                } else {
+                    onRemoveChannelAction(turnOffAction!!)
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 @Composable
 private fun ChannelBrightnessContent(
     channel: Channel,
-    actions: List<ChannelAction>,
+    actions: Set<ChannelAction>,
     onAddChannelAction: (action: ChannelAction) -> Unit,
-    onRemoveChannelAction: (action: ChannelAction) -> Unit
+    onRemoveChannelAction: (action: ChannelAction) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val changeBrightnessAction: ChannelAction.ChangeBrightness? = actions.firstOfTypeOrNull()
-    Spacer(Modifier.height(DP_ACTION_SPACING))
     SliderAction(
         text = stringResource(R.string.script_channel_light_brightness),
         isChecked = changeBrightnessAction != null,
         initialValue = changeBrightnessAction?.brightness ?: 0,
         onActionChange = { isChecked, brightness ->
-            changeBrightnessAction?.let { action ->
-                onRemoveChannelAction(action)
-            }
             if (isChecked) {
                 onAddChannelAction(ChannelAction.ChangeBrightness(channel.id, brightness))
+            } else {
+                onRemoveChannelAction(changeBrightnessAction!!)
             }
-        }
+        },
+        modifier = modifier,
     )
 }
 
 @Composable
 private fun ChannelBacklightContent(
     channel: Channel,
-    actions: List<ChannelAction>,
+    actions: Set<ChannelAction>,
     onAddChannelAction: (action: ChannelAction) -> Unit,
-    onRemoveChannelAction: (action: ChannelAction) -> Unit
+    onRemoveChannelAction: (action: ChannelAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val changeColorAction: ChannelAction.ChangeColor? = actions.firstOfTypeOrNull()
-    val startOverflowAction: ChannelAction.StartOverflow? = actions.firstOfTypeOrNull()
-    val stopOverflowAction: ChannelAction.StopOverflow? = actions.firstOfTypeOrNull()
-    Spacer(Modifier.height(DP_ACTION_SPACING))
-    CheckableAction(
-        text = stringResource(R.string.script_channel_light_change_color),
-        isChecked = changeColorAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                onAddChannelAction(ChannelAction.ChangeColor(channel.id))
-            } else {
-                onRemoveChannelAction(changeColorAction!!)
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        val changeColorAction: ChannelAction.ChangeColor? = actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_channel_light_change_color),
+            isChecked = changeColorAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddChannelAction(ChannelAction.ChangeColor(channel.id))
+                } else {
+                    onRemoveChannelAction(changeColorAction!!)
+                }
             }
-        }
-    )
-    Spacer(Modifier.height(DP_ACTION_SPACING))
-    CheckableAction(
-        text = stringResource(R.string.script_channel_light_start_overflow),
-        isChecked = startOverflowAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                onAddChannelAction(ChannelAction.StartOverflow(channel.id))
-            } else {
-                onRemoveChannelAction(startOverflowAction!!)
+        )
+        val startOverflowAction: ChannelAction.StartOverflow? = actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_channel_light_start_overflow),
+            isChecked = startOverflowAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddChannelAction(ChannelAction.StartOverflow(channel.id))
+                } else {
+                    onRemoveChannelAction(startOverflowAction!!)
+                }
             }
-        }
-    )
-    Spacer(Modifier.height(DP_ACTION_SPACING))
-    CheckableAction(
-        text = stringResource(R.string.script_channel_light_stop_overflow),
-        isChecked = stopOverflowAction != null,
-        onActionClick = { isChecked ->
-            if (isChecked) {
-                onAddChannelAction(ChannelAction.StopOverflow(channel.id))
-            } else {
-                onRemoveChannelAction(stopOverflowAction!!)
+        )
+        val stopOverflowAction: ChannelAction.StopOverflow? = actions.firstOfTypeOrNull()
+        CheckableAction(
+            text = stringResource(R.string.script_channel_light_stop_overflow),
+            isChecked = stopOverflowAction != null,
+            onActionClick = { isChecked ->
+                if (isChecked) {
+                    onAddChannelAction(ChannelAction.StopOverflow(channel.id))
+                } else {
+                    onRemoveChannelAction(stopOverflowAction!!)
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 @Composable
@@ -413,8 +520,8 @@ private fun CheckableAction(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .clip(ChannelShape)
+            .background(colorAction(isChecked))
             .clickable { onActionClick(!isChecked) }
     ) {
         Checkbox(
@@ -423,7 +530,7 @@ private fun CheckableAction(
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }
@@ -433,14 +540,15 @@ private fun SliderAction(
     text: String,
     isChecked: Boolean,
     onActionChange: (isChecked: Boolean, value: Int) -> Unit,
-    initialValue: Int = 0
+    modifier: Modifier = Modifier,
+    initialValue: Int = 0,
 ) {
     var value by remember { mutableFloatStateOf(initialValue.toFloat()) }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(4.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .background(colorAction(isChecked))
             .clickable { onActionChange(!isChecked, value.toInt()) }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -451,6 +559,12 @@ private fun SliderAction(
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                text = "${value.toInt()}%",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(end = 16.dp)
             )
         }
         Slider(
@@ -458,6 +572,13 @@ private fun SliderAction(
             onValueChange = { value = it },
             enabled = isChecked,
             valueRange = 0f..100f,
+            colors = if (isChecked) {
+                SliderDefaults.colors(
+                    inactiveTrackColor = MaterialTheme.colorScheme.secondary.copy(alpha = .5f)
+                )
+            } else {
+                SliderDefaults.colors()
+            },
             onValueChangeFinished = { onActionChange(true, value.toInt()) },
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -465,18 +586,33 @@ private fun SliderAction(
 }
 
 @Composable
-private fun BoxScope.ScriptCreateButton(onCreateScriptClick: () -> Unit) {
-    Button(
-        onClick = onCreateScriptClick,
-        shape = RoundedCornerShape(16.dp),
-        elevation = null,
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .height(56.dp)
-            .align(Alignment.BottomCenter)
+@ReadOnlyComposable
+private fun colorAction(checked: Boolean) = if (checked) {
+    MaterialTheme.colorScheme.secondaryContainer
+} else {
+    MaterialTheme.colorScheme.surfaceContainerLow
+}
+
+@Composable
+private fun ScriptCreateButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    FloatingActionButton(
+        onClick = onClick,
+        modifier = modifier,
     ) {
-        Text(stringResource(R.string.script_create))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            Text(stringResource(R.string.script_create))
+            Spacer(Modifier.width(8.dp))
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = null,
+            )
+        }
     }
 }
 
@@ -484,12 +620,22 @@ private fun BoxScope.ScriptCreateButton(onCreateScriptClick: () -> Unit) {
 @Preview("Content Home Screen (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewScript() {
-    ThemedPreview {
+    NooliteTheme {
         ScriptScaffold(
-            state = ScriptState(),
-            name = "",
-            isError = true,
-            groups = FakeUiDataProvider.getScriptGroups(),
+            state = ScriptState.Content(
+                name = "",
+                error = "",
+                groups = FakeUiDataProvider.getScriptGroups(),
+            ),
+            onBackClick = {},
+            onCreateScriptClick = {},
+            onNameChange = {},
+            onAddGroupAction = {},
+            onRemoveGroupAction = {},
+            onAddChannelAction = {},
+            onRemoveChannelAction = {},
+            onExpandGroupClick = { _, _ -> },
+            onExpandChannelClick = { _, _ -> },
         )
     }
 }

@@ -30,7 +30,7 @@ import com.enxy.noolite.domain.features.actions.model.GroupAction
 import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.presentation.ui.common.IconActionButton
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -38,7 +38,7 @@ fun Groups(
     groups: List<Group>,
     onGroupClick: (group: Group) -> Unit,
     onGroupAction: (action: GroupAction) -> Unit,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(16.dp),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp),
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyRow(
@@ -59,6 +59,8 @@ fun Groups(
     }
 }
 
+private val GroupShape = RoundedCornerShape(24.dp)
+
 @Composable
 private fun Group(
     group: Group,
@@ -68,8 +70,8 @@ private fun Group(
 ) {
     Box(
         modifier = modifier then Modifier
-            .clip(RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .clip(GroupShape)
+            .background(MaterialTheme.colorScheme.surfaceContainer, GroupShape)
             .clickable(onClick = onGroupClick)
     ) {
         Column(
@@ -111,7 +113,7 @@ private fun Group(
 @Preview("Group (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewGroup() {
-    ThemedPreview {
+    NooliteTheme {
         Group(
             group = FakeUiDataProvider.getFavoriteGroup(),
             onGroupClick = {},
@@ -124,7 +126,7 @@ private fun PreviewGroup() {
 @Preview("Groups (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewGroups() {
-    ThemedPreview {
+    NooliteTheme {
         Groups(
             groups = FakeUiDataProvider.getGroups(),
             onGroupClick = {},

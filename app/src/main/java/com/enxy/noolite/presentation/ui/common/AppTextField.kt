@@ -14,7 +14,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.enxy.noolite.R
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @Composable
 fun AppTextField(
@@ -42,7 +42,7 @@ fun AppTextField(
 @Preview("TextField (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewTextField() {
-    ThemedPreview {
+    NooliteTheme {
         AppTextField(
             text = FakeUiDataProvider.getSettings().apiUrl,
             label = stringResource(R.string.settings_server_title),

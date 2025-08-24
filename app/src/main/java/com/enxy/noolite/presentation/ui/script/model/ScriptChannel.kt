@@ -2,10 +2,13 @@ package com.enxy.noolite.presentation.ui.script.model
 
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.common.Channel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScriptChannel(
     val channel: Channel,
-    val actions: List<ChannelAction> = emptyList()
+    val actions: Set<ChannelAction> = emptySet(),
+    val expanded: Boolean = false,
 ) {
     val id: Int get() = channel.id
 

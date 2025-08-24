@@ -17,22 +17,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
-import com.enxy.noolite.presentation.utils.ThemedPreview
+import com.enxy.noolite.ui.theme.NooliteTheme
 
 @Composable
 fun ShapeIcon(
     painter: Painter,
-    padding: Dp = 12.dp,
+    modifier: Modifier = Modifier,
+    contentPadding: Dp = 12.dp,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
 ) {
     Icon(
         painter = painter,
         contentDescription = null,
-        modifier = Modifier
+        modifier = modifier
             .defaultMinSize(56.dp, 56.dp)
             .background(color, shape)
-            .padding(padding)
+            .padding(contentPadding)
     )
 }
 
@@ -40,7 +41,7 @@ fun ShapeIcon(
 @Preview("App Icon (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewAppIcon() {
-    ThemedPreview {
+    NooliteTheme {
         ShapeIcon(painterResource(R.drawable.ic_server))
     }
 }
