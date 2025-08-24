@@ -33,10 +33,12 @@ interface ScriptComponent {
     fun onRemoveGroupAction(action: GroupAction)
     fun onAddChannelAction(action: ChannelAction)
     fun onRemoveChannelAction(action: ChannelAction)
+    fun onBackClick()
 }
 
 class ScriptComponentImpl(
     componentContext: ComponentContext,
+    private val onBackClicked: () -> Unit
 ) : ComponentContext by componentContext,
     ScriptComponent,
     KoinComponent { // TODO: Remove
@@ -97,6 +99,10 @@ class ScriptComponentImpl(
 
     override fun onRemoveChannelAction(action: ChannelAction) {
         modifyChannelAction(action = action, isNew = false)
+    }
+
+    override fun onBackClick() {
+        onBackClicked()
     }
 
     private fun loadGroups() {

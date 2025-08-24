@@ -2,8 +2,8 @@ package com.enxy.noolite.presentation.ui.common
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,18 +22,17 @@ import com.enxy.noolite.presentation.utils.ThemedPreview
 @Composable
 fun ShapeIcon(
     painter: Painter,
-    size: Dp = 56.dp,
-    innerPadding: Dp = 14.dp,
+    padding: Dp = 12.dp,
     shape: Shape = RoundedCornerShape(16.dp),
-    color: Color = MaterialTheme.colorScheme.surface
+    color: Color = MaterialTheme.colorScheme.surfaceContainer,
 ) {
     Icon(
         painter = painter,
         contentDescription = null,
         modifier = Modifier
-            .size(size)
+            .defaultMinSize(56.dp, 56.dp)
             .background(color, shape)
-            .padding(innerPadding)
+            .padding(padding)
     )
 }
 

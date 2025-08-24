@@ -2,7 +2,6 @@ package com.enxy.noolite.presentation.ui.script
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -67,14 +66,13 @@ private data class ScriptState(
 private val DP_ACTION_SPACING = 4.dp
 
 @Composable
-fun ScriptScreen(
-    onBackClick: () -> Unit,
+fun ScriptContent(
     component: ScriptComponent
 ) {
     val name by component.name
     val isError by component.isError
     val groups = component.groups
-    val state = rememberScriptState(onBackClick, component)
+    val state = rememberScriptState(component::onBackClick, component)
     ScriptScaffold(
         state = state,
         name = name,
@@ -106,62 +104,45 @@ private fun ScriptScaffold(
     isError: Boolean,
     groups: List<ScriptGroup>
 ) {
-    Scaffold(topBar = {
-        TopAppBar(
-            stringResource(R.string.script_title),
-            state.onBackClick
-        )
-    }) { contentPadding ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                stringResource(R.string.script_title),
+                state.onBackClick
+            )
+        }
+    ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            ScriptContent(
-                state = state,
-                name = name,
-                isError = isError,
-                scriptGroups = groups,
-                contentPadding = contentPadding,
-            )
+            LazyColumn(
+                contentPadding = PaddingValues(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 80.dp
+                )
+            ) {
+                item { SectionTitle(stringResource(R.string.script_name_title)) }
+                item { Spacer(Modifier.height(16.dp)) }
+                item { SectionScriptName(name, state, isError) }
+                item { Spacer(Modifier.height(24.dp)) }
+                item { SectionTitle(stringResource(R.string.script_action_title)) }
+                item { Spacer(Modifier.height(4.dp)) }
+                items(
+                    items = groups,
+                    key = { scriptGroup -> scriptGroup.group.id },
+                ) { scriptGroup ->
+                    Group(
+                        state = state,
+                        scriptGroup = scriptGroup,
+                        modifier = Modifier
+                            .padding(vertical = 4.dp)
+                            .animateItem()
+                    )
+                }
+            }
             ScriptCreateButton(state.onCreateScriptClick)
-        }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun ScriptContent(
-    state: ScriptState,
-    name: String,
-    isError: Boolean,
-    scriptGroups: List<ScriptGroup>,
-    contentPadding: PaddingValues,
-) {
-    contentPadding // TODO: use content padding
-    LazyColumn(
-        contentPadding = PaddingValues(
-            start = 16.dp,
-            top = 16.dp,
-            end = 16.dp,
-            bottom = 80.dp
-        )
-    ) {
-        item { SectionTitle(stringResource(R.string.script_name_title)) }
-        item { Spacer(Modifier.height(16.dp)) }
-        item { SectionScriptName(name, state, isError) }
-        item { Spacer(Modifier.height(24.dp)) }
-        item { SectionTitle(stringResource(R.string.script_action_title)) }
-        item { Spacer(Modifier.height(4.dp)) }
-        items(
-            items = scriptGroups,
-            key = { scriptGroup -> scriptGroup.group.id },
-        ) { scriptGroup ->
-            Group(
-                state = state,
-                scriptGroup = scriptGroup,
-                modifier = Modifier
-                    .padding(vertical = 4.dp)
-                    .animateItem()
-            )
         }
     }
 }

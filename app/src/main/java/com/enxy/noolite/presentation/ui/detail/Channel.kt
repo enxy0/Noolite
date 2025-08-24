@@ -28,36 +28,41 @@ import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.common.Channel
-import com.enxy.noolite.presentation.ui.common.ActionButton
+import com.enxy.noolite.presentation.ui.common.IconActionButton
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
 import com.enxy.noolite.presentation.utils.ThemedPreview
-
-data class ChannelState(
-    val onAction: (action: ChannelAction) -> Unit = {}
-)
 
 @Composable
 fun Channel(
     channel: Channel,
-    state: ChannelState,
+    onChannelActionClick: (action: ChannelAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         Column {
             if (channel.hasLight) {
-                LightContent(channel = channel, onLightClick = state.onAction)
+                LightContent(
+                    channel = channel,
+                    onLightClick = onChannelActionClick,
+                )
             }
             if (channel.hasBrightness) {
-                BrightnessContent(channel = channel, onBrightnessChange = state.onAction)
+                BrightnessContent(
+                    channel = channel,
+                    onBrightnessChange = onChannelActionClick,
+                )
             }
             if (channel.hasBacklight) {
-                BacklightContent(channel = channel, onAction = state.onAction)
+                BacklightContent(
+                    channel = channel,
+                    onAction = onChannelActionClick,
+                )
             }
         }
     }
@@ -66,10 +71,11 @@ fun Channel(
 @Composable
 private fun BacklightContent(
     channel: Channel,
-    onAction: (action: ChannelAction) -> Unit
+    onAction: (action: ChannelAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -84,15 +90,15 @@ private fun BacklightContent(
                 style = MaterialTheme.typography.bodySmall
             )
         }
-        ActionButton(
+        IconActionButton(
             painter = painterResource(R.drawable.ic_start),
             onClick = { onAction(ChannelAction.StartOverflow(channel.id)) }
         )
-        ActionButton(
+        IconActionButton(
             painter = painterResource(R.drawable.ic_stop),
             onClick = { onAction(ChannelAction.StopOverflow(channel.id)) }
         )
-        ActionButton(
+        IconActionButton(
             painter = painterResource(R.drawable.ic_refresh),
             onClick = { onAction(ChannelAction.ChangeColor(channel.id)) }
         )
@@ -102,7 +108,8 @@ private fun BacklightContent(
 @Composable
 private fun BrightnessContent(
     channel: Channel,
-    onBrightnessChange: (action: ChannelAction) -> Unit
+    onBrightnessChange: (action: ChannelAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var position by rememberSaveable { mutableFloatStateOf(0f) }
     Slider(
@@ -111,19 +118,21 @@ private fun BrightnessContent(
         valueRange = 0f..100f,
         onValueChangeFinished = {
             onBrightnessChange(ChannelAction.ChangeBrightness(channel.id, position.toInt()))
-        }
+        },
+        modifier = modifier,
     )
 }
 
 @Composable
 private fun LightContent(
     channel: Channel,
-    onLightClick: (action: ChannelAction) -> Unit
+    onLightClick: (action: ChannelAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column(Modifier.weight(1f)) {
             Text(
@@ -136,7 +145,7 @@ private fun LightContent(
                 style = MaterialTheme.typography.bodySmall
             )
         }
-        ActionButton(
+        IconActionButton(
             painter = painterResource(R.drawable.ic_on),
             onClick = { onLightClick(ChannelAction.Toggle(channel.id)) }
         )
@@ -148,7 +157,10 @@ private fun LightContent(
 @Composable
 private fun PreviewChannel0() {
     ThemedPreview {
-        Channel(FakeUiDataProvider.getChannelType0(), ChannelState())
+        Channel(
+            channel = FakeUiDataProvider.getChannelType0(),
+            onChannelActionClick = {},
+        )
     }
 }
 
@@ -157,7 +169,10 @@ private fun PreviewChannel0() {
 @Composable
 private fun PreviewChannel1() {
     ThemedPreview {
-        Channel(FakeUiDataProvider.getChannelType1(), ChannelState())
+        Channel(
+            channel = FakeUiDataProvider.getChannelType1(),
+            onChannelActionClick = {},
+        )
     }
 }
 
@@ -166,6 +181,9 @@ private fun PreviewChannel1() {
 @Composable
 private fun PreviewChannel3() {
     ThemedPreview {
-        Channel(FakeUiDataProvider.getChannelType3(), ChannelState())
+        Channel(
+            channel = FakeUiDataProvider.getChannelType3(),
+            onChannelActionClick = {},
+        )
     }
 }

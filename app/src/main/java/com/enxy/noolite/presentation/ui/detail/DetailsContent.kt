@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.presentation.ui.common.TopAppBar
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
@@ -29,33 +30,42 @@ import com.enxy.noolite.presentation.utils.ThemedPreview
 data class DetailsState(
     val onBackClick: () -> Unit = {},
     val onFavoriteClick: (isFavorite: Boolean) -> Unit = {},
-    val channelState: ChannelState = ChannelState()
+    val onChannelActionClick: (action: ChannelAction) -> Unit = {},
 )
 
 @Composable
-fun DetailsScreen(
+fun DetailsContent(
     component: DetailsComponent,
-    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val state = remember {
         DetailsState(
-            onBackClick = onBackClick,
+            onBackClick = component::onBackClick,
             onFavoriteClick = { isFavorite -> component.onFavoriteClick(isFavorite) },
-            channelState = ChannelState { action -> component.onChannelAction(action) }
+            onChannelActionClick = component::onChannelActionClick,
         )
     }
     val group = component.group
     val isFavorite by component.isFavoriteGroup.collectAsState(false)
-    DetailsContent(group = group, state = state, isFavorite = isFavorite)
+    DetailsContent(
+        group = group,
+        state = state,
+        isFavorite = isFavorite,
+        modifier = modifier,
+    )
 }
 
 @Composable
 private fun DetailsContent(
     group: Group,
     state: DetailsState,
-    isFavorite: Boolean
+    isFavorite: Boolean,
+    modifier: Modifier = Modifier,
 ) {
-    Scaffold(topBar = { AppBarContent(group.name, state, isFavorite) }) { contentPadding ->
+    Scaffold(
+        topBar = { AppBarContent(group.name, state, isFavorite) },
+        modifier = modifier,
+    ) { contentPadding ->
         LazyColumn(
             contentPadding = contentPadding,
             modifier = Modifier.fillMaxSize()
@@ -64,7 +74,7 @@ private fun DetailsContent(
                 Spacer(Modifier.height(16.dp))
                 Channel(
                     channel = channel,
-                    state = state.channelState,
+                    onChannelActionClick = state.onChannelActionClick,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }

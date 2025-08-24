@@ -17,13 +17,15 @@ import org.koin.core.component.inject
 interface DetailsComponent {
     val group: Group
     val isFavoriteGroup: Flow<Boolean>
+    fun onBackClick()
     fun onFavoriteClick(favorite: Boolean)
-    fun onChannelAction(action: ChannelAction)
+    fun onChannelActionClick(action: ChannelAction)
 }
 
 class DetailsComponentImpl(
     componentContext: ComponentContext,
     override val group: Group,
+    private val onBackClicked: () -> Unit,
 ) : ComponentContext by componentContext,
     DetailsComponent,
     KoinComponent { // TODO: Remote KoinComponent and make common AppComponentContext
@@ -37,13 +39,17 @@ class DetailsComponentImpl(
     override val isFavoriteGroup: Flow<Boolean> = getFavoriteGroupUseCase(Unit)
         .map { result -> this.group.id == result.getOrNull()?.id }
 
+    override fun onBackClick() {
+        onBackClicked()
+    }
+
     override fun onFavoriteClick(favorite: Boolean) {
         setFavoriteGroupUseCase
             .invoke(SetFavoriteGroupPayload(group, favorite))
             .launchIn(scope)
     }
 
-    override fun onChannelAction(action: ChannelAction) {
+    override fun onChannelActionClick(action: ChannelAction) {
         channelActionUseCase
             .invoke(action)
             .launchIn(scope)

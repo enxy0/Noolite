@@ -63,11 +63,8 @@ private class SettingsState {
 }
 
 @Composable
-fun SettingsScreen(
-    component: SettingsComponent,
-    navigateUp: () -> Unit,
-) {
-    val state = rememberSettingsState(navigateUp, component)
+fun SettingsContent(component: SettingsComponent) {
+    val state = rememberSettingsState(component::onBackClick, component)
     val event by component.eventsFlow.collectAsState()
     val settings by component.settingsFlow.collectAsState()
     SettingsContent(settings, event, state)

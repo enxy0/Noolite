@@ -34,7 +34,7 @@ object FakeUiDataProvider {
             actions = listOf(ChannelAction.TurnOff(0))
         ),
         Script(
-            id = 0,
+            id = 1,
             name = "Выкл весь свет",
             actions = listOf(
                 ChannelAction.TurnOff(0),
@@ -44,7 +44,7 @@ object FakeUiDataProvider {
             )
         ),
         Script(
-            id = 0,
+            id = 2,
             name = "Релакс",
             actions = listOf(
                 ChannelAction.StartOverflow(2),

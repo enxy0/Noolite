@@ -1,14 +1,13 @@
 package com.enxy.noolite.domain.features.common
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class Channel(
     val id: Int = 0,
     val name: String = "empty",
     val type: Int = 0
-) : Parcelable {
+) {
 
     private companion object {
         const val CHANNEL_TYPE_DEFAULT = 0

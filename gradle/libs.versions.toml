@@ -16,6 +16,7 @@ ksp = "2.2.10-2.0.2"
 lifecycle = "2.9.2"
 lifecycleRuntimeKtx = "2.9.2"
 okhttp = "5.1.0"
+orbit = "10.0.0"
 retrofit = "3.0.0"
 room = "2.7.2"
 timber = "5.0.1"
@@ -39,7 +40,10 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
+decompose-compose-experimental = { group = "com.arkivanov.decompose", name = "extensions-compose-experimental", version.ref = "decompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+orbit-mvi-core = { group = "org.orbit-mvi", name = "orbit-core", version.ref = "orbit" }
+orbit-mvi-compose = { group = "org.orbit-mvi", name = "orbit-compose", version.ref = "orbit" }
 koin-android = { module = "io.insert-koin:koin-android" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core" }

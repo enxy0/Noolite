@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,20 +28,16 @@ import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
 import com.enxy.noolite.domain.features.actions.model.GroupAction
 import com.enxy.noolite.domain.features.common.Group
-import com.enxy.noolite.presentation.ui.common.ActionButton
+import com.enxy.noolite.presentation.ui.common.IconActionButton
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
 import com.enxy.noolite.presentation.utils.ThemedPreview
-
-data class GroupState(
-    val onGroupClick: (group: Group) -> Unit = {},
-    val onAction: (action: GroupAction) -> Unit = {}
-)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Groups(
     groups: List<Group>,
-    state: GroupState = GroupState(),
+    onGroupClick: (group: Group) -> Unit,
+    onGroupAction: (action: GroupAction) -> Unit,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(16.dp),
     contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
@@ -56,7 +51,8 @@ fun Groups(
         ) { group ->
             Group(
                 group = group,
-                state = state,
+                onGroupClick = { onGroupClick(group) },
+                onGroupAction = onGroupAction,
                 modifier = Modifier.animateItem()
             )
         }
@@ -66,14 +62,15 @@ fun Groups(
 @Composable
 private fun Group(
     group: Group,
-    state: GroupState,
+    onGroupClick: () -> Unit,
+    onGroupAction: (action: GroupAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier then Modifier
             .clip(RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable { state.onGroupClick(group) }
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .clickable(onClick = onGroupClick)
     ) {
         Column(
             modifier = Modifier
@@ -81,15 +78,15 @@ private fun Group(
                 .size(height = 125.dp, width = 145.dp),
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ActionButton(
+                IconActionButton(
                     painter = painterResource(R.drawable.ic_on),
-                    modifier = Modifier.background(MaterialTheme.colorScheme.primary),
-                    tint = Color.Black,
-                    onClick = { state.onAction(GroupAction.TurnOn(group)) }
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    onClick = { onGroupAction(GroupAction.TurnOn(group)) }
                 )
-                ActionButton(
+                IconActionButton(
                     painter = painterResource(R.drawable.ic_off),
-                    onClick = { state.onAction(GroupAction.TurnOff(group)) }
+                    onClick = { onGroupAction(GroupAction.TurnOff(group)) }
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -97,13 +94,14 @@ private fun Group(
                 text = group.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleMedium,
             )
             Spacer(Modifier.height(4.dp))
             Text(
                 text = group.channelNames,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }
@@ -114,7 +112,11 @@ private fun Group(
 @Composable
 private fun PreviewGroup() {
     ThemedPreview {
-        Group(FakeUiDataProvider.getFavoriteGroup(), GroupState())
+        Group(
+            group = FakeUiDataProvider.getFavoriteGroup(),
+            onGroupClick = {},
+            onGroupAction = {},
+        )
     }
 }
 
@@ -123,6 +125,10 @@ private fun PreviewGroup() {
 @Composable
 private fun PreviewGroups() {
     ThemedPreview {
-        Groups(FakeUiDataProvider.getGroups())
+        Groups(
+            groups = FakeUiDataProvider.getGroups(),
+            onGroupClick = {},
+            onGroupAction = {},
+        )
     }
 }

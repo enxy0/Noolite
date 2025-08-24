@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,16 +20,17 @@ import com.enxy.noolite.R
 import com.enxy.noolite.presentation.utils.ThemedPreview
 
 @Composable
-fun ActionButton(
+fun IconActionButton(
     painter: Painter,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    tint: Color = LocalContentColor.current, // TODO: LocalContentAlpha.current is not available
-    onClick: () -> Unit
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(color = MaterialTheme.colorScheme.surfaceVariant)
+            .background(color = containerColor)
             .then(modifier)
             .clickable(onClick = onClick)
             .padding(16.dp)
@@ -38,7 +38,7 @@ fun ActionButton(
         Icon(
             painter = painter,
             contentDescription = null,
-            tint = tint
+            tint = contentColor,
         )
     }
 }
@@ -48,7 +48,7 @@ fun ActionButton(
 @Composable
 private fun PreviewActionButton() {
     ThemedPreview {
-        ActionButton(
+        IconActionButton(
             painter = painterResource(R.drawable.ic_on),
             onClick = {}
         )

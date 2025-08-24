@@ -28,10 +28,12 @@ interface SettingsComponent {
     fun setNotifyWifiChange(notifyWifiChange: Boolean)
     fun setApiUrl(apiUrl: String)
     fun setTestData()
+    fun onBackClick()
 }
 
 class SettingsComponentImpl(
     componentContext: ComponentContext,
+    private val onBackClicked: () -> Unit,
 ) : ComponentContext by componentContext,
     SettingsComponent,
     KoinComponent { // TODO: Remove
@@ -78,6 +80,10 @@ class SettingsComponentImpl(
                 _eventsFlow.emit(Event(SettingsAction.ShowSnackbar(message, result.isFailure)))
             }
             .launchIn(scope)
+    }
+
+    override fun onBackClick() {
+        onBackClicked()
     }
 
     private fun loadSettings() {

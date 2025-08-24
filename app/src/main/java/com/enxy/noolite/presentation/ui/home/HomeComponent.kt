@@ -7,6 +7,7 @@ import com.enxy.noolite.domain.features.actions.ChannelActionUseCase
 import com.enxy.noolite.domain.features.actions.GroupActionUseCase
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
+import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.domain.features.common.Script
 import com.enxy.noolite.domain.features.home.GetHomeDataUseCase
 import com.enxy.noolite.domain.features.script.ExecuteScriptUseCase
@@ -16,15 +17,8 @@ import com.enxy.noolite.domain.features.settings.GetNooliteGroupsUseCase
 import com.enxy.noolite.domain.features.settings.UpdateAppSettingsUseCase
 import com.enxy.noolite.domain.features.settings.model.AppSettings
 import com.enxy.noolite.domain.features.settings.model.NooliteSettingsPayload
-import com.enxy.noolite.presentation.ui.home.model.HomeAction
-import com.enxy.noolite.presentation.ui.home.model.HomeUiState
 import com.enxy.noolite.utils.componentScope
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -34,12 +28,30 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.container
 import timber.log.Timber
 
-class HomeComponent(
-    componentContext: ComponentContext
+interface HomeComponent : ContainerHost<HomeState, HomeSideEffect> {
+    fun onAddScriptClick()
+    fun onScriptClick(script: Script)
+    fun onScriptRemove(script: Script)
+    fun onGroupAction(action: GroupAction)
+    fun onGroupClick(group: Group)
+    fun onChannelActionClick(action: ChannelAction)
+    fun onConnectClick(apiUrl: String)
+    fun onSettingsClick()
+}
+
+class HomeComponentImpl(
+    componentContext: ComponentContext,
+    private val onSettingsClicked: () -> Unit,
+    private val onGroupClicked: (group: Group) -> Unit,
+    private val onAddScriptClicked: () -> Unit,
 ) : ComponentContext by componentContext,
-    KoinComponent {
+    KoinComponent,
+    HomeComponent {
 
     private val getHomeDataUseCase: GetHomeDataUseCase by inject()
     private val getAppSettingsUseCase: GetAppSettingsUseCase by inject()
@@ -53,11 +65,9 @@ class HomeComponent(
 
     private val scope = componentScope()
 
-    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Initial)
-    val uiState = _uiState.asStateFlow()
-
-    private val _actionsFlow = MutableSharedFlow<HomeAction>(0, 1, BufferOverflow.DROP_OLDEST)
-    val actionsFlow: Flow<HomeAction> = _actionsFlow.asSharedFlow()
+    override val container: Container<HomeState, HomeSideEffect> = scope.container(
+        initialState = HomeState.Initial,
+    )
 
     private val _appSettingsFlow = MutableStateFlow(AppSettings.default())
 
@@ -72,7 +82,11 @@ class HomeComponent(
         loadHomeData()
     }
 
-    fun onScriptClick(script: Script) {
+    override fun onAddScriptClick() {
+        onAddScriptClicked()
+    }
+
+    override fun onScriptClick(script: Script) {
         executeScriptUseCase(script)
             .onEach { result ->
                 result
@@ -83,7 +97,7 @@ class HomeComponent(
             .launchIn(scope)
     }
 
-    fun onScriptRemove(script: Script) {
+    override fun onScriptRemove(script: Script) {
         removeScriptUseCase(script)
             .onEach { result ->
                 result
@@ -94,46 +108,61 @@ class HomeComponent(
             .launchIn(scope)
     }
 
-    fun onGroupAction(action: GroupAction) {
+    override fun onGroupAction(action: GroupAction) {
         groupActionUseCase(action).launchIn(scope)
     }
 
-    fun onChannelAction(action: ChannelAction) {
+    override fun onGroupClick(group: Group) {
+        onGroupClicked(group)
+    }
+
+    override fun onChannelActionClick(action: ChannelAction) {
         channelActionUseCase(action).launchIn(scope)
     }
 
-    fun onApiUrlChange(apiUrl: String) {
-        getNooliteGroupsUseCase(NooliteSettingsPayload(apiUrl))
-            .onStart { _uiState.value = HomeUiState.Empty(apiUrl, true) }
-            .onEach { result ->
-                result
-                    .onSuccess {
-                        updateAppSettingsUseCase
-                            .invoke(_appSettingsFlow.value.copy(apiUrl = apiUrl))
-                            .collect()
-                        _actionsFlow.emit(HomeAction.ShowSnackbar(messageSuccess, false))
-                    }
-                    .onFailure { throwable ->
-                        _uiState.value = HomeUiState.Empty(apiUrl, false)
-                        _actionsFlow.emit(HomeAction.ShowSnackbar(messageFailure, true))
-                        Timber.e(throwable)
-                    }
-            }
-            .launchIn(scope)
+    override fun onConnectClick(apiUrl: String) {
+        intent {
+            getNooliteGroupsUseCase(NooliteSettingsPayload(apiUrl))
+                .onStart { reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = true) } }
+                .onEach { result ->
+                    result
+                        .onSuccess {
+                            updateAppSettingsUseCase
+                                .invoke(_appSettingsFlow.value.copy(apiUrl = apiUrl))
+                                .collect()
+                            postSideEffect(HomeSideEffect.Message(messageSuccess))
+                        }
+                        .onFailure { throwable ->
+                            reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = false) }
+                            postSideEffect(HomeSideEffect.Message(messageFailure))
+                            Timber.e(throwable)
+                        }
+                }
+                .launchIn(scope)
+        }
     }
 
-    private fun loadHomeData() {
+    override fun onSettingsClick() {
+        onSettingsClicked()
+    }
+
+    private fun loadHomeData() = intent {
         combine(
             getAppSettingsUseCase(Unit).mapNotNull { it.getOrNull() },
             getHomeDataUseCase(Unit).mapNotNull { it.getOrNull() }
         ) { settings, data ->
-            _uiState.value = if (data.isEmpty) {
-                HomeUiState.Empty(settings.apiUrl, false)
-            } else {
-                HomeUiState.Content(data)
+            reduce {
+                if (data.isEmpty) {
+                    HomeState.Empty(apiUrl = settings.apiUrl, isLoading = false)
+                } else {
+                    HomeState.Content(data)
+                }
             }
         }
-            .catch { e -> Timber.e(e) }
-            .launchIn(scope)
+            .catch { e ->
+                Timber.e(e)
+                postSideEffect(HomeSideEffect.Message(e.message.orEmpty()))
+            }
+            .collect()
     }
 }

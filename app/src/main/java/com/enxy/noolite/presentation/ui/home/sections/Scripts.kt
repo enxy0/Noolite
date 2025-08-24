@@ -31,19 +31,15 @@ import com.enxy.noolite.presentation.utils.FakeUiDataProvider
 import com.enxy.noolite.presentation.utils.ThemedPreview
 import com.enxy.noolite.presentation.utils.extensions.pluralResource
 
-data class ScriptState(
-    val onScriptClick: (script: Script) -> Unit = {},
-    val onScriptRemove: (script: Script) -> Unit = {}
-)
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Scripts(
     scripts: List<Script>,
+    onScriptClick: (script: Script) -> Unit,
+    onScriptRemove: (script: Script) -> Unit,
     modifier: Modifier = Modifier,
-    state: ScriptState = ScriptState(),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(16.dp),
-    contentPadding: PaddingValues = PaddingValues(16.dp)
+    contentPadding: PaddingValues = PaddingValues(16.dp),
 ) {
     LazyRow(
         horizontalArrangement = horizontalArrangement,
@@ -52,12 +48,13 @@ fun Scripts(
     ) {
         items(
             items = scripts,
-            key = { script -> script.id }
+            key = { script -> script.id },
         ) { script ->
             Script(
                 script = script,
-                state = state,
-                modifier = Modifier.animateItem()
+                onScriptClick = { onScriptClick(script) },
+                onScriptRemove = { onScriptRemove(script) },
+                modifier = Modifier.animateItem(),
             )
         }
     }
@@ -66,14 +63,15 @@ fun Scripts(
 @Composable
 private fun Script(
     script: Script,
-    state: ScriptState,
+    onScriptClick: () -> Unit,
+    onScriptRemove: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier then Modifier
             .clip(RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable { state.onScriptClick(script) }
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .clickable(onClick = onScriptClick)
     ) {
         Row(
             modifier = Modifier.padding(
@@ -95,10 +93,11 @@ private fun Script(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            IconButton(
-                onClick = { state.onScriptRemove(script) }
-            ) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = null)
+            IconButton(onClick = onScriptRemove) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                )
             }
         }
     }
@@ -109,6 +108,10 @@ private fun Script(
 @Composable
 private fun PreviewScripts() {
     ThemedPreview {
-        Scripts(FakeUiDataProvider.getScripts())
+        Scripts(
+            scripts = FakeUiDataProvider.getScripts(),
+            onScriptClick = {},
+            onScriptRemove = {},
+        )
     }
 }
