@@ -1,20 +1,24 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id("com.google.devtools.ksp") version Versions.KSP
-    id("kotlin-parcelize")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    compileSdk = Configuration.compileSdk
+    namespace = "com.enxy.noolite.domain"
+    compileSdk = 36
 
     defaultConfig {
+        minSdk = 23
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles += file("consumer-rules.pro")
+        consumerProguardFiles("consumer-rules.pro")
     }
+
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
+        release {
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -25,22 +29,20 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+    kotlin {
+        compileOptions {
+            jvmToolchain(11)
+        }
     }
 }
 
 dependencies {
-    // Koin
-    implementation(Dependencies.Koin.CORE)
-    ksp(Dependencies.Koin.KSP_COMPILER)
-
-    // Test
-    testImplementation(Dependencies.Test.JUNIT)
-    androidTestImplementation(Dependencies.Test.JUNIT_EXT)
-    androidTestImplementation(Dependencies.Test.ESPRESSO)
-
-    // Other
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.TIMBER)
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.timber)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

@@ -1,11 +1,11 @@
 package com.enxy.noolite.presentation.utils
 
-import com.enxy.domain.features.actions.model.ChannelAction
-import com.enxy.domain.features.common.Channel
-import com.enxy.domain.features.common.Group
-import com.enxy.domain.features.common.Script
-import com.enxy.domain.features.home.model.HomeData
-import com.enxy.domain.features.settings.model.AppSettings
+import com.enxy.noolite.domain.features.actions.model.ChannelAction
+import com.enxy.noolite.domain.features.common.Channel
+import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.features.common.Script
+import com.enxy.noolite.domain.features.home.model.HomeData
+import com.enxy.noolite.domain.features.settings.model.AppSettings
 import com.enxy.noolite.presentation.ui.script.model.ScriptChannel
 import com.enxy.noolite.presentation.ui.script.model.ScriptGroup
 

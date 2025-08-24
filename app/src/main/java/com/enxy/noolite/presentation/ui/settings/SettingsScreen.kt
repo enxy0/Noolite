@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,13 +14,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,19 +37,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.enxy.domain.features.common.Event
-import com.enxy.domain.features.settings.model.AppSettings
 import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.R
-import com.enxy.noolite.presentation.ui.common.AppBar
+import com.enxy.noolite.domain.features.common.Event
+import com.enxy.noolite.domain.features.settings.model.AppSettings
 import com.enxy.noolite.presentation.ui.common.AppTextField
 import com.enxy.noolite.presentation.ui.common.ShapeIcon
+import com.enxy.noolite.presentation.ui.common.TopAppBar
 import com.enxy.noolite.presentation.ui.settings.model.SettingsAction
-import com.enxy.noolite.presentation.ui.theme.AppTheme
 import com.enxy.noolite.presentation.utils.ThemedPreview
 import com.enxy.noolite.presentation.utils.intent.IntentActionsProvider
-import org.koin.androidx.compose.get
-import org.koin.androidx.compose.getViewModel
+import org.koin.compose.koinInject
 
 private class SettingsState {
     companion object {
@@ -64,27 +64,27 @@ private class SettingsState {
 
 @Composable
 fun SettingsScreen(
+    component: SettingsComponent,
     navigateUp: () -> Unit,
-    viewModel: SettingsViewModel = getViewModel(),
 ) {
-    val state = rememberSettingsState(navigateUp, viewModel)
-    val event by viewModel.eventsFlow.collectAsState()
-    val settings by viewModel.settingsFlow.collectAsState()
+    val state = rememberSettingsState(navigateUp, component)
+    val event by component.eventsFlow.collectAsState()
+    val settings by component.settingsFlow.collectAsState()
     SettingsContent(settings, event, state)
 }
 
 @Composable
 private fun rememberSettingsState(
     navigateUp: () -> Unit,
-    viewModel: SettingsViewModel,
-    intentActionsProvider: IntentActionsProvider = get()
+    component: SettingsComponent,
+    intentActionsProvider: IntentActionsProvider = koinInject()
 ): SettingsState = remember {
     SettingsState().apply {
-        onDarkThemeChange = viewModel::setDarkTheme
-        onNotifyWifiChange = viewModel::setNotifyWifiChange
-        onApiUrlChange = viewModel::setApiUrl
+        onDarkThemeChange = component::setDarkTheme
+        onNotifyWifiChange = component::setNotifyWifiChange
+        onApiUrlChange = component::setApiUrl
         onGitHubClick = { intentActionsProvider.openGithubProject() }
-        onTestDataClick = viewModel::setTestData
+        onTestDataClick = component::setTestData
         onBackClick = navigateUp
     }
 }
@@ -94,12 +94,14 @@ private fun SettingsContent(
     settings: AppSettings, event: Event<SettingsAction>?, state: SettingsState
 ) {
     Scaffold(
-        topBar = { AppBar(stringResource(R.string.settings_title), state.onBackClick) },
+        topBar = { TopAppBar(stringResource(R.string.settings_title), state.onBackClick) },
         modifier = Modifier.fillMaxSize(),
-        content = {
-            Box(modifier = Modifier.fillMaxSize()) {
-                SettingsItems(settings, state)
-                SettingsEvent(event)
+        content = { contentPadding ->
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                SettingsItems(settings, state, contentPadding)
+                SettingsEvent(event) // TODO: Move to Scaffolds parameter
             }
         }
     )
@@ -128,9 +130,11 @@ private fun SettingsEvent(event: Event<SettingsAction>?) {
 @Composable
 private fun SettingsItems(
     settings: AppSettings,
-    state: SettingsState
+    state: SettingsState,
+    contentPadding: PaddingValues,
 ) {
     LazyColumn(
+        contentPadding = contentPadding,
         modifier = Modifier.fillMaxSize()
     ) {
         item { Section(R.string.settings_section_appearance) }
@@ -201,13 +205,13 @@ private fun ServerSettingsItem(
     LaunchedEffect(apiUrl) { text = apiUrl }
     Row(
         modifier = Modifier
-            .padding(AppTheme.dimensions.normal)
+            .padding(16.dp)
             .fillMaxWidth()
     ) {
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.normal)
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ShapeIcon(icon)
                 AppTextField(
@@ -224,13 +228,10 @@ private fun ServerSettingsItem(
                 },
                 elevation = null,
                 modifier = Modifier
-                    .padding(start = SettingsState.ICON_SIZE + AppTheme.dimensions.normal)
+                    .padding(start = SettingsState.ICON_SIZE + 16.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = stringResource(R.string.settings_server_update),
-                    style = AppTheme.typography.button
-                )
+                Text(stringResource(R.string.settings_server_update))
             }
         }
     }
@@ -244,23 +245,25 @@ private fun SwitchSettingsItem(
     description: String = "",
     icon: Painter? = null
 ) {
-    Row(modifier = Modifier
-        .clickable { onCheckedChange(!isChecked) }
-        .padding(AppTheme.dimensions.normal)
-        .fillMaxWidth(),
+    Row(
+        modifier = Modifier
+            .clickable { onCheckedChange(!isChecked) }
+            .padding(16.dp)
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.normal)) {
+        horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         if (icon != null) {
             ShapeIcon(icon)
         } else {
             Spacer(modifier = Modifier.width(SettingsState.ICON_SIZE))
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, style = AppTheme.typography.body1)
-            Text(description, style = AppTheme.typography.body2)
+            Text(title, style = MaterialTheme.typography.bodyMedium)
+            Text(description, style = MaterialTheme.typography.bodySmall)
         }
         Switch(
-            checked = isChecked, onCheckedChange = onCheckedChange
+            checked = isChecked,
+            onCheckedChange = onCheckedChange
         )
     }
 }
@@ -278,10 +281,10 @@ private fun SettingsItem(
                 enabled = onClick != null,
                 onClick = { onClick?.invoke() }
             )
-            .padding(AppTheme.dimensions.normal)
+            .padding(16.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.normal)
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (icon != null) {
             ShapeIcon(icon)
@@ -289,8 +292,8 @@ private fun SettingsItem(
             Spacer(modifier = Modifier.width(SettingsState.ICON_SIZE))
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, style = AppTheme.typography.body1)
-            Text(description, style = AppTheme.typography.body2)
+            Text(title, style = MaterialTheme.typography.bodyMedium)
+            Text(description, style = MaterialTheme.typography.bodySmall)
         }
     }
 }
@@ -299,7 +302,7 @@ private fun SettingsItem(
 private fun Section(@StringRes titleResId: Int) {
     Text(
         text = stringResource(titleResId),
-        style = AppTheme.typography.h6,
+        style = MaterialTheme.typography.headlineSmall,
         modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
     )
 }

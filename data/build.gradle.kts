@@ -1,30 +1,25 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("plugin.serialization") version Versions.KOTLIN
-    id("com.google.devtools.ksp") version Versions.KSP
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    compileSdk = Configuration.compileSdk
+    namespace = "com.enxy.noolite.data"
+    compileSdk = 36
 
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles += file("consumer-rules.pro")
+        minSdk = 23
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true"
-                )
-            }
-        }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
+        release {
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -35,37 +30,27 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+    kotlin {
+        compileOptions {
+            jvmToolchain(11)
+        }
     }
 }
 
 dependencies {
-    implementation(project(path = ":domain"))
-
-    // Squareup
-    implementation(Dependencies.Squareup.RETROFIT)
-    implementation(Dependencies.Squareup.OKHTTP)
-    implementation(Dependencies.Squareup.OKHTTP_LOGGING)
-
-    // Koin
-    implementation(Dependencies.Koin.CORE)
-    ksp(Dependencies.Koin.KSP_COMPILER)
-
-    // Serialization
-    implementation(Dependencies.Kotlin.SERIALIZATION)
-    implementation(Dependencies.SERIALIZATION_CONVERTER)
-
-    // Room
-    implementation(Dependencies.AndroidX.Room.RUNTIME)
-    implementation(Dependencies.AndroidX.Ktx.ROOM)
-    ksp(Dependencies.AndroidX.Room.COMPILER)
-
-    // Test
-    testImplementation(Dependencies.Test.JUNIT)
-    androidTestImplementation(Dependencies.Test.JUNIT_EXT)
-    androidTestImplementation(Dependencies.Test.ESPRESSO)
-
-    // Other
-    implementation(Dependencies.TIMBER)
+    implementation(project(":domain"))
+    implementation(libs.androidx.room)
+    ksp(libs.androidx.room.compiler)
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.okhttp.logging)
+    implementation(libs.squareup.retrofit)
+    implementation(libs.squareup.retrofit.converter)
+    implementation(libs.timber)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -22,11 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.enxy.domain.features.actions.model.ChannelAction
-import com.enxy.domain.features.common.Channel
+import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.features.actions.model.ChannelAction
+import com.enxy.noolite.domain.features.common.Channel
 import com.enxy.noolite.presentation.ui.common.ActionButton
-import com.enxy.noolite.presentation.ui.theme.AppTheme
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
 import com.enxy.noolite.presentation.utils.ThemedPreview
 
@@ -42,10 +44,10 @@ fun Channel(
 ) {
     Box(
         modifier = modifier
-            .clip(AppTheme.shapes.large)
-            .background(AppTheme.colors.surface)
+            .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxWidth()
-            .padding(AppTheme.dimensions.normal)
+            .padding(16.dp)
     ) {
         Column {
             if (channel.hasLight) {
@@ -69,7 +71,7 @@ private fun BacklightContent(
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.smallest)
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Column(Modifier.weight(1f)) {
             Text(
@@ -79,7 +81,7 @@ private fun BacklightContent(
             )
             Text(
                 text = stringResource(R.string.channels_backlight_description),
-                style = AppTheme.typography.body2
+                style = MaterialTheme.typography.bodySmall
             )
         }
         ActionButton(
@@ -102,7 +104,7 @@ private fun BrightnessContent(
     channel: Channel,
     onBrightnessChange: (action: ChannelAction) -> Unit
 ) {
-    var position by rememberSaveable { mutableStateOf(0f) }
+    var position by rememberSaveable { mutableFloatStateOf(0f) }
     Slider(
         value = position,
         onValueChange = { position = it },
@@ -121,7 +123,7 @@ private fun LightContent(
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(AppTheme.dimensions.normal)
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column(Modifier.weight(1f)) {
             Text(
@@ -131,7 +133,7 @@ private fun LightContent(
             )
             Text(
                 text = stringResource(R.string.channels_turn_on_off),
-                style = AppTheme.typography.body2
+                style = MaterialTheme.typography.bodySmall
             )
         }
         ActionButton(

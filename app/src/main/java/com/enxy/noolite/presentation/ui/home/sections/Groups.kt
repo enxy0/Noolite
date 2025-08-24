@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,11 +26,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.enxy.domain.features.actions.model.GroupAction
-import com.enxy.domain.features.common.Group
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.features.actions.model.GroupAction
+import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.presentation.ui.common.ActionButton
-import com.enxy.noolite.presentation.ui.theme.AppTheme
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
 import com.enxy.noolite.presentation.utils.ThemedPreview
 
@@ -42,8 +43,8 @@ data class GroupState(
 fun Groups(
     groups: List<Group>,
     state: GroupState = GroupState(),
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(AppTheme.dimensions.normal),
-    contentPadding: PaddingValues = PaddingValues(AppTheme.dimensions.normal)
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(16.dp),
+    contentPadding: PaddingValues = PaddingValues(16.dp)
 ) {
     LazyRow(
         horizontalArrangement = horizontalArrangement,
@@ -56,7 +57,7 @@ fun Groups(
             Group(
                 group = group,
                 state = state,
-                modifier = Modifier.animateItemPlacement()
+                modifier = Modifier.animateItem()
             )
         }
     }
@@ -70,19 +71,19 @@ private fun Group(
 ) {
     Box(
         modifier = modifier then Modifier
-            .clip(AppTheme.shapes.large)
-            .background(AppTheme.colors.surface)
+            .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surface)
             .clickable { state.onGroupClick(group) }
     ) {
         Column(
             modifier = Modifier
-                .padding(AppTheme.dimensions.normal)
+                .padding(16.dp)
                 .size(height = 125.dp, width = 145.dp),
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ActionButton(
                     painter = painterResource(R.drawable.ic_on),
-                    modifier = Modifier.background(AppTheme.colors.primary),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primary),
                     tint = Color.Black,
                     onClick = { state.onAction(GroupAction.TurnOn(group)) }
                 )
@@ -91,7 +92,7 @@ private fun Group(
                     onClick = { state.onAction(GroupAction.TurnOff(group)) }
                 )
             }
-            Spacer(Modifier.height(AppTheme.dimensions.smallest))
+            Spacer(Modifier.height(8.dp))
             Text(
                 text = group.name,
                 maxLines = 1,
@@ -102,7 +103,7 @@ private fun Group(
                 text = group.channelNames,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = AppTheme.typography.body2
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

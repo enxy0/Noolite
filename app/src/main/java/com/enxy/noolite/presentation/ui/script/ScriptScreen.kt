@@ -18,16 +18,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,18 +43,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.enxy.domain.features.actions.model.ChannelAction
-import com.enxy.domain.features.actions.model.GroupAction
-import com.enxy.domain.features.common.Channel
 import com.enxy.noolite.R
-import com.enxy.noolite.presentation.ui.common.AppBar
+import com.enxy.noolite.domain.features.actions.model.ChannelAction
+import com.enxy.noolite.domain.features.actions.model.GroupAction
+import com.enxy.noolite.domain.features.common.Channel
+import com.enxy.noolite.presentation.ui.common.TopAppBar
 import com.enxy.noolite.presentation.ui.script.model.ScriptChannel
 import com.enxy.noolite.presentation.ui.script.model.ScriptGroup
-import com.enxy.noolite.presentation.ui.theme.AppTheme
 import com.enxy.noolite.presentation.utils.FakeUiDataProvider
 import com.enxy.noolite.presentation.utils.ThemedPreview
 import com.enxy.noolite.presentation.utils.extensions.firstOfTypeOrNull
-import org.koin.androidx.compose.getViewModel
 
 private data class ScriptState(
     val onBackClick: () -> Unit = {},
@@ -68,12 +69,12 @@ private val DP_ACTION_SPACING = 4.dp
 @Composable
 fun ScriptScreen(
     onBackClick: () -> Unit,
-    viewModel: ScriptViewModel = getViewModel()
+    component: ScriptComponent
 ) {
-    val name by viewModel.name
-    val isError by viewModel.isError
-    val groups = viewModel.groups
-    val state = rememberScriptState(onBackClick, viewModel)
+    val name by component.name
+    val isError by component.isError
+    val groups = component.groups
+    val state = rememberScriptState(onBackClick, component)
     ScriptScaffold(
         state = state,
         name = name,
@@ -85,7 +86,7 @@ fun ScriptScreen(
 @Composable
 private fun rememberScriptState(
     onBackClick: () -> Unit,
-    viewModel: ScriptViewModel
+    viewModel: ScriptComponent
 ) = remember {
     ScriptState(
         onBackClick = onBackClick,
@@ -105,11 +106,22 @@ private fun ScriptScaffold(
     isError: Boolean,
     groups: List<ScriptGroup>
 ) {
-    Scaffold(topBar = { AppBar(stringResource(R.string.script_title), state.onBackClick) }) {
+    Scaffold(topBar = {
+        TopAppBar(
+            stringResource(R.string.script_title),
+            state.onBackClick
+        )
+    }) { contentPadding ->
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            ScriptContent(state, name, isError, groups)
+            ScriptContent(
+                state = state,
+                name = name,
+                isError = isError,
+                scriptGroups = groups,
+                contentPadding = contentPadding,
+            )
             ScriptCreateButton(state.onCreateScriptClick)
         }
     }
@@ -121,32 +133,34 @@ private fun ScriptContent(
     state: ScriptState,
     name: String,
     isError: Boolean,
-    scriptGroups: List<ScriptGroup>
+    scriptGroups: List<ScriptGroup>,
+    contentPadding: PaddingValues,
 ) {
+    contentPadding // TODO: use content padding
     LazyColumn(
         contentPadding = PaddingValues(
-            start = AppTheme.dimensions.normal,
-            top = AppTheme.dimensions.normal,
-            end = AppTheme.dimensions.normal,
+            start = 16.dp,
+            top = 16.dp,
+            end = 16.dp,
             bottom = 80.dp
         )
     ) {
         item { SectionTitle(stringResource(R.string.script_name_title)) }
-        item { Spacer(Modifier.height(AppTheme.dimensions.normal)) }
+        item { Spacer(Modifier.height(16.dp)) }
         item { SectionScriptName(name, state, isError) }
-        item { Spacer(Modifier.height(AppTheme.dimensions.bigger)) }
+        item { Spacer(Modifier.height(24.dp)) }
         item { SectionTitle(stringResource(R.string.script_action_title)) }
-        item { Spacer(Modifier.height(AppTheme.dimensions.smallest)) }
+        item { Spacer(Modifier.height(4.dp)) }
         items(
             items = scriptGroups,
-            key = { scriptGroup -> scriptGroup.group.id }
+            key = { scriptGroup -> scriptGroup.group.id },
         ) { scriptGroup ->
             Group(
                 state = state,
                 scriptGroup = scriptGroup,
                 modifier = Modifier
-                    .animateItemPlacement()
-                    .padding(vertical = AppTheme.dimensions.smallest)
+                    .padding(vertical = 4.dp)
+                    .animateItem()
             )
         }
     }
@@ -154,7 +168,7 @@ private fun ScriptContent(
 
 @Composable
 private fun SectionTitle(name: String) {
-    Text(text = name, style = AppTheme.typography.h6)
+    Text(text = name, style = MaterialTheme.typography.headlineSmall)
 }
 
 @Composable
@@ -169,7 +183,10 @@ private fun SectionScriptName(
             value = name,
             onValueChange = { value -> state.onNameChange(value) },
             placeholder = { Text(text = stringResource(R.string.script_name_placeholder)) },
-            keyboardOptions = KeyboardOptions(autoCorrect = false, imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(
+                autoCorrectEnabled = false,
+                imeAction = ImeAction.Done
+            ),
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             singleLine = true,
             isError = isError,
@@ -178,9 +195,9 @@ private fun SectionScriptName(
         if (isError) {
             Text(
                 text = stringResource(id = R.string.script_name_error),
-                style = AppTheme.typography.caption,
-                color = AppTheme.colors.error,
-                modifier = Modifier.padding(horizontal = AppTheme.dimensions.normal)
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
     }
@@ -197,22 +214,22 @@ private fun Group(
     Column(
         modifier = modifier then Modifier
             .fillMaxWidth()
-            .clip(AppTheme.shapes.medium)
-            .background(AppTheme.colors.surface)
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surface)
             .clickable { expanded = !expanded }
-            .padding(AppTheme.dimensions.normal)
+            .padding(16.dp)
     ) {
         Text(text = group.name)
         Text(
             text = group.channelNames,
-            style = AppTheme.typography.body2,
+            style = MaterialTheme.typography.bodyMedium,
             maxLines = 1
         )
         if (expanded) {
             Column {
                 GroupLightContent(state, scriptGroup)
                 for (channel in scriptGroup.channels) {
-                    Spacer(Modifier.height(AppTheme.dimensions.smallest))
+                    Spacer(Modifier.height(4.dp))
                     Channel(state, channel)
                 }
             }
@@ -227,7 +244,7 @@ private fun GroupLightContent(
 ) {
     val turnOnAction: GroupAction.TurnOn? = scriptGroup.actions.firstOfTypeOrNull()
     val turnOffAction: GroupAction.TurnOff? = scriptGroup.actions.firstOfTypeOrNull()
-    Spacer(Modifier.height(AppTheme.dimensions.normal))
+    Spacer(Modifier.height(16.dp))
     CheckableAction(
         text = stringResource(R.string.script_group_turn_on),
         isChecked = turnOnAction != null,
@@ -261,10 +278,10 @@ private fun Channel(state: ScriptState, scriptChannel: ScriptChannel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(AppTheme.shapes.small)
-            .border(1.dp, AppTheme.colors.surfaceVariant, AppTheme.shapes.small)
+            .clip(RoundedCornerShape(4.dp))
+            .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
             .clickable { expanded = !expanded }
-            .padding(AppTheme.dimensions.normal)
+            .padding(16.dp)
     ) {
         Text(channel.name)
         AnimatedVisibility(expanded) {
@@ -307,7 +324,7 @@ private fun ChannelLightContent(
 ) {
     val turnOnAction: ChannelAction.TurnOn? = actions.firstOfTypeOrNull()
     val turnOffAction: ChannelAction.TurnOff? = actions.firstOfTypeOrNull()
-    Spacer(Modifier.height(AppTheme.dimensions.normal))
+    Spacer(Modifier.height(16.dp))
     CheckableAction(
         text = stringResource(R.string.script_channel_light_on),
         isChecked = turnOnAction != null,
@@ -415,8 +432,8 @@ private fun CheckableAction(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clip(AppTheme.shapes.small)
-            .background(AppTheme.colors.surfaceVariant)
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickable { onActionClick(!isChecked) }
     ) {
         Checkbox(
@@ -425,7 +442,7 @@ private fun CheckableAction(
         )
         Text(
             text = text,
-            style = AppTheme.typography.body2
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 }
@@ -437,12 +454,12 @@ private fun SliderAction(
     onActionChange: (isChecked: Boolean, value: Int) -> Unit,
     initialValue: Int = 0
 ) {
-    var value by remember { mutableStateOf(initialValue.toFloat()) }
+    var value by remember { mutableFloatStateOf(initialValue.toFloat()) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(AppTheme.shapes.small)
-            .background(AppTheme.colors.surfaceVariant)
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickable { onActionChange(!isChecked, value.toInt()) }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -452,7 +469,7 @@ private fun SliderAction(
             )
             Text(
                 text = text,
-                style = AppTheme.typography.body2
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
         Slider(
@@ -461,7 +478,7 @@ private fun SliderAction(
             enabled = isChecked,
             valueRange = 0f..100f,
             onValueChangeFinished = { onActionChange(true, value.toInt()) },
-            modifier = Modifier.padding(horizontal = AppTheme.dimensions.normal)
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }
@@ -470,18 +487,15 @@ private fun SliderAction(
 private fun BoxScope.ScriptCreateButton(onCreateScriptClick: () -> Unit) {
     Button(
         onClick = onCreateScriptClick,
-        shape = AppTheme.shapes.medium,
+        shape = RoundedCornerShape(16.dp),
         elevation = null,
         modifier = Modifier
-            .padding(AppTheme.dimensions.normal)
+            .padding(16.dp)
             .fillMaxWidth()
             .height(56.dp)
             .align(Alignment.BottomCenter)
     ) {
-        Text(
-            text = stringResource(R.string.script_create),
-            style = AppTheme.typography.button1
-        )
+        Text(stringResource(R.string.script_create))
     }
 }
 

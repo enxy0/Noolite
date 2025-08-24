@@ -1,8 +1,8 @@
 package com.enxy.noolite.presentation.ui.script.model
 
-import com.enxy.domain.features.actions.model.ChannelAction
-import com.enxy.domain.features.actions.model.GroupAction
-import com.enxy.domain.features.common.Group
+import com.enxy.noolite.domain.features.actions.model.ChannelAction
+import com.enxy.noolite.domain.features.actions.model.GroupAction
+import com.enxy.noolite.domain.features.common.Group
 
 data class ScriptGroup(
     val group: Group,

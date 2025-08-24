@@ -1,7 +1,7 @@
 package com.enxy.noolite.di
 
-import com.enxy.data.di.DataModules
-import com.enxy.domain.di.DomainModules
+import com.enxy.noolite.data.di.DataModules
+import com.enxy.noolite.domain.di.DomainModules
 import org.koin.core.module.Module
 
 object KoinModules {

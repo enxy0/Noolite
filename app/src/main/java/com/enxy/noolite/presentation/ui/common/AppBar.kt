@@ -1,45 +1,33 @@
 package com.enxy.noolite.presentation.ui.common
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
-import com.enxy.noolite.presentation.ui.theme.AppTheme
 import com.enxy.noolite.presentation.utils.ThemedPreview
-import com.enxy.noolite.presentation.utils.extensions.bottomDivider
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(
+fun TopAppBar(
     title: String,
     onBackClick: (() -> Unit)? = null,
     actions: (@Composable RowScope.() -> Unit)? = null,
 ) {
     TopAppBar(
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp,
-        modifier = Modifier
-            .height(56.dp)
-            .bottomDivider(AppTheme.colors.surface)
-    ) {
-        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
+        navigationIcon = {
             if (onBackClick != null) {
                 IconButton(onClick = onBackClick) {
                     Icon(
@@ -48,18 +36,20 @@ fun AppBar(
                     )
                 }
             }
+        },
+        title = {
             Text(
                 text = title,
-                style = AppTheme.typography.h6,
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = AppTheme.dimensions.small)
             )
-            if (actions != null) {
-                actions()
+        },
+        actions = {
+            // TODO: Remove Row?
+            Row {
+                actions?.invoke(this)
             }
         }
-    }
+    )
 }
 
 @Preview("AppBar")
@@ -67,7 +57,7 @@ fun AppBar(
 @Composable
 private fun PreviewAppBar() {
     ThemedPreview {
-        AppBar(
+        TopAppBar(
             title = stringResource(R.string.settings_title),
             onBackClick = {}
         )
@@ -79,7 +69,7 @@ private fun PreviewAppBar() {
 @Composable
 private fun PreviewActionsAppBar() {
     ThemedPreview {
-        AppBar(
+        TopAppBar(
             title = stringResource(R.string.app_name),
             actions = {
                 IconButton(onClick = {}) {
