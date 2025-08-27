@@ -52,12 +52,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
         compileOptions {
-            jvmToolchain(11)
+            jvmToolchain(17)
         }
     }
     buildFeatures {
@@ -80,6 +80,8 @@ dependencies {
     implementation(libs.decompose)
     implementation(libs.decompose.compose)
     implementation(libs.decompose.compose.experimental)
+    implementation(libs.haze)
+    implementation(libs.haze.materials)
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
