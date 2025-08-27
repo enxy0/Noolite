@@ -1,16 +1,17 @@
 <resources>
-    <string name="app_name">AlterLite</string>
+    <string name="app_name">Alterite</string>
+    <string name="home_second_row_title">for nooLite PR1132</string>
     <string name="home_groups">Группы</string>
     <string name="home_scripts">Сценарии</string>
     <string name="home_favorite">Избранное</string>
 
     <string name="home_empty">
-        — Настройте умный дом через web-интерфейс ethernet-шлюза PR1132. Добавьте группы и привяжите к ним каналы
-        \n— Введите IP-адрес ethernet-шлюза PR1132 в поле ниже. Приложение загрузит и обработает все необходимые настройки
+        — Настройте умный дом в web-интерфейсе шлюза PR1132: создайте группы и добавьте в них каналыю
+        \n— Укажите IP-адрес шлюза PR1132 ниже, и приложение автоматически загрузит все настройки.
     </string>
-    <string name="home_groups_empty">Пока что групп нет, перейдите в настройки, чтобы загрузить настройки с ethernet-шлюза</string>
-    <string name="home_scripts_empty">Нажмите на значок + рядом с заголовком, чтобы создать новый сценарий</string>
-    <string name="home_favorite_empty">В избранном пока ничего нет. Нажмите на сердечко в группе, чтобы добавить её в избранное</string>
+    <string name="home_groups_empty">У вас пока нет групп. Зайдите в настройки, чтобы загрузить их с Ethernet-шлюза.</string>
+    <string name="home_scripts_empty">Нажмите «+» рядом с заголовком, чтобы добавить новый сценарий.</string>
+    <string name="home_favorite_empty">Избранное пока пусто. Перейдите в группу и нажмите на сердечко, чтобы добавить её сюда.</string>
     <string name="home_onboarding_title">Подключение к шлюзу</string>
     <string name="home_onboarding_action">Подключиться</string>
 

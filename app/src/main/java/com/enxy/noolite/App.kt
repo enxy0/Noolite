@@ -3,7 +3,7 @@ package com.enxy.noolite
 import android.app.Application
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.enxy.noolite.di.KoinModules
-import com.enxy.noolite.presentation.utils.lifecycle.AppThemeObserver
+import com.enxy.noolite.utils.lifecycle.AppThemeObserver
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
