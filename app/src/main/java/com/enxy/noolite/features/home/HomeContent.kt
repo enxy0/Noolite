@@ -57,10 +57,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.common.Group
+import com.enxy.noolite.domain.common.Script
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
-import com.enxy.noolite.domain.features.common.Group
-import com.enxy.noolite.domain.features.common.Script
 import com.enxy.noolite.domain.features.home.model.HomeData
 import com.enxy.noolite.features.common.AppTextField
 import com.enxy.noolite.features.common.IconTextTooltip

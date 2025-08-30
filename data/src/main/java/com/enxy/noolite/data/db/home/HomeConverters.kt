@@ -3,8 +3,8 @@ package com.enxy.noolite.data.db.home
 import androidx.room.TypeConverter
 import com.enxy.noolite.data.db.home.model.ChannelEntity
 import com.enxy.noolite.data.db.home.model.GroupEntity
-import com.enxy.noolite.domain.features.common.Channel
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Channel
+import com.enxy.noolite.domain.common.Group
 import kotlinx.serialization.json.Json
 
 internal class ChannelConverters {

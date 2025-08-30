@@ -26,8 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.actions.model.GroupAction
-import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.features.common.IconActionButton
 import com.enxy.noolite.utils.FakeUiDataProvider
 import com.enxy.noolite.utils.ThemedPreview

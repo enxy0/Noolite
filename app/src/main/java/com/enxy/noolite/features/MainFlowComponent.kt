@@ -8,7 +8,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.settings.GetAppSettingsUseCase
 import com.enxy.noolite.domain.features.settings.model.AppSettings
 import com.enxy.noolite.features.detail.DetailsComponent

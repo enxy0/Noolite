@@ -1,6 +1,6 @@
 package com.enxy.noolite.data.db.home
 
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.home.HomeDbDataSource
 import com.enxy.noolite.domain.features.home.model.SetFavoriteGroupPayload
 import kotlinx.coroutines.flow.Flow

@@ -1,7 +1,7 @@
 package com.enxy.noolite.features.script.model
 
+import com.enxy.noolite.domain.common.Channel
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
-import com.enxy.noolite.domain.features.common.Channel
 import kotlinx.serialization.Serializable
 
 @Serializable

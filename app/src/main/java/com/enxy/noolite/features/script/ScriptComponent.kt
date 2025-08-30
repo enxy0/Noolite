@@ -3,9 +3,9 @@ package com.enxy.noolite.features.script
 import android.content.Context
 import com.arkivanov.decompose.ComponentContext
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
-import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.domain.features.script.CreateScriptUseCase
 import com.enxy.noolite.domain.features.script.GetGroupsUseCase
 import com.enxy.noolite.domain.features.script.model.CreateScriptPayload

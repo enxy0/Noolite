@@ -1,7 +1,7 @@
 package com.enxy.noolite.features.script
 
-import com.enxy.noolite.domain.features.common.Channel
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Channel
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.features.script.model.ScriptChannel
 import com.enxy.noolite.features.script.model.ScriptGroup
 

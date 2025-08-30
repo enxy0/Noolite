@@ -1,4 +1,4 @@
-package com.enxy.noolite.domain.features.common
+package com.enxy.noolite.domain.common
 
 class Event<out T>(private val value: T) {
     private var isHandled: Boolean = false

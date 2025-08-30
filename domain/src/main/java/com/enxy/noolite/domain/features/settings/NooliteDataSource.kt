@@ -1,6 +1,6 @@
 package com.enxy.noolite.domain.features.settings
 
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Group
 
 interface NooliteDataSource {
     suspend fun getGroups(): List<Group>

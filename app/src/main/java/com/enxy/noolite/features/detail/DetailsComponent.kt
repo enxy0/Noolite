@@ -1,9 +1,9 @@
 package com.enxy.noolite.features.detail
 
 import com.arkivanov.decompose.ComponentContext
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.actions.ChannelActionUseCase
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
-import com.enxy.noolite.domain.features.common.Group
 import com.enxy.noolite.domain.features.home.GetFavoriteGroupUseCase
 import com.enxy.noolite.domain.features.home.SetFavoriteGroupUseCase
 import com.enxy.noolite.domain.features.home.model.SetFavoriteGroupPayload

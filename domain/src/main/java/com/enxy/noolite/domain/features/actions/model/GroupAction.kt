@@ -1,6 +1,6 @@
 package com.enxy.noolite.domain.features.actions.model
 
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Group
 import kotlinx.serialization.Serializable
 
 @Serializable

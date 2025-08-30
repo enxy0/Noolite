@@ -1,7 +1,7 @@
 package com.enxy.noolite.domain.features.home.model
 
-import com.enxy.noolite.domain.features.common.Group
-import com.enxy.noolite.domain.features.common.Script
+import com.enxy.noolite.domain.common.Group
+import com.enxy.noolite.domain.common.Script
 
 data class HomeData(
     val groups: List<Group>,

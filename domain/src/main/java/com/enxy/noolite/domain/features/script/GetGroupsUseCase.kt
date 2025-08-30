@@ -1,6 +1,17 @@
 package com.enxy.noolite.domain.features.script
 
 import com.enxy.noolite.domain.UseCase
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.asResult
+import com.enxy.noolite.domain.common.Group
+import com.enxy.noolite.domain.features.home.HomeDbDataSource
+import kotlinx.coroutines.flow.Flow
 
 interface GetGroupsUseCase : UseCase<Unit, List<Group>>
+
+internal class GetGroupsUseCaseImpl(
+    private val homeDbDataSource: HomeDbDataSource
+) : GetGroupsUseCase {
+    override fun invoke(param: Unit): Flow<Result<List<Group>>> {
+        return homeDbDataSource.getGroupsFlow().asResult()
+    }
+}

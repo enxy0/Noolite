@@ -3,8 +3,8 @@ package com.enxy.noolite.data
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.enxy.noolite.data.net.noolite.NooliteBinParser
-import com.enxy.noolite.domain.features.common.Channel
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Channel
+import com.enxy.noolite.domain.common.Group
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

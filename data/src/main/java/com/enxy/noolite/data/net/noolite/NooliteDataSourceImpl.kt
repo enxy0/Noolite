@@ -1,7 +1,7 @@
 package com.enxy.noolite.data.net.noolite
 
 import com.enxy.noolite.data.net.NetworkDataSource
-import com.enxy.noolite.domain.features.common.Group
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.settings.NooliteDataSource
 
 internal class NooliteDataSourceImpl(

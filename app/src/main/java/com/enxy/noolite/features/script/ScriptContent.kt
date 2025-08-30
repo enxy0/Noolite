@@ -55,9 +55,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.common.Channel
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
-import com.enxy.noolite.domain.features.common.Channel
 import com.enxy.noolite.features.common.TopAppBar
 import com.enxy.noolite.features.script.model.ScriptGroup
 import com.enxy.noolite.utils.FakeUiDataProvider

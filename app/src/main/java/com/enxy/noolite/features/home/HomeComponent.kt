@@ -3,12 +3,12 @@ package com.enxy.noolite.features.home
 import android.content.Context
 import com.arkivanov.decompose.ComponentContext
 import com.enxy.noolite.R
+import com.enxy.noolite.domain.common.Group
+import com.enxy.noolite.domain.common.Script
 import com.enxy.noolite.domain.features.actions.ChannelActionUseCase
 import com.enxy.noolite.domain.features.actions.GroupActionUseCase
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
-import com.enxy.noolite.domain.features.common.Group
-import com.enxy.noolite.domain.features.common.Script
 import com.enxy.noolite.domain.features.home.GetHomeDataUseCase
 import com.enxy.noolite.domain.features.script.ExecuteScriptUseCase
 import com.enxy.noolite.domain.features.script.RemoveScriptUseCase

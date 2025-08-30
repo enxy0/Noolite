@@ -1,4 +1,4 @@
-package com.enxy.noolite.domain.features.common
+package com.enxy.noolite.domain.common
 
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 

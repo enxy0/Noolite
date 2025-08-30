@@ -1,8 +1,8 @@
 package com.enxy.noolite.features.script.model
 
+import com.enxy.noolite.domain.common.Group
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
 import com.enxy.noolite.domain.features.actions.model.GroupAction
-import com.enxy.noolite.domain.features.common.Group
 import kotlinx.serialization.Serializable
 
 @Serializable

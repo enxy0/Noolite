@@ -4,8 +4,8 @@ import androidx.room.TypeConverter
 import com.enxy.noolite.data.db.script.model.ChannelActionEntity
 import com.enxy.noolite.data.db.script.model.ChannelActionTypeEntity
 import com.enxy.noolite.data.db.script.model.ScriptEntity
+import com.enxy.noolite.domain.common.Script
 import com.enxy.noolite.domain.features.actions.model.ChannelAction
-import com.enxy.noolite.domain.features.common.Script
 import kotlinx.serialization.json.Json
 
 class ScriptConverters {
