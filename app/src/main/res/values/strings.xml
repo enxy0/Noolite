@@ -25,7 +25,7 @@
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Темная</string>
     <string name="settings_theme_system">Системная</string>
-    <string name="settings_server_title">Адрес шлюза PR1132</string>
+    <string name="settings_api_url_title">Адрес шлюза PR1132</string>
     <string name="settings_server_update">Обновить</string>
     <string name="settings_wifi_title">WiFi подключение</string>
     <string name="settings_wifi_description">Уведомлять об отстуствии подключения по WiFi, в случае ошибки</string>
@@ -40,6 +40,12 @@
     <string name="settings_update_groups_failure">Не удалось загрузить настройки</string>
     <string name="settings_demo_info_success">Тестовые данные загружены, демо режим включен</string>
     <string name="settings_demo_info_failure">Не удалось включить демо режим</string>
+    <string name="settings_change_api_url_title">@string/settings_api_url_title</string>
+    <string name="settings_change_api_url_description">Введите адрес (IP или имя хоста) шлюза PR1132.</string>
+    <string name="settings_change_api_url_label">Адрес</string>
+    <string name="settings_change_api_url_action_dismiss">Отмена</string>
+    <string name="settings_change_api_url_action_apply">Изменить</string>
+    <string name="settings_change_theme_title">Выберите тему приложения</string>
 
     <string name="script_title">Сценарий</string>
     <string name="script_name_title">Название сценария</string>

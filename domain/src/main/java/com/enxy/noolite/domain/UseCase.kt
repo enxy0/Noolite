@@ -8,5 +8,5 @@ interface UseCase<in P, R> {
     operator fun invoke(param: P): Flow<Result<R>>
 }
 
-fun <T> Flow<T>.asResult(): Flow<Result<T>> = map { Result.success(it) }
+inline fun <reified T> Flow<T>.asResult(): Flow<Result<T>> = map { Result.success(it) }
     .catch { emit(Result.failure(it)) }

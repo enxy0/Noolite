@@ -1,7 +1,6 @@
 package com.enxy.noolite.features.settings
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +23,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ExitToApp
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,11 +37,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,18 +46,18 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.R
-import com.enxy.noolite.features.common.AppTextField
 import com.enxy.noolite.features.common.TopAppBar
 import com.enxy.noolite.features.settings.model.SettingsState
 import com.enxy.noolite.features.settings.theme.ChangeThemeBottomSheetContent
+import com.enxy.noolite.features.settings.url.ChangeApiUrlDialogContent
 import com.enxy.noolite.utils.ThemedPreview
 import com.enxy.noolite.utils.intent.IntentActionsProvider
 import dev.chrisbanes.haze.HazeState
@@ -91,11 +87,11 @@ fun SettingsContent(component: SettingsComponent) {
         SettingsScaffold(
             state = state,
             snackbarHostState = snackbarHostState,
-            onChangeApiUrlClick = component::onChangeApiUrlClick,
             onGitHubClick = { intentActionsProvider.openGithubProject() },
             onSetTestDataClick = component::onSetTestDataClick,
             onBackClick = component::onBackClick,
             onChangeThemeClick = component::onChangeThemeClick,
+            onChangeApiUrlClick = component::onChangeApiUrlClick,
         )
         val dialogSlot = component.dialogSlot.subscribeAsState()
         when (val child = dialogSlot.value.child?.instance) {
@@ -104,6 +100,13 @@ fun SettingsContent(component: SettingsComponent) {
                     onDismissRequest = child.component::onDismiss,
                 ) {
                     ChangeThemeBottomSheetContent(child.component)
+                }
+            }
+            is SettingsComponent.DialogConfig.ChangeApiUrl -> {
+                Dialog(
+                    onDismissRequest = child.component::onDismiss,
+                ) {
+                    ChangeApiUrlDialogContent(child.component)
                 }
             }
             null -> Unit
@@ -116,11 +119,11 @@ fun SettingsContent(component: SettingsComponent) {
 private fun SettingsScaffold(
     state: SettingsState,
     snackbarHostState: SnackbarHostState,
-    onChangeApiUrlClick: (apiUrl: String) -> Unit,
     onGitHubClick: () -> Unit,
     onSetTestDataClick: () -> Unit,
     onBackClick: () -> Unit,
     onChangeThemeClick: () -> Unit,
+    onChangeApiUrlClick: () -> Unit,
 ) {
     val hazeState = rememberHazeState()
     Scaffold(
@@ -143,13 +146,14 @@ private fun SettingsScaffold(
                 .padding(contentPadding)
         ) {
             Spacer(Modifier.height(16.dp))
-            ServerSettingsItem(
+            SettingsItem(
                 icon = painterResource(R.drawable.ic_server),
-                title = stringResource(R.string.settings_server_title),
-                apiUrl = state.apiUrl,
-                apiUrlChanging = state.apiUrlChanging,
-                onChangeApiUrlClick = onChangeApiUrlClick,
+                title = stringResource(R.string.settings_api_url_title),
+                description = state.apiUrl,
+                onClick = onChangeApiUrlClick,
                 shape = RoundedCornerShape(24.dp),
+                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                loading = state.apiUrlChanging,
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(16.dp))
@@ -164,21 +168,21 @@ private fun SettingsScaffold(
             )
             Spacer(Modifier.height(4.dp))
             SettingsItem(
-                icon = painterResource(R.drawable.ic_github),
-                title = stringResource(R.string.settings_github_title),
-                description = stringResource(R.string.settings_github_description),
-                onClick = onGitHubClick,
-                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
-                modifier = Modifier.padding(horizontal = 16.dp),
-            )
-            Spacer(Modifier.height(4.dp))
-            SettingsItem(
                 icon = painterResource(R.drawable.ic_bug),
                 title = stringResource(R.string.settings_test_title),
                 description = stringResource(R.string.settings_test_description),
                 onClick = onSetTestDataClick,
                 actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
                 modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Spacer(Modifier.height(4.dp))
+            SettingsItem(
+                icon = painterResource(R.drawable.ic_github),
+                title = stringResource(R.string.settings_github_title),
+                description = stringResource(R.string.settings_github_description),
+                onClick = onGitHubClick,
+                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.ExitToApp),
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(4.dp))
             SettingsItem(
@@ -215,55 +219,6 @@ private fun SettingsTopAppBar(
 }
 
 @Composable
-private fun ServerSettingsItem(
-    icon: Painter,
-    title: String,
-    apiUrl: String,
-    apiUrlChanging: Boolean,
-    onChangeApiUrlClick: (apiUrl: String) -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-) {
-    val focusManager = LocalFocusManager.current
-    var text by remember { mutableStateOf(apiUrl) }
-    LaunchedEffect(apiUrl) { text = apiUrl }
-    SettingsItem(
-        icon = icon,
-        shape = shape,
-        modifier = modifier,
-    ) {
-        Column {
-            AppTextField(
-                text = text,
-                label = title,
-                onTextChange = { value -> text = value },
-                modifier = Modifier.fillMaxWidth(),
-            )
-            FilledTonalButton(
-                onClick = {
-                    focusManager.clearFocus()
-                    onChangeApiUrlClick(text)
-                },
-                enabled = !apiUrlChanging,
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                AnimatedContent(apiUrlChanging) { loading ->
-                    if (loading) {
-                        CircularProgressIndicator(
-                            strokeWidth = 3.dp,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    } else {
-                        Text(stringResource(R.string.settings_server_update))
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
 private fun SettingsItem(
     icon: Painter,
     actionIcon: Painter? = null,
@@ -272,6 +227,7 @@ private fun SettingsItem(
     onClick: (() -> Unit)? = null,
     shape: Shape = RectangleShape,
     description: String = "",
+    loading: Boolean = false,
 ) {
     SettingsItem(
         icon = icon,
@@ -293,12 +249,20 @@ private fun SettingsItem(
                 )
             }
         }
-        if (actionIcon != null) {
-            Icon(
-                painter = actionIcon,
-                contentDescription = null,
-                modifier = Modifier.size(SettingActionIconSize)
-            )
+        when {
+            loading -> {
+                CircularProgressIndicator(
+                    strokeWidth = 3.dp,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
+            actionIcon != null -> {
+                Icon(
+                    painter = actionIcon,
+                    contentDescription = null,
+                    modifier = Modifier.size(SettingActionIconSize)
+                )
+            }
         }
     }
 }
@@ -343,8 +307,8 @@ private fun PreviewDetailsScreen() {
         SettingsScaffold(
             state = SettingsState.empty(),
             snackbarHostState = remember { SnackbarHostState() },
-            onChangeApiUrlClick = {},
             onGitHubClick = {},
+            onChangeApiUrlClick = {},
             onSetTestDataClick = {},
             onBackClick = {},
             onChangeThemeClick = {},

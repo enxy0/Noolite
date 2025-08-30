@@ -3,8 +3,8 @@ package com.enxy.noolite.features.common
 import android.content.res.Configuration
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -24,7 +24,7 @@ fun AppTextField(
     focusManager: FocusManager = LocalFocusManager.current,
     onTextChange: (text: String) -> Unit,
 ) {
-    TextField(
+    OutlinedTextField(
         value = text,
         onValueChange = { value -> onTextChange(value) },
         label = { Text(label) },
@@ -45,7 +45,7 @@ private fun PreviewTextField() {
     ThemedPreview {
         AppTextField(
             text = FakeUiDataProvider.getSettings().apiUrl,
-            label = stringResource(R.string.settings_server_title),
+            label = stringResource(R.string.settings_api_url_title),
             onTextChange = {}
         )
     }

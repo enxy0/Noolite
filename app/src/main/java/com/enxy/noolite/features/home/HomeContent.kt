@@ -201,7 +201,7 @@ private fun HomeEmptyState(
         Spacer(Modifier.height(24.dp))
         AppTextField(
             text = apiUrl,
-            label = stringResource(R.string.settings_server_title),
+            label = stringResource(R.string.settings_api_url_title),
             focusManager = focusManager,
             onTextChange = { apiUrl = it },
             modifier = Modifier.fillMaxWidth()

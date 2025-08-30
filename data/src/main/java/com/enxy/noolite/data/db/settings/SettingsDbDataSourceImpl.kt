@@ -4,16 +4,14 @@ import com.enxy.noolite.data.db.settings.model.SettingsEntity
 import com.enxy.noolite.domain.features.settings.SettingsDbDataSource
 import com.enxy.noolite.domain.features.settings.model.AppSettings
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 
 internal class SettingsDbDataSourceImpl(
     private val settingsDao: SettingsDao
 ) : SettingsDbDataSource {
-    override fun getAppSettingsFlow(): Flow<AppSettings> = settingsDao.getSettingsFlow().mapNotNull { entity ->
-        if (entity == null) {
-            updateAppSettings(AppSettings.default())
-        }
-        entity?.toDomain()
+    override fun getAppSettingsFlow(): Flow<AppSettings> {
+        return settingsDao.getSettingsFlow()
+            .map { entity -> entity?.toDomain() ?: AppSettings.default() }
     }
 
     override suspend fun updateAppSettings(settings: AppSettings) {

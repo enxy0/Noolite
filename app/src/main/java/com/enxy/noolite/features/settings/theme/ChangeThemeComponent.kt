@@ -4,7 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.enxy.noolite.domain.features.settings.model.AppSettings
 import org.koin.core.component.KoinComponent
 
-interface ChangeThemeComponent {
+internal interface ChangeThemeComponent {
     val options: List<AppSettings.Theme>
     fun onThemeChange(theme: AppSettings.Theme)
     fun onDismiss()

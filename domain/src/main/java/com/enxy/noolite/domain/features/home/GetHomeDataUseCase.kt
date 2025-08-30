@@ -1,6 +1,7 @@
 package com.enxy.noolite.domain.features.home
 
 import com.enxy.noolite.domain.UseCase
+import com.enxy.noolite.domain.asResult
 import com.enxy.noolite.domain.features.home.model.HomeData
 import com.enxy.noolite.domain.features.script.ScriptDbDataSource
 import kotlinx.coroutines.flow.Flow
@@ -19,12 +20,11 @@ internal class GetHomeDataUseCaseImpl(
             homeDbDataSource.getFavoriteGroupFlow(),
             scriptDbDataSource.getScripts()
         ) { groups, favoriteGroup, scripts ->
-            val data = HomeData(
+            HomeData(
                 groups = groups,
                 favoriteGroup = favoriteGroup,
                 scripts = scripts
             )
-            Result.success(data)
-        }
+        }.asResult()
     }
 }
