@@ -23,12 +23,12 @@ internal class SettingsDbDataSourceImpl(
     private fun AppSettings.toEntity() = SettingsEntity(
         apiUrl = apiUrl,
         notifyWifiChange = notifyWifiChange,
-        darkTheme = darkTheme.name
+        darkTheme = theme.name
     )
 
     private fun SettingsEntity.toDomain() = AppSettings(
         apiUrl = apiUrl,
         notifyWifiChange = notifyWifiChange,
-        darkTheme = AppSettings.Theme.valueOf(darkTheme)
+        theme = AppSettings.Theme.valueOf(darkTheme)
     )
 }

@@ -20,12 +20,12 @@
     <string name="channels_backlight_description">Перелив / Цвет</string>
 
     <string name="settings_title">Настройки</string>
-    <string name="settings_section_appearance">Внешний вид</string>
+    <string name="settings_theme_title">Тема приложения</string>
     <string name="settings_section_other">Другое</string>
-    <string name="settings_section_server">Шлюз</string>
-    <string name="settings_theme_title">Темная тема</string>
-    <string name="settings_theme_description">Использовать темную тему в приложении</string>
-    <string name="settings_server_title">Адрес</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Темная</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_server_title">Адрес шлюза PR1132</string>
     <string name="settings_server_update">Обновить</string>
     <string name="settings_wifi_title">WiFi подключение</string>
     <string name="settings_wifi_description">Уведомлять об отстуствии подключения по WiFi, в случае ошибки</string>

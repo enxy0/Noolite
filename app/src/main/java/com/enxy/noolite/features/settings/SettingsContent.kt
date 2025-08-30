@@ -1,10 +1,13 @@
 package com.enxy.noolite.features.settings
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
@@ -14,22 +17,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Switch
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,18 +45,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.R
-import com.enxy.noolite.domain.features.settings.model.AppSettings
 import com.enxy.noolite.features.common.AppTextField
-import com.enxy.noolite.features.common.ShapeIcon
 import com.enxy.noolite.features.common.TopAppBar
+import com.enxy.noolite.features.settings.model.SettingsState
+import com.enxy.noolite.features.settings.theme.ChangeThemeBottomSheetContent
 import com.enxy.noolite.utils.ThemedPreview
 import com.enxy.noolite.utils.intent.IntentActionsProvider
 import dev.chrisbanes.haze.HazeState
@@ -60,12 +71,14 @@ import org.koin.compose.koinInject
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
-private val ICON_SIZE = 56.dp
+private val SettingIconSize = 56.dp
+private val SettingActionIconSize = 24.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsContent(component: SettingsComponent) {
     val intentActionsProvider = koinInject<IntentActionsProvider>()
-    val settings by component.collectAsState()
+    val state by component.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     component.collectSideEffect { event ->
         when (event) {
@@ -74,27 +87,40 @@ fun SettingsContent(component: SettingsComponent) {
             }
         }
     }
-    SettingsScaffold(
-        settings = settings,
-        snackbarHostState = snackbarHostState,
-        onChangeAppTheme = component::onChangeAppTheme,
-        onChangeApiUrlClick = component::onChangeApiUrlClick,
-        onGitHubClick = { intentActionsProvider.openGithubProject() },
-        onSetTestDataClick = component::onSetTestDataClick,
-        onBackClick = component::onBackClick,
-    )
+    Surface(color = MaterialTheme.colorScheme.background) {
+        SettingsScaffold(
+            state = state,
+            snackbarHostState = snackbarHostState,
+            onChangeApiUrlClick = component::onChangeApiUrlClick,
+            onGitHubClick = { intentActionsProvider.openGithubProject() },
+            onSetTestDataClick = component::onSetTestDataClick,
+            onBackClick = component::onBackClick,
+            onChangeThemeClick = component::onChangeThemeClick,
+        )
+        val dialogSlot = component.dialogSlot.subscribeAsState()
+        when (val child = dialogSlot.value.child?.instance) {
+            is SettingsComponent.DialogConfig.ChangeTheme -> {
+                ModalBottomSheet(
+                    onDismissRequest = child.component::onDismiss,
+                ) {
+                    ChangeThemeBottomSheetContent(child.component)
+                }
+            }
+            null -> Unit
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsScaffold(
-    settings: AppSettings,
+    state: SettingsState,
     snackbarHostState: SnackbarHostState,
-    onChangeAppTheme: (isChecked: Boolean) -> Unit,
     onChangeApiUrlClick: (apiUrl: String) -> Unit,
     onGitHubClick: () -> Unit,
     onSetTestDataClick: () -> Unit,
     onBackClick: () -> Unit,
+    onChangeThemeClick: () -> Unit,
 ) {
     val hazeState = rememberHazeState()
     Scaffold(
@@ -116,47 +142,51 @@ private fun SettingsScaffold(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
-            SectionTitle(
-                text = stringResource(R.string.settings_section_appearance),
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
-            )
-            SwitchSettingsItem(
-                icon = painterResource(R.drawable.ic_on),
-                title = stringResource(R.string.settings_theme_title),
-                isChecked = settings.isDarkTheme,
-                description = stringResource(R.string.settings_theme_description),
-                onCheckedChange = onChangeAppTheme,
-            )
-            SectionTitle(
-                text = stringResource(R.string.settings_section_server),
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
-            )
+            Spacer(Modifier.height(16.dp))
             ServerSettingsItem(
                 icon = painterResource(R.drawable.ic_server),
                 title = stringResource(R.string.settings_server_title),
-                apiUrl = settings.apiUrl,
+                apiUrl = state.apiUrl,
+                apiUrlChanging = state.apiUrlChanging,
                 onChangeApiUrlClick = onChangeApiUrlClick,
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
-            SectionTitle(
-                text = stringResource(R.string.settings_section_other),
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+            Spacer(Modifier.height(16.dp))
+            SettingsItem(
+                icon = painterResource(R.drawable.ic_on),
+                title = stringResource(R.string.settings_theme_title),
+                description = state.theme.asString(),
+                onClick = onChangeThemeClick,
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
+            Spacer(Modifier.height(4.dp))
             SettingsItem(
                 icon = painterResource(R.drawable.ic_github),
                 title = stringResource(R.string.settings_github_title),
                 description = stringResource(R.string.settings_github_description),
-                onClick = onGitHubClick
+                onClick = onGitHubClick,
+                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
+            Spacer(Modifier.height(4.dp))
             SettingsItem(
                 icon = painterResource(R.drawable.ic_bug),
                 title = stringResource(R.string.settings_test_title),
                 description = stringResource(R.string.settings_test_description),
-                onClick = onSetTestDataClick
+                onClick = onSetTestDataClick,
+                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Spacer(Modifier.height(4.dp))
             SettingsItem(
                 icon = painterResource(R.drawable.ic_info),
                 title = stringResource(R.string.settings_app_version),
-                description = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+                description = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                shape = RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(16.dp))
         }
@@ -189,94 +219,102 @@ private fun ServerSettingsItem(
     icon: Painter,
     title: String,
     apiUrl: String,
-    onChangeApiUrlClick: (apiUrl: String) -> Unit
+    apiUrlChanging: Boolean,
+    onChangeApiUrlClick: (apiUrl: String) -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
 ) {
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(apiUrl) }
     LaunchedEffect(apiUrl) { text = apiUrl }
-    Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
+    SettingsItem(
+        icon = icon,
+        shape = shape,
+        modifier = modifier,
     ) {
         Column {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                ShapeIcon(icon)
-                AppTextField(
-                    text = text,
-                    label = title,
-                    onTextChange = { value -> text = value },
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            AppTextField(
+                text = text,
+                label = title,
+                onTextChange = { value -> text = value },
+                modifier = Modifier.fillMaxWidth(),
+            )
             FilledTonalButton(
                 onClick = {
                     focusManager.clearFocus()
                     onChangeApiUrlClick(text)
                 },
+                enabled = !apiUrlChanging,
                 shape = RoundedCornerShape(8.dp),
-                modifier = Modifier
-                    .padding(start = ICON_SIZE + 16.dp)
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(stringResource(R.string.settings_server_update))
+                AnimatedContent(apiUrlChanging) { loading ->
+                    if (loading) {
+                        CircularProgressIndicator(
+                            strokeWidth = 3.dp,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    } else {
+                        Text(stringResource(R.string.settings_server_update))
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun SwitchSettingsItem(
+private fun SettingsItem(
+    icon: Painter,
+    actionIcon: Painter? = null,
     title: String,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    description: String = "",
-    icon: Painter? = null,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    shape: Shape = RectangleShape,
+    description: String = "",
 ) {
-    Row(
-        modifier = modifier
-            .clickable { onCheckedChange(!isChecked) }
-            .padding(16.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        if (icon != null) {
-            ShapeIcon(icon)
-        } else {
-            Spacer(modifier = Modifier.width(ICON_SIZE))
-        }
+    SettingsItem(
+        icon = icon,
+        shape = shape,
+        modifier = modifier,
+        onClick = onClick,
+    ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            if (description.isNotBlank()) {
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        if (actionIcon != null) {
+            Icon(
+                painter = actionIcon,
+                contentDescription = null,
+                modifier = Modifier.size(SettingActionIconSize)
             )
         }
-        Switch(
-            checked = isChecked,
-            onCheckedChange = onCheckedChange
-        )
     }
 }
 
 @Composable
 private fun SettingsItem(
-    title: String,
+    icon: Painter,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
     onClick: (() -> Unit)? = null,
-    description: String = "",
-    icon: Painter? = null
+    content: @Composable RowScope.() -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceContainer, shape)
             .clickable(
                 enabled = onClick != null,
                 onClick = { onClick?.invoke() }
@@ -284,38 +322,17 @@ private fun SettingsItem(
             .padding(16.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        if (icon != null) {
-            ShapeIcon(icon)
-        } else {
-            Spacer(modifier = Modifier.width(ICON_SIZE))
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        Icon(
+            painter = icon,
+            contentDescription = null,
+            modifier = Modifier
+                .size(SettingIconSize)
+                .padding(12.dp)
+        )
+        content()
     }
-}
-
-@Composable
-private fun SectionTitle(
-    text: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.titleLarge,
-        modifier = modifier,
-    )
 }
 
 @Preview("Settings screen")
@@ -324,13 +341,13 @@ private fun SectionTitle(
 private fun PreviewDetailsScreen() {
     ThemedPreview {
         SettingsScaffold(
-            settings = AppSettings.default(),
+            state = SettingsState.empty(),
             snackbarHostState = remember { SnackbarHostState() },
-            onChangeAppTheme = {},
             onChangeApiUrlClick = {},
             onGitHubClick = {},
             onSetTestDataClick = {},
             onBackClick = {},
+            onChangeThemeClick = {},
         )
     }
 }
