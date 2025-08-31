@@ -3,6 +3,7 @@ package com.enxy.noolite.utils.intent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.enxy.noolite.core.ui.IntentActionsProvider
 
 class IntentActionsProviderImpl(
     private val context: Context

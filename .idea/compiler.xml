@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="11">
+      <module name="Noolite.core.domain" target="17" />
+      <module name="Noolite.core.domain.main" target="17" />
+      <module name="Noolite.core.domain.test" target="17" />
+      <module name="Noolite.database" target="21" />
+      <module name="Noolite.detail" target="21" />
+      <module name="Noolite.home" target="21" />
+      <module name="Noolite.model" target="21" />
+      <module name="Noolite.network" target="21" />
+      <module name="Noolite.noolite" target="21" />
+      <module name="Noolite.script" target="21" />
+      <module name="Noolite.settings" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

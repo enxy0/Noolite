@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="script_title">Сценарий</string>
+    <string name="script_name_title">Название сценария</string>
+    <string name="script_action_title">Действия</string>
+    <string name="script_name_placeholder">Введите название сценария</string>
+    <string name="script_name_error">Имя сценария не может быть пустым</string>
+    <string name="script_create">Сохранить</string>
+    <string name="script_group_turn_on">Включить все</string>
+    <string name="script_group_turn_off">Выключить все</string>
+    <string name="script_channel_light_on">Включить</string>
+    <string name="script_channel_light_off">Выключить</string>
+    <string name="script_channel_light_brightness">Яркость</string>
+    <string name="script_channel_light_change_color">Сменить цвет</string>
+    <string name="script_channel_light_start_overflow">Начать переливание цвета</string>
+    <string name="script_channel_light_stop_overflow">Остановить переливание цвета</string>
+</resources>

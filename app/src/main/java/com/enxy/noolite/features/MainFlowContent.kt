@@ -6,12 +6,12 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.experimental.stack.ChildStack
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.PredictiveBackParams
 import com.arkivanov.decompose.extensions.compose.experimental.stack.animation.stackAnimation
-import com.enxy.noolite.features.detail.DetailsContent
-import com.enxy.noolite.features.home.HomeContent
-import com.enxy.noolite.features.script.ScriptContent
-import com.enxy.noolite.features.settings.SettingsContent
-import com.enxy.noolite.utils.slideInFastOutSlowExperimental
-import com.enxy.noolite.utils.slidePredictiveBackAnimatable
+import com.enxy.noolite.core.ui.compose.slideInFastOutSlowExperimental
+import com.enxy.noolite.core.ui.compose.slidePredictiveBackAnimatable
+import com.enxy.noolite.feature.detail.DetailsContent
+import com.enxy.noolite.feature.home.HomeContent
+import com.enxy.noolite.feature.script.ScriptContent
+import com.enxy.noolite.feature.settings.SettingsContent
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable

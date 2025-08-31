@@ -8,8 +8,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
-import com.enxy.noolite.domain.features.settings.GetAppSettingsUseCase
-import com.enxy.noolite.domain.features.settings.model.AppSettings.Theme
+import com.enxy.noolite.core.model.AppSettings.Theme
+import com.enxy.noolite.domain.common.GetAppSettingsUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

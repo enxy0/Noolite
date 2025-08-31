@@ -16,8 +16,6 @@ android {
         targetSdk = 36
         versionCode = 194
         versionName = "1.0.4"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -67,38 +65,27 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":data"))
+    implementation(project(":core:database"))
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+    implementation(project(":data:home"))
+    implementation(project(":data:script"))
+    implementation(project(":data:settings"))
+    implementation(project(":domain:detail"))
+    implementation(project(":domain:home"))
+    implementation(project(":domain:script"))
+    implementation(project(":domain:settings"))
+    implementation(project(":feature:detail"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:script"))
+    implementation(project(":feature:settings"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.decompose)
-    implementation(libs.decompose.compose)
-    implementation(libs.decompose.compose.experimental)
     implementation(libs.google.material)
-    implementation(libs.haze)
-    implementation(libs.haze.materials)
-    implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.android)
-    implementation(libs.koin.compose)
-    implementation(libs.koin.navigation)
-    implementation(libs.kotlinx.coroutines)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.orbit.mvi.core)
-    implementation(libs.orbit.mvi.compose)
-    implementation(libs.timber)
     implementation(platform(libs.androidx.compose.bom))
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
