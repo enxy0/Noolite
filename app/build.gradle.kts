@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +8,10 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "com.enxy.noolite"
@@ -19,25 +26,17 @@ android {
     }
 
     signingConfigs {
-        // TODO: Add key to .gitignore and properties from local.properties
-        getByName("debug") {
-            storeFile = file("keys/test-key")
-            storePassword = "123456"
-            keyPassword = "123456"
-            keyAlias = "upload"
-        }
-        // TODO: Add key to .gitignore and properties from local.properties
-        create("release") {
-            storeFile = file("keys/test-key")
-            storePassword = "123456"
-            keyPassword = "123456"
-            keyAlias = "upload"
+        create("config") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("config")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -46,7 +45,7 @@ android {
             )
         }
         debug {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("config")
         }
     }
     compileOptions {
