@@ -87,10 +87,9 @@ class HomeComponentImpl(
     override fun onScriptClick(script: Script) {
         intent {
             executeScriptUseCase(script).collect { result ->
-                result
-                    .onFailure {
-                        Timber.e(it)
-                    }
+                result.onFailure {
+                    Timber.e(it)
+                }
             }
         }
     }
@@ -99,17 +98,20 @@ class HomeComponentImpl(
         intent {
             removeScriptUseCase(script)
                 .collect { result ->
-                    result
-                        .onFailure {
-                            Timber.e(it)
-                        }
+                    result.onFailure {
+                        Timber.e(it)
+                    }
                 }
         }
     }
 
     override fun onGroupAction(action: GroupAction) {
         intent {
-            groupActionUseCase(action).collect()
+            groupActionUseCase(action).collect { result ->
+                result.onFailure {
+                    Timber.e(it)
+                }
+            }
         }
     }
 
@@ -119,7 +121,11 @@ class HomeComponentImpl(
 
     override fun onChannelActionClick(action: ChannelAction) {
         intent {
-            channelActionUseCase(action).collect()
+            channelActionUseCase(action).collect { result ->
+                result.onFailure {
+                    Timber.e(it)
+                }
+            }
         }
     }
 

@@ -8,14 +8,13 @@ import com.enxy.noolite.domain.common.ChannelActionUseCase
 import com.enxy.noolite.domain.common.model.SetFavoriteGroupPayload
 import com.enxy.noolite.domain.home.GetFavoriteGroupUseCase
 import com.enxy.noolite.domain.home.SetFavoriteGroupUseCase
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
+import timber.log.Timber
 
 interface DetailsComponent : ContainerHost<DetailsState, Nothing> {
     fun onBackClick()
@@ -48,27 +47,38 @@ class DetailsComponentImpl(
 
     override fun onFavoriteClick(favorite: Boolean) {
         intent {
-            setFavoriteGroupUseCase
-                .invoke(SetFavoriteGroupPayload(container.stateFlow.value.group, favorite))
-                .collect()
+            val payload = SetFavoriteGroupPayload(container.stateFlow.value.group, favorite)
+            setFavoriteGroupUseCase(payload).collect { result ->
+                result.onFailure {
+                    Timber.e(it)
+                }
+            }
         }
     }
 
     override fun onChannelActionClick(action: ChannelAction) {
         intent {
-            channelActionUseCase
-                .invoke(action)
-                .collect()
+            channelActionUseCase(action).collect { result ->
+                result.onFailure {
+                    Timber.e(it)
+                }
+            }
         }
     }
 
     private fun loadData() {
         intent {
             getFavoriteGroupUseCase(Unit)
-                .map { it.getOrNull() }
-                .collectLatest { group ->
-                    reduce { state.copy(isFavorite = group?.id == state.group.id) }
+                .collectLatest { result ->
+                    result
+                        .onSuccess { group ->
+                            reduce { state.copy(isFavorite = group?.id == state.group.id) }
+                        }
+                        .onFailure {
+                            Timber.e(it)
+                        }
                 }
+
         }
     }
 }

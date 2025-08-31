@@ -154,6 +154,9 @@ class ScriptComponentImpl(
                             }
                         }
                     }
+                    .onFailure {
+                        Timber.e(it)
+                    }
             }
     }
 
