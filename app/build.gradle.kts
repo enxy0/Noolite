@@ -64,6 +64,14 @@ android {
     }
 }
 
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler")
+    stabilityConfigurationFiles = listOf(
+        rootProject.layout.projectDirectory.file("config/stability_config.conf")
+    )
+}
+
 dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:model"))
@@ -72,7 +80,6 @@ dependencies {
     implementation(project(":data:home"))
     implementation(project(":data:script"))
     implementation(project(":data:settings"))
-    implementation(project(":domain:detail"))
     implementation(project(":domain:home"))
     implementation(project(":domain:script"))
     implementation(project(":domain:settings"))

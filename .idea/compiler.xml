@@ -7,6 +7,8 @@
       <module name="Noolite.core.domain.test" target="17" />
       <module name="Noolite.database" target="21" />
       <module name="Noolite.detail" target="21" />
+      <module name="Noolite.domain.detail.main" target="17" />
+      <module name="Noolite.domain.detail.test" target="17" />
       <module name="Noolite.home" target="21" />
       <module name="Noolite.model" target="21" />
       <module name="Noolite.network" target="21" />

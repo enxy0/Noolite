@@ -1,10 +1,12 @@
 package com.enxy.noolite.feature.script.model
 
+import androidx.compose.runtime.Immutable
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.model.Group
 import com.enxy.noolite.core.model.GroupAction
 import kotlinx.serialization.Serializable
 
+@Immutable
 @Serializable
 data class ScriptGroup(
     val group: Group,

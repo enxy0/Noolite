@@ -1,15 +1,20 @@
 package com.enxy.noolite.feature.home
 
+import androidx.compose.runtime.Immutable
 import com.enxy.noolite.domain.home.model.HomeData
 
+@Immutable
 sealed interface HomeState {
+    @Immutable
     data object Initial : HomeState
 
+    @Immutable
     data class Empty(
         val apiUrl: String,
         val isLoading: Boolean,
     ) : HomeState
 
+    @Immutable
     data class Content(
         val data: HomeData,
     ) : HomeState

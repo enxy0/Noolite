@@ -1,9 +1,11 @@
 package com.enxy.noolite.feature.script.model
 
+import androidx.compose.runtime.Immutable
 import com.enxy.noolite.core.model.Channel
 import com.enxy.noolite.core.model.ChannelAction
 import kotlinx.serialization.Serializable
 
+@Immutable
 @Serializable
 data class ScriptChannel(
     val channel: Channel,

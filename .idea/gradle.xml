@@ -23,7 +23,6 @@
             <option value="$PROJECT_DIR$/data/settings" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/common" />
-            <option value="$PROJECT_DIR$/domain/detail" />
             <option value="$PROJECT_DIR$/domain/home" />
             <option value="$PROJECT_DIR$/domain/script" />
             <option value="$PROJECT_DIR$/domain/settings" />
