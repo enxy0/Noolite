@@ -21,10 +21,6 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.automirrored.rounded.ExitToApp
-import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -46,15 +42,24 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.enxy.noolite.core.model.AppSettings
 import com.enxy.noolite.core.ui.IntentActionsProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
+import com.enxy.noolite.core.ui.icons.ArrowBack
+import com.enxy.noolite.core.ui.icons.Bug
+import com.enxy.noolite.core.ui.icons.ClearNight
+import com.enxy.noolite.core.ui.icons.ExitToApp
+import com.enxy.noolite.core.ui.icons.Github
+import com.enxy.noolite.core.ui.icons.Info
+import com.enxy.noolite.core.ui.icons.KeyboardArrowRight
+import com.enxy.noolite.core.ui.icons.Server
 import com.enxy.noolite.feature.settings.model.SettingsState
 import com.enxy.noolite.feature.settings.theme.ChangeThemeBottomSheetContent
 import com.enxy.noolite.feature.settings.url.ChangeApiUrlDialogContent
@@ -64,7 +69,6 @@ import dev.chrisbanes.haze.rememberHazeState
 import org.koin.compose.koinInject
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import com.enxy.noolite.core.ui.R as CoreUiR
 
 private val SettingIconSize = 56.dp
 private val SettingActionIconSize = 24.dp
@@ -146,46 +150,46 @@ private fun SettingsScaffold(
         ) {
             Spacer(Modifier.height(16.dp))
             SettingsItem(
-                icon = painterResource(R.drawable.ic_server),
+                icon = rememberVectorPainter(NooliteIcons.Server),
                 title = stringResource(R.string.settings_api_url_title),
                 description = state.apiUrl,
                 onClick = onChangeApiUrlClick,
                 shape = RoundedCornerShape(24.dp),
-                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                actionIcon = rememberVectorPainter(NooliteIcons.KeyboardArrowRight),
                 loading = state.apiUrlChanging,
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(16.dp))
             SettingsItem(
-                icon = painterResource(CoreUiR.drawable.ic_on),
+                icon = rememberVectorPainter(NooliteIcons.ClearNight),
                 title = stringResource(R.string.settings_theme_title),
                 description = state.theme.asString(),
                 onClick = onChangeThemeClick,
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                actionIcon = rememberVectorPainter(NooliteIcons.KeyboardArrowRight),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(4.dp))
             SettingsItem(
-                icon = painterResource(R.drawable.ic_bug),
+                icon = rememberVectorPainter(NooliteIcons.Bug),
                 title = stringResource(R.string.settings_test_title),
                 description = stringResource(R.string.settings_test_description),
                 onClick = onSetTestDataClick,
-                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.KeyboardArrowRight),
+                actionIcon = rememberVectorPainter(NooliteIcons.KeyboardArrowRight),
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(Modifier.height(4.dp))
             SettingsItem(
-                icon = painterResource(R.drawable.ic_github),
+                icon = rememberVectorPainter(NooliteIcons.Github),
                 title = stringResource(R.string.settings_github_title),
                 description = stringResource(R.string.settings_github_description),
                 onClick = onGitHubClick,
-                actionIcon = rememberVectorPainter(Icons.AutoMirrored.Rounded.ExitToApp),
+                actionIcon = rememberVectorPainter(NooliteIcons.ExitToApp),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(4.dp))
             SettingsItem(
-                icon = painterResource(R.drawable.ic_info),
+                icon = rememberVectorPainter(NooliteIcons.Info),
                 title = stringResource(R.string.settings_app_version),
                 description = state.appVersion,
                 shape = RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp),
@@ -208,7 +212,7 @@ private fun SettingsTopAppBar(
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    imageVector = NooliteIcons.ArrowBack,
                     contentDescription = null,
                 )
             }
@@ -304,7 +308,11 @@ private fun SettingsItem(
 private fun PreviewDetailsScreen() {
     ThemedPreview {
         SettingsScaffold(
-            state = SettingsState.Companion.empty(),
+            state = SettingsState(
+                settings = AppSettings.default(),
+                appVersion = "X.X.X (XXX)",
+                apiUrlChanging = false,
+            ),
             snackbarHostState = remember { SnackbarHostState() },
             onGitHubClick = {},
             onChangeApiUrlClick = {},

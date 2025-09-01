@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,6 +16,8 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.enxy.noolite.core.ui.NooliteIcons
+import com.enxy.noolite.core.ui.icons.List
 
 @Composable
 fun ShapeIcon(
@@ -42,6 +42,6 @@ fun ShapeIcon(
 @Composable
 private fun PreviewAppIcon() {
     ThemedPreview {
-        ShapeIcon(painter = rememberVectorPainter(Icons.AutoMirrored.Rounded.List))
+        ShapeIcon(painter = rememberVectorPainter(NooliteIcons.List))
     }
 }

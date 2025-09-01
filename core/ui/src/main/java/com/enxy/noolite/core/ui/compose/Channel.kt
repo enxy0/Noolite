@@ -19,7 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +27,12 @@ import androidx.compose.ui.unit.dp
 import com.enxy.noolite.core.model.Channel
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.ui.FakeUiDataProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.R
+import com.enxy.noolite.core.ui.icons.AutoRenew
+import com.enxy.noolite.core.ui.icons.Lightbulb
+import com.enxy.noolite.core.ui.icons.PauseCircle
+import com.enxy.noolite.core.ui.icons.PlayCircle
 
 private val ChannelShape = RoundedCornerShape(24.dp)
 
@@ -88,15 +93,15 @@ private fun BacklightContent(
             )
         }
         IconActionButton(
-            painter = painterResource(R.drawable.ic_start),
+            painter = rememberVectorPainter(NooliteIcons.PlayCircle),
             onClick = { onAction(ChannelAction.StartOverflow(channel.id)) }
         )
         IconActionButton(
-            painter = painterResource(R.drawable.ic_stop),
+            painter = rememberVectorPainter(NooliteIcons.PauseCircle),
             onClick = { onAction(ChannelAction.StopOverflow(channel.id)) }
         )
         IconActionButton(
-            painter = painterResource(R.drawable.ic_refresh),
+            painter = rememberVectorPainter(NooliteIcons.AutoRenew),
             onClick = { onAction(ChannelAction.ChangeColor(channel.id)) }
         )
     }
@@ -146,7 +151,7 @@ private fun LightContent(
             )
         }
         IconActionButton(
-            painter = painterResource(R.drawable.ic_on),
+            painter = rememberVectorPainter(NooliteIcons.Lightbulb),
             onClick = { onLightClick(ChannelAction.Toggle(channel.id)) }
         )
     }

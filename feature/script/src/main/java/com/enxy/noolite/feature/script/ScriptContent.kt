@@ -26,8 +26,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,9 +56,11 @@ import com.enxy.noolite.core.model.Channel
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.model.GroupAction
 import com.enxy.noolite.core.ui.FakeUiDataProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
 import com.enxy.noolite.core.ui.extensions.firstOfTypeOrNull
+import com.enxy.noolite.core.ui.icons.ArrowBack
 import com.enxy.noolite.feature.script.model.ScriptChannel
 import com.enxy.noolite.feature.script.model.ScriptGroup
 import dev.chrisbanes.haze.HazeState
@@ -154,7 +154,7 @@ private fun ScriptsTopAppBar(
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    imageVector = NooliteIcons.ArrowBack,
                     contentDescription = null,
                 )
             }

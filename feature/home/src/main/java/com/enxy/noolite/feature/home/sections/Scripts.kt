@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.core.model.Script
 import com.enxy.noolite.core.ui.FakeUiDataProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.ThemedPreview
+import com.enxy.noolite.core.ui.icons.Close
 import com.enxy.noolite.feature.home.R
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -101,7 +101,7 @@ private fun Script(
             }
             IconButton(onClick = onScriptRemove) {
                 Icon(
-                    imageVector = Icons.Default.Close,
+                    imageVector = NooliteIcons.Close,
                     contentDescription = null,
                 )
             }

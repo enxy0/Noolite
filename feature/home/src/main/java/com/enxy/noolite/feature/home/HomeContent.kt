@@ -25,12 +25,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowForward
-import androidx.compose.material.icons.automirrored.rounded.List
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalIconButton
@@ -61,11 +55,18 @@ import com.enxy.noolite.core.model.Group
 import com.enxy.noolite.core.model.GroupAction
 import com.enxy.noolite.core.model.Script
 import com.enxy.noolite.core.ui.FakeUiDataProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.AppTextField
 import com.enxy.noolite.core.ui.compose.Channel
 import com.enxy.noolite.core.ui.compose.IconTextTooltip
 import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
+import com.enxy.noolite.core.ui.icons.Add
+import com.enxy.noolite.core.ui.icons.ArrowForward
+import com.enxy.noolite.core.ui.icons.Description
+import com.enxy.noolite.core.ui.icons.FavoriteBorder
+import com.enxy.noolite.core.ui.icons.List
+import com.enxy.noolite.core.ui.icons.Settings
 import com.enxy.noolite.domain.home.model.HomeData
 import com.enxy.noolite.feature.home.sections.Groups
 import com.enxy.noolite.feature.home.sections.Scripts
@@ -231,7 +232,7 @@ private fun HomeEmptyState(
                     Text(text = stringResource(R.string.home_onboarding_action))
                     Spacer(Modifier.width(4.dp))
                     Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
+                        imageVector = NooliteIcons.ArrowForward,
                         contentDescription = null,
                         modifier = Modifier.size(20.dp)
                     )
@@ -322,7 +323,7 @@ private fun HomeTopAppBar(
         actions = {
             IconButton(onClick = onSettingsClick) {
                 Icon(
-                    imageVector = Icons.Outlined.Settings,
+                    imageVector = NooliteIcons.Settings,
                     contentDescription = null
                 )
             }
@@ -353,7 +354,7 @@ private fun GroupsSection(
             )
         } else {
             IconTextTooltip(
-                painter = rememberVectorPainter(Icons.AutoMirrored.Rounded.List),
+                painter = rememberVectorPainter(NooliteIcons.List),
                 text = stringResource(R.string.home_groups_empty),
                 modifier = Modifier.padding(16.dp)
             )
@@ -386,7 +387,7 @@ private fun ScriptsSection(
                 modifier = Modifier.size(30.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Add,
+                    imageVector = NooliteIcons.Add,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)
                 )
@@ -402,7 +403,7 @@ private fun ScriptsSection(
                 )
             } else {
                 IconTextTooltip(
-                    painter = painterResource(R.drawable.ic_script),
+                    painter = rememberVectorPainter(NooliteIcons.Description),
                     text = stringResource(R.string.home_scripts_empty),
                     modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 )
@@ -435,7 +436,7 @@ private fun FavoriteGroupSection(
             }
         } else {
             IconTextTooltip(
-                painter = rememberVectorPainter(Icons.Outlined.FavoriteBorder),
+                painter = rememberVectorPainter(NooliteIcons.FavoriteBorder),
                 text = stringResource(R.string.home_favorite_empty),
                 modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
             )

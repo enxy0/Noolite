@@ -21,16 +21,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.core.model.Group
 import com.enxy.noolite.core.model.GroupAction
 import com.enxy.noolite.core.ui.FakeUiDataProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.IconActionButton
 import com.enxy.noolite.core.ui.compose.ThemedPreview
-import com.enxy.noolite.core.ui.R as CoreUiR
+import com.enxy.noolite.core.ui.icons.LightOff
+import com.enxy.noolite.core.ui.icons.Lightbulb
 
 private val GroupShape = RoundedCornerShape(24.dp)
 
@@ -81,13 +83,13 @@ private fun Group(
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 IconActionButton(
-                    painter = painterResource(CoreUiR.drawable.ic_on),
+                    painter = rememberVectorPainter(NooliteIcons.Lightbulb),
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onClick = { onGroupAction(GroupAction.TurnOn(group)) }
                 )
                 IconActionButton(
-                    painter = painterResource(CoreUiR.drawable.ic_off),
+                    painter = rememberVectorPainter(NooliteIcons.LightOff),
                     onClick = { onGroupAction(GroupAction.TurnOff(group)) }
                 )
             }

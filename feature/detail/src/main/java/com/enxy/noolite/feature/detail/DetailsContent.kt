@@ -11,10 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,9 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.ui.FakeUiDataProvider
+import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.Channel
 import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
+import com.enxy.noolite.core.ui.icons.ArrowBack
+import com.enxy.noolite.core.ui.icons.Favorite
+import com.enxy.noolite.core.ui.icons.FavoriteBorder
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
@@ -108,7 +108,7 @@ private fun DetailsTopAppBar(
         navigationIcon = {
             IconButton(onClick = onBackClick) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    imageVector = NooliteIcons.ArrowBack,
                     contentDescription = null
                 )
             }
@@ -117,13 +117,13 @@ private fun DetailsTopAppBar(
             IconButton(onClick = { onFavoriteClick(!isFavorite) }) {
                 if (isFavorite) {
                     Icon(
-                        imageVector = Icons.Outlined.Favorite,
+                        imageVector = NooliteIcons.Favorite,
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = null
                     )
                 } else {
                     Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
+                        imageVector = NooliteIcons.FavoriteBorder,
                         contentDescription = null
                     )
                 }
