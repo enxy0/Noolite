@@ -59,7 +59,7 @@ import com.enxy.noolite.core.ui.icons.ExitToApp
 import com.enxy.noolite.core.ui.icons.Github
 import com.enxy.noolite.core.ui.icons.Info
 import com.enxy.noolite.core.ui.icons.KeyboardArrowRight
-import com.enxy.noolite.core.ui.icons.Server
+import com.enxy.noolite.core.ui.icons.Router
 import com.enxy.noolite.feature.settings.model.SettingsState
 import com.enxy.noolite.feature.settings.theme.ChangeThemeBottomSheetContent
 import com.enxy.noolite.feature.settings.url.ChangeApiUrlDialogContent
@@ -150,7 +150,7 @@ private fun SettingsScaffold(
         ) {
             Spacer(Modifier.height(16.dp))
             SettingsItem(
-                icon = rememberVectorPainter(NooliteIcons.Server),
+                icon = rememberVectorPainter(NooliteIcons.Router),
                 title = stringResource(R.string.settings_api_url_title),
                 description = state.apiUrl,
                 onClick = onChangeApiUrlClick,

@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +23,10 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,6 +34,7 @@ import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -42,12 +46,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.core.model.ChannelAction
@@ -56,7 +59,6 @@ import com.enxy.noolite.core.model.GroupAction
 import com.enxy.noolite.core.model.Script
 import com.enxy.noolite.core.ui.FakeUiDataProvider
 import com.enxy.noolite.core.ui.NooliteIcons
-import com.enxy.noolite.core.ui.compose.AppTextField
 import com.enxy.noolite.core.ui.compose.Channel
 import com.enxy.noolite.core.ui.compose.IconTextTooltip
 import com.enxy.noolite.core.ui.compose.ThemedPreview
@@ -66,6 +68,7 @@ import com.enxy.noolite.core.ui.icons.ArrowForward
 import com.enxy.noolite.core.ui.icons.Description
 import com.enxy.noolite.core.ui.icons.FavoriteBorder
 import com.enxy.noolite.core.ui.icons.List
+import com.enxy.noolite.core.ui.icons.Router
 import com.enxy.noolite.core.ui.icons.Settings
 import com.enxy.noolite.domain.home.model.HomeData
 import com.enxy.noolite.feature.home.sections.Groups
@@ -183,31 +186,44 @@ private fun HomeEmptyState(
             .padding(contentPadding)
             .padding(horizontal = 16.dp)
     ) {
-        Image(
-            painter = painterResource(R.drawable.img_gateway),
+        Spacer(Modifier.height(48.dp))
+        Icon(
+            imageVector = NooliteIcons.Router,
             contentDescription = null,
             modifier = Modifier
-                .padding(vertical = 24.dp)
-                .align(CenterHorizontally)
+                .size(100.dp)
+                .background(MaterialTheme.colorScheme.surfaceContainer, CircleShape)
+                .padding(16.dp)
         )
+        Spacer(Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.home_onboarding_title),
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.home_empty),
             style = MaterialTheme.typography.bodyMedium
         )
-        Spacer(Modifier.height(24.dp))
-        AppTextField(
-            text = apiUrl,
-            label = stringResource(R.string.home_api_url_title),
-            focusManager = focusManager,
-            onTextChange = { apiUrl = it },
+        Spacer(Modifier.height(16.dp))
+        OutlinedTextField(
+            value = apiUrl,
+            onValueChange = { apiUrl = it },
+            label = { Text(stringResource(R.string.home_api_url_title)) },
+            keyboardOptions = KeyboardOptions(
+                autoCorrectEnabled = false,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    onConnectClick(apiUrl)
+                }
+            ),
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(24.dp))
         Button(
             onClick = {
                 focusManager.clearFocus()
@@ -359,7 +375,6 @@ private fun GroupsSection(
                 modifier = Modifier.padding(16.dp)
             )
         }
-        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -373,6 +388,7 @@ private fun ScriptsSection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
+        Spacer(Modifier.height(32.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -409,7 +425,6 @@ private fun ScriptsSection(
                 )
             }
         }
-        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -420,7 +435,7 @@ private fun FavoriteGroupSection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(32.dp))
         SectionTitle(
             text = stringResource(R.string.home_favorite),
             modifier = Modifier.padding(horizontal = 16.dp),
