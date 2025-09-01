@@ -1,4 +1,4 @@
-package com.enxy.noolite.features
+package com.enxy.noolite
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack

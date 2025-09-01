@@ -21,8 +21,8 @@ android {
         applicationId = "com.enxy.noolite"
         minSdk = 23
         targetSdk = 36
-        versionCode = 194
-        versionName = "1.0.4"
+        versionCode = 195
+        versionName = "2.0.0"
     }
 
     signingConfigs {

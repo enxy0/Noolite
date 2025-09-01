@@ -187,7 +187,7 @@ private fun SettingsScaffold(
             SettingsItem(
                 icon = painterResource(R.drawable.ic_info),
                 title = stringResource(R.string.settings_app_version),
-//                description = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})", // TODO: add version code through Koin
+                description = state.appVersion,
                 shape = RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )

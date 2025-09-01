@@ -8,6 +8,8 @@ import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
+import com.enxy.noolite.core.model.AppSettings
+import com.enxy.noolite.core.model.SharedBuildConfig
 import com.enxy.noolite.core.ui.extensions.componentScope
 import com.enxy.noolite.domain.common.GetAppSettingsUseCase
 import com.enxy.noolite.domain.settings.GetNooliteGroupsUseCase
@@ -62,6 +64,7 @@ class SettingsComponentImpl(
     private val updateAppSettingsUseCase: UpdateAppSettingsUseCase by inject()
     private val getNooliteGroupsUseCase: GetNooliteGroupsUseCase by inject()
     private val setDemoInfoUseCase: SetDemoInfoUseCase by inject()
+    private val buildConfig: SharedBuildConfig by inject()
 
     private val dialogNavigation = SlotNavigation<DialogConfig>()
     override val dialogSlot: Value<ChildSlot<*, SettingsComponent.DialogConfig>> =
@@ -72,7 +75,7 @@ class SettingsComponentImpl(
         )
 
     override val container =
-        scope.container<SettingsState, SettingsSideEffect>(SettingsState.Companion.empty())
+        scope.container<SettingsState, SettingsSideEffect>(buildInitialSettings())
 
     init {
         loadSettings()
@@ -140,6 +143,12 @@ class SettingsComponentImpl(
             }
         }
     }
+
+    private fun buildInitialSettings(): SettingsState = SettingsState(
+        settings = AppSettings.default(),
+        apiUrlChanging = false,
+        appVersion = "${buildConfig.versionName} (${buildConfig.versionCode})"
+    )
 
     private fun createDialogChild(
         config: DialogConfig,

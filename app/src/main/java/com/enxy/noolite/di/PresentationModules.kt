@@ -1,5 +1,7 @@
 package com.enxy.noolite.di
 
+import com.enxy.noolite.BuildConfig
+import com.enxy.noolite.core.model.SharedBuildConfig
 import com.enxy.noolite.core.ui.IntentActionsProvider
 import com.enxy.noolite.utils.intent.IntentActionsProviderImpl
 import com.enxy.noolite.utils.lifecycle.AppThemeObserver
@@ -17,5 +19,11 @@ object PresentationModules {
     private fun commonModule() = module {
         singleOf(::IntentActionsProviderImpl) bind IntentActionsProvider::class
         singleOf(::AppThemeObserverImpl) bind AppThemeObserver::class
+        single {
+            SharedBuildConfig(
+                versionCode = BuildConfig.VERSION_CODE,
+                versionName = BuildConfig.VERSION_NAME,
+            )
+        }
     }
 }

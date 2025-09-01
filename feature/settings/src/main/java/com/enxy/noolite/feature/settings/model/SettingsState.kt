@@ -9,22 +9,26 @@ data class SettingsState(
     val apiUrl: String,
     val apiUrlChanging: Boolean,
     val theme: Theme,
+    val appVersion: String,
 ) {
 
     companion object {
         fun empty() = SettingsState(
             settings = AppSettings.default(),
             apiUrlChanging = false,
+            appVersion = "",
         )
     }
 
     constructor(
         settings: AppSettings,
         apiUrlChanging: Boolean,
+        appVersion: String,
     ) : this(
         apiUrl = settings.apiUrl,
         apiUrlChanging = apiUrlChanging,
         theme = settings.theme,
+        appVersion = appVersion,
     )
 
     fun copy(settings: AppSettings) = copy(

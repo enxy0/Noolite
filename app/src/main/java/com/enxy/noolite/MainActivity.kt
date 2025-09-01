@@ -7,9 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.retainedComponent
 import com.enxy.noolite.core.ui.theme.NooliteTheme
-import com.enxy.noolite.features.MainFlowComponent
-import com.enxy.noolite.features.MainFlowComponentImpl
-import com.enxy.noolite.features.MainFlowContent
 
 class MainActivity : ComponentActivity() {
 

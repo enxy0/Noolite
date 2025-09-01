@@ -1,4 +1,4 @@
-package com.enxy.noolite.features
+package com.enxy.noolite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
