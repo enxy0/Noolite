@@ -203,7 +203,8 @@ private fun HomeEmptyState(
         Spacer(Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.home_empty),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(16.dp))
         OutlinedTextField(
@@ -372,7 +373,7 @@ private fun GroupsSection(
             IconTextTooltip(
                 painter = rememberVectorPainter(NooliteIcons.List),
                 text = stringResource(R.string.home_groups_empty),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
             )
         }
     }
@@ -421,7 +422,7 @@ private fun ScriptsSection(
                 IconTextTooltip(
                     painter = rememberVectorPainter(NooliteIcons.Description),
                     text = stringResource(R.string.home_scripts_empty),
-                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 )
             }
         }
@@ -453,7 +454,7 @@ private fun FavoriteGroupSection(
             IconTextTooltip(
                 painter = rememberVectorPainter(NooliteIcons.FavoriteBorder),
                 text = stringResource(R.string.home_favorite_empty),
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
             )
         }
     }

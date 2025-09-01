@@ -256,14 +256,18 @@ private fun SettingsItem(
             loading -> {
                 CircularProgressIndicator(
                     strokeWidth = 3.dp,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(24.dp),
                 )
             }
             actionIcon != null -> {
                 Icon(
                     painter = actionIcon,
                     contentDescription = null,
-                    modifier = Modifier.size(SettingActionIconSize)
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(SettingActionIconSize)
                 )
             }
         }
@@ -286,7 +290,7 @@ private fun SettingsItem(
                 enabled = onClick != null,
                 onClick = { onClick?.invoke() }
             )
-            .padding(16.dp)
+            .padding(12.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
