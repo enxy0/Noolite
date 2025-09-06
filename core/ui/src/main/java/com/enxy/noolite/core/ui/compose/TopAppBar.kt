@@ -7,6 +7,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
@@ -21,14 +22,20 @@ fun TopAppBar(
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
 ) {
+    val blurEnabled = HazeDefaults.blurEnabled()
     TopAppBar(
         title = title,
         actions = actions,
         navigationIcon = navigationIcon,
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-        modifier = modifier.hazeEffect(
-            state = hazeState,
-            style = HazeMaterials.ultraThin()
-        )
+        colors = if (blurEnabled) {
+            TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+        } else {
+            TopAppBarDefaults.topAppBarColors()
+        },
+        modifier = modifier
+            .hazeEffect(
+                state = hazeState,
+                style = HazeMaterials.ultraThin()
+            )
     )
 }
