@@ -17,6 +17,10 @@ android {
     namespace = "com.enxy.noolite"
     compileSdk = 36
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.enxy.noolite"
         minSdk = 23

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_second_row_title">for nooLite PR1132</string>
+    <string name="home_groups">Groups</string>
+    <string name="home_scripts">Scenarios</string>
+    <string name="home_favorite">Favorites</string>
+
+    <string name="home_setup_description_1">Set up your smart home in the PR1132 gateway web interface: create groups and add channels to them.</string>
+    <string name="home_setup_description_2">Enter the IP address of the PR1132 gateway below, and the app will automatically load all settings.</string>
+    <string name="home_groups_empty">You don’t have any groups yet. Go to settings to load them from the Ethernet gateway.</string>
+    <string name="home_scripts_empty">Tap “+” next to the title to create a new scenario.</string>
+    <string name="home_favorite_empty">Favorites are empty for now. Go to a group and tap the heart to add it here.</string>
+    <string name="home_onboarding_title">Connect to the gateway</string>
+    <string name="home_onboarding_action">Connect</string>
+    <string name="home_api_url_title">PR1132 Gateway Address</string>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+    <string name="settings_theme_title">App theme</string>
+    <string name="settings_section_other">Other</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_api_url_title">PR1132 Gateway Address</string>
+    <string name="settings_server_update">Update</string>
+    <string name="settings_wifi_title">WiFi connection</string>
+    <string name="settings_wifi_description">Notify about missing WiFi connection in case of error</string>
+    <string name="settings_use_toggle_title">Toggle switch</string>
+    <string name="settings_use_toggle_description">Use a single button to toggle lights instead of separate on/off buttons</string>
+    <string name="settings_github_title">Github</string>
+    <string name="settings_github_description">https://github.com/enxy0/Noolite</string>
+    <string name="settings_test_title">Test data</string>
+    <string name="settings_app_version">App version</string>
+    <string name="settings_test_description">Use test data to preview the app in demo mode</string>
+    <string name="settings_demo_info_success">Test data loaded, demo mode enabled</string>
+    <string name="settings_demo_info_failure">Failed to enable demo mode</string>
+    <string name="settings_change_api_url_title">@string/settings_api_url_title</string>
+    <string name="settings_change_api_url_description">Enter the address (IP or hostname) of the PR1132 gateway.</string>
+    <string name="settings_change_api_url_label">Address</string>
+    <string name="settings_change_api_url_action_dismiss">Cancel</string>
+    <string name="settings_change_api_url_action_apply">Apply</string>
+    <string name="settings_change_theme_title">Choose app theme</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="script_title">Scenario</string>
+    <string name="script_name_title">Scenario name</string>
+    <string name="script_action_title">Actions</string>
+    <string name="script_name_placeholder">Enter scenario name</string>
+    <string name="script_name_error">Scenario name cannot be empty</string>
+    <string name="script_create">Save</string>
+    <string name="script_group_turn_on">Turn on all</string>
+    <string name="script_group_turn_off">Turn off all</string>
+    <string name="script_channel_light_on">Turn on</string>
+    <string name="script_channel_light_off">Turn off</string>
+    <string name="script_channel_light_brightness">Brightness</string>
+    <string name="script_channel_light_change_color">Change color</string>
+    <string name="script_channel_light_start_overflow">Start color overflow</string>
+    <string name="script_channel_light_stop_overflow">Stop color overflow</string>
+</resources>
