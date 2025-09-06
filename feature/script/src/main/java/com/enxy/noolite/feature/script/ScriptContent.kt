@@ -14,22 +14,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +44,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,21 +63,38 @@ import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
 import com.enxy.noolite.core.ui.extensions.firstOfTypeOrNull
 import com.enxy.noolite.core.ui.icons.ArrowBack
+import com.enxy.noolite.core.ui.icons.Save
 import com.enxy.noolite.feature.script.model.ScriptChannel
 import com.enxy.noolite.feature.script.model.ScriptGroup
+import com.enxy.noolite.feature.script.model.ScriptSideEffect
+import com.enxy.noolite.feature.script.model.ScrollBlockType
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun ScriptContent(
     component: ScriptComponent,
     modifier: Modifier = Modifier,
 ) {
+    val lazyListState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    component.collectSideEffect { event ->
+        when (event) {
+            is ScriptSideEffect.ScrollTo -> when (event.type) {
+                ScrollBlockType.ScriptNameTextField -> scope.launch {
+                    lazyListState.animateScrollToItem(0)
+                }
+            }
+        }
+    }
     val state by component.collectAsState()
     ScriptScaffold(
         state = state,
+        lazyListState = lazyListState,
         onBackClick = component::onBackClick,
         onCreateScriptClick = component::onCreateScriptClick,
         onNameChange = component::onNameChange,
@@ -102,6 +121,7 @@ private fun ScriptScaffold(
     onExpandGroupClick: (groupId: Int, expanded: Boolean) -> Unit,
     onExpandChannelClick: (channelId: Int, expanded: Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
 ) {
     val hazeState = rememberHazeState()
     Scaffold(
@@ -112,9 +132,11 @@ private fun ScriptScaffold(
             )
         },
         floatingActionButton = {
-            ScriptCreateButton(onClick = onCreateScriptClick)
+            ScriptCreateButton(
+                onClick = onCreateScriptClick,
+                modifier = Modifier.displayCutoutPadding(),
+            )
         },
-        floatingActionButtonPosition = FabPosition.Center,
         contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout),
         modifier = modifier,
     ) { contentPadding ->
@@ -122,6 +144,7 @@ private fun ScriptScaffold(
             is ScriptState.Content -> {
                 ScriptContentState(
                     state = state,
+                    lazyListState = lazyListState,
                     contentPadding = contentPadding,
                     onNameChange = onNameChange,
                     onAddGroupAction = onAddGroupAction,
@@ -166,6 +189,7 @@ private fun ScriptsTopAppBar(
 @Composable
 private fun ScriptContentState(
     state: ScriptState.Content,
+    lazyListState: LazyListState,
     contentPadding: PaddingValues,
     onNameChange: (String) -> Unit,
     onAddGroupAction: (GroupAction) -> Unit,
@@ -178,6 +202,7 @@ private fun ScriptContentState(
 ) {
     LazyColumn(
         contentPadding = contentPadding,
+        state = lazyListState,
         modifier = modifier
     ) {
         item(
@@ -209,7 +234,7 @@ private fun ScriptContentState(
             SectionTitle(
                 name = stringResource(R.string.script_action_title),
                 modifier = Modifier
-                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 12.dp)
+                    .padding(start = 16.dp, top = 32.dp, end = 16.dp, bottom = 12.dp)
             )
         }
         items(
@@ -651,16 +676,21 @@ private fun ScriptCreateButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Button(
+    FloatingActionButton(
         onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .heightIn(56.dp)
+        modifier = modifier,
     ) {
-
-        Text(stringResource(R.string.script_create))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            Icon(
+                imageVector = NooliteIcons.Save,
+                contentDescription = null,
+            )
+            Text(stringResource(R.string.script_create))
+        }
     }
 }
 

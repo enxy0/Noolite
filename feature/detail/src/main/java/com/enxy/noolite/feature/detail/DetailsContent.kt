@@ -1,16 +1,15 @@
 package com.enxy.noolite.feature.detail
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +26,7 @@ import com.enxy.noolite.core.ui.NooliteIcons
 import com.enxy.noolite.core.ui.compose.Channel
 import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
+import com.enxy.noolite.core.ui.extensions.plus
 import com.enxy.noolite.core.ui.icons.ArrowBack
 import com.enxy.noolite.core.ui.icons.Favorite
 import com.enxy.noolite.core.ui.icons.FavoriteBorder
@@ -73,21 +73,20 @@ private fun DetailsContent(
         modifier = modifier,
     ) { contentPadding ->
         LazyColumn(
-            contentPadding = contentPadding,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = contentPadding + PaddingValues(16.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .hazeSource(state = hazeState),
         ) {
-            items(
+            itemsIndexed(
                 items = state.group.channels,
-                key = { channel -> channel.id },
-                contentType = { channel -> channel.type },
-            ) { channel ->
-                Spacer(Modifier.height(16.dp))
+                key = { _, channel -> channel.id },
+                contentType = { _, channel -> channel.type },
+            ) { index, channel ->
                 Channel(
                     channel = channel,
                     onChannelActionClick = onChannelActionClick,
-                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
         }

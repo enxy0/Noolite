@@ -9,6 +9,8 @@ import com.enxy.noolite.core.ui.extensions.componentScope
 import com.enxy.noolite.domain.common.model.CreateScriptPayload
 import com.enxy.noolite.domain.script.CreateScriptUseCase
 import com.enxy.noolite.domain.script.GetGroupsUseCase
+import com.enxy.noolite.feature.script.model.ScriptSideEffect
+import com.enxy.noolite.feature.script.model.ScrollBlockType
 import com.enxy.noolite.feature.script.model.toScriptGroup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,7 +24,7 @@ import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import timber.log.Timber
 
-interface ScriptComponent : ContainerHost<ScriptState, Nothing> {
+interface ScriptComponent : ContainerHost<ScriptState, ScriptSideEffect> {
     fun onNameChange(name: String)
     fun onCreateScriptClick()
     fun onAddGroupAction(action: GroupAction)
@@ -49,7 +51,8 @@ class ScriptComponentImpl(
     private var modifyChannelJob: Job? = null
     private var modifyGroupJob: Job? = null
 
-    override val container: Container<ScriptState, Nothing> = scope.container(ScriptState.Loading)
+    override val container: Container<ScriptState, ScriptSideEffect> =
+        scope.container(ScriptState.Loading)
 
     init {
         loadGroups()
@@ -68,6 +71,7 @@ class ScriptComponentImpl(
         intent {
             val state = container.stateFlow.value as? ScriptState.Content ?: return@intent
             if (state.name.isBlank()) {
+                postSideEffect(ScriptSideEffect.ScrollTo(ScrollBlockType.ScriptNameTextField))
                 reduce {
                     state.copy(error = context.getString(R.string.script_name_error))
                 }

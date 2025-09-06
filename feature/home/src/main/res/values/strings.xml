@@ -5,10 +5,8 @@
     <string name="home_scripts">Сценарии</string>
     <string name="home_favorite">Избранное</string>
 
-    <string name="home_empty">
-        — Настройте умный дом в web-интерфейсе шлюза PR1132: создайте группы и добавьте в них каналы
-        \n— Укажите IP-адрес шлюза PR1132 ниже, и приложение автоматически загрузит все настройки.
-    </string>
+    <string name="home_setup_description_1">Настройте умный дом в web-интерфейсе шлюза PR1132: создайте группы и добавьте в них каналы.</string>
+    <string name="home_setup_description_2">Укажите IP-адрес шлюза PR1132 ниже, и приложение автоматически загрузит все настройки.</string>
     <string name="home_groups_empty">У вас пока нет групп. Зайдите в настройки, чтобы загрузить их с Ethernet-шлюза.</string>
     <string name="home_scripts_empty">Нажмите «+» рядом с заголовком, чтобы добавить новый сценарий.</string>
     <string name="home_favorite_empty">Избранное пока пусто. Перейдите в группу и нажмите на сердечко, чтобы добавить её сюда.</string>

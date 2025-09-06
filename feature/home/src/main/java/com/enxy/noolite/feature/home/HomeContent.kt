@@ -6,6 +6,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -63,6 +64,7 @@ import com.enxy.noolite.core.ui.compose.Channel
 import com.enxy.noolite.core.ui.compose.IconTextTooltip
 import com.enxy.noolite.core.ui.compose.ThemedPreview
 import com.enxy.noolite.core.ui.compose.TopAppBar
+import com.enxy.noolite.core.ui.extensions.plus
 import com.enxy.noolite.core.ui.icons.Add
 import com.enxy.noolite.core.ui.icons.ArrowForward
 import com.enxy.noolite.core.ui.icons.Description
@@ -186,7 +188,7 @@ private fun HomeEmptyState(
             .padding(contentPadding)
             .padding(horizontal = 16.dp)
     ) {
-        Spacer(Modifier.height(48.dp))
+        Spacer(Modifier.height(24.dp))
         Icon(
             imageVector = NooliteIcons.Router,
             contentDescription = null,
@@ -201,11 +203,9 @@ private fun HomeEmptyState(
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(Modifier.height(8.dp))
-        Text(
-            text = stringResource(R.string.home_empty),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        BulletText(text = stringResource(R.string.home_setup_description_1))
+        Spacer(Modifier.height(4.dp))
+        BulletText(text = stringResource(R.string.home_setup_description_2))
         Spacer(Modifier.height(16.dp))
         OutlinedTextField(
             value = apiUrl,
@@ -221,42 +221,59 @@ private fun HomeEmptyState(
                     onConnectClick(apiUrl)
                 }
             ),
+            enabled = !state.isLoading,
+            shape = RoundedCornerShape(16.dp),
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(8.dp))
         Button(
             onClick = {
                 focusManager.clearFocus()
                 onConnectClick(apiUrl)
             },
-            shape = RoundedCornerShape(16.dp),
-            elevation = null,
             enabled = !state.isLoading,
-            modifier = Modifier
-                .height(56.dp)
-                .fillMaxWidth()
+            modifier = Modifier.align(Alignment.End)
         ) {
+            Text(text = stringResource(R.string.home_onboarding_action))
+            Spacer(Modifier.width(4.dp))
             if (state.isLoading) {
                 CircularProgressIndicator(
                     strokeWidth = 3.dp,
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(20.dp)
                 )
             } else {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(text = stringResource(R.string.home_onboarding_action))
-                    Spacer(Modifier.width(4.dp))
-                    Icon(
-                        imageVector = NooliteIcons.ArrowForward,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
+                Icon(
+                    imageVector = NooliteIcons.ArrowForward,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
             }
         }
         Spacer(Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun BulletText(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(top = 6.dp)
+                .size(8.dp)
+                .background(color = MaterialTheme.colorScheme.primary, CircleShape)
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
@@ -273,7 +290,7 @@ private fun HomeContentState(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        contentPadding = contentPadding,
+        contentPadding = contentPadding + PaddingValues(vertical = 16.dp),
         modifier = modifier,
     ) {
         item(
@@ -295,6 +312,7 @@ private fun HomeContentState(
                 onAddScriptClick = onAddScriptClick,
                 onScriptClick = onScriptClick,
                 onScriptRemove = onScriptRemove,
+                modifier = Modifier.padding(top = 32.dp)
             )
         }
         item(
@@ -304,13 +322,8 @@ private fun HomeContentState(
             FavoriteGroupSection(
                 group = data.favoriteGroup,
                 onChannelActionClick = onChannelActionClick,
+                modifier = Modifier.padding(top = 32.dp)
             )
-        }
-        item(
-            contentType = HomeContentType.Spacer,
-            key = HomeContentType.Spacer.name,
-        ) {
-            Spacer(Modifier.height(16.dp))
         }
     }
 }
@@ -357,7 +370,6 @@ private fun GroupsSection(
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
-        Spacer(Modifier.height(16.dp))
         SectionTitle(
             text = stringResource(R.string.home_groups),
             modifier = Modifier.padding(horizontal = 16.dp)
@@ -389,7 +401,6 @@ private fun ScriptsSection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
-        Spacer(Modifier.height(32.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -436,7 +447,6 @@ private fun FavoriteGroupSection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
-        Spacer(Modifier.height(32.dp))
         SectionTitle(
             text = stringResource(R.string.home_favorite),
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -477,7 +487,6 @@ private enum class HomeContentType {
     Groups,
     Scripts,
     FavoriteGroup,
-    Spacer,
 }
 
 @Preview("Initial Home Screen")
