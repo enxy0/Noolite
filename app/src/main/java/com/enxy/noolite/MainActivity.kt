@@ -1,6 +1,31 @@
-package com.enxy.noolite.features // do not move to another package
+package com.enxy.noolite
 
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.enxy.noolite.R
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.arkivanov.decompose.retainedComponent
+import com.enxy.noolite.core.ui.theme.NooliteTheme
 
-class MainActivity : AppCompatActivity(R.layout.activity_main)
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
+        val component: MainFlowComponent = retainedComponent { context ->
+            MainFlowComponentImpl(
+                componentContext = context,
+            )
+        }
+
+        setContent {
+            NooliteTheme {
+                MainFlowContent(
+                    component = component,
+                )
+            }
+        }
+    }
+}

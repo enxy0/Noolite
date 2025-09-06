@@ -1,47 +1,46 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("com.google.devtools.ksp") version Versions.KSP
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
 }
 
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 android {
-    compileSdk = Configuration.compileSdk
+    namespace = "com.enxy.noolite"
+    compileSdk = 36
+
+    androidResources {
+        generateLocaleConfig = true
+    }
 
     defaultConfig {
-        applicationId = Configuration.applicationId
-        minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "com.enxy.noolite"
+        minSdk = 23
+        targetSdk = 36
+        versionCode = 195
+        versionName = "2.0.0"
+    }
 
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-
-        signingConfigs {
-            getByName("debug") {
-                storeFile = file("keys/test-key")
-                storePassword = "123456"
-                keyPassword = "123456"
-                keyAlias = "upload"
-            }
-            create("release") {
-                storeFile = file("keys/test-key")
-                storePassword = "123456"
-                keyPassword = "123456"
-                keyAlias = "upload"
-            }
+    signingConfigs {
+        create("config") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
         }
     }
 
     buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
-        }
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
+        release {
+            signingConfig = signingConfigs.getByName("config")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -49,59 +48,54 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            signingConfig = signingConfigs.getByName("config")
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+    kotlin {
+        compileOptions {
+            jvmToolchain(17)
+        }
     }
     buildFeatures {
+        buildConfig = true
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 }
 
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler")
+    stabilityConfigurationFiles = listOf(
+        rootProject.layout.projectDirectory.file("config/stability_config.conf")
+    )
+}
+
 dependencies {
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-
-    // Ktx
-    implementation(Dependencies.AndroidX.Ktx.CORE)
-    implementation(Dependencies.AndroidX.Ktx.LIFECYCLE_RUNTIME)
-    implementation(Dependencies.AndroidX.Ktx.UI)
-    implementation(Dependencies.AndroidX.Ktx.FRAGMENT)
-    implementation(Dependencies.AndroidX.Ktx.LIVEDATA)
-
-    // Compose
-    implementation(Dependencies.AndroidX.Compose.UI)
-    implementation(Dependencies.AndroidX.Compose.MATERIAL)
-    implementation(Dependencies.AndroidX.Compose.UI_TOOLING_PREVIEW)
-    implementation(Dependencies.AndroidX.Compose.ACTIVITY)
-    debugImplementation(Dependencies.AndroidX.Compose.UI_TOOLING)
-
-    // Koin
-    implementation(Dependencies.Koin.CORE)
-    implementation(Dependencies.Koin.COMPOSE)
-    ksp(Dependencies.Koin.KSP_COMPILER)
-
-    // Test
-    testImplementation(Dependencies.Test.JUNIT)
-    androidTestImplementation(Dependencies.Test.JUNIT_EXT)
-    androidTestImplementation(Dependencies.Test.ESPRESSO)
-    androidTestImplementation(Dependencies.AndroidX.Compose.UI_TEST_JUNIT)
-
-    // Other
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.LIFECYCLE_PROCESS)
-    implementation(Dependencies.MATERIAL)
-    implementation(Dependencies.TIMBER)
+    implementation(project(":core:database"))
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+    implementation(project(":data:home"))
+    implementation(project(":data:script"))
+    implementation(project(":data:settings"))
+    implementation(project(":domain:home"))
+    implementation(project(":domain:script"))
+    implementation(project(":domain:settings"))
+    implementation(project(":feature:detail"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:script"))
+    implementation(project(":feature:settings"))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.google.material)
+    implementation(libs.koin.android)
+    implementation(platform(libs.androidx.compose.bom))
 }

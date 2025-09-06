@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Alterite</string>
+    <string name="channels_turn_on_off">Вкл / Выкл</string>
+    <string name="channels_backlight">Подсветка</string>
+    <string name="channels_backlight_description">Перелив / Цвет</string>
+    <string name="update_groups_success">Настройки были успешно загружены</string>
+    <string name="update_groups_failure">Не удалось загрузить настройки</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Alterite</string>
+    <string name="channels_turn_on_off">On / Off</string>
+    <string name="channels_backlight">Backlight</string>
+    <string name="channels_backlight_description">Overflow / Color</string>
+    <string name="update_groups_success">Settings were successfully loaded</string>
+    <string name="update_groups_failure">Failed to load settings</string>
+</resources>
