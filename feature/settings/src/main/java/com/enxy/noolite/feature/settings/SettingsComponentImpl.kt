@@ -35,15 +35,15 @@ import kotlin.time.Duration.Companion.milliseconds
 import com.enxy.noolite.core.ui.R as CoreUiR
 
 interface SettingsComponent : ContainerHost<SettingsState, SettingsSideEffect> {
-    val dialogSlot: Value<ChildSlot<*, DialogConfig>>
+    val dialogSlot: Value<ChildSlot<*, Dialog>>
     fun onSetTestDataClick()
     fun onBackClick()
     fun onChangeThemeClick()
     fun onChangeApiUrlClick()
 
-    sealed class DialogConfig {
-        internal class ChangeTheme(val component: ChangeThemeComponent) : DialogConfig()
-        internal class ChangeApiUrl(val component: ChangeApiUrlComponent) : DialogConfig()
+    sealed class Dialog {
+        internal class ChangeTheme(val component: ChangeThemeComponent) : Dialog()
+        internal class ChangeApiUrl(val component: ChangeApiUrlComponent) : Dialog()
     }
 }
 
@@ -55,7 +55,7 @@ class SettingsComponentImpl(
     KoinComponent {
 
     companion object {
-        private val SettingsThemeChangeDuration = 200.milliseconds
+        private val BottomSheetHideDuration = 300.milliseconds
     }
 
     private val scope = componentScope()
@@ -67,7 +67,7 @@ class SettingsComponentImpl(
     private val buildConfig: SharedBuildConfig by inject()
 
     private val dialogNavigation = SlotNavigation<DialogConfig>()
-    override val dialogSlot: Value<ChildSlot<*, SettingsComponent.DialogConfig>> =
+    override val dialogSlot: Value<ChildSlot<*, SettingsComponent.Dialog>> =
         childSlot(
             source = dialogNavigation,
             serializer = DialogConfig.serializer(),
@@ -154,16 +154,16 @@ class SettingsComponentImpl(
     private fun createDialogChild(
         config: DialogConfig,
         componentContext: ComponentContext
-    ): SettingsComponent.DialogConfig = when (config) {
+    ): SettingsComponent.Dialog = when (config) {
         is DialogConfig.ChangeTheme -> {
-            SettingsComponent.DialogConfig.ChangeTheme(
+            SettingsComponent.Dialog.ChangeTheme(
                 component = changeThemeComponent(
                     componentContext = componentContext,
                 )
             )
         }
         is DialogConfig.ChangeApiUrl -> {
-            SettingsComponent.DialogConfig.ChangeApiUrl(
+            SettingsComponent.Dialog.ChangeApiUrl(
                 component = changeApiUrlComponent(
                     componentContext = componentContext,
                     apiUrl = config.apiUrl,
@@ -193,7 +193,7 @@ class SettingsComponentImpl(
         onThemeChanged = { theme ->
             dialogNavigation.dismiss {
                 intent {
-                    delay(SettingsThemeChangeDuration)
+                    delay(BottomSheetHideDuration)
                     val settings = container.stateFlow.value.toAppSettings()
                     updateAppSettingsUseCase(settings.copy(theme = theme)).collect()
                 }

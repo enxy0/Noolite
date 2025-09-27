@@ -558,7 +558,7 @@ private fun LazyGridScope.favoriteGroup(
             modifier = modifier
                 .padding(contentPadding)
                 .animateItem(),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             for (channel in group.channels) {
                 Channel(

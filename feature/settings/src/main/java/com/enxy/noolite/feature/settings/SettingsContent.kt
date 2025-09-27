@@ -98,14 +98,14 @@ fun SettingsContent(component: SettingsComponent) {
         )
         val dialogSlot = component.dialogSlot.subscribeAsState()
         when (val child = dialogSlot.value.child?.instance) {
-            is SettingsComponent.DialogConfig.ChangeTheme -> {
+            is SettingsComponent.Dialog.ChangeTheme -> {
                 ModalBottomSheet(
                     onDismissRequest = child.component::onDismiss,
                 ) {
                     ChangeThemeBottomSheetContent(child.component)
                 }
             }
-            is SettingsComponent.DialogConfig.ChangeApiUrl -> {
+            is SettingsComponent.Dialog.ChangeApiUrl -> {
                 Dialog(
                     onDismissRequest = child.component::onDismiss,
                 ) {
