@@ -26,6 +26,7 @@ dependencies {
     api(project(":core:common"))
     api(project(":core:model"))
     api(project(":domain:common"))
+    implementation(libs.androidx.core.ktx)
     implementation(libs.squareup.okhttp)
     implementation(libs.squareup.okhttp.logging)
     implementation(libs.squareup.retrofit)

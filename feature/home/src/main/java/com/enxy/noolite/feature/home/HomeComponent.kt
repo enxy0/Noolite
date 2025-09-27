@@ -15,14 +15,12 @@ import com.enxy.noolite.domain.home.GroupActionUseCase
 import com.enxy.noolite.domain.script.ExecuteScriptUseCase
 import com.enxy.noolite.domain.script.RemoveScriptUseCase
 import com.enxy.noolite.domain.settings.GetNooliteGroupsUseCase
-import com.enxy.noolite.domain.settings.UpdateAppSettingsUseCase
 import com.enxy.noolite.domain.settings.model.NooliteSettingsPayload
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onStart
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.orbitmvi.orbit.Container
@@ -55,7 +53,6 @@ class HomeComponentImpl(
     private val getAppSettingsUseCase: GetAppSettingsUseCase by inject()
     private val groupActionUseCase: GroupActionUseCase by inject()
     private val channelActionUseCase: ChannelActionUseCase by inject()
-    private val updateAppSettingsUseCase: UpdateAppSettingsUseCase by inject()
     private val getNooliteGroupsUseCase: GetNooliteGroupsUseCase by inject()
     private val removeScriptUseCase: RemoveScriptUseCase by inject()
     private val executeScriptUseCase: ExecuteScriptUseCase by inject()
@@ -131,14 +128,11 @@ class HomeComponentImpl(
 
     override fun onConnectClick(apiUrl: String) {
         intent {
+            reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = true) }
             getNooliteGroupsUseCase(NooliteSettingsPayload(apiUrl))
-                .onStart { reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = true) } }
                 .collect { result ->
                     result
                         .onSuccess {
-                            updateAppSettingsUseCase
-                                .invoke(_appSettingsFlow.value.copy(apiUrl = apiUrl))
-                                .collect()
                             postSideEffect(HomeSideEffect.Message(messageSuccess))
                         }
                         .onFailure { throwable ->
@@ -161,7 +155,10 @@ class HomeComponentImpl(
         ) { settings, data ->
             reduce {
                 if (data.isEmpty) {
-                    HomeState.Empty(apiUrl = settings.apiUrl, isLoading = false)
+                    HomeState.Empty(
+                        apiUrl = settings.apiUrl,
+                        isLoading = (state as? HomeState.Empty)?.isLoading == true,
+                    )
                 } else {
                     HomeState.Content(data)
                 }

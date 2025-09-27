@@ -131,8 +131,6 @@ class SettingsComponentImpl(
                     .onSuccess {
                         val message = context.getString(CoreUiR.string.update_groups_success)
                         postSideEffect(SettingsSideEffect.Message(message))
-                        val settings = container.stateFlow.value.copy(apiUrl = apiUrl)
-                        updateAppSettingsUseCase(settings.toAppSettings()).collect()
                     }
                     .onFailure {
                         Timber.e(it)
