@@ -3,6 +3,6 @@
     <plurals name="script_actions">
         <item quantity="one">%d действие</item>
         <item quantity="few">%d действия</item>
-        <item quantity="other">%d действий</item>
+        <item quantity="many">%d действий</item>
     </plurals>
 </resources>

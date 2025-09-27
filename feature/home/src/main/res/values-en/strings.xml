@@ -4,7 +4,6 @@
     <string name="home_groups">Groups</string>
     <string name="home_scripts">Scenarios</string>
     <string name="home_favorite">Favorites</string>
-
     <string name="home_setup_description_1">Set up your smart home in the PR1132 gateway web interface: create groups and add channels to them.</string>
     <string name="home_setup_description_2">Enter the IP address of the PR1132 gateway below, and the app will automatically load all settings.</string>
     <string name="home_groups_empty">You don’t have any groups yet. Go to settings to load them from the Ethernet gateway.</string>
