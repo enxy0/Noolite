@@ -10,7 +10,7 @@ koin = "4.1.1"
 kotlin = "2.2.20"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
-ksp = "2.2.10-2.0.2"
+ksp = "2.2.20-2.0.3"
 lifecycle = "2.9.4"
 lifecycleRuntimeKtx = "2.9.4"
 okhttp = "5.1.0"
@@ -58,6 +58,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

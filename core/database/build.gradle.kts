@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.serialization)
@@ -20,6 +21,10 @@ android {
         compileOptions {
             jvmToolchain(17)
         }
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
