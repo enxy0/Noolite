@@ -2,7 +2,6 @@ package com.enxy.noolite.feature.home
 
 import android.content.Context
 import com.arkivanov.decompose.ComponentContext
-import com.enxy.noolite.core.model.AppSettings
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.model.Group
 import com.enxy.noolite.core.model.GroupAction
@@ -16,7 +15,6 @@ import com.enxy.noolite.domain.script.ExecuteScriptUseCase
 import com.enxy.noolite.domain.script.RemoveScriptUseCase
 import com.enxy.noolite.domain.settings.GetNooliteGroupsUseCase
 import com.enxy.noolite.domain.settings.model.NooliteSettingsPayload
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -63,8 +61,6 @@ class HomeComponentImpl(
     override val container: Container<HomeState, HomeSideEffect> = scope.container(
         initialState = HomeState.Initial,
     )
-
-    private val _appSettingsFlow = MutableStateFlow(AppSettings.default())
 
     private val messageSuccess: String by lazy {
         context.getString(CoreUiR.string.update_groups_success)

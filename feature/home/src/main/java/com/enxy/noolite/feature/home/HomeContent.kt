@@ -26,8 +26,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -42,10 +43,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -179,7 +177,7 @@ private fun HomeEmptyState(
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
-    var apiUrl by rememberSaveable(state.apiUrl) { mutableStateOf(state.apiUrl) }
+    val apiUrlFieldState = rememberTextFieldState(state.apiUrl)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -208,29 +206,26 @@ private fun HomeEmptyState(
         BulletText(text = stringResource(R.string.home_setup_description_2))
         Spacer(Modifier.height(16.dp))
         OutlinedTextField(
-            value = apiUrl,
-            onValueChange = { apiUrl = it },
+            state = apiUrlFieldState,
             label = { Text(stringResource(R.string.home_api_url_title)) },
             keyboardOptions = KeyboardOptions(
                 autoCorrectEnabled = false,
-                imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusManager.clearFocus()
-                    onConnectClick(apiUrl)
-                }
-            ),
+            onKeyboardAction = {
+                focusManager.clearFocus()
+                onConnectClick(apiUrlFieldState.text.toString())
+                ImeAction.Done
+            },
             enabled = !state.isLoading,
             shape = RoundedCornerShape(16.dp),
-            singleLine = true,
+            lineLimits = TextFieldLineLimits.SingleLine,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(8.dp))
         Button(
             onClick = {
                 focusManager.clearFocus()
-                onConnectClick(apiUrl)
+                onConnectClick(apiUrlFieldState.text.toString())
             },
             enabled = !state.isLoading,
             modifier = Modifier.align(Alignment.End)

@@ -1,25 +1,24 @@
 [versions]
-activityCompose = "1.10.1"
+activityCompose = "1.11.0"
 agp = "8.13.0"
-composeBom = "2025.08.01"
+composeBom = "2025.09.01"
 coreKtx = "1.17.0"
 decompose = "3.3.0"
 googleMaterial = "1.13.0"
 haze = "1.6.10"
-koin = "4.1.0"
-kotlin = "2.2.10"
+koin = "4.1.1"
+kotlin = "2.2.20"
 kotlinxCoroutines = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
 ksp = "2.2.10-2.0.2"
-lifecycle = "2.9.3"
-lifecycleRuntimeKtx = "2.9.3"
+lifecycle = "2.9.4"
+lifecycleRuntimeKtx = "2.9.4"
 okhttp = "5.1.0"
 orbit = "10.0.0"
 retrofit = "3.0.0"
-room = "2.7.2"
+room = "2.8.1"
 splashScreen = "1.0.1"
 timber = "5.0.1"
-jetbrainsKotlinJvm = "2.2.10"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -64,4 +63,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

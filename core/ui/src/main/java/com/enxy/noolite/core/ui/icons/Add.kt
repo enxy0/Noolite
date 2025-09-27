@@ -1,7 +1,5 @@
 package com.enxy.noolite.core.ui.icons
 
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.materialPath
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.enxy.noolite.core.ui.NooliteIcons
 
@@ -10,8 +8,8 @@ val NooliteIcons.Add: ImageVector
         if (_add != null) {
             return _add!!
         }
-        _add = materialIcon(name = "Rounded.Add") {
-            materialPath {
+        _add = nooliteIcon(name = "Rounded.Add") {
+            noolitePath {
                 moveTo(18.0f, 13.0f)
                 horizontalLineToRelative(-5.0f)
                 verticalLineToRelative(5.0f)
