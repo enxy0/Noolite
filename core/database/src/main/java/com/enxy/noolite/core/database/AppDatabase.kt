@@ -17,7 +17,7 @@ import com.enxy.noolite.core.database.settings.model.SettingsEntity
         ChannelEntity::class,
         ScriptEntity::class
     ],
-    version = 1
+    version = 1,
 )
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun settingsDao(): SettingsDao

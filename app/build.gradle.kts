@@ -25,8 +25,8 @@ android {
         applicationId = "com.enxy.noolite"
         minSdk = 23
         targetSdk = 36
-        versionCode = 198
-        versionName = "2.0.3"
+        versionCode = 199
+        versionName = "2.1.0"
     }
 
     signingConfigs {
@@ -93,7 +93,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.google.material)
     implementation(libs.koin.android)

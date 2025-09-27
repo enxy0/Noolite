@@ -3,9 +3,7 @@ package com.enxy.noolite.di
 import com.enxy.noolite.BuildConfig
 import com.enxy.noolite.core.model.SharedBuildConfig
 import com.enxy.noolite.core.ui.IntentActionsProvider
-import com.enxy.noolite.utils.intent.IntentActionsProviderImpl
-import com.enxy.noolite.utils.lifecycle.AppThemeObserver
-import com.enxy.noolite.utils.lifecycle.AppThemeObserverImpl
+import com.enxy.noolite.utils.IntentActionsProviderImpl
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -18,7 +16,6 @@ object PresentationModules {
 
     private fun commonModule() = module {
         singleOf(::IntentActionsProviderImpl) bind IntentActionsProvider::class
-        singleOf(::AppThemeObserverImpl) bind AppThemeObserver::class
         single {
             SharedBuildConfig(
                 versionCode = BuildConfig.VERSION_CODE,

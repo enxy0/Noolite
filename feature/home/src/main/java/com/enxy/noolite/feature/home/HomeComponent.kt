@@ -2,7 +2,6 @@ package com.enxy.noolite.feature.home
 
 import android.content.Context
 import com.arkivanov.decompose.ComponentContext
-import com.enxy.noolite.core.model.AppSettings
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.model.Group
 import com.enxy.noolite.core.model.GroupAction
@@ -15,14 +14,11 @@ import com.enxy.noolite.domain.home.GroupActionUseCase
 import com.enxy.noolite.domain.script.ExecuteScriptUseCase
 import com.enxy.noolite.domain.script.RemoveScriptUseCase
 import com.enxy.noolite.domain.settings.GetNooliteGroupsUseCase
-import com.enxy.noolite.domain.settings.UpdateAppSettingsUseCase
 import com.enxy.noolite.domain.settings.model.NooliteSettingsPayload
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onStart
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.orbitmvi.orbit.Container
@@ -55,7 +51,6 @@ class HomeComponentImpl(
     private val getAppSettingsUseCase: GetAppSettingsUseCase by inject()
     private val groupActionUseCase: GroupActionUseCase by inject()
     private val channelActionUseCase: ChannelActionUseCase by inject()
-    private val updateAppSettingsUseCase: UpdateAppSettingsUseCase by inject()
     private val getNooliteGroupsUseCase: GetNooliteGroupsUseCase by inject()
     private val removeScriptUseCase: RemoveScriptUseCase by inject()
     private val executeScriptUseCase: ExecuteScriptUseCase by inject()
@@ -66,15 +61,6 @@ class HomeComponentImpl(
     override val container: Container<HomeState, HomeSideEffect> = scope.container(
         initialState = HomeState.Initial,
     )
-
-    private val _appSettingsFlow = MutableStateFlow(AppSettings.default())
-
-    private val messageSuccess: String by lazy {
-        context.getString(CoreUiR.string.update_groups_success)
-    }
-    private val messageFailure: String by lazy {
-        context.getString(CoreUiR.string.update_groups_failure)
-    }
 
     init {
         loadHomeData()
@@ -131,19 +117,21 @@ class HomeComponentImpl(
 
     override fun onConnectClick(apiUrl: String) {
         intent {
+            reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = true) }
             getNooliteGroupsUseCase(NooliteSettingsPayload(apiUrl))
-                .onStart { reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = true) } }
                 .collect { result ->
                     result
                         .onSuccess {
-                            updateAppSettingsUseCase
-                                .invoke(_appSettingsFlow.value.copy(apiUrl = apiUrl))
-                                .collect()
-                            postSideEffect(HomeSideEffect.Message(messageSuccess))
+                            val message = context.getString(CoreUiR.string.update_groups_success)
+                            postSideEffect(HomeSideEffect.Message(message))
                         }
                         .onFailure { throwable ->
                             reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = false) }
-                            postSideEffect(HomeSideEffect.Message(messageFailure))
+                            val message = context.getString(
+                                CoreUiR.string.update_groups_failure,
+                                throwable.message.orEmpty()
+                            )
+                            postSideEffect(HomeSideEffect.Message(message))
                             Timber.e(throwable)
                         }
                 }
@@ -161,7 +149,10 @@ class HomeComponentImpl(
         ) { settings, data ->
             reduce {
                 if (data.isEmpty) {
-                    HomeState.Empty(apiUrl = settings.apiUrl, isLoading = false)
+                    HomeState.Empty(
+                        apiUrl = settings.apiUrl,
+                        isLoading = (state as? HomeState.Empty)?.isLoading == true,
+                    )
                 } else {
                     HomeState.Content(data)
                 }

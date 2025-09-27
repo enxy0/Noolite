@@ -5,5 +5,5 @@
     <string name="channels_backlight">Подсветка</string>
     <string name="channels_backlight_description">Перелив / Цвет</string>
     <string name="update_groups_success">Настройки были успешно загружены</string>
-    <string name="update_groups_failure">Не удалось загрузить настройки</string>
+    <string name="update_groups_failure">Ошибка загрузки настроек: %1$s</string>
 </resources>

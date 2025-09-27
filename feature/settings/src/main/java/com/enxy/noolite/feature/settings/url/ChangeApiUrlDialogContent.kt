@@ -8,18 +8,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -37,7 +34,7 @@ internal fun ChangeApiUrlDialogContent(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
-    var apiUrl by rememberSaveable(component.currentApiUrl) { mutableStateOf(component.currentApiUrl) }
+    val apiUrlFieldState = rememberTextFieldState(component.currentApiUrl)
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.surfaceContainer,
@@ -61,14 +58,19 @@ internal fun ChangeApiUrlDialogContent(
             )
             Spacer(Modifier.height(12.dp))
             OutlinedTextField(
-                value = apiUrl,
-                onValueChange = { apiUrl = it },
+                state = apiUrlFieldState,
+                onKeyboardAction = {
+                    focusManager.clearFocus()
+                    val apiUrl = apiUrlFieldState.text
+                    if (apiUrl != component.currentApiUrl) {
+                        component.onApplyClick(apiUrl.toString())
+                    }
+                    ImeAction.Done
+                },
                 keyboardOptions = KeyboardOptions(
                     autoCorrectEnabled = false,
-                    imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                singleLine = true,
+                lineLimits = TextFieldLineLimits.SingleLine,
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.medium,
             )
@@ -89,9 +91,9 @@ internal fun ChangeApiUrlDialogContent(
                 TextButton(
                     onClick = {
                         focusManager.clearFocus()
-                        component.onApplyClick(apiUrl)
+                        component.onApplyClick(apiUrlFieldState.text.toString())
                     },
-                    enabled = apiUrl != component.currentApiUrl,
+                    enabled = apiUrlFieldState.text != component.currentApiUrl,
                     shape = MaterialTheme.shapes.medium,
                 ) {
                     Text(stringResource(R.string.settings_change_api_url_action_apply))

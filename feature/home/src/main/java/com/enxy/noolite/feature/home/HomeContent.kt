@@ -1,6 +1,6 @@
 package com.enxy.noolite.feature.home
 
-import androidx.compose.animation.AnimatedContent
+import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.updateTransition
@@ -22,12 +22,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -42,17 +47,17 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.enxy.noolite.core.model.ChannelAction
 import com.enxy.noolite.core.model.Group
@@ -68,12 +73,12 @@ import com.enxy.noolite.core.ui.extensions.plus
 import com.enxy.noolite.core.ui.icons.Add
 import com.enxy.noolite.core.ui.icons.ArrowForward
 import com.enxy.noolite.core.ui.icons.Description
-import com.enxy.noolite.core.ui.icons.FavoriteBorder
 import com.enxy.noolite.core.ui.icons.List
 import com.enxy.noolite.core.ui.icons.Router
 import com.enxy.noolite.core.ui.icons.Settings
 import com.enxy.noolite.domain.home.model.HomeData
-import com.enxy.noolite.feature.home.sections.Groups
+import com.enxy.noolite.feature.home.sections.GroupCardWidth
+import com.enxy.noolite.feature.home.sections.HorizontalGroups
 import com.enxy.noolite.feature.home.sections.Scripts
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
@@ -179,7 +184,7 @@ private fun HomeEmptyState(
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
-    var apiUrl by rememberSaveable(state.apiUrl) { mutableStateOf(state.apiUrl) }
+    val apiUrlFieldState = rememberTextFieldState(state.apiUrl)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -208,29 +213,26 @@ private fun HomeEmptyState(
         BulletText(text = stringResource(R.string.home_setup_description_2))
         Spacer(Modifier.height(16.dp))
         OutlinedTextField(
-            value = apiUrl,
-            onValueChange = { apiUrl = it },
+            state = apiUrlFieldState,
             label = { Text(stringResource(R.string.home_api_url_title)) },
             keyboardOptions = KeyboardOptions(
                 autoCorrectEnabled = false,
-                imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusManager.clearFocus()
-                    onConnectClick(apiUrl)
-                }
-            ),
+            onKeyboardAction = {
+                focusManager.clearFocus()
+                onConnectClick(apiUrlFieldState.text.toString())
+                ImeAction.Done
+            },
             enabled = !state.isLoading,
             shape = RoundedCornerShape(16.dp),
-            singleLine = true,
+            lineLimits = TextFieldLineLimits.SingleLine,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(8.dp))
         Button(
             onClick = {
                 focusManager.clearFocus()
-                onConnectClick(apiUrl)
+                onConnectClick(apiUrlFieldState.text.toString())
             },
             enabled = !state.isLoading,
             modifier = Modifier.align(Alignment.End)
@@ -277,6 +279,10 @@ private fun BulletText(
     }
 }
 
+private const val KEY_GROUPS = "groups"
+private const val KEY_SCRIPTS = "scripts"
+private const val KEY_FAVORITE = "favorite"
+
 @Composable
 private fun HomeContentState(
     data: HomeData,
@@ -289,43 +295,179 @@ private fun HomeContentState(
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
         contentPadding = contentPadding + PaddingValues(vertical = 16.dp),
+        columns = GridCells.Adaptive(GroupCardWidth),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
     ) {
-        item(
-            contentType = HomeContentType.Groups,
-            key = HomeContentType.Groups.name,
-        ) {
-            GroupsSection(
+        title(
+            text = {
+                SectionTitle(
+                    text = stringResource(R.string.home_groups),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    modifier = Modifier.animateItem()
+                )
+            },
+            key = KEY_GROUPS,
+        )
+        if (data.groups.isNotEmpty()) {
+            groups(
                 groups = data.groups,
+                contentPadding = PaddingValues(horizontal = 16.dp),
                 onGroupClick = onGroupClick,
-                onGroupAction = onGroupAction,
+                onGroupAction = onGroupAction
+            )
+        } else {
+            iconTooltip(
+                icon = NooliteIcons.List,
+                textResId = R.string.home_groups_empty,
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                key = KEY_GROUPS,
             )
         }
-        item(
-            contentType = HomeContentType.Scripts,
-            key = HomeContentType.Scripts.name,
-        ) {
-            ScriptsSection(
+        title(
+            text = {
+                ScriptSectionTitle(
+                    onAddScriptClick = onAddScriptClick,
+                    contentPadding = PaddingValues(start = 16.dp, top = 24.dp, end = 16.dp),
+                    modifier = Modifier.animateItem(),
+                )
+            },
+            key = KEY_SCRIPTS,
+        )
+        if (data.scripts.isNotEmpty()) {
+            scripts(
                 scripts = data.scripts,
-                onAddScriptClick = onAddScriptClick,
+                contentPadding = PaddingValues(horizontal = 16.dp),
                 onScriptClick = onScriptClick,
                 onScriptRemove = onScriptRemove,
-                modifier = Modifier.padding(top = 32.dp)
+            )
+        } else {
+            iconTooltip(
+                icon = NooliteIcons.Description,
+                textResId = R.string.home_scripts_empty,
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                key = KEY_SCRIPTS,
             )
         }
-        item(
-            contentType = HomeContentType.FavoriteGroup,
-            key = HomeContentType.FavoriteGroup.name,
-        ) {
-            FavoriteGroupSection(
-                group = data.favoriteGroup,
+        title(
+            text = {
+                SectionTitle(
+                    text = stringResource(R.string.home_favorite),
+                    contentPadding = PaddingValues(start = 16.dp, top = 24.dp, end = 16.dp),
+                    modifier = Modifier.animateItem(),
+                )
+            },
+            key = KEY_FAVORITE,
+        )
+        val favoriteGroup = data.favoriteGroup
+        if (favoriteGroup != null) {
+            favoriteGroup(
+                group = favoriteGroup,
+                contentPadding = PaddingValues(horizontal = 16.dp),
                 onChannelActionClick = onChannelActionClick,
-                modifier = Modifier.padding(top = 32.dp)
+            )
+        } else {
+            iconTooltip(
+                icon = NooliteIcons.List,
+                textResId = R.string.home_groups_empty,
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                key = KEY_FAVORITE,
             )
         }
     }
+}
+
+@Composable
+private fun ScriptSectionTitle(
+    onAddScriptClick: () -> Unit,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier.padding(contentPadding),
+    ) {
+        SectionTitle(
+            text = stringResource(R.string.home_scripts),
+            contentPadding = PaddingValues(),
+            modifier = Modifier.weight(1f),
+        )
+        AddCircleButton(onClick = onAddScriptClick)
+    }
+}
+
+private fun LazyGridScope.scripts(
+    scripts: List<Script>,
+    contentPadding: PaddingValues,
+    onScriptClick: (script: Script) -> Unit,
+    onScriptRemove: (script: Script) -> Unit,
+) {
+    item(
+        contentType = HomeContentType.Scripts,
+        key = HomeContentType.Scripts.name,
+        span = { GridItemSpan(maxLineSpan) }
+    ) {
+        Scripts(
+            scripts = scripts,
+            onScriptClick = onScriptClick,
+            onScriptRemove = onScriptRemove,
+            contentPadding = contentPadding,
+            modifier = Modifier.animateItem()
+        )
+    }
+}
+
+private fun LazyGridScope.title(
+    text: @Composable LazyGridItemScope.() -> Unit,
+    key: String,
+) {
+    item(
+        contentType = HomeContentType.Title,
+        key = "${HomeContentType.Title.name}-$key",
+        span = { GridItemSpan(maxLineSpan) },
+    ) {
+        text()
+    }
+}
+
+private fun LazyGridScope.iconTooltip(
+    icon: ImageVector,
+    @StringRes textResId: Int,
+    key: String,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
+    item(
+        contentType = HomeContentType.IconTooltip,
+        key = "${HomeContentType.IconTooltip.name}-$key",
+        span = { GridItemSpan(maxLineSpan) },
+    ) {
+        IconTextTooltip(
+            painter = rememberVectorPainter(icon),
+            text = stringResource(textResId),
+            modifier = modifier
+                .padding(contentPadding)
+                .animateItem(),
+        )
+    }
+}
+
+@Composable
+private fun SectionTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues,
+) {
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier.padding(contentPadding),
+    )
 }
 
 @Composable
@@ -362,128 +504,75 @@ private fun HomeTopAppBar(
     )
 }
 
-@Composable
-private fun GroupsSection(
+private fun LazyGridScope.groups(
     groups: List<Group>,
+    contentPadding: PaddingValues,
     onGroupClick: (group: Group) -> Unit,
     onGroupAction: (action: GroupAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier) {
-        SectionTitle(
-            text = stringResource(R.string.home_groups),
-            modifier = Modifier.padding(horizontal = 16.dp)
+    item(
+        contentType = HomeContentType.Groups,
+        key = HomeContentType.Groups.name,
+        span = { GridItemSpan(maxLineSpan) },
+    ) {
+        HorizontalGroups(
+            groups = groups,
+            onGroupClick = onGroupClick,
+            onGroupAction = onGroupAction,
+            contentPadding = contentPadding,
+            modifier = modifier.animateItem()
         )
-        if (groups.isNotEmpty()) {
-            Groups(
-                groups = groups,
-                onGroupClick = onGroupClick,
-                onGroupAction = onGroupAction,
-                contentPadding = PaddingValues(top = 8.dp, start = 16.dp, end = 16.dp)
-            )
-        } else {
-            IconTextTooltip(
-                painter = rememberVectorPainter(NooliteIcons.List),
-                text = stringResource(R.string.home_groups_empty),
-                modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            )
-        }
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-private fun ScriptsSection(
-    scripts: List<Script>,
-    onAddScriptClick: () -> Unit,
-    onScriptClick: (script: Script) -> Unit,
-    onScriptRemove: (script: Script) -> Unit,
+private fun AddCircleButton(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
-            SectionTitle(
-                text = stringResource(R.string.home_scripts),
-                modifier = Modifier.weight(1f),
-            )
-            FilledTonalIconButton(
-                onClick = onAddScriptClick,
-                modifier = Modifier.size(30.dp)
-            ) {
-                Icon(
-                    imageVector = NooliteIcons.Add,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-        }
-        AnimatedContent(scripts.isNotEmpty()) { hasScripts ->
-            if (hasScripts) {
-                Scripts(
-                    scripts = scripts,
-                    onScriptClick = onScriptClick,
-                    onScriptRemove = onScriptRemove,
-                    contentPadding = PaddingValues(top = 8.dp, start = 16.dp, end = 16.dp),
-                )
-            } else {
-                IconTextTooltip(
-                    painter = rememberVectorPainter(NooliteIcons.Description),
-                    text = stringResource(R.string.home_scripts_empty),
-                    modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                )
-            }
-        }
+    FilledTonalIconButton(
+        onClick = onClick,
+        modifier = modifier.size(30.dp)
+    ) {
+        Icon(
+            imageVector = NooliteIcons.Add,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 
-@Composable
-private fun FavoriteGroupSection(
-    group: Group?,
+private fun LazyGridScope.favoriteGroup(
+    group: Group,
     onChannelActionClick: (action: ChannelAction) -> Unit,
+    contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier) {
-        SectionTitle(
-            text = stringResource(R.string.home_favorite),
-            modifier = Modifier.padding(horizontal = 16.dp),
-        )
-        if (group != null) {
-            Spacer(Modifier.height(8.dp))
+    item(
+        contentType = HomeContentType.FavoriteGroup,
+        key = HomeContentType.FavoriteGroup.name,
+        span = { GridItemSpan(maxLineSpan) },
+    ) {
+        Column(
+            modifier = modifier
+                .padding(contentPadding)
+                .animateItem(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
             for (channel in group.channels) {
                 Channel(
                     channel = channel,
                     onChannelActionClick = onChannelActionClick,
-                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
                 )
             }
-        } else {
-            IconTextTooltip(
-                painter = rememberVectorPainter(NooliteIcons.FavoriteBorder),
-                text = stringResource(R.string.home_favorite_empty),
-                modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
-            )
         }
     }
 }
 
-@Composable
-private fun SectionTitle(
-    text: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.titleLarge,
-        color = MaterialTheme.colorScheme.onBackground,
-        modifier = modifier,
-    )
-}
-
 private enum class HomeContentType {
+    Title,
+    IconTooltip,
     Groups,
     Scripts,
     FavoriteGroup,
@@ -491,16 +580,13 @@ private enum class HomeContentType {
 
 @Preview("Initial Home Screen")
 @Composable
-private fun PreviewContentHomeScreen() {
+private fun PreviewHomeScreen(
+    @PreviewParameter(PreviewHomeStateProvider::class)
+    state: HomeState
+) {
     ThemedPreview {
         HomeScaffold(
-            state = HomeState.Content(
-                data = HomeData(
-                    groups = FakeUiDataProvider.getGroups(),
-                    scripts = FakeUiDataProvider.getScripts(),
-                    favoriteGroup = FakeUiDataProvider.getFavoriteGroup(),
-                )
-            ),
+            state = state,
             snackbarHostState = remember { SnackbarHostState() },
             onConnectClick = {},
             onSettingsClick = {},
@@ -514,24 +600,19 @@ private fun PreviewContentHomeScreen() {
     }
 }
 
-@Preview("Content Home Screen")
-@Composable
-private fun PreviewInitialHomeScreen() {
-    ThemedPreview {
-        HomeScaffold(
-            state = HomeState.Empty(
-                apiUrl = FakeUiDataProvider.getSettings().apiUrl,
-                isLoading = false,
-            ),
-            snackbarHostState = remember { SnackbarHostState() },
-            onConnectClick = {},
-            onSettingsClick = {},
-            onGroupAction = {},
-            onGroupClick = {},
-            onAddScriptClick = {},
-            onScriptClick = {},
-            onScriptRemove = {},
-            onChannelActionClick = {},
-        )
-    }
+private class PreviewHomeStateProvider : PreviewParameterProvider<HomeState> {
+    override val values: Sequence<HomeState> = sequenceOf(
+        HomeState.Empty(apiUrl = "192.168.1.10:8080", isLoading = false),
+        HomeState.Content(getPreviewHomeData()),
+    )
 }
+
+private fun getPreviewHomeData(
+    groups: List<Group> = FakeUiDataProvider.getGroups(),
+    scripts: List<Script> = FakeUiDataProvider.getScripts(),
+    favoriteGroup: Group? = FakeUiDataProvider.getFavoriteGroup(),
+): HomeData = HomeData(
+    groups = groups,
+    scripts = scripts,
+    favoriteGroup = favoriteGroup,
+)
