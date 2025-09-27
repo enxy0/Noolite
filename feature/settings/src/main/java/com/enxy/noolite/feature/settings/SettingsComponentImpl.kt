@@ -134,7 +134,10 @@ class SettingsComponentImpl(
                     }
                     .onFailure {
                         Timber.e(it)
-                        val message = context.getString(CoreUiR.string.update_groups_failure)
+                        val message = context.getString(
+                            CoreUiR.string.update_groups_failure,
+                            it.message.orEmpty(),
+                        )
                         postSideEffect(SettingsSideEffect.Message(message))
                     }
                 reduce { state.copy(apiUrlChanging = false) }

@@ -62,13 +62,6 @@ class HomeComponentImpl(
         initialState = HomeState.Initial,
     )
 
-    private val messageSuccess: String by lazy {
-        context.getString(CoreUiR.string.update_groups_success)
-    }
-    private val messageFailure: String by lazy {
-        context.getString(CoreUiR.string.update_groups_failure)
-    }
-
     init {
         loadHomeData()
     }
@@ -129,11 +122,16 @@ class HomeComponentImpl(
                 .collect { result ->
                     result
                         .onSuccess {
-                            postSideEffect(HomeSideEffect.Message(messageSuccess))
+                            val message = context.getString(CoreUiR.string.update_groups_success)
+                            postSideEffect(HomeSideEffect.Message(message))
                         }
                         .onFailure { throwable ->
                             reduce { HomeState.Empty(apiUrl = apiUrl, isLoading = false) }
-                            postSideEffect(HomeSideEffect.Message(messageFailure))
+                            val message = context.getString(
+                                CoreUiR.string.update_groups_failure,
+                                throwable.message.orEmpty()
+                            )
+                            postSideEffect(HomeSideEffect.Message(message))
                             Timber.e(throwable)
                         }
                 }

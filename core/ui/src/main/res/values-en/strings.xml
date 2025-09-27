@@ -5,5 +5,5 @@
     <string name="channels_backlight">Backlight</string>
     <string name="channels_backlight_description">Overflow / Color</string>
     <string name="update_groups_success">Settings were successfully loaded</string>
-    <string name="update_groups_failure">Failed to load settings</string>
+    <string name="update_groups_failure">Error loading settings: %1$s</string>
 </resources>
