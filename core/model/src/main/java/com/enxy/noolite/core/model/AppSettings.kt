@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 data class AppSettings(
     val apiUrl: String,
     val theme: Theme = Theme.SYSTEM,
-    val notifyWifiChange: Boolean = true
+    val notifyWifiChange: Boolean = true,
 ) {
     companion object {
         fun default() = AppSettings(
             apiUrl = "192.168.0.10",
             theme = Theme.SYSTEM,
-            notifyWifiChange = true
+            notifyWifiChange = true,
         )
     }
 

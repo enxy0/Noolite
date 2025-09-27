@@ -13,5 +13,5 @@ data class SettingsEntity(
     @ColumnInfo(name = "notify_wifi_change")
     val notifyWifiChange: Boolean,
     @ColumnInfo(name = "dark_theme")
-    val darkTheme: String
+    val darkTheme: String,
 )

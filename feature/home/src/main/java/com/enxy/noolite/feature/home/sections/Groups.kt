@@ -35,25 +35,28 @@ import com.enxy.noolite.core.ui.icons.LightOff
 import com.enxy.noolite.core.ui.icons.Lightbulb
 
 private val GroupShape = RoundedCornerShape(24.dp)
+internal val GroupCardWidth = 135.dp
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Groups(
+internal fun HorizontalGroups(
     groups: List<Group>,
     onGroupClick: (group: Group) -> Unit,
     onGroupAction: (action: GroupAction) -> Unit,
+    modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp),
     contentPadding: PaddingValues = PaddingValues(),
 ) {
     LazyRow(
         horizontalArrangement = horizontalArrangement,
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
+        modifier = modifier,
     ) {
         items(
             items = groups,
             key = { group -> group.id }
         ) { group ->
-            Group(
+            GroupCard(
                 group = group,
                 onGroupClick = { onGroupClick(group) },
                 onGroupAction = onGroupAction,
@@ -64,7 +67,7 @@ fun Groups(
 }
 
 @Composable
-private fun Group(
+internal fun GroupCard(
     group: Group,
     onGroupClick: () -> Unit,
     onGroupAction: (action: GroupAction) -> Unit,
@@ -79,7 +82,7 @@ private fun Group(
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .width(135.dp),
+                .width(GroupCardWidth),
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 IconActionButton(
@@ -118,7 +121,7 @@ private fun Group(
 @Composable
 private fun PreviewGroup() {
     ThemedPreview {
-        Group(
+        GroupCard(
             group = FakeUiDataProvider.getFavoriteGroup(),
             onGroupClick = {},
             onGroupAction = {},
@@ -131,7 +134,7 @@ private fun PreviewGroup() {
 @Composable
 private fun PreviewGroups() {
     ThemedPreview {
-        Groups(
+        HorizontalGroups(
             groups = FakeUiDataProvider.getGroups(),
             onGroupClick = {},
             onGroupAction = {},

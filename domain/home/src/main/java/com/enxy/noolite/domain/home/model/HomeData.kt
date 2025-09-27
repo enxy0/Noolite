@@ -6,7 +6,7 @@ import com.enxy.noolite.core.model.Script
 data class HomeData(
     val groups: List<Group>,
     val scripts: List<Script>,
-    val favoriteGroup: Group?
+    val favoriteGroup: Group?,
 ) {
     val isEmpty: Boolean
         get() = groups.isEmpty()

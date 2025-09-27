@@ -12,19 +12,19 @@ interface GetHomeDataUseCase : UseCase<Unit, HomeData>
 
 internal class GetHomeDataUseCaseImpl(
     private val homeDbDataSource: HomeDbDataSource,
-    private val scriptDbDataSource: ScriptDbDataSource
+    private val scriptDbDataSource: ScriptDbDataSource,
 ) : GetHomeDataUseCase {
 
     override fun invoke(param: Unit): Flow<Result<HomeData>> {
         return combine(
             homeDbDataSource.getGroupsFlow(),
             homeDbDataSource.getFavoriteGroupFlow(),
-            scriptDbDataSource.getScripts()
+            scriptDbDataSource.getScripts(),
         ) { groups, favoriteGroup, scripts ->
             HomeData(
                 groups = groups,
                 favoriteGroup = favoriteGroup,
-                scripts = scripts
+                scripts = scripts,
             )
         }.asResult()
     }
