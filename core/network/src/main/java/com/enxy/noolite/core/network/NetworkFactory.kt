@@ -52,6 +52,6 @@ internal class NetworkFactoryImpl : NetworkFactory {
     }
 
     override fun createDynamicHostInterceptor(settingsFlow: () -> Flow<AppSettings>): Interceptor {
-        return DynamicHostInterceptor(settingsFlow)
+        return DynamicBaseUrlInterceptor(settingsFlow)
     }
 }
